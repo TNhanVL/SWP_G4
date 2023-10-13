@@ -1,0 +1,413 @@
+body {
+    margin-top: 94px;
+    box-sizing: border-box;
+    background-color: #E8F8E6;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+a {
+    color: unset;
+}
+
+a:hover {
+    color: unset;
+    text-decoration: none;
+}
+
+#main {
+    min-height: 100vh;
+    width: 100%;
+}
+
+.navigation {
+    width: 100%;
+}
+
+.navigation .navTab {
+    display: flex;
+    border-bottom: 2px solid #ccc;
+    padding: 0;
+}
+
+.navTab li {
+    display: block;
+    width: 50%;
+    text-align: center;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.navTab li:hover {
+    background-color: #e8f8e6;
+}
+
+#main .infor {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.infor .purchasedCourse {
+    margin-top: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px 1px #ccc;
+}
+
+.infor .userTags {
+    width: 40%;
+    /* width: 100%; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.infor .purchasedCourseAndCreatedCourse {
+    /* width: 100%; */
+    width: 50%;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+.userTags .inforTag,
+.userTags .expTag {
+    width: 350px;
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px 1px #ccc;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+.userTags .inforTag .avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    padding: 5px;
+    border: 2px solid #b6f9af;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.userTags .inforTag .avatar img {
+    width: 95%;
+    height: 95%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.inforTag .name h4 {
+    text-align: center;
+}
+
+.infor .orgranization {
+    text-align: center;
+}
+
+.infor .orgranization p {
+    font-weight: 500;
+}
+
+.infor .orgranization img {
+    width: 70px;
+    object-fit: contain;
+}
+
+.expTag p {
+    width: 100%;
+    font-weight: 500;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.expTag p:last-child {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.expTag p span {
+    float: right;
+    font-weight: 700;
+
+}
+
+.expTag p i {
+    color: #18930a;
+    margin-right: 10px;
+    display: inline-block;
+    width: 20px;
+    text-align: left
+}
+
+.infor .purchasedCourseAndCreatedCourse {
+    padding: 20px;
+}
+
+.purchasedCourseAndCreatedCourse .courseTaken {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    transition: display 0.5s;
+}
+
+.courseTaken  img {
+    width: 25%;
+    padding: 10px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.courseTaken .courseInfor {
+    padding: 10px;
+    padding-right: 20px;
+    width: 100%;
+    position: relative;
+}
+
+.courseTaken .courseInfor .courseName {
+    margin: 0;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.courseTaken .courseInfor progress {
+    width: 100%;
+    height: 6px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 0.5px solid #00000068;
+}
+
+.courseTaken .courseInfor span {
+    font-weight: 500;
+}
+
+.courseInfor progress::-webkit-progress-value {
+    background-color: #4caf50;
+}
+
+.courseInfor progress::-webkit-progress-bar {
+    background-color: #ffffff;
+}
+#main .personal {
+    padding:10px 0;
+}
+
+.personal .header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #4caf50;
+    padding:10px 0 ;
+}
+
+.personal .header button {
+    border: none;
+    background-color: #067351;
+    color: #fff;
+    padding: 10px;
+    font-weight: 500;
+    border-radius: 12px;
+}
+
+.personal p {
+    font-weight: 500;
+    text-align: center;
+}
+
+.personal form {
+    width: 100%;
+    padding: 0 25%;
+}
+
+.personal form label{
+    font-weight: 500;
+}
+
+.personal form input {
+    padding: 0 10px;
+    border: none;
+    border-radius: 8px;
+    width: 50%;
+}
+
+.personal div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.personal div.gender {
+    display: flex;
+}
+
+.personal div.gender span {
+    display: block;
+    width: 120px;
+}
+
+.personal div.gender span input {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+}
+
+.personal div.gender span label {
+    margin: 0;
+}
+
+.personal input[type="checkbox"] {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: calc(50% - 20px);
+}
+
+.personal select {
+    width: 50%;
+    border: none;
+}
+
+.personal .upload label:last-child {
+    font-size: 12px;
+    padding: 0 20px;
+}
+
+#profile-photo {
+    width: 65%;
+    text-align: right;    
+}
+
+.personal div img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-left: 20px;
+    border: 1px solid #ccc;
+}
+
+.personal .upload {
+display: flex;
+justify-content: space-between;
+}
+
+.saveInfor button {
+    padding:5px 10px;
+    border: none;
+    background-color: #067351;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+
+
+.tabStranger {
+    z-index: 100;
+    /* display: none; */
+}
+
+.tabStranger.hidden ,.tab.hidden{
+    display: none;
+}
+
+.tab{
+    z-index: 10;
+}
+
+.tab ,.tabStranger  {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    background-color: #fff;
+    position: fixed;
+    top: 60px;
+    right: 0;
+    left: 0;
+    display: block;
+
+}
+
+.tabStranger button {
+    width: 100%;
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 20px;
+    transition: 0.3s;
+    background-color: #fff;
+}
+
+.tab button {
+    width: 50%;
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 20px;
+    transition: 0.3s;
+    background-color: #fff;
+}
+
+.tab button:hover {
+    background-color: #b6f9af;
+}
+
+.tab button.active {
+    background-color: #b6f9af7c;
+    font-weight: 500;
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
+}
+
+.tabcontent.active {
+    display: block;
+}
+
+.courseTaken .completed {
+    justify-content: space-between;
+    display: flex;
+}
+
+.courseTaken .completed a{
+    color: rgb(0, 64, 255);
+}
+
+.courseTaken .completed p, .courseTaken .notCompleted p{
+    margin: 0;
+}
+
+
+.ProgressviewMode.hidden ,.rate.hidden {
+    display: none;
+    transition: all 0.5s;
+}
+
+.rate i {
+    color: gold;
+}
+
+.rate span:last-child {
+    font-weight: 300;
+    font-size: 12px;
+}
+
+.mode-btn {
+    /* display: none; */
+}

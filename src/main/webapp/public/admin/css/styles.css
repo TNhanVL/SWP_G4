@@ -1,0 +1,147 @@
+.not-login-page {
+    padding: 10px;
+}
+
+.hello {
+    display: flex;
+    align-items: center;
+}
+
+.hello h1 {
+    display: inline-block;
+}
+
+.hello button {
+    display: inline-block;
+    height: fit-content;
+    margin-left: 10px;
+}
+
+h2 {
+    color: #007bff;
+}
+
+table {
+    width: 100%;
+    background-color: #007bff;
+    border: solid 2px black;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+table tr td {
+    background-color: white;
+}
+
+.tableHeader {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.tableHeader th,
+tr td {
+    padding: 10px;
+}
+
+table a {
+    text-decoration: none;
+}
+
+#updateUserForm>div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#updateUserForm>div:last-child{
+    display: block;
+}
+
+#updateUserForm>div>div {
+    width: calc(50% - 10px);
+}
+
+#toast {
+    position: fixed;
+    top: 100px;
+    right: 32px;
+    transition: all linear .5s;
+}
+
+.toastMessage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 400px;
+    box-shadow: 1px 2px 2px 1px #CCCCCC;
+    padding: 5px 20px;
+    border-left: 4px solid;
+    margin-bottom: 16px;
+    color: #fff;
+    transition: all linear .5s;
+
+}
+
+.toastBody {
+    min-width: 228px;
+    padding: 0 10px 0 20px;
+}
+
+.toastClose {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.toastMessage.success {
+    background-color: #fff;
+    color: black;
+
+    .toastIcon {
+        color: rgb(72, 236, 72);
+    }
+
+    ;
+    border-left: 4px solid rgb(41, 205, 15);
+}
+
+.toastMessage.error {
+    background-color: #fff;
+    color: black;
+
+    .toastIcon {
+        color: rgb(227, 60, 60);
+    }
+
+    ;
+    border-left: 4px solid rgb(218, 20, 20);
+}
+
+.toastMessage.warning {
+    background-color: #fff;
+    color: black;
+
+    .toastIcon {
+        color: rgb(228, 228, 13);
+    }
+
+    ;
+    border-left: 4px solid rgb(228, 228, 13);
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(332px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
