@@ -286,7 +286,28 @@ public class LessonDAO extends DBConnection {
         return lessons;
     }
 
-    
+    public static int getNumberLessonsByChapterID(int chapterID) {
+        int ans = 0;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select count(*) as number from lesson where chapterID = ?");
+            statement.setInt(1, chapterID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                ans = resultSet.getInt("number");
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return ans;
+    }
 
     
 
