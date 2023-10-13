@@ -22,7 +22,30 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class LessonDAO extends DBConnection {
 
-   
+    public static boolean existLesson(int ID) {
+        boolean ok = false;
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select ID from lesson where ID = ?");
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                if (resultSet.getInt("ID") == ID) {
+                    ok = true;
+                }
+            }
+
+            //disconnect to database
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //return result
+        return ok;
+    }
 
     
 
