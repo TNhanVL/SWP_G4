@@ -194,7 +194,41 @@ public class LessonDAO extends DBConnection {
         }
     }
 
-    
+    public static int getFirstUncompleteLessonID(int userID, int courseID) {
+        int lessonID = -1;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select top 1 lessonID from\n"
+                    + "(select chapterIndex, lessonID, lessonIndex from\n"
+                    + "(select ID as chapterID, [index] as chapterIndex from chapter where courseID = ?) as a\n"
+                    + "join\n"
+                    + "(select chapterID, ID as lessonID, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID) a\n"
+                    + "where lessonID not in\n"
+                    + "(select lessonID from lessonCompleted where userID = ?)\n"
+                    + "order by chapterIndex, lessonIndex;");
+            statement.setInt(1, courseID);
+            statement.setInt(2, userID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                lessonID = resultSet.getInt("lessonID");
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (lessonID < 0) {
+            lessonID = getLastLessonID(courseID);
+        }
+
+        return lessonID;
+    }
+
     
 
     
