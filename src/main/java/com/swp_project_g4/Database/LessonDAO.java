@@ -229,7 +229,32 @@ public class LessonDAO extends DBConnection {
         return lessonID;
     }
 
-    
+    public static int getLastLessonID(int courseID) {
+        int lessonID = -1;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select top 1 lessonID from\n"
+                    + "(select ID as chapterID, [index] as chapterIndex from chapter where courseID = ?) as a\n"
+                    + "join\n"
+                    + "(select chapterID, ID as lessonID, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID\n"
+                    + "order by chapterIndex desc, lessonIndex desc");
+            statement.setInt(1, courseID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                lessonID = resultSet.getInt("lessonID");
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lessonID;
+    }
 
     
 
