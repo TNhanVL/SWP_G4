@@ -99,6 +99,27 @@ public class AnswerDAO extends DBConnection {
         return answers;
     }
     
+    public static boolean insertAnswer(Answer answer) {
+        try {
+            //connect to database
+            connect();
+            
+            statement = conn.prepareStatement("insert into answer(content,correct,questionID) values (?,?,?)");
+            statement.setString(1, answer.getContent());
+            statement.setBoolean(2, answer.isCorrect());
+            statement.setInt(3, answer.getQuestionID());
+            statement.executeUpdate();
+            //disconnect to database
+            disconnect();
+            return true;
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        return false;
+    }
+    
     
     
     public static void main(String[] args) {
