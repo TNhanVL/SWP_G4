@@ -356,7 +356,26 @@ public class LessonDAO extends DBConnection {
         return false;
     }
 
-    
+    public static boolean deleteLesson(int ID) {
+        try {
+            if (!existLesson(ID)) {
+                return false;
+            }
+            connect();
+            statement = conn.prepareStatement("delete from lesson where ID=?");
+            statement.setInt(1, ID);
+            statement.execute();
+            disconnect();
+            if (!existLesson(ID)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         System.out.println(getNumberLessonsByChapterID(1));
