@@ -47,7 +47,34 @@ public class LessonDAO extends DBConnection {
         return ok;
     }
 
-    
+    public static Lesson getLesson(int ID) {
+        Lesson lesson = null;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select * from lesson where ID = ?");
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                lesson = new Lesson(
+                        resultSet.getInt("ID"),
+                        resultSet.getInt("ChapterID"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("index"),
+                        resultSet.getInt("type"),
+                        resultSet.getInt("time"));
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lesson;
+    }
 
     
    
