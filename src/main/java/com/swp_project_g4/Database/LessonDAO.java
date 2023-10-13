@@ -332,7 +332,30 @@ public class LessonDAO extends DBConnection {
         return false;
     }
 
-    
+    public static boolean updateLesson(Lesson lesson) {
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("update lesson set chapterID=?, name=?, [index]=?, type=?, [time]=? where ID=?");
+            statement.setInt(1, lesson.getChapterID());
+            statement.setString(2, lesson.getName());
+            statement.setInt(3, lesson.getIndex());
+            statement.setInt(4, lesson.getType());
+            statement.setInt(5, lesson.getTime());
+            statement.setInt(6, lesson.getID());
+            statement.executeUpdate();
+
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
     
 
     public static void main(String[] args) {
