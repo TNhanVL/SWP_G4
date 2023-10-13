@@ -70,6 +70,35 @@ public class AnswerDAO extends DBConnection {
         return answer;
     }
     
+    public static ArrayList<Answer> getAnswersByQuestionID(int questionID) {
+        ArrayList<Answer> answers = new ArrayList<>();
+        
+        try {
+            //connect to database
+            connect();
+            
+            statement = conn.prepareStatement("select * from answer where questionID = ?");
+            statement.setInt(1, questionID);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                Answer answer = new Answer(
+                        resultSet.getInt("ID"),
+                        resultSet.getString("content"),
+                        resultSet.getBoolean("correct"),
+                        resultSet.getInt("questionID")
+                );
+                answers.add(answer);
+            }
+            
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return answers;
+    }
+    
     
     
     public static void main(String[] args) {
