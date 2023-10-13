@@ -118,7 +118,34 @@ public class LessonDAO extends DBConnection {
         return ok;
     }
 
-   
+    public static int getNumberLessonsCompleted(int userID, int chapterID) {
+        int ans = 0;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select count(*) as number from\n"
+                    + "(select lessonID as ID from lessonCompleted where userID = ?) as a\n"
+                    + "join\n"
+                    + "(select ID from lesson where chapterID = ?) as b\n"
+                    + "on a.ID = b.ID");
+            statement.setInt(1, userID);
+            statement.setInt(2, chapterID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                ans = resultSet.getInt("number");
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return ans;
+    }
+
     
 
     
