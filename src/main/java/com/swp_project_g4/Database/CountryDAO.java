@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Gr4
+ * @author TTNhan
  */
 public class CountryDAO extends DBConnection {
 
@@ -40,28 +40,7 @@ public class CountryDAO extends DBConnection {
         return country;
     }
 
-    public static ArrayList<Country> getAllCountry() {
-        ArrayList<Country> countries = new ArrayList<>();
 
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("select * from country");
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Country country = new Country(resultSet.getInt("countryID"), resultSet.getString("name"));
-                countries.add(country);
-            }
-
-            disconnect();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return countries;
-    }
 
     public static void main(String[] args) {
         System.out.println(getAllCountry());
