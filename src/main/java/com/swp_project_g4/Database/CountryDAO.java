@@ -17,6 +17,29 @@ import java.util.logging.Logger;
  */
 public class CountryDAO extends DBConnection {
 
+    public static Country getCountry(int ID) {
+        Country country = null;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select [name] from country where CountryID = ?");
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                country = new Country(ID, resultSet.getString("name"));
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return country;
+    }
+
     
 
     public static void main(String[] args) {
