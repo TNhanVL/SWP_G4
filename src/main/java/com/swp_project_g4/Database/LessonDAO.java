@@ -256,7 +256,35 @@ public class LessonDAO extends DBConnection {
         return lessonID;
     }
 
-    
+    public static ArrayList<Lesson> getLessonsByChapterID(int chapterID) {
+        ArrayList<Lesson> lessons = new ArrayList<>();
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select * from lesson where chapterID = ? order by [index]");
+            statement.setInt(1, chapterID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Lesson lesson = new Lesson(
+                        resultSet.getInt("ID"),
+                        resultSet.getInt("chapterID"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("index"),
+                        resultSet.getInt("type"),
+                        resultSet.getInt("time"));
+                lessons.add(lesson);
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lessons;
+    }
 
     
 
