@@ -42,6 +42,36 @@ public class AnswerDAO extends DBConnection {
         return ok;
     }
     
+    public static Answer getAnswer(int ID) {
+        Answer answer = null;
+        
+        try {
+            //connect to database
+            connect();
+            
+            statement = conn.prepareStatement("select * from answer where ID = ?");
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                answer = new Answer(
+                        resultSet.getInt("ID"),
+                        resultSet.getString("content"),
+                        resultSet.getBoolean("correct"),
+                        resultSet.getInt("questionID")
+                );
+            }
+            
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return answer;
+    }
+    
+    
+    
     public static void main(String[] args) {
         System.out.println(getAnswersByQuestionID(1));
     }
