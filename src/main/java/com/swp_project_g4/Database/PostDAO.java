@@ -16,7 +16,82 @@ import java.util.logging.Logger;
  */
 public class PostDAO extends DBConnection {
 
-    
+    public static boolean existPost(int ID) {
+        boolean ok = false;
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select ID from post where ID = ?");
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                if (resultSet.getInt("ID") == ID) {
+                    ok = true;
+                }
+            }
+
+            //disconnect to database
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //return result
+        return ok;
+    }
+
+    public static Post getPost(int ID) {
+        Post post = null;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select * from post where ID = ?");
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                post = new Post(
+                        resultSet.getInt("ID"),
+                        resultSet.getString("content"),
+                        resultSet.getInt("lessonID"));
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return post;
+    }
+
+    public static Post getPostByLessonID(int lessonID) {
+        Post post = null;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select * from post where lessonID = ?");
+            statement.setInt(1, lessonID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                post = new Post(
+                        resultSet.getInt("ID"),
+                        resultSet.getString("content"),
+                        resultSet.getInt("lessonID"));
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return post;
+    }
 
   
     public static void main(String[] args) {
