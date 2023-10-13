@@ -61,7 +61,30 @@ public class LecturerDAO extends DBConnection {
         return false;
     }
 
+    public static boolean updateLecturer(Lecturer lecturer) {
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("update lecturer set organizationID=? where userID = ?");
+            statement.setInt(1, lecturer.getOrganizationID());
+            statement.setInt(2, lecturer.getID());
+            statement.executeUpdate();
+
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return false;
+    }
+
     
+
     public static void main(String[] args) {
         User user = UserDAO.getUser(1);
         Lecturer lect = new Lecturer(user, 1);
