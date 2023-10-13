@@ -126,7 +126,72 @@ public class QuestionDAO extends DBConnection {
         return ans;
     }
 
-    
+    public static boolean insertQuestion(Question question) {
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("insert into question(lessonID,[index],content,[type],point) values (?,?,?,?)");
+            statement.setInt(1, question.getLessonID());
+            statement.setInt(2, question.getIndex());
+            statement.setString(3, question.getContent());
+            statement.setInt(4, question.getType());
+            statement.setInt(5, question.getPoint());
+            statement.executeUpdate();
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return false;
+    }
+
+    public static boolean updateQuestion(Question question) {
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("update question set lessonID=?, [index]=?, content=?, [type]=?, point=? where questionID=?");
+            statement.setInt(1, question.getLessonID());
+            statement.setInt(2, question.getIndex());
+            statement.setString(3, question.getContent());
+            statement.setInt(4, question.getType());
+            statement.setInt(5, question.getPoint());
+            statement.setInt(6, question.getQuestionID());
+
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public static boolean deleteQuestion(int questionID) {
+        try {
+            if (!existQuestion(questionID)) {
+                return false;
+            }
+            connect();
+            statement = conn.prepareStatement("delete from question where questionID=?");
+            statement.setInt(1, questionID);
+            statement.execute();
+            disconnect();
+            if (!existQuestion(questionID)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         System.out.println(getNumberQuestionByLessonID(2));
