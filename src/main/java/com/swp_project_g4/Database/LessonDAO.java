@@ -76,7 +76,48 @@ public class LessonDAO extends DBConnection {
         return lesson;
     }
 
-    
+    public static boolean checkLessonCompleted(int userID, int lessonID, HttpServletRequest request) {
+        boolean ok = false;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select 1 from lessonCompleted where lessonID = ? and userID = ?");
+            statement.setInt(1, lessonID);
+            statement.setInt(2, userID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                ok = true;
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //if not completed, check if quiz not judge yet
+        Lesson lesson = LessonDAO.getLesson(lessonID);
+        if (!ok) {
+            if (lesson.getType() == 2) {
+                QuizResult quizResult = QuizResultDAO.getLastQuizResult(userID, lessonID);
+                //if not take quiz yet or not finished yet
+                if (quizResult == null || quizResult.getEndTime().after(new Date())) {
+                    return false;
+                }
+                int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResult.getID());
+                int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lessonID);
+                if (numberOfCorrectQuestion * 100 >= numberOfQuestion * 80) {
+                    LessonDAO.insertLessonCompleted(userID, lessonID, request);
+                    return true;
+                }
+            }
+        }
+
+        return ok;
+    }
+
    
     
 
