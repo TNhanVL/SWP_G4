@@ -17,5 +17,35 @@ import java.util.logging.Logger;
  */
 public class LecturerDAO extends DBConnection {
 
+    public static Lecturer getLecturer(int userID) {
+        Lecturer lecturer = null;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select * from lecturer where userID = ?");
+            statement.setInt(1, userID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                User user = UserDAO.getUser(userID);
+                lecturer = new Lecturer(user, resultSet.getInt("organizationID"));
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lecturer;
+    }
+
     
+    
+    public static void main(String[] args) {
+        User user = UserDAO.getUser(1);
+        Lecturer lect = new Lecturer(user, 1);
+        insertLecturer(lect);
+    }
 }
