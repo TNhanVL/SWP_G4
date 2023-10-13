@@ -93,7 +93,68 @@ public class PostDAO extends DBConnection {
         return post;
     }
 
-  
+    public static boolean insertPost(Post post) {
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("insert into post(content,lessonID) values (?,?)");
+            statement.setString(1, post.getContent());
+            statement.setInt(2, post.getLessonID());
+            statement.executeUpdate();
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return false;
+    }
+
+    public static boolean updatePost(Post post) {
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("update post set content=?, lessonID=? where ID=?");
+            statement.setString(1, post.getContent());
+            statement.setInt(2, post.getLessonID());
+            statement.setInt(3, post.getID());
+            statement.executeUpdate();
+
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public static boolean deletePost(int ID) {
+        try {
+            if (!existPost(ID)) {
+                return false;
+            }
+            connect();
+            statement = conn.prepareStatement("delete from post where ID=?");
+            statement.setInt(1, ID);
+            statement.execute();
+            disconnect();
+            if (!existPost(ID)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(getPost(1));
 //        Post p = getPost(3);
