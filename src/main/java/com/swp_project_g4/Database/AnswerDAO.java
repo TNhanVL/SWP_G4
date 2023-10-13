@@ -17,7 +17,30 @@ import java.util.logging.Logger;
  */
 public class AnswerDAO extends DBConnection {
     
-    
+    public static boolean existAnswer(int ID) {
+        boolean ok = false;
+        try {
+            //connect to database
+            connect();
+            
+            statement = conn.prepareStatement("select ID from answer where ID = ?");
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                if (resultSet.getInt("ID") == ID) {
+                    ok = true;
+                }
+            }
+
+            //disconnect to database
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //return result
+        return ok;
+    }
     
     public static void main(String[] args) {
         System.out.println(getAnswersByQuestionID(1));
