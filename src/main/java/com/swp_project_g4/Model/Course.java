@@ -4,23 +4,26 @@
  */
 package com.swp_project_g4.Model;
 
-import lombok.*;
-
-import java.util.Date;
-
 /**
  *
  * @author Thanh Duong
  */
+
+import lombok.*;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuizResult {
+public class Course {
 
-    private int quizResultID;
-    private int lessonID;
-    private int userID;
-    private Date startTime;
-    private Date endTime;
+    private int courseID;
+    private String name;
+    private String image;
+    private String description;
+    private int organizationID;
+    private int lecturerID;
+    private double originPrice;
+    private double price;
+    private double rate;
 
 }
