@@ -1,16 +1,10 @@
-<%-- 
-    Document   : header
-    Created on : Jul 3, 2023, 12:52:05 AM
-    Author     : TTNhan
---%>
-
-<%@page import="java.net.URL"%>
-<%@page import="com.swp_project_g4.Database.CourseDAO"%>
-<%@page import="com.swp_project_g4.Database.UserDAO"%>
-<%@page import="com.swp_project_g4.Model.User"%>
-<%@page import="com.swp_project_g4.Service.CookieServices"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="java.net.URL" %>
+<%@page import="com.swp_project_g4.Database.CourseDAO" %>
+<%@page import="com.swp_project_g4.Database.UserDAO" %>
+<%@page import="com.swp_project_g4.Model.User" %>
+<%@page import="com.swp_project_g4.Service.CookieServices" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
     boolean loggedInHeader = false;
@@ -20,7 +14,7 @@
         userHeader = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
     }
 %>
-
+s
 <div id="header">
     <div class="left-side">
         <a href="/">
@@ -73,7 +67,6 @@
                             isUrl = true;
                         } catch (Exception e) {
                         }
-
                         if (isUrl) {
                             out.print(userHeader.getAvatar());
                         } else {
@@ -90,7 +83,7 @@
                     } else {
                         out.print("Guest!");
                     }
-                    %></span>
+                %></span>
             </a>
 
             <%
@@ -119,5 +112,5 @@
 </div>
 
 <%if (loggedInHeader) {%>
-<script src="/public/assets/js/option.js"></script>                    
+<script src="/public/assets/js/option.js"></script>
 <%}%>
