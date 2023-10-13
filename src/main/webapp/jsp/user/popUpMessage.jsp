@@ -1,10 +1,4 @@
-<%-- 
-    Document   : popUpMessage
-    Created on : Jul 3, 2023, 12:10:29 AM
-    Author     : TTNhan
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 
 <div id="toast"></div>
 

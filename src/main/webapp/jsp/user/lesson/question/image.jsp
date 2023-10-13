@@ -1,11 +1,5 @@
-<%-- 
-    Document   : image
-    Created on : Jul 5, 2023, 6:33:17 PM
-    Author     : TTNhan
---%>
-
-<%@page import="com.swp_project_g4.Model.Question"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.swp_project_g4.Model.Question" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <div class="quizContent" id="question<%out.print(question.getIndex());%>">
     <div class="question">
         <%
@@ -25,11 +19,12 @@
             switch (question.getType() % 10) {
                 case 0: {%>
         <%@include file="answer/multipleChoiceOneOption.jsp" %>
-        <%                break;
-            }
+        <% break;
+        }
             case 1: {%>
         <%@include file="answer/multipleChoiceMultiOption.jsp" %>
-        <%}
+        <%
+                }
                 default: {
                     break;
                 }

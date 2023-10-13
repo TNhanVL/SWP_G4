@@ -1,16 +1,10 @@
-<%-- 
-    Document   : quiz
-    Created on : Jul 5, 2023, 8:55:55 PM
-    Author     : TTNhan
---%>
-
-<%@page import="java.util.Date"%>
-<%@page import="com.swp_project_g4.Model.QuizResult"%>
-<%@page import="com.swp_project_g4.Database.QuizResultDAO"%>
-<%@page import="com.swp_project_g4.Database.QuestionDAO"%>
-<%@page import="com.swp_project_g4.Model.Question"%>
-<%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.Date" %>
+<%@page import="com.swp_project_g4.Model.QuizResult" %>
+<%@page import="com.swp_project_g4.Database.QuizResultDAO" %>
+<%@page import="com.swp_project_g4.Database.QuestionDAO" %>
+<%@page import="com.swp_project_g4.Model.Question" %>
+<%@page import="java.util.ArrayList" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 
 <%
     QuizResult quizResult = QuizResultDAO.getLastQuizResult(user.getID(), lesson.getID());

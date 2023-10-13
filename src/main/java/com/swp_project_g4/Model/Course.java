@@ -4,17 +4,26 @@
  */
 package com.swp_project_g4.Model;
 
-import lombok.*;
-
 /**
  *
- * @author TTNhan
+ * @author Thanh Duong
  */
+
+import lombok.*;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Country {
+public class Course {
 
-    private int ID;
+    private int courseID;
     private String name;
+    private String image;
+    private String description;
+    private int organizationID;
+    private int lecturerID;
+    private double originPrice;
+    private double price;
+    private double rate;
+
 }

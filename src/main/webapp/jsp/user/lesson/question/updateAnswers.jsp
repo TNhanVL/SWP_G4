@@ -1,10 +1,4 @@
-<%-- 
-    Document   : updateAnswers.jsp
-    Created on : Jul 7, 2023, 12:56:59 AM
-    Author     : TTNhan
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <script>
     function sendUpdateAnswer(questionID) {
         let paramsSend = "_";
