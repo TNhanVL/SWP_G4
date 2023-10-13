@@ -1,10 +1,4 @@
-<%-- 
-    Document   : lessonInfo
-    Created on : Jul 5, 2023, 9:06:33 PM
-    Author     : TTNhan
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Overview')">Overview</button>
     <button class="tablinks" onclick="openTab(event, 'LessonContent')">Lesson Content</button>
@@ -19,13 +13,16 @@
     <div class="content">
         <ul>
             <li>Fluently master the Hiragana and Katakana alphabets, over 100 Kanji characters, and the
-                basic grammar of N5 level.</li>
+                basic grammar of N5 level.
+            </li>
             <li>Use Japanese to communicate in simple situations with native speakers.</li>
             <li>Confidently conquer the JLPT with the highest score.</li>
             <li>Have a solid grasp of fundamental knowledge as a prerequisite for studying higher levels of
-                Japanese.</li>
+                Japanese.
+            </li>
             <li>PROVIDE dedicated support to address any concerns or questions from students regarding
-                study-related issues as well as working in Japan.</li>
+                study-related issues as well as working in Japan.
+            </li>
             <li>Save costs when registering for the N5-N4, N5-N3 combo courses.</li>
         </ul>
     </div>
@@ -35,63 +32,63 @@
     <div class="content">
         <table>
             <thead>
-                <tr>
-                    <th>Characters</th>
-                    <th>Romaji</th>
-                    <th>Pronunciation tips</th>
-                </tr>
+            <tr>
+                <th>Characters</th>
+                <th>Romaji</th>
+                <th>Pronunciation tips</th>
+            </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>あ</td>
-                    <td>a</td>
-                    <td>あ is pronounced as "a" in "car" but shorter</td>
-                </tr>
-                <tr>
-                    <td>い</td>
-                    <td>i</td>
-                    <td>い is pronounced as "ee" in "meet", but shorter</td>
-                </tr>
-                <tr>
-                    <td>う</td>
-                    <td>u</td>
-                    <td>う is pronounced as "u" in "hula", but shorter</td>
-                </tr>
-                <tr>
-                    <td>え</td>
-                    <td>e</td>
-                    <td>え is pronounced as "e" in "get"</td>
-                </tr>
-                <tr>
-                    <td>お</td>
-                    <td>o</td>
-                    <td>お is pronounced as "o" in "or", but shorter</td>
-                </tr>
-                <tr>
-                    <td>か</td>
-                    <td>ka</td>
-                    <td>か is pronounced as "ca" in "car", but shorter</td>
-                </tr>
-                <tr>
-                    <td>き</td>
-                    <td>ki</td>
-                    <td>き is pronounced as "ki" in "keep", but shorter</td>
-                </tr>
-                <tr>
-                    <td>く</td>
-                    <td>ku</td>
-                    <td>く is pronounced as "ku" in "Kuwait", but shorter</td>
-                </tr>
-                <tr>
-                    <td>け</td>
-                    <td>ke</td>
-                    <td>け is pronounced as "ke" in "Kevin"</td>
-                </tr>
-                <tr>
-                    <td>こ</td>
-                    <td>ko</td>
-                    <td>こ is pronounced as "ko" in "koala"</td>
-                </tr>
+            <tr>
+                <td>あ</td>
+                <td>a</td>
+                <td>あ is pronounced as "a" in "car" but shorter</td>
+            </tr>
+            <tr>
+                <td>い</td>
+                <td>i</td>
+                <td>い is pronounced as "ee" in "meet", but shorter</td>
+            </tr>
+            <tr>
+                <td>う</td>
+                <td>u</td>
+                <td>う is pronounced as "u" in "hula", but shorter</td>
+            </tr>
+            <tr>
+                <td>え</td>
+                <td>e</td>
+                <td>え is pronounced as "e" in "get"</td>
+            </tr>
+            <tr>
+                <td>お</td>
+                <td>o</td>
+                <td>お is pronounced as "o" in "or", but shorter</td>
+            </tr>
+            <tr>
+                <td>か</td>
+                <td>ka</td>
+                <td>か is pronounced as "ca" in "car", but shorter</td>
+            </tr>
+            <tr>
+                <td>き</td>
+                <td>ki</td>
+                <td>き is pronounced as "ki" in "keep", but shorter</td>
+            </tr>
+            <tr>
+                <td>く</td>
+                <td>ku</td>
+                <td>く is pronounced as "ku" in "Kuwait", but shorter</td>
+            </tr>
+            <tr>
+                <td>け</td>
+                <td>ke</td>
+                <td>け is pronounced as "ke" in "Kevin"</td>
+            </tr>
+            <tr>
+                <td>こ</td>
+                <td>ko</td>
+                <td>こ is pronounced as "ko" in "koala"</td>
+            </tr>
             </tbody>
         </table>
     </div>
