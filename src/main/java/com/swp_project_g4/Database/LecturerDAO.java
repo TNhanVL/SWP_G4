@@ -83,7 +83,22 @@ public class LecturerDAO extends DBConnection {
         return false;
     }
 
-    
+    public static boolean deleteLecturer(int userID) {
+        try {
+            if (getLecturer(userID) == null) {
+                return false;
+            }
+            connect();
+            statement = conn.prepareStatement("delete from lecturer where userID=?");
+            statement.setInt(1, userID);
+            statement.execute();
+            disconnect();
+            return getLecturer(userID) != null;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         User user = UserDAO.getUser(1);
