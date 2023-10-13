@@ -181,7 +181,18 @@ public class LessonDAO extends DBConnection {
         return false;
     }
 
-    
+    public static void deleteLessonCompleted(int userID, int lessonID) {
+        try {
+            connect();
+            statement = conn.prepareStatement("delete from lessonCompleted where lessonID = ?, userID = ?");
+            statement.setInt(1, lessonID);
+            statement.setInt(2, userID);
+            statement.execute();
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     
     
