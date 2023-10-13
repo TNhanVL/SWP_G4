@@ -68,7 +68,70 @@ public class OrganizationDAO extends DBConnection {
         return organization;
     }
 
-    
+    public static boolean insertOrganization(Organization organization) {
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("insert into organization(name,logo,description) values (?,?,?)");
+            statement.setString(1, organization.getName());
+            statement.setString(2, organization.getLogo());
+            statement.setString(3, organization.getDescription());
+            statement.executeUpdate();
+
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return false;
+    }
+
+    public static boolean updateOrganization(Organization organization) {
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("update organization set name=?, logo=?,description=? where ID =?");
+            statement.setString(1, organization.getName());
+            statement.setString(2, organization.getLogo());
+            statement.setString(3, organization.getDescription());
+            statement.setInt(4, organization.getID());
+            statement.executeUpdate();
+
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public static boolean deleteOrganization(int ID) {
+        try {
+            if (!existOrganization(ID)) {
+                return false;
+            }
+            connect();
+            statement = conn.prepareStatement("delete from organization where ID=?");
+            statement.setInt(1, ID);
+            statement.execute();
+            disconnect();
+            if (!existOrganization(ID)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         System.out.println(existOrganization(1));
