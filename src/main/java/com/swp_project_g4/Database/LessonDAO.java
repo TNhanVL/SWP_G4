@@ -146,7 +146,40 @@ public class LessonDAO extends DBConnection {
         return ans;
     }
 
-    
+    public static boolean insertLessonCompleted(int userID, int lessonID, HttpServletRequest request) {
+//        deleteLessonCompleted(userID, lessonID);
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("insert into lessonCompleted(lessonID, userID) values(?,?)");
+            statement.setInt(1, lessonID);
+            statement.setInt(2, userID);
+            statement.executeUpdate();
+            //disconnect to database
+            disconnect();
+
+            Lesson lesson = LessonDAO.getLesson(lessonID);
+            Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
+            // Generate new certificate if completed course
+            if (CourseDAO.checkCourseCompleted(userID, chapter.getCourseID())) {
+                // if completed course
+                String certificateName = "certificate_" + chapter.getCourseID() + "_" + userID + ".pdf";
+                CourseDAO.insertCertificate(userID, chapter.getCourseID(), certificateName);
+                Certificate.createCertificate(certificateName, userID, chapter.getCourseID(), request);
+                
+//                User user = UserDAO.getUser(userID);
+//                EmailService.sendCompletecourse(user.getEmail(), "http://localhost:8080/swp_project_g4/public/media/certificate/" + certificateName);
+            }
+
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return false;
+    }
 
     
 
