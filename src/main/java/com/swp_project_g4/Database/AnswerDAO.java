@@ -120,6 +120,27 @@ public class AnswerDAO extends DBConnection {
         return false;
     }
     
+    public static boolean updateAnswer(Answer answer) {
+        try {
+            //connect to database
+            connect();
+            
+            statement = conn.prepareStatement("update answer set content=?, correct=?, questionID=? where ID=?");
+            statement.setString(1, answer.getContent());
+            statement.setBoolean(2, answer.isCorrect());
+            statement.setInt(3, answer.getQuestionID());
+            statement.setInt(4, answer.getID());
+
+            //disconnect to database
+            disconnect();
+            return true;
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
     
     
     public static void main(String[] args) {
