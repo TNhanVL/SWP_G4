@@ -141,7 +141,26 @@ public class AnswerDAO extends DBConnection {
         return false;
     }
     
-    
+    public static boolean deleteAnswer(int ID) {
+        try {
+            if (!existAnswer(ID)) {
+                return false;
+            }
+            connect();
+            statement = conn.prepareStatement("delete from answer where ID=?");
+            statement.setInt(1, ID);
+            statement.execute();
+            disconnect();
+            if (!existAnswer(ID)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
     
     public static void main(String[] args) {
         System.out.println(getAnswersByQuestionID(1));
