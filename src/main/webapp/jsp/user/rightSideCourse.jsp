@@ -1,20 +1,14 @@
-<%-- 
-    Document   : rightSideCourse
-    Created on : Jul 3, 2023, 10:40:20 PM
-    Author     : TTNhan
---%>
-
-<%@page import="com.swp_project_g4.Database.CourseDAO"%>
-<%@page import="com.swp_project_g4.Model.Course"%>
-<%@page import="com.swp_project_g4.Database.MoocDAO"%>
-<%@page import="com.swp_project_g4.Model.Mooc"%>
-<%@page import="com.swp_project_g4.Model.Lesson"%>
-<%@page import="com.swp_project_g4.Service.CookieServices"%>
-<%@page import="com.swp_project_g4.Database.UserDAO"%>
-<%@page import="com.swp_project_g4.Model.User"%>
-<%@page import="com.swp_project_g4.Database.LessonDAO"%>
+<%@page import="com.swp_project_g4.Database.CourseDAO" %>
+<%@page import="com.swp_project_g4.Model.Course" %>
+<%@page import="com.swp_project_g4.Database.MoocDAO" %>
+<%@page import="com.swp_project_g4.Model.Mooc" %>
+<%@page import="com.swp_project_g4.Model.Lesson" %>
+<%@page import="com.swp_project_g4.Service.CookieServices" %>
+<%@page import="com.swp_project_g4.Database.UserDAO" %>
+<%@page import="com.swp_project_g4.Model.User" %>
+<%@page import="com.swp_project_g4.Database.LessonDAO" %>
 <%@ page import="com.swp_project_g4.Database.LessonDAO" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 
 <%
 
@@ -22,7 +16,7 @@
     Lesson lesson1 = LessonDAO.getLesson(Integer.parseInt(request.getParameter("lessonID")));
     Mooc mooc1 = MoocDAO.getMooc(lesson1.getMoocID());
     Course course1 = CourseDAO.getCourse(mooc1.getCourseID());
-    
+
 %>
 
 <div class="rightSide">

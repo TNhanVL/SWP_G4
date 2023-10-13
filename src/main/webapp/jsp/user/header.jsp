@@ -66,7 +66,7 @@ s
                             new URL(userHeader.getAvatar()).toURI();
                             isUrl = true;
                         } catch (Exception e) {
-                        }
+                        }s
                         if (isUrl) {
                             out.print(userHeader.getAvatar());
                         } else {
