@@ -1,11 +1,5 @@
-<%-- 
-    Document   : footer
-    Created on : Jul 3, 2023, 12:52:56 AM
-    Author     : TTNhan
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div id="footer">
     <div class="contact row">
@@ -15,7 +9,8 @@
                 <h2>Yojihan</h2>
             </div>
             <p>
-                Instructors from around the world teach millions of students on Udemy. We provide the tools and skills to teach what you love.
+                Instructors from around the world teach millions of students on Udemy. We provide the tools and skills
+                to teach what you love.
             </p>
             <div class="social-media">
                 <i class="fa-brands fa-instagram"></i>
@@ -28,7 +23,6 @@
             <p>Help</p>
             <p>Discuss</p>
             <p>Contact us</p>
-
         </div>
         <div class="head pay col-md-2">PAYMENT METHODS
             <p>Paypal</p>
