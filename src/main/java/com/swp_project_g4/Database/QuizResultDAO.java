@@ -123,7 +123,78 @@ public class QuizResultDAO extends DBConnection {
         return quizResult;
     }
 
-   
+    public static int insertQuizResult(QuizResult quizResult) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("insert into quizResult(lessonID,userID,startTime,endTime) values(?,?,?,?)");
+            statement.setInt(1, quizResult.getLessonID());
+            statement.setInt(2, quizResult.getUserID());
+            statement.setString(3, dateFormat.format(quizResult.getStartTime()));
+            statement.setString(4, dateFormat.format(quizResult.getEndTime()));
+            statement.executeUpdate();
+
+            int newID = lastModifyID(conn);
+
+            //disconnect to database
+            disconnect();
+
+            return newID;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return -1;
+    }
+
+    public static boolean updateQuizResult(QuizResult quizResult) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("update quizResult set lessonID=?,userID=?, startTime=?, endTime=? where ID=?");
+            statement.setInt(1, quizResult.getLessonID());
+            statement.setInt(2, quizResult.getUserID());
+            statement.setString(3, dateFormat.format(quizResult.getStartTime()));
+            statement.setString(4, dateFormat.format(quizResult.getEndTime()));
+            statement.setInt(5, quizResult.getID());
+            statement.executeUpdate();
+
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public static boolean deleteQuizResult(int ID) {
+        try {
+            if (!existQuizResult(ID)) {
+                return false;
+            }
+            connect();
+            statement = conn.prepareStatement("delete from quizResult where ID=?");
+            statement.setInt(1, ID);
+            statement.execute();
+            disconnect();
+            return !existQuizResult(ID);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
 
     }
