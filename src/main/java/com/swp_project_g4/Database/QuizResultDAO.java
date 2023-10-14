@@ -93,7 +93,36 @@ public class QuizResultDAO extends DBConnection {
         return point;
     }
 
-  
+    public static QuizResult getLastQuizResult(int userID, int lessonID) {
+        QuizResult quizResult = null;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select top 1 * from quizResult where userID = ? and lessonID = ? order by startTime desc");
+            statement.setInt(1, userID);
+            statement.setInt(2, lessonID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                quizResult = new QuizResult(
+                        resultSet.getInt("ID"),
+                        resultSet.getInt("lessonID"),
+                        resultSet.getInt("userID"),
+                        resultSet.getTimestamp("startTime"),
+                        resultSet.getTimestamp("endTime")
+                );
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return quizResult;
+    }
+
    
     public static void main(String[] args) {
 
