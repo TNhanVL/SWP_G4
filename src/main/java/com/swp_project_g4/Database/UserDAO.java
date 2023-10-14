@@ -88,7 +88,75 @@ public class UserDAO extends DBConnection {
         return status;
     }
 
- 
+    public static User getUser(int ID) {
+        User user = null;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select * from [user] where ID = ?");
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getInt("ID"),
+                        resultSet.getString("avatar"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
+                        resultSet.getInt("role"),
+                        resultSet.getDate("birthday"),
+                        resultSet.getInt("countryID"),
+                        resultSet.getInt("status")
+                );
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return user;
+    }
+
+    public static User getUserByEmail(String email) {
+        User user = null;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select * from [user] where email = ?");
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getInt("ID"),
+                        resultSet.getString("avatar"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
+                        resultSet.getInt("role"),
+                        resultSet.getDate("birthday"),
+                        resultSet.getInt("countryID"),
+                        resultSet.getInt("status")
+                );
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return user;
+    }
 
 
  
