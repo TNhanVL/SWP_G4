@@ -228,7 +228,84 @@ public class UserDAO extends DBConnection {
         return list;
     }
 
- 
+    public static int insertUser(User user) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            connect();
+
+            statement = conn.prepareStatement("insert into [user](avatar,username,[password],email,firstName,lastName,[role],birthday,countryID,status) values(?,?,?,?,?,?,?,?,?,?)");
+            statement.setString(1, user.getAvatar());
+            statement.setString(2, user.getUsername());
+            statement.setString(3, user.getPassword());
+            statement.setString(4, user.getEmail());
+            statement.setString(5, user.getFirstName());
+            statement.setString(6, user.getLastName());
+            statement.setInt(7, user.getRole());
+            statement.setString(8, dateFormat.format(user.getBirthday()));
+            statement.setInt(9, user.getCountryID());
+            statement.setInt(10, user.getStatus());
+            statement.executeUpdate();
+
+            int newID = lastModifyID(conn);
+
+            disconnect();
+            return newID;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return -1;
+    }
+
+    public static boolean updateUser(User user) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            connect();
+
+            statement = conn.prepareStatement("UPDATE [user] SET avatar = ?, username = ?, [password] = ?, email = ?, firstName = ?, lastName = ?, role = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
+            statement.setString(1, user.getAvatar());
+            statement.setString(2, user.getUsername());
+            statement.setString(3, user.getPassword());
+            statement.setString(4, user.getEmail());
+            statement.setString(5, user.getFirstName());
+            statement.setString(6, user.getLastName());
+            statement.setInt(7, user.getRole());
+            statement.setString(8, dateFormat.format(user.getBirthday()));
+            statement.setInt(9, user.getCountryID());
+            statement.setInt(10, user.getStatus());
+            statement.setInt(11, user.getID());
+            statement.execute();
+
+            disconnect();
+
+            return true;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return false;
+    }
+
+    public static boolean deleteUser(int ID) {
+        try {
+            User user = getUser(ID);
+
+            if (user == null) {
+                return false;
+            }
+            connect();
+            statement = conn.prepareStatement("delete from [user] where ID=?");
+            statement.setInt(1, ID);
+            statement.execute();
+            disconnect();
+            return true;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     public static void main(String[] args) throws ClassNotFoundException {
 //<<<<<<< HEAD
