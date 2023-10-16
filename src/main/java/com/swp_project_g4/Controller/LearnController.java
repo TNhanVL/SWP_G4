@@ -53,7 +53,7 @@ public class LearnController {
         Lesson lesson = LessonDAO.getLesson(lessonID);
         Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
         Course course = CourseDAO.getCourse(chapter.getCourseID());
-        return "redirect:../learn/" + course.getCourseID() + "/" + lessonID;
+        return "redirect:/learn/" + course.getCourseID() + "/" + lessonID;
     }
 
     @RequestMapping(value = "/markLessonComplete/{lessonID}", method = RequestMethod.POST)
@@ -80,7 +80,7 @@ public class LearnController {
         Lesson lesson = LessonDAO.getLesson(lessonID);
         QuizResultDAO.insertQuizResult(new QuizResult(0, lessonID, user.getID(), new Date(), new Date((new Date()).getTime() + lesson.getTime() * 60000)));
 
-        return "redirect:../learn/" + ChapterDAO.getChapter(lesson.getChapterID()).getCourseID() + "/" + lessonID;
+        return "redirect:/learn/" + ChapterDAO.getChapter(lesson.getChapterID()).getCourseID() + "/" + lessonID;
     }
 
     @RequestMapping(value = "/updateChosenAnswer/{quizResultID}/{questionID}/{data}", method = RequestMethod.POST)
@@ -124,7 +124,7 @@ public class LearnController {
         //check logged in
         if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:../login";
+            return "redirect:/login";
         }
 
         User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
@@ -132,12 +132,12 @@ public class LearnController {
         //check quizResult exist
         QuizResult quizResult = QuizResultDAO.getQuizResult(quizResultID);
         if (quizResult == null) {
-            return "redirect:../";
+            return "redirect:/";
         }
 
         //check owner
         if (quizResult.getUserID() != user.getID()) {
-            return "redirect:../";
+            return "redirect:/";
         }
 
         Lesson lesson = LessonDAO.getLesson(quizResult.getLessonID());
@@ -145,7 +145,7 @@ public class LearnController {
 
         //if quiz end yet
         if (quizResult.getEndTime().before(new Date())) {
-            return "redirect:../learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();
+            return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();
         }
 
         //set endTime to current
@@ -158,7 +158,7 @@ public class LearnController {
             LessonDAO.insertLessonCompleted(user.getID(), lesson.getLessonID(), request);
         }
 
-        return "redirect:../learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();
+        return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();
     }
 
 }

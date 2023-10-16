@@ -15,6 +15,6 @@
             }
         }
 
-        fetch("/updateChosenAnswer/<%out.print(quizResult.getQuizResultID());%>/" + questionID.slice(8) + "/" + paramsSend, {method: 'POST'}).catch(error => console.error(error));
+        fetch("/learn/updateChosenAnswer/<%out.print(quizResult.getQuizResultID());%>/" + questionID.slice(8) + "/" + paramsSend, {method: 'POST'}).catch(error => console.error(error));
     }
 </script>

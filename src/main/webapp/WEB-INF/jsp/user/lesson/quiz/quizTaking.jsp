@@ -93,7 +93,7 @@
             </div>
 
             <div class="finishBtn">
-                <a href="/endAQuiz/<%out.print(quizResult.getQuizResultID());%>">
+                <a href="/learn/endAQuiz/<%out.print(quizResult.getQuizResultID());%>">
                     <p>Finish</p>
                 </a>
             </div>
