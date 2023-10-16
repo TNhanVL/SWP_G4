@@ -25,11 +25,32 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Controller
-@RequestMapping("/course")
-public class CourseController {
+@RequestMapping("/cart")
+public class CartController {
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String cart(ModelMap model) {
+        return "user/cart";
+    }
+
+    @RequestMapping(value = "/add/{courseID}", method = RequestMethod.GET)
+    public String addOrderByCourseID(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
+
+        //check logged in
+        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
+            request.getSession().setAttribute("error", "You need to log in to continue!");
+            return "redirect:/login";
+        }
+
+        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+
+        CourseDAO.insertCartProduct(user.getID(), courseID);
+
+        return "redirect:/course/" + courseID;
+    }
 
     @RequestMapping(value = "/deleteOrder/{courseID}", method = RequestMethod.GET)
-    public String deleteOrderFromCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
+    public String deleteOrderFromCart(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
 
         //check logged in
         if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
@@ -41,17 +62,7 @@ public class CourseController {
 
         CourseDAO.deleteCartProduct(user.getID(), courseID);
 
-        return "redirect:/course/" + courseID;
+        return "redirect:/cart";
     }
 
-    @RequestMapping(value = "/{courseID}", method = RequestMethod.GET)
-    public String course(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID) {
-        model.addAttribute("courseID", courseID);
-        return "user/course";
-    }
-
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public String allCourses(HttpServletRequest request, HttpServletResponse response) {
-        return "user/allCourses";
-    }
 }

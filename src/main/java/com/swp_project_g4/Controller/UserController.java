@@ -226,27 +226,6 @@ public class UserController {
         return "user/main";
     }
 
-    @RequestMapping(value = "/cart", method = RequestMethod.GET)
-    public String cart(ModelMap model) {
-        return "user/cart";
-    }
-
-    @RequestMapping(value = "/cart/deleteOrder/{courseID}", method = RequestMethod.GET)
-    public String deleteOrderFromCart(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
-
-        //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
-            request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:/login";
-        }
-
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
-
-        CourseDAO.deleteCartProduct(user.getID(), courseID);
-
-        return "redirect:/cart";
-    }
-
     @RequestMapping(value = "/checkOut", method = RequestMethod.POST)
     public String checkOutPost(ModelMap model, HttpServletRequest request) {
 
@@ -501,8 +480,4 @@ public class UserController {
         return "redirect:../learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();
     }
 
-    @RequestMapping(value = "/course/all", method = RequestMethod.GET)
-    public String allCourses(HttpServletRequest request, HttpServletResponse response) {
-        return "user/allCourses";
-    }
 }

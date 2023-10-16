@@ -82,7 +82,7 @@
                                 } else if (CourseDAO.checkCartProduct(user.getID(), course.getCourseID())) {
                                     out.print("<a href=\"./deleteOrder/" + course.getCourseID() + "\">Delete from cart</a>");
                                 } else {
-                                    out.print("<a href=\"./addOrder/" + course.getCourseID() + "\">Add to cart</a>");
+                                    out.print("<a href=\"/cart/add/" + course.getCourseID() + "\">Add to cart</a>");
                                 }
                             } else {
                                 //if not logged in
