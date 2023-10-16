@@ -145,7 +145,26 @@ public class ChapterDAO extends DBConnection {
         return false;
     }
 
-    
+    public static boolean deleteChapter(int ID) {
+        try {
+            if (!existChapter(ID)) {
+                return false;
+            }
+            connect();
+            statement = conn.prepareStatement("delete from chapter where ID=?");
+            statement.setInt(1, ID);
+            statement.execute();
+            disconnect();
+            if (!existChapter(ID)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         System.out.println(getChaptersByCourseID(1));
