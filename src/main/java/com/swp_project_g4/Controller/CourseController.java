@@ -1,28 +1,16 @@
 package com.swp_project_g4.Controller;
 
-import com.mservice.enums.RequestType;
-import com.mservice.momo.MomoPay;
-import com.swp_project_g4.Database.*;
-import com.swp_project_g4.Model.*;
+import com.swp_project_g4.Database.CourseDAO;
+import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.CookieServices;
-import com.swp_project_g4.Service.GoogleUtils;
-import com.swp_project_g4.Service.JwtUtil;
-import com.swp_project_g4.Service.MD5;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/course")

@@ -347,46 +347,6 @@ public class UserController {
         return "redirect:./profile";
     }
 
-    @RequestMapping(value = "/learn/{courseID}", method = RequestMethod.GET)
-    public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID) {
-        model.addAttribute("courseID", courseID);
-        return "user/lesson";
-    }
-
-    @RequestMapping(value = "/learn/{courseID}/{lessonID}", method = RequestMethod.GET)
-    public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID, @PathVariable int lessonID) {
-        model.addAttribute("courseID", courseID);
-        model.addAttribute("lessonID", lessonID);
-        return "user/lesson";
-    }
-
-    @RequestMapping(value = "/markLessonComplete/{lessonID}", method = RequestMethod.GET)
-//    @ResponseBody
-    public String markLessonComplete(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
-        //check logged in
-        if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-            User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
-            LessonDAO.insertLessonCompleted(user.getID(), lessonID, request);
-        }
-
-        Lesson lesson = LessonDAO.getLesson(lessonID);
-        Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
-        Course course = CourseDAO.getCourse(chapter.getCourseID());
-        return "redirect:../learn/" + course.getCourseID() + "/" + lessonID;
-    }
-
-    @RequestMapping(value = "/markLessonComplete/{lessonID}", method = RequestMethod.POST)
-    @ResponseBody
-    public String markLessonCompletePost(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
-        //check logged in
-        if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-            User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
-            LessonDAO.insertLessonCompleted(user.getID(), lessonID, request);
-        }
-
-        return "ok";
-    }
-
     @RequestMapping(value = "/startAQuiz/{lessonID}", method = RequestMethod.GET)
     public String startAQuiz(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
         //check logged in
