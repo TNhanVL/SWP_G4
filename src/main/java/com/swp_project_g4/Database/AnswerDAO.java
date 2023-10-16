@@ -13,22 +13,22 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Gr4
+ * @author Thanh Duong
  */
 public class AnswerDAO extends DBConnection {
     
-    public static boolean existAnswer(int ID) {
+    public static boolean existAnswer(int answerID) {
         boolean ok = false;
         try {
             //connect to database
             connect();
             
-            statement = conn.prepareStatement("select ID from answer where ID = ?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("select answerID from answer where answerID = ?");
+            statement.setInt(1, answerID);
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
-                if (resultSet.getInt("ID") == ID) {
+                if (resultSet.getInt("answerID") == answerID) {
                     ok = true;
                 }
             }
@@ -42,20 +42,20 @@ public class AnswerDAO extends DBConnection {
         return ok;
     }
     
-    public static Answer getAnswer(int ID) {
+    public static Answer getAnswer(int answerID) {
         Answer answer = null;
         
         try {
             //connect to database
             connect();
             
-            statement = conn.prepareStatement("select * from answer where ID = ?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("select * from answer where answerID = ?");
+            statement.setInt(1, answerID);
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
                 answer = new Answer(
-                        resultSet.getInt("ID"),
+                        resultSet.getInt("answerID"),
                         resultSet.getString("content"),
                         resultSet.getBoolean("correct"),
                         resultSet.getInt("questionID")
@@ -83,7 +83,7 @@ public class AnswerDAO extends DBConnection {
             
             while (resultSet.next()) {
                 Answer answer = new Answer(
-                        resultSet.getInt("ID"),
+                        resultSet.getInt("answerID"),
                         resultSet.getString("content"),
                         resultSet.getBoolean("correct"),
                         resultSet.getInt("questionID")
@@ -125,11 +125,11 @@ public class AnswerDAO extends DBConnection {
             //connect to database
             connect();
             
-            statement = conn.prepareStatement("update answer set content=?, correct=?, questionID=? where ID=?");
+            statement = conn.prepareStatement("update answer set content=?, correct=?, questionID=? where answerID=?");
             statement.setString(1, answer.getContent());
             statement.setBoolean(2, answer.isCorrect());
             statement.setInt(3, answer.getQuestionID());
-            statement.setInt(4, answer.getID());
+            statement.setInt(4, answer.getAnswerID());
 
             //disconnect to database
             disconnect();
@@ -141,17 +141,17 @@ public class AnswerDAO extends DBConnection {
         return false;
     }
     
-    public static boolean deleteAnswer(int ID) {
+    public static boolean deleteAnswer(int answerID) {
         try {
-            if (!existAnswer(ID)) {
+            if (!existAnswer(answerID)) {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from answer where ID=?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("delete from answer where answerID=?");
+            statement.setInt(1, answerID);
             statement.execute();
             disconnect();
-            if (!existAnswer(ID)) {
+            if (!existAnswer(answerID)) {
                 return true;
             } else {
                 return false;

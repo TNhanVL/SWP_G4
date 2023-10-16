@@ -56,7 +56,7 @@ public class OrganizationDAO extends DBConnection {
                 organization = new Organization(
                         resultSet.getInt("ID"),
                         resultSet.getString("name"),
-                        resultSet.getString("logo"),
+                        resultSet.getString("picture"),
                         resultSet.getString("description"));
             }
 
@@ -73,9 +73,9 @@ public class OrganizationDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into organization(name,logo,description) values (?,?,?)");
+            statement = conn.prepareStatement("insert into organization(name,picture,description) values (?,?,?)");
             statement.setString(1, organization.getName());
-            statement.setString(2, organization.getLogo());
+            statement.setString(2, organization.getPicture());
             statement.setString(3, organization.getDescription());
             statement.executeUpdate();
 
@@ -95,9 +95,9 @@ public class OrganizationDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update organization set name=?, logo=?,description=? where ID =?");
+            statement = conn.prepareStatement("update organization set name=?, picture=?,description=? where ID =?");
             statement.setString(1, organization.getName());
-            statement.setString(2, organization.getLogo());
+            statement.setString(2, organization.getPicture());
             statement.setString(3, organization.getDescription());
             statement.setInt(4, organization.getID());
             statement.executeUpdate();

@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Gr4
+ * @author Thanh Duong
  */
 public class ChosenAnswerDAO extends DBConnection {
 

@@ -19,18 +19,18 @@ import java.util.logging.Logger;
  */
 public class QuizResultDAO extends DBConnection {
 
-    public static boolean existQuizResult(int ID) {
+    public static boolean existQuizResult(int quizResultID) {
         boolean ok = false;
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select ID from quizResult where ID = ?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("select quizResultID from quizResult where quizResultID = ?");
+            statement.setInt(1, quizResultID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                if (resultSet.getInt("ID") == ID) {
+                if (resultSet.getInt("quizResultID") == quizResultID) {
                     ok = true;
                 }
             }
@@ -44,20 +44,20 @@ public class QuizResultDAO extends DBConnection {
         return ok;
     }
 
-    public static QuizResult getQuizResult(int ID) {
+    public static QuizResult getQuizResult(int quizResultID) {
         QuizResult quizResult = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from quizResult where ID = ?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("select * from quizResult where quizResultID = ?");
+            statement.setInt(1, quizResultID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 quizResult = new QuizResult(
-                        resultSet.getInt("ID"),
+                        resultSet.getInt("quizResultID"),
                         resultSet.getInt("lessonID"),
                         resultSet.getInt("userID"),
                         resultSet.getTimestamp("startTime"),
@@ -73,8 +73,8 @@ public class QuizResultDAO extends DBConnection {
         return quizResult;
     }
 
-    public static int getQuizResultPoint(int ID) {
-        QuizResult quizResult = getQuizResult(ID);
+    public static int getQuizResultPoint(int quizResultID) {
+        QuizResult quizResult = getQuizResult(quizResultID);
 
         if (quizResult == null) {
             return 0;
@@ -85,7 +85,7 @@ public class QuizResultDAO extends DBConnection {
         int point = 0;
 
         for (Question question : questions) {
-            if (ChosenAnswerDAO.CheckChosenAnswerCorrect(quizResult.getID(), question.getQuestionID())) {
+            if (ChosenAnswerDAO.CheckChosenAnswerCorrect(quizResult.getQuizResultID(), question.getQuestionID())) {
                 point++;
             }
         }
@@ -107,7 +107,7 @@ public class QuizResultDAO extends DBConnection {
 
             if (resultSet.next()) {
                 quizResult = new QuizResult(
-                        resultSet.getInt("ID"),
+                        resultSet.getInt("quizResultID"),
                         resultSet.getInt("lessonID"),
                         resultSet.getInt("userID"),
                         resultSet.getTimestamp("startTime"),
@@ -160,12 +160,12 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update quizResult set lessonID=?,userID=?, startTime=?, endTime=? where ID=?");
+            statement = conn.prepareStatement("update quizResult set lessonID=?,userID=?, startTime=?, endTime=? where quizResultID=?");
             statement.setInt(1, quizResult.getLessonID());
             statement.setInt(2, quizResult.getUserID());
             statement.setString(3, dateFormat.format(quizResult.getStartTime()));
             statement.setString(4, dateFormat.format(quizResult.getEndTime()));
-            statement.setInt(5, quizResult.getID());
+            statement.setInt(5, quizResult.getQuizResultID());
             statement.executeUpdate();
 
             //disconnect to database
@@ -178,17 +178,17 @@ public class QuizResultDAO extends DBConnection {
         return false;
     }
 
-    public static boolean deleteQuizResult(int ID) {
+    public static boolean deleteQuizResult(int quizResultID) {
         try {
-            if (!existQuizResult(ID)) {
+            if (!existQuizResult(quizResultID)) {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from quizResult where ID=?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("delete from quizResult where quizResultID=?");
+            statement.setInt(1, quizResultID);
             statement.execute();
             disconnect();
-            return !existQuizResult(ID);
+            return !existQuizResult(quizResultID);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

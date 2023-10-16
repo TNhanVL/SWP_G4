@@ -17,18 +17,18 @@ import java.util.logging.Logger;
  */
 public class ChapterDAO extends DBConnection {
 
-    public static boolean existChapter(int ID) {
+    public static boolean existChapter(int chapterID) {
         boolean ok = false;
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select ID from chapter where ID = ?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("select chapterID from chapter where chapterID = ?");
+            statement.setInt(1, chapterID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                if (resultSet.getInt("ID") == ID) {
+                if (resultSet.getInt("chapterID") == chapterID) {
                     ok = true;
                 }
             }
@@ -42,20 +42,20 @@ public class ChapterDAO extends DBConnection {
         return ok;
     }
 
-    public static Chapter getChapter(int ID) {
+    public static Chapter getChapter(int chapterID) {
         Chapter chapter = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from chapter where ID = ?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("select * from chapter where chapterID = ?");
+            statement.setInt(1, chapterID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 chapter = new Chapter(
-                        resultSet.getInt("ID"),
+                        resultSet.getInt("chapterID"),
                         resultSet.getInt("courseID"),
                         resultSet.getInt("index"),
                         resultSet.getString("name"),
@@ -83,7 +83,7 @@ public class ChapterDAO extends DBConnection {
 
             while (resultSet.next()) {
                 Chapter chapter = new Chapter(
-                        resultSet.getInt("ID"),
+                        resultSet.getInt("chapterID"),
                         resultSet.getInt("courseID"),
                         resultSet.getInt("index"),
                         resultSet.getString("name"),
@@ -127,12 +127,12 @@ public class ChapterDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update chapter set courseID=?, [index]=?, name=?, description=? where ID=?");
+            statement = conn.prepareStatement("update chapter set courseID=?, [index]=?, name=?, description=? where chapterID=?");
             statement.setInt(1, chapter.getCourseID());
             statement.setInt(2, chapter.getIndex());
             statement.setString(3, chapter.getName());
             statement.setString(4, chapter.getDescription());
-            statement.setInt(5, chapter.getID());
+            statement.setInt(5, chapter.getChapterID());
             statement.executeUpdate();
 
             //disconnect to database
@@ -145,17 +145,17 @@ public class ChapterDAO extends DBConnection {
         return false;
     }
 
-    public static boolean deleteChapter(int ID) {
+    public static boolean deleteChapter(int chapterID) {
         try {
-            if (!existChapter(ID)) {
+            if (!existChapter(chapterID)) {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from chapter where ID=?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("delete from chapter where chapterID=?");
+            statement.setInt(1, chapterID);
             statement.execute();
             disconnect();
-            if (!existChapter(ID)) {
+            if (!existChapter(chapterID)) {
                 return true;
             } else {
                 return false;

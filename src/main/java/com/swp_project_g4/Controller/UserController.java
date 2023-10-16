@@ -7,7 +7,7 @@ import com.swp_project_g4.Database.QuestionDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.GooglePojo;
 import com.swp_project_g4.Model.Lesson;
-import com.swp_project_g4.Model.Mooc;
+import com.swp_project_g4.Model.Chapter;
 import com.swp_project_g4.Model.QuizResult;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.CookieServices;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-// @RequestMapping("/user")
+//@RequestMapping("/user")
 public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -51,6 +51,7 @@ public class UserController {
 
                 User user = UserDAO.getUserByEmail(googlePojo.getEmail());
 
+//                System.out.println(googlePojo);
                 if (user != null) {
                     String TokenBody = JwtUtil.generateJwt(user.getUsername(), user.getPassword());
                     System.out.println(user);
@@ -230,52 +231,20 @@ public class UserController {
         return "user/cart";
     }
 
-    @RequestMapping(value = "/course/addOrder/{courseID}", method = RequestMethod.GET)
-    public String addOrderFromCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
-
-        //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
-            request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:../../login";
-        }
-
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
-
-        CourseDAO.insertOrderCourse(user.getID(), courseID);
-
-        return "redirect:../../course/" + courseID;
-    }
-
-    @RequestMapping(value = "/course/deleteOrder/{courseID}", method = RequestMethod.GET)
-    public String deleteOrderFromCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
-
-        //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
-            request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:../../login";
-        }
-
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
-
-        CourseDAO.deleteOrderCourse(user.getID(), courseID);
-
-        return "redirect:../../course/" + courseID;
-    }
-
     @RequestMapping(value = "/cart/deleteOrder/{courseID}", method = RequestMethod.GET)
     public String deleteOrderFromCart(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
 
         //check logged in
         if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:../../login";
+            return "redirect:/login";
         }
 
         User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
 
-        CourseDAO.deleteOrderCourse(user.getID(), courseID);
+        CourseDAO.deleteCartProduct(user.getID(), courseID);
 
-        return "redirect:../../cart";
+        return "redirect:/cart";
     }
 
     @RequestMapping(value = "/checkOut", method = RequestMethod.POST)
@@ -299,7 +268,7 @@ public class UserController {
                     int courseID = Integer.parseInt(courseIDStr);
 
                     //check in cart
-                    if (!CourseDAO.checkOrderCourse(user.getID(), courseID)) {
+                    if (!CourseDAO.checkCartProduct(user.getID(), courseID)) {
                         continue;
                     }
 
@@ -381,11 +350,11 @@ public class UserController {
                     int courseID = Integer.parseInt(courseIDStr);
 
                     //check in cart
-                    if (!CourseDAO.checkOrderCourse(user.getID(), courseID)) {
+                    if (!CourseDAO.checkCartProduct(user.getID(), courseID)) {
                         continue;
                     }
 
-                    CourseDAO.deleteOrderCourse(user.getID(), courseID);
+                    CourseDAO.deleteCartProduct(user.getID(), courseID);
                     CourseDAO.insertPurchasedCourse(user.getID(), courseID);
 
                 } catch (NumberFormatException e) {
@@ -422,9 +391,9 @@ public class UserController {
         }
 
         Lesson lesson = LessonDAO.getLesson(lessonID);
-        Mooc mooc = MoocDAO.getMooc(lesson.getMoocID());
-        Course course = CourseDAO.getCourse(mooc.getCourseID());
-        return "redirect:../learn/" + course.getID() + "/" + lessonID;
+        Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
+        Course course = CourseDAO.getCourse(chapter.getCourseID());
+        return "redirect:../learn/" + course.getCourseID() + "/" + lessonID;
     }
 
     @RequestMapping(value = "/markLessonComplete/{lessonID}", method = RequestMethod.POST)
@@ -444,23 +413,23 @@ public class UserController {
         //check logged in
         if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:../../login";
+            return "redirect:/login";
         }
 
         User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
         Lesson lesson = LessonDAO.getLesson(lessonID);
         QuizResultDAO.insertQuizResult(new QuizResult(0, lessonID, user.getID(), new Date(), new Date((new Date()).getTime() + lesson.getTime() * 60000)));
 
-        return "redirect:../learn/" + MoocDAO.getMooc(lesson.getMoocID()).getCourseID() + "/" + lessonID;
+        return "redirect:../learn/" + ChapterDAO.getChapter(lesson.getChapterID()).getCourseID() + "/" + lessonID;
     }
 
-    @RequestMapping(value = "/updateQuestionResult/{quizResultID}/{questionID}/{data}", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateChosenAnswer/{quizResultID}/{questionID}/{data}", method = RequestMethod.POST)
     @ResponseBody
-    public String updateQuestionResult(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int quizResultID, @PathVariable int questionID, @PathVariable String data) {
+    public String updateChosenAnswer(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int quizResultID, @PathVariable int questionID, @PathVariable String data) {
         //check logged in
         if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:../../login";
+            return "redirect:/login";
         }
 
         User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
@@ -475,13 +444,13 @@ public class UserController {
             return "out of time!";
         }
 
-        QuestionResultDAO.deleteQuestionResultOfQuestion(quizResultID, questionID);
+        ChosenAnswerDAO.deleteChosenAnswerOfQuestion(quizResultID, questionID);
 
         String[] answerIDs = data.split("_");
         for (String i : answerIDs) {
             try {
                 int answerID = Integer.parseInt(i);
-                QuestionResultDAO.insertQuestionResult(quizResultID, questionID, answerID);
+                ChosenAnswerDAO.insertChosenAnswer(quizResultID, questionID, answerID);
             } catch (NumberFormatException e) {
 
             }
@@ -512,11 +481,11 @@ public class UserController {
         }
 
         Lesson lesson = LessonDAO.getLesson(quizResult.getLessonID());
-        Mooc mooc = MoocDAO.getMooc(lesson.getMoocID());
+        Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
 
         //if quiz end yet
         if (quizResult.getEndTime().before(new Date())) {
-            return "redirect:../learn/" + mooc.getCourseID() + "/" + lesson.getID();
+            return "redirect:../learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();
         }
 
         //set endTime to current
@@ -524,21 +493,15 @@ public class UserController {
         QuizResultDAO.updateQuizResult(quizResult);
 
         int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
-        int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lesson.getID());
+        int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lesson.getLessonID());
         if (numberOfCorrectQuestion * 100 >= numberOfQuestion * 80) {
-            LessonDAO.insertLessonCompleted(user.getID(), lesson.getID(), request);
+            LessonDAO.insertLessonCompleted(user.getID(), lesson.getLessonID(), request);
         }
 
-        return "redirect:../learn/" + mooc.getCourseID() + "/" + lesson.getID();
+        return "redirect:../learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();
     }
 
-    @RequestMapping(value = "/course/{courseID}", method = RequestMethod.GET)
-    public String course(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID) {
-        model.addAttribute("courseID", courseID);
-        return "user/course";
-    }
-
-    @RequestMapping(value = "/allCourses", method = RequestMethod.GET)
+    @RequestMapping(value = "/course/all", method = RequestMethod.GET)
     public String allCourses(HttpServletRequest request, HttpServletResponse response) {
         return "user/allCourses";
     }
