@@ -99,8 +99,30 @@ public class ChapterDAO extends DBConnection {
         return chapters;
     }
 
-    
+    public static boolean insertChapter(Chapter chapter) {
+        try {
+            //connect to database
+            connect();
 
+            statement = conn.prepareStatement("insert into chapter(courseID,[index],name,description) values(?,?,?,?)");
+            statement.setInt(1, chapter.getCourseID());
+            statement.setInt(2, chapter.getIndex());
+            statement.setString(3, chapter.getName());
+            statement.setString(4, chapter.getDescription());
+            statement.executeUpdate();
+
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return false;
+    }
+
+    
     public static void main(String[] args) {
         System.out.println(getChaptersByCourseID(1));
     }
