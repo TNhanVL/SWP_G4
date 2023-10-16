@@ -42,7 +42,65 @@ public class ChapterDAO extends DBConnection {
         return ok;
     }
 
+    public static Chapter getChapter(int ID) {
+        Chapter chapter = null;
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select * from chapter where ID = ?");
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                chapter = new Chapter(
+                        resultSet.getInt("ID"),
+                        resultSet.getInt("courseID"),
+                        resultSet.getInt("index"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"));
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return chapter;
+    }
+
+    public static ArrayList<Chapter> getChaptersByCourseID(int courseID) {
+        ArrayList<Chapter> chapters = new ArrayList<>();
+
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select * from chapter where courseID = ? order by [index]");
+            statement.setInt(1, courseID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Chapter chapter = new Chapter(
+                        resultSet.getInt("ID"),
+                        resultSet.getInt("courseID"),
+                        resultSet.getInt("index"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"));
+                chapters.add(chapter);
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return chapters;
+    }
+
     
+
     public static void main(String[] args) {
         System.out.println(getChaptersByCourseID(1));
     }
