@@ -80,7 +80,7 @@
                                 if (CourseDAO.checkPurchasedCourse(user.getID(), course.getCourseID())) {
                                     out.print("<a href=\"../learn/" + course.getCourseID() + "\">Learn now</a>");
                                 } else if (CourseDAO.checkCartProduct(user.getID(), course.getCourseID())) {
-                                    out.print("<a href=\"./deleteOrder/" + course.getCourseID() + "\">Delete from cart</a>");
+                                    out.print("<a href=\"/course/deleteOrder/" + course.getCourseID() + "\">Delete from cart</a>");
                                 } else {
                                     out.print("<a href=\"/cart/add/" + course.getCourseID() + "\">Add to cart</a>");
                                 }

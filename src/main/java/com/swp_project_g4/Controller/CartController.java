@@ -49,7 +49,7 @@ public class CartController {
         return "redirect:/course/" + courseID;
     }
 
-    @RequestMapping(value = "/deleteOrder/{courseID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{courseID}", method = RequestMethod.GET)
     public String deleteOrderFromCart(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
 
         //check logged in
