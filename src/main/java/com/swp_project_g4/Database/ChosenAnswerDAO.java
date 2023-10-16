@@ -39,6 +39,35 @@ public class ChosenAnswerDAO extends DBConnection {
         return false;
     }
 
+    public static boolean CheckChosenAnswerCorrect(int quizResultID, int questionID) {
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select 1 from\n"
+                    + "(select selectedAnswer as ID from chosenAnswer where quizResultID = ? and questionID = ?) a\n"
+                    + "full join\n"
+                    + "(select answerID from answer where questionID = ? and correct = 1) b\n"
+                    + "on a.ID = b.answerID\n"
+                    + "where a.ID is null or b.answerID is null");
+            statement.setInt(1, quizResultID);
+            statement.setInt(2, questionID);
+            statement.setInt(3, questionID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return false;
+            }
+
+            //disconnect to database
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //return result
+        return true;
+    }
+
     
 
     public static void main(String[] args) {
