@@ -15,6 +15,30 @@ import java.util.logging.Logger;
  */
 public class ChosenAnswerDAO extends DBConnection {
 
+    public static boolean CheckChosenAnswer(int quizResultID, int questionID, int selectedAnswer) {
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select 1 from chosenAnswer where quizResultID = ? and questionID = ? and selectedAnswer = ?");
+            statement.setInt(1, quizResultID);
+            statement.setInt(2, questionID);
+            statement.setInt(3, selectedAnswer);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return true;
+            }
+
+            //disconnect to database
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //return result
+        return false;
+    }
+
     
 
     public static void main(String[] args) {
