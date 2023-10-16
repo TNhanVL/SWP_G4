@@ -6,7 +6,7 @@ package com.swp_project_g4.Model;
 
 /**
  *
- * @author Thanh Duong
+ * @author TTNhan
  */
 public class Lecturer extends User {
 

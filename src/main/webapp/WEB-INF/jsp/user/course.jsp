@@ -1,6 +1,6 @@
 <%-- 
     Document   : course
-    Created on : Jul 4, 2023, 9:35:46 PM
+    Created on : Oct 4, 2023, 9:35:46 PM
     Author     : TTNhan
 --%>
 
@@ -9,7 +9,7 @@
 <%@ page import="com.swp_project_g4.Database.*" %>
 <%-- 
     Document   : allCourse
-    Created on : Jul 4, 2023, 9:20:17 PM
+    Created on : Oct 4, 2023, 9:20:17 PM
     Author     : TTNhan
 --%>
 

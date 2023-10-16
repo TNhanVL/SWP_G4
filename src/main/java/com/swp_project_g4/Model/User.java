@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
- * @author Thanh Duong
+ * @author TTNhan
  */
 public class User {
 

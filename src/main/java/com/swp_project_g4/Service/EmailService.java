@@ -22,7 +22,7 @@ import javax.mail.internet.MimeMessage;
  */
 /**
  *
- * @author Thanh Duong
+ * @author TTNhan
  */
 public class EmailService {
 //    thanhduongjnguyen@gmail.com

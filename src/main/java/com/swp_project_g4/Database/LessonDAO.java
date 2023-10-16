@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
- * @author Thanh Duong
+ * @author TTNhan
  */
 public class LessonDAO extends DBConnection {
 

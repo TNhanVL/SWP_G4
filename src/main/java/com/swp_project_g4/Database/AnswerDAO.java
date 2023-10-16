@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Thanh Duong
+ * @author TTNhan
  */
 public class AnswerDAO extends DBConnection {
     

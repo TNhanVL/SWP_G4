@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Thanh Duong
+ * @author TTNhan
  */
 public class QuizResultDAO extends DBConnection {
 
