@@ -17,7 +17,7 @@
 
 <%
     if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
-        response.sendRedirect("./login");
+        response.sendRedirect("/login");
     }
 
     //Get ID

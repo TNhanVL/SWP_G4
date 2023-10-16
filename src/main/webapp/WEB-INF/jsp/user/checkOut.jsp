@@ -15,7 +15,7 @@
     User user = null;
     if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
         request.getSession().setAttribute("error", "You must be logged in before enter cart!");
-        response.sendRedirect("./login");
+        response.sendRedirect("/login");
         return;
     } else {
         user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
@@ -46,7 +46,7 @@
         <!--END HEADER -->
 
         <div id="body-checkout">
-            <form method="post" action="/checkOutWithPayment?price=<%
+            <form method="post" action="/checkOut/withPayment?price=<%
                 out.print(price);
                 for (Course course : courses) {
                     out.print("&course=" + course.getCourseID());

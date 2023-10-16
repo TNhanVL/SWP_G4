@@ -2,24 +2,15 @@ package com.swp_project_g4.Controller;
 
 import com.mservice.enums.RequestType;
 import com.mservice.momo.MomoPay;
-import com.swp_project_g4.Database.*;
-import com.swp_project_g4.Database.QuestionDAO;
+import com.swp_project_g4.Database.CourseDAO;
+import com.swp_project_g4.Database.UserDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.GooglePojo;
-import com.swp_project_g4.Model.Lesson;
-import com.swp_project_g4.Model.Chapter;
-import com.swp_project_g4.Model.QuizResult;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.GoogleUtils;
 import com.swp_project_g4.Service.JwtUtil;
 import com.swp_project_g4.Service.MD5;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,6 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Controller
 //@RequestMapping("/user")
@@ -43,7 +41,7 @@ public class UserController {
     public String loginWithGG(HttpServletRequest request, HttpServletResponse response, @RequestParam String code) {
         if (code == null || code.isEmpty()) {
             request.getSession().setAttribute("error", "Error when login with Google!");
-            return "redirect:./login";
+            return "redirect:/login";
         } else {
             try {
                 String accessToken = GoogleUtils.getToken(code);
@@ -69,7 +67,7 @@ public class UserController {
             } catch (IOException ex) {
                 Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 request.getSession().setAttribute("error", "Error when login with Google!");
-                return "redirect:./login";
+                return "redirect:/login";
             }
 
         }
@@ -138,7 +136,7 @@ public class UserController {
 
         UserDAO.insertUser(user);
         request.getSession().setAttribute("success", "Signup successful!");
-        return "redirect:./login";
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
@@ -168,17 +166,17 @@ public class UserController {
 
         if (status < 0) {
             request.getSession().setAttribute("error", "Some error with database!");
-            return "redirect:./login";
+            return "redirect:/login";
         }
 
         if (status == 1) {
             request.getSession().setAttribute("error", "Username not exist!");
-            return "redirect:./login";
+            return "redirect:/login";
         }
 
         if (status == 2) {
             request.getSession().setAttribute("error", "Incorrect password!");
-            return "redirect:./login";
+            return "redirect:/login";
         }
 
         String TokenBody = JwtUtil.generateJwt(username, MD5.getMd5(password));
@@ -199,7 +197,7 @@ public class UserController {
             }
         }
         request.getSession().setAttribute("success", "Logout succeed!");
-        return "redirect:./login";
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -224,127 +222,6 @@ public class UserController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String mainPage(ModelMap model) {
         return "user/main";
-    }
-
-    @RequestMapping(value = "/checkOut", method = RequestMethod.POST)
-    public String checkOutPost(ModelMap model, HttpServletRequest request) {
-
-        //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
-            request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:./login";
-        }
-
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
-
-        //get all courses ID
-        String[] courseIDStrs = request.getParameterValues("course");
-        ArrayList<Course> courses = new ArrayList<>();
-
-        if (courseIDStrs != null) {
-            for (String courseIDStr : courseIDStrs) {
-                try {
-                    int courseID = Integer.parseInt(courseIDStr);
-
-                    //check in cart
-                    if (!CourseDAO.checkCartProduct(user.getID(), courseID)) {
-                        continue;
-                    }
-
-                    if (CourseDAO.existCourse(courseID)) {
-                        courses.add(CourseDAO.getCourse(courseID));
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println(e);
-                }
-            }
-        }
-
-        model.addAttribute("courses", courses);
-
-        if (courses.isEmpty()) {
-            request.getSession().setAttribute("error", "No chosing cart to checkout!");
-            return "redirect:./cart";
-        }
-
-        return "user/checkOut";
-    }
-
-    @RequestMapping(value = "/checkOutWithPayment", method = RequestMethod.POST)
-    public String checkOutWithPayment(ModelMap model, HttpServletRequest request, @RequestParam long price, @RequestParam String paymentMethod) {
-
-        //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
-            request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:./login";
-        }
-
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
-
-        //get all courses ID
-        String[] courseIDStrs = request.getParameterValues("course");
-
-        //get pay type
-        RequestType requestType;
-        if ("captureWallet".equals(paymentMethod)) {
-            requestType = RequestType.CAPTURE_WALLET;
-        } else {
-            requestType = RequestType.PAY_WITH_ATM;
-        }
-
-        String payLink = MomoPay.getPayLink(request, requestType, user.getID(), courseIDStrs, price);
-
-        if (payLink == null) {
-            request.getSession().setAttribute("error", "There are some error when checkout!");
-            return "redirect:./cart";
-        } else {
-            return "redirect:" + payLink;
-        }
-    }
-
-    @RequestMapping(value = "/finishedPayment", method = RequestMethod.GET)
-    public String finishedPayment(ModelMap model, HttpServletRequest request, @RequestParam String userID, @RequestParam int resultCode) {
-
-        User user = null;
-
-        try {
-            user = UserDAO.getUser(Integer.parseInt(userID));
-            if (resultCode != 0) {
-                throw new Exception();
-            }
-        } catch (NumberFormatException e) {
-            System.out.println(e);
-            request.getSession().setAttribute("error", "There are some error!");
-            return "redirect:./";
-        } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        //get all courses ID
-        String[] courseIDStrs = request.getParameterValues("course");
-
-        if (courseIDStrs != null) {
-            for (String courseIDStr : courseIDStrs) {
-                try {
-                    int courseID = Integer.parseInt(courseIDStr);
-
-                    //check in cart
-                    if (!CourseDAO.checkCartProduct(user.getID(), courseID)) {
-                        continue;
-                    }
-
-                    CourseDAO.deleteCartProduct(user.getID(), courseID);
-                    CourseDAO.insertPurchasedCourse(user.getID(), courseID);
-
-                } catch (NumberFormatException e) {
-                    System.out.println(e);
-                }
-            }
-        }
-
-        request.getSession().setAttribute("success", "Pay successful!");
-
-        return "redirect:./profile";
     }
 
 }

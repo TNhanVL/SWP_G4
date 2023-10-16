@@ -16,7 +16,7 @@
     User user = null;
     if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
         request.getSession().setAttribute("error", "You must be logged in before enter cart!");
-        response.sendRedirect("./login");
+        response.sendRedirect("/login");
         return;
     } else {
         user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
