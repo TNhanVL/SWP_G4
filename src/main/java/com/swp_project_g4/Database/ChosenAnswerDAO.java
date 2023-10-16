@@ -91,7 +91,18 @@ public class ChosenAnswerDAO extends DBConnection {
         return false;
     }
 
-    
+    public static void deleteChosenAnswerOfQuestion(int quizResultID, int questionID) {
+        try {
+            connect();
+            statement = conn.prepareStatement("delete from chosenAnswer where quizResultID = ? and questionID = ?");
+            statement.setInt(1, quizResultID);
+            statement.setInt(2, questionID);
+            statement.execute();
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public static void main(String[] args) {
         deleteChosenAnswerOfQuestion(1, 3);
