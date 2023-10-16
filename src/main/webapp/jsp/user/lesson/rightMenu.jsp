@@ -1,11 +1,5 @@
-<%-- 
-    Document   : rightMenu
-    Created on : Jul 5, 2023, 9:09:52 PM
-    Author     : TTNhan
---%>
-
-<%@page import="com.swp_project_g4.Database.LessonDAO"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.swp_project_g4.Database.LessonDAO" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <div class="rightSide">
     <h4><%out.print(course.getTitle());%></h4>
 
@@ -21,7 +15,9 @@
         <div class="partHeader">
             <div>
                 <h5>Part <%out.print(mooc1.getIndex() + ": " + mooc1.getTitle());%></h5>
-                <p class="progressLesson"><%out.print(LessonDAO.getNumberLessonsCompleted(user.getID(), mooc1.getID()) + "/" + lessons.size());%> Complete</p>
+                <p class="progressLesson"><%
+                    out.print(LessonDAO.getNumberLessonsCompleted(user.getID(), mooc1.getID()) + "/" + lessons.size());%>
+                    Complete</p>
             </div>
             <i class="fa-solid fa-chevron-down"></i>
 
