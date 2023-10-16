@@ -68,6 +68,29 @@ public class ChosenAnswerDAO extends DBConnection {
         return true;
     }
 
+    public static boolean insertChosenAnswer(int quizResultID, int questionID, int selectedAnswer) {
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("insert into chosenAnswer(quizResultID,questionID,selectedAnswer) values(?,?,?)");
+            statement.setInt(1, quizResultID);
+            statement.setInt(2, questionID);
+            statement.setInt(3, selectedAnswer);
+            statement.execute();
+
+            //disconnect to database
+            disconnect();
+
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return false;
+    }
+
     
 
     public static void main(String[] args) {
