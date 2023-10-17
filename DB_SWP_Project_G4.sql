@@ -60,8 +60,8 @@ CREATE TABLE course
     [description]  NVARCHAR(50),
     organizationID INT                NOT NULL,
     instructorID   INT                NOT NULL,
-    price          DECIMAL(10, 2)     NOT NULL,
-    rate           DECIMAL(2, 1)      NOT NULL,
+    price          NUMERIC(10, 2)     NOT NULL,
+    rate           NUMERIC(2, 1)      NOT NULL,
     FOREIGN KEY (organizationID) REFERENCES organization (ID),
     FOREIGN KEY (instructorID) REFERENCES [user] (ID)
 );
@@ -71,7 +71,7 @@ CREATE TABLE sale
 (
     saleID    INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     courseID  INT                NOT NULL,
-    price     DECIMAL(10, 2)     NOT NULL,
+    price     NUMERIC(10, 2)     NOT NULL,
     startDate DATE,
     endDate   DATE,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
@@ -104,8 +104,8 @@ CREATE TABLE [transaction]
     transactionID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     userID        INT                NOT NULL,
     courseID      INT                NOT NULL,
-    originPrice   DECIMAL(10, 2)     NOT NULL,
-    price         DECIMAL(10, 2)     NOT NULL,
+    originPrice   NUMERIC(10, 2)     NOT NULL,
+    price         NUMERIC(10, 2)     NOT NULL,
     type          INT,
     description   NTEXT,
     status        INT,
