@@ -22,7 +22,6 @@ public class Course {
     private String description;
     private int organizationID;
     private int lecturerID;
-    private double originPrice;
     private double price;
     private double rate;
 

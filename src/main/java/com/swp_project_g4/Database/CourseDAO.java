@@ -62,7 +62,6 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("description"),
                         resultSet.getInt("organizationID"),
                         resultSet.getInt("lecturerID"),
-                        resultSet.getDouble("originPrice"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate"));
             }
@@ -93,7 +92,6 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("description"),
                         resultSet.getInt("organizationID"),
                         resultSet.getInt("lecturerID"),
-                        resultSet.getDouble("originPrice"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate"));
                 courses.add(course);
@@ -125,7 +123,6 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("description"),
                         resultSet.getInt("organizationID"),
                         resultSet.getInt("lecturerID"),
-                        resultSet.getDouble("originPrice"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate"));
                 courses.add(course);
@@ -144,13 +141,12 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into course(name,[image],[description],organizationID,lecturerID,originPrice,price,rate) values (?,?,?,?,?,?,?,?)");
+            statement = conn.prepareStatement("insert into course(name,[image],[description],organizationID,lecturerID,price,rate) values (?,?,?,?,?,?,?)");
             statement.setString(1, course.getName());
             statement.setString(2, course.getImage());
             statement.setString(3, course.getDescription());
             statement.setInt(4, course.getOrganizationID());
             statement.setInt(5, course.getLecturerID());
-            statement.setDouble(6, course.getOriginPrice());
             statement.setDouble(7, course.getPrice());
             statement.setDouble(8, course.getRate());
 
@@ -172,13 +168,12 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update course set name=?, [image]=?, [description]=?,organizationID=?,lecturerID=?,originPrice=?,price=?,rate=? where courseID =?");
+            statement = conn.prepareStatement("update course set name=?, [image]=?, [description]=?,organizationID=?,lecturerID=?,price=?,rate=? where courseID =?");
             statement.setString(1, course.getName());
             statement.setString(2, course.getImage());
             statement.setString(3, course.getDescription());
             statement.setInt(4, course.getOrganizationID());
             statement.setInt(5, course.getLecturerID());
-            statement.setDouble(6, course.getOriginPrice());
             statement.setDouble(7, course.getPrice());
             statement.setDouble(8, course.getRate());
             statement.setInt(9, course.getCourseID());
