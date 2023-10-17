@@ -1,4 +1,4 @@
-drop table [admin], [transaction], chosenAnswer, answer, question, quizResult, post, lessonCompleted, lesson, chapter, cartProduct, purchasedCourse, [certificate], course, instructor, [user], organization, country
+drop table instruct, review, [admin], [transaction], chosenAnswer, answer, question, quizResult, post, lessonCompleted, lesson, chapter, cartProduct, purchasedCourse, [certificate], course, instructor, [user], organization, country
 -- Create the tables
 CREATE TABLE [admin]
 (
@@ -30,7 +30,7 @@ GO
 CREATE TABLE [user]
 (
     ID          INT IDENTITY (1,1) PRIMARY KEY,
-    picture      TEXT,
+    picture     TEXT,
     username    VARCHAR(50),
     [password]  VARCHAR(50),
     email       VARCHAR(320),
@@ -59,7 +59,7 @@ CREATE TABLE course
     [image]        TEXT,
     [description]  NVARCHAR(50),
     organizationID INT                NOT NULL,
-    instructorID     INT                NOT NULL,
+    instructorID   INT                NOT NULL,
     price          DECIMAL(10, 2)     NOT NULL,
     rate           DECIMAL(2, 1)      NOT NULL,
     FOREIGN KEY (organizationID) REFERENCES organization (ID),
@@ -98,6 +98,30 @@ CREATE TABLE [transaction]
     type          INT,
     description   NTEXT,
     status        INT,
+    FOREIGN KEY (userID) REFERENCES [user] (ID),
+    FOREIGN KEY (courseID) REFERENCES course (courseID),
+    UNIQUE (userID, courseID)
+);
+GO
+
+CREATE TABLE instruct
+(
+    userID   INT NOT NULL,
+    courseID INT NOT NULL,
+    FOREIGN KEY (userID) REFERENCES [user] (ID),
+    FOREIGN KEY (courseID) REFERENCES course (courseID),
+    UNIQUE (userID, courseID)
+);
+GO
+
+CREATE TABLE review
+(
+    reviewID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    userID   INT                NOT NULL,
+    courseID INT                NOT NULL,
+    reviewed BIT,
+    verified BIT,
+    note     NTEXT,
     FOREIGN KEY (userID) REFERENCES [user] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (userID, courseID)
