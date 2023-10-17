@@ -40,7 +40,7 @@
         <div id="main">
             <div class="box">
                 <form action="/signup" method="post" id="signUpForm" class="needs-validation">
-                    <input type="text" required="required" name="avatar" value="${user.avatar}" style="display: none">
+                    <input type="text" required="required" name="avatar" value="${user.picture}" style="display: none">
 
                     <h2>Sign up</h2>
                     <div class="inputBox">

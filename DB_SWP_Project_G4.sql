@@ -10,7 +10,7 @@ GO
 CREATE TABLE country
 (
     countryID INT PRIMARY KEY,
-    name      NVARCHAR(50)
+    name      NVARCHAR(60)
 );
 GO
 
@@ -30,10 +30,10 @@ GO
 CREATE TABLE [user]
 (
     ID          INT IDENTITY (1,1) PRIMARY KEY,
-    avatar      TEXT,
+    picture      TEXT,
     username    VARCHAR(50),
     [password]  VARCHAR(50),
-    email       VARCHAR(50),
+    email       VARCHAR(320),
     [firstName] NVARCHAR(50),
     [lastName]  NVARCHAR(50),
     [role]      INT,
@@ -230,7 +230,7 @@ INSERT INTO [admin](username, [password])
 VALUES ('admin', '0e7517141fb53f21ee439b355b5a1d0a'),
        ('quantri', '0e7517141fb53f21ee439b355b5a1d0a')
 GO
-INSERT INTO [user](avatar, username, [password], email, firstName, lastName, [role], birthday, countryID, [status])
+INSERT INTO [user](picture, username, [password], email, firstName, lastName, [role], birthday, countryID, [status])
 VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gmail.com', 'Nhan', 'Tran Thanh', 0,
         '1990-01-01', 16, 1),
        ('a.jpg', 'dylan12', '0cc175b9c0f1b6a831c399e269772661', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem', 0,

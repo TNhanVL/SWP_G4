@@ -75,7 +75,7 @@
                             <div class="form-group">
                                 <label for="avatar">avatar</label>
                                 <input type="text" class="form-control" id="avatar"
-                                       name="avatar" placeholder="Avatar" value="<%out.print(user.getAvatar());%>" required>
+                                       name="avatar" placeholder="Avatar" value="<%out.print(user.getPicture());%>" required>
                             </div>
                             <div class="form-group">
                                 <label for="username">username</label>

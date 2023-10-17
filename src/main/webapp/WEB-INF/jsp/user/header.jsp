@@ -69,15 +69,15 @@
 
                         boolean isUrl = false;
                         try {
-                            new URL(userHeader.getAvatar()).toURI();
+                            new URL(userHeader.getPicture()).toURI();
                             isUrl = true;
                         } catch (Exception e) {
                         }
 
                         if (isUrl) {
-                            out.print(userHeader.getAvatar());
+                            out.print(userHeader.getPicture());
                         } else {
-                            out.print("/public/media/user/" + userHeader.getID() + "/" + userHeader.getAvatar());
+                            out.print("/public/media/user/" + userHeader.getID() + "/" + userHeader.getPicture());
                         }
                     } else {
                         out.print("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png");

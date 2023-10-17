@@ -77,7 +77,6 @@ public class UserController {
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signup(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getAttribute("userSignUp");
-        System.out.println(user);
         return "user/signup";
     }
 

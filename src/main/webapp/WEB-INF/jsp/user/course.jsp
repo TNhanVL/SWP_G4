@@ -66,7 +66,7 @@
                         <h1><%out.print(course.getName());%></h1>
                     </div>
                     <div class="instructorInfor">
-                        <img src=<%out.print(request.getContextPath() + "/public/media/user/" + lecturer.getID() + "/" + lecturer.getAvatar());%> alt="" class="instructorImg">
+                        <img src=<%out.print(request.getContextPath() + "/public/media/user/" + lecturer.getID() + "/" + lecturer.getPicture());%> alt="" class="instructorImg">
                         <p class="instructorName">
                             Instructor: <a href="/profile/<%out.print(lecturer.getUsername());%>"><%out.print(lecturer.getFirstName() + " " + lecturer.getLastName());%></a></p>
                     </div>

@@ -102,7 +102,7 @@ public class UserDAO extends DBConnection {
             if (resultSet.next()) {
                 user = new User(
                         resultSet.getInt("ID"),
-                        resultSet.getString("avatar"),
+                        resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
@@ -137,7 +137,7 @@ public class UserDAO extends DBConnection {
             if (resultSet.next()) {
                 user = new User(
                         resultSet.getInt("ID"),
-                        resultSet.getString("avatar"),
+                        resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
@@ -172,7 +172,7 @@ public class UserDAO extends DBConnection {
             if (resultSet.next()) {
                 user = new User(
                         resultSet.getInt("ID"),
-                        resultSet.getString("avatar"),
+                        resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
@@ -206,7 +206,7 @@ public class UserDAO extends DBConnection {
             while (resultSet.next()) {
                 User user = new User(
                         resultSet.getInt("ID"),
-                        resultSet.getString("avatar"),
+                        resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
@@ -234,8 +234,8 @@ public class UserDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("insert into [user](avatar,username,[password],email,firstName,lastName,[role],birthday,countryID,status) values(?,?,?,?,?,?,?,?,?,?)");
-            statement.setString(1, user.getAvatar());
+            statement = conn.prepareStatement("insert into [user](picture,username,[password],email,firstName,lastName,[role],birthday,countryID,status) values(?,?,?,?,?,?,?,?,?,?)");
+            statement.setString(1, user.getPicture());
             statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getEmail());
@@ -264,8 +264,8 @@ public class UserDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("UPDATE [user] SET avatar = ?, username = ?, [password] = ?, email = ?, firstName = ?, lastName = ?, role = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
-            statement.setString(1, user.getAvatar());
+            statement = conn.prepareStatement("UPDATE [user] SET picture = ?, username = ?, [password] = ?, email = ?, firstName = ?, lastName = ?, role = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
+            statement.setString(1, user.getPicture());
             statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getEmail());
@@ -325,7 +325,7 @@ public class UserDAO extends DBConnection {
 //            if (resultSet.next()) {
 //                user = new User(
 //                        resultSet.getInt("ID"),
-//                        resultSet.getString("avatar"),
+//                        resultSet.getString("picture"),
 //                        resultSet.getString("username"),
 //                        resultSet.getString("password"),
 //                        resultSet.getString("email"),
@@ -343,7 +343,7 @@ public class UserDAO extends DBConnection {
 //        }
 //
 ////        System.out.println(user);
-//        user.setAvatar("https://ex.png");
+//        user.setPicture("https://ex.png");
 //        user.setUsername("duongthanh");
 //
 ////        System.out.println(insertUser(user));
