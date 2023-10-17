@@ -1,4 +1,4 @@
-drop table instruct, review, [admin], [transaction], chosenAnswer, answer, question, quizResult, post, lessonCompleted, lesson, chapter, cartProduct, purchasedCourse, [certificate], course, instructor, [user], organization, country
+drop table sale, instruct, review, [admin], [transaction], chosenAnswer, answer, question, quizResult, post, lessonCompleted, lesson, chapter, cartProduct, purchasedCourse, [certificate], course, instructor, [user], organization, country
 -- Create the tables
 CREATE TABLE [admin]
 (
@@ -64,6 +64,17 @@ CREATE TABLE course
     rate           DECIMAL(2, 1)      NOT NULL,
     FOREIGN KEY (organizationID) REFERENCES organization (ID),
     FOREIGN KEY (instructorID) REFERENCES [user] (ID)
+);
+GO
+
+CREATE TABLE sale
+(
+    saleID    INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    courseID  INT                NOT NULL,
+    price     DECIMAL(10, 2)     NOT NULL,
+    startDate DATE,
+    endDate   DATE,
+    FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
 
