@@ -1,4 +1,4 @@
-drop table [admin], [transaction], chosenAnswer, answer, question, quizResult, post, lessonCompleted, lesson, chapter, cartProduct, purchasedCourse, [certificate], course, lecturer, [user], organization, country
+drop table [admin], [transaction], chosenAnswer, answer, question, quizResult, post, lessonCompleted, lesson, chapter, cartProduct, purchasedCourse, [certificate], course, instructor, [user], organization, country
 -- Create the tables
 CREATE TABLE [admin]
 (
@@ -43,7 +43,7 @@ CREATE TABLE [user]
 );
 GO
 
-CREATE TABLE lecturer
+CREATE TABLE instructor
 (
     userID         INT NOT NULL PRIMARY KEY,
     organizationID INT NOT NULL,
@@ -59,11 +59,11 @@ CREATE TABLE course
     [image]        TEXT,
     [description]  NVARCHAR(50),
     organizationID INT                NOT NULL,
-    lecturerID     INT                NOT NULL,
+    instructorID     INT                NOT NULL,
     price          DECIMAL(10, 2)     NOT NULL,
     rate           DECIMAL(2, 1)      NOT NULL,
     FOREIGN KEY (organizationID) REFERENCES organization (ID),
-    FOREIGN KEY (lecturerID) REFERENCES [user] (ID)
+    FOREIGN KEY (instructorID) REFERENCES [user] (ID)
 );
 GO
 
@@ -240,11 +240,11 @@ GO
 INSERT INTO organization([name], picture, [description])
 VALUES ('FPT University', 'FPT.png', N'Trường đại học top 1 Việt Nam');
 GO
-INSERT INTO lecturer(userID, organizationID)
+INSERT INTO instructor(userID, organizationID)
 VALUES (1, 1),
        (2, 1)
 GO
-INSERT INTO course(name, [image], [description], organizationID, lecturerID, price, rate)
+INSERT INTO course(name, [image], [description], organizationID, instructorID, price, rate)
 VALUES ('Dekiru Nihongo', 'a.png', 'ezsy', 1, 1, 1, 4.2),
        ('Java advance', 'a.png', 'medium difficult', 1, 2, 2, 4.5),
        ('C++', 'a.png', 'hard', 1, 3, 1.2, 4.7),

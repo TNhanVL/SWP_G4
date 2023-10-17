@@ -88,7 +88,7 @@
 
 
         <%
-            if (lecturer != null) {
+            if (instructor != null) {
                 courses = CourseDAO.getAllCreatedCourses(user.getID());
                 for (Course course : courses) {
         %>

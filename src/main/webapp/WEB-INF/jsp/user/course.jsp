@@ -30,7 +30,7 @@
         return;
     }
 
-    User lecturer = com.swp_project_g4.Database.UserDAO.getUser(course.getLecturerID());
+    User instructor = com.swp_project_g4.Database.UserDAO.getUser(course.getInstructorID());
 
     Organization organization = OrganizationDAO.getOrganization(course.getOrganizationID());
 
@@ -66,9 +66,9 @@
                         <h1><%out.print(course.getName());%></h1>
                     </div>
                     <div class="instructorInfor">
-                        <img src=<%out.print(request.getContextPath() + "/public/media/user/" + lecturer.getID() + "/" + lecturer.getPicture());%> alt="" class="instructorImg">
+                        <img src=<%out.print(request.getContextPath() + "/public/media/user/" + instructor.getID() + "/" + instructor.getPicture());%> alt="" class="instructorImg">
                         <p class="instructorName">
-                            Instructor: <a href="/profile/<%out.print(lecturer.getUsername());%>"><%out.print(lecturer.getFirstName() + " " + lecturer.getLastName());%></a></p>
+                            Instructor: <a href="/profile/<%out.print(instructor.getUsername());%>"><%out.print(instructor.getFirstName() + " " + instructor.getLastName());%></a></p>
                     </div>
                     <div class="price">
                         Price: <span><%out.print(course.getPrice());%>$</span>

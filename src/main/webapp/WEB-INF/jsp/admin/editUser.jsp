@@ -106,7 +106,7 @@
                                 <label for="role">role</label>
                                 <select id="role" class="form-control" name="role" required>
                                     <option value="0" <%if (user.getRole() == 0) {%>selected="selected"<%}%>>Student</option>
-                                    <option value="1" <%if (user.getRole() == 1) {%>selected="selected"<%}%>>Lecturer</option>
+                                    <option value="1" <%if (user.getRole() == 1) {%>selected="selected"<%}%>>Instructor</option>
                                 </select>
                             </div>
                             <div class="form-group">

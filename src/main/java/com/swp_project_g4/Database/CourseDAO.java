@@ -61,7 +61,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("image"),
                         resultSet.getString("description"),
                         resultSet.getInt("organizationID"),
-                        resultSet.getInt("lecturerID"),
+                        resultSet.getInt("instructorID"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate"));
             }
@@ -91,7 +91,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("image"),
                         resultSet.getString("description"),
                         resultSet.getInt("organizationID"),
-                        resultSet.getInt("lecturerID"),
+                        resultSet.getInt("instructorID"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate"));
                 courses.add(course);
@@ -122,7 +122,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("image"),
                         resultSet.getString("description"),
                         resultSet.getInt("organizationID"),
-                        resultSet.getInt("lecturerID"),
+                        resultSet.getInt("instructorID"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate"));
                 courses.add(course);
@@ -141,12 +141,12 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into course(name,[image],[description],organizationID,lecturerID,price,rate) values (?,?,?,?,?,?,?)");
+            statement = conn.prepareStatement("insert into course(name,[image],[description],organizationID,instructorID,price,rate) values (?,?,?,?,?,?,?)");
             statement.setString(1, course.getName());
             statement.setString(2, course.getImage());
             statement.setString(3, course.getDescription());
             statement.setInt(4, course.getOrganizationID());
-            statement.setInt(5, course.getLecturerID());
+            statement.setInt(5, course.getInstructorID());
             statement.setDouble(7, course.getPrice());
             statement.setDouble(8, course.getRate());
 
@@ -168,12 +168,12 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update course set name=?, [image]=?, [description]=?,organizationID=?,lecturerID=?,price=?,rate=? where courseID =?");
+            statement = conn.prepareStatement("update course set name=?, [image]=?, [description]=?,organizationID=?,instructorID=?,price=?,rate=? where courseID =?");
             statement.setString(1, course.getName());
             statement.setString(2, course.getImage());
             statement.setString(3, course.getDescription());
             statement.setInt(4, course.getOrganizationID());
-            statement.setInt(5, course.getLecturerID());
+            statement.setInt(5, course.getInstructorID());
             statement.setDouble(7, course.getPrice());
             statement.setDouble(8, course.getRate());
             statement.setInt(9, course.getCourseID());
@@ -504,7 +504,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from course where lecturerID = ?");
+            statement = conn.prepareStatement("select * from course where instructorID = ?");
             statement.setInt(1, lectureID);
             ResultSet resultSet = statement.executeQuery();
 
@@ -572,7 +572,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select count(*) as number from course where lecturerID = ?");
+            statement = conn.prepareStatement("select count(*) as number from course where instructorID = ?");
             statement.setInt(1, userID);
             ResultSet resultSet = statement.executeQuery();
 

@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="com.swp_project_g4.Model.Country"%>
-<%@page import="com.swp_project_g4.Model.Lecturer"%>
+<%@page import="com.swp_project_g4.Model.Instructor"%>
 <%@page import="com.swp_project_g4.Model.Course"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.swp_project_g4.Model.Organization"%>
@@ -33,7 +33,7 @@
     request.getSession().setAttribute("guest", guest);
     request.getSession().setAttribute("user", user);
 
-    Lecturer lecturer = LecturerDAO.getLecturer(user.getID());
+    Instructor instructor = InstructorDAO.getInstructor(user.getID());
 %>
 
 <!DOCTYPE html>
@@ -95,10 +95,10 @@
                             <div class="orgranization">
                                 <p><%out.print(CountryDAO.getCountry(user.getCountryID()).getName());%></p>
                                 <%
-                                    if (lecturer != null) {
-                                        Organization organization = OrganizationDAO.getOrganization(lecturer.getOrganizationID());
+                                    if (instructor != null) {
+                                        Organization organization = OrganizationDAO.getOrganization(instructor.getOrganizationID());
                                 %>
-                                <p>Lecturer of <%out.print(organization.getName());%></p>
+                                <p>Instructor of <%out.print(organization.getName());%></p>
                                 <img class="org" src="/public/media/organization/<%out.print(organization.getID() + "/" + organization.getPicture());%>" alt="">
                                 <%
                                     }

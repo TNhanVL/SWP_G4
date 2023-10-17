@@ -93,7 +93,7 @@ public class EmailService {
                 + "        <p>If you happen to know anyone who shares an interest in the subject matter of this course, I kindly request\n"
                 + "            that you forward this email to them. It would be greatly appreciated if you could help spread the word and\n"
                 + "            extend this valuable learning opportunity to others.</p>\n"
-                + "        <p>Once again, I extend a warm welcome to you as your lecturer in the course. I am confident that our\n"
+                + "        <p>Once again, I extend a warm welcome to you as your instructor in the course. I am confident that our\n"
                 + "            collaboration will be productive and mutually beneficial. I eagerly anticipate working harmoniously with you\n"
                 + "            in the near future.</p>\n"
                 + "        <p>Thank you once again for your commitment and dedication.</p>\n"

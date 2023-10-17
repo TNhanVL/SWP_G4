@@ -21,7 +21,7 @@ public class Course {
     private String image;
     private String description;
     private int organizationID;
-    private int lecturerID;
+    private int instructorID;
     private double price;
     private double rate;
 

@@ -8,14 +8,14 @@ package com.swp_project_g4.Model;
  *
  * @author TTNhan
  */
-public class Lecturer extends User {
+public class Instructor extends User {
 
     private int organizationID;
 
-    public Lecturer() {
+    public Instructor() {
     }
 
-    public Lecturer(User user, int organizationID) {
+    public Instructor(User user, int organizationID) {
         super(user);
         this.organizationID = organizationID;
     }

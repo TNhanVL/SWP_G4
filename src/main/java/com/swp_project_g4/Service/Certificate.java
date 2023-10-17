@@ -14,7 +14,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.swp_project_g4.Database.CourseDAO;
-import com.swp_project_g4.Database.LecturerDAO;
+import com.swp_project_g4.Database.InstructorDAO;
 import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Database.UserDAO;
 import com.swp_project_g4.Model.Course;
@@ -80,13 +80,13 @@ public class Certificate {
         addText(CourseName, fontName, baseColor, size, px, py, contentByte, document);
     }
 
-    static void addLecturerName(String LecturerName, PdfContentByte contentByte, Document document) {
+    static void addInstructorName(String InstructorName, PdfContentByte contentByte, Document document) {
         String fontName = "Garet-Book.ttf";
         BaseColor baseColor = new BaseColor(182, 140, 39);
         float size = 15.5f;
         float px = 155;
         float py = 110;
-        addText(LecturerName, fontName, baseColor, size, px, py, contentByte, document);
+        addText(InstructorName, fontName, baseColor, size, px, py, contentByte, document);
     }
 
     static void addDate(PdfContentByte contentByte, Document document) {
@@ -142,9 +142,9 @@ public class Certificate {
             addUserName(user.getFirstName() + " " + user.getLastName(), contentByte, document);
             addCourseName(course.getName(), contentByte, document);
 
-            User lecturer = LecturerDAO.getLecturer(course.getLecturerID());
-            if (lecturer != null) {
-                addLecturerName(lecturer.getFirstName() + " " + lecturer.getLastName(), contentByte, document);
+            User instructor = InstructorDAO.getInstructor(course.getInstructorID());
+            if (instructor != null) {
+                addInstructorName(instructor.getFirstName() + " " + instructor.getLastName(), contentByte, document);
             }
 
             addDate(contentByte, document);

@@ -57,7 +57,7 @@
                     out.print("Student");
                     break;
                 case 1:
-                    out.print("Lecturer");
+                    out.print("Instructor");
                     break;
             }
             %></td>
