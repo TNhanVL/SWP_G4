@@ -5,7 +5,7 @@ import lombok.*;
 
 /**
  *
- * @author Thanh Duong
+ * @author TTNhan
  */
 @Data
 @NoArgsConstructor

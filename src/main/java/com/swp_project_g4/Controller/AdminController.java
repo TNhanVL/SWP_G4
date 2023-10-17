@@ -114,7 +114,7 @@ public class AdminController {
         //check logged in
         if(!CookieServices.checkAdminLoggedIn(request.getCookies())){
             request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:./login";
+            return "redirect:/login";
         }
         
         try {

@@ -5,12 +5,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
- * @author Thanh Duong
+ * @author TTNhan
  */
 public class User {
 
     private int ID;
-    private String avatar;
+    private String picture;
     private String username;
     private String password;
     private String email;
@@ -27,9 +27,9 @@ public class User {
         this.status = 1;
     }
 
-    public User(int ID, String avatar, String username, String password, String email, String firstname, String lastname, int role, Date birthday, int countryID, int status) {
+    public User(int ID, String picture, String username, String password, String email, String firstname, String lastname, int role, Date birthday, int countryID, int status) {
         this.ID = ID;
-        this.avatar = avatar;
+        this.picture = picture;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -43,7 +43,7 @@ public class User {
 
     public User(User user) {
         this.ID = user.ID;
-        this.avatar = user.avatar;
+        this.picture = user.picture;
         this.username = user.username;
         this.password = user.password;
         this.email = user.email;
@@ -59,7 +59,7 @@ public class User {
         this.email = googlePojo.getEmail();
         this.firstname = googlePojo.getGiven_name();
         this.lastname = googlePojo.getFamily_name();
-        this.avatar = googlePojo.getPicture();
+        this.picture = googlePojo.getPicture();
         this.role = 1;
         this.status = 1;
     }
@@ -72,12 +72,12 @@ public class User {
         this.ID = ID;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public String getUsername() {
@@ -154,7 +154,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "ID=" + ID + ", avatar=" + avatar + ", username=" + username + ", password=" + password + ", email=" + email + ", firstname=" + firstname + ", lastname=" + lastname + ", birthday=" + birthday + ", countryID=" + countryID + ", status=" + status + '}';
+        return "User{" + "ID=" + ID + ", picture=" + picture + ", username=" + username + ", password=" + password + ", email=" + email + ", firstname=" + firstname + ", lastname=" + lastname + ", birthday=" + birthday + ", countryID=" + countryID + ", status=" + status + '}';
     }
 
 }

@@ -18,22 +18,22 @@ import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
- * @author Thanh Duong
+ * @author TTNhan
  */
 public class LessonDAO extends DBConnection {
 
-    public static boolean existLesson(int ID) {
+    public static boolean existLesson(int lessonID) {
         boolean ok = false;
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select ID from lesson where ID = ?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("select ID from lesson where lessonID = ?");
+            statement.setInt(1, lessonID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                if (resultSet.getInt("ID") == ID) {
+                if (resultSet.getInt("lessonID") == lessonID) {
                     ok = true;
                 }
             }
@@ -47,20 +47,20 @@ public class LessonDAO extends DBConnection {
         return ok;
     }
 
-    public static Lesson getLesson(int ID) {
+    public static Lesson getLesson(int lessonID) {
         Lesson lesson = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from lesson where ID = ?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("select * from lesson where lessonID = ?");
+            statement.setInt(1, lessonID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 lesson = new Lesson(
-                        resultSet.getInt("ID"),
+                        resultSet.getInt("lessonID"),
                         resultSet.getInt("ChapterID"),
                         resultSet.getString("name"),
                         resultSet.getInt("index"),
@@ -106,7 +106,7 @@ public class LessonDAO extends DBConnection {
                 if (quizResult == null || quizResult.getEndTime().after(new Date())) {
                     return false;
                 }
-                int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResult.getID());
+                int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResult.getQuizResultID());
                 int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lessonID);
                 if (numberOfCorrectQuestion * 100 >= numberOfQuestion * 80) {
                     LessonDAO.insertLessonCompleted(userID, lessonID, request);
@@ -126,10 +126,10 @@ public class LessonDAO extends DBConnection {
             connect();
 
             statement = conn.prepareStatement("select count(*) as number from\n"
-                    + "(select lessonID as ID from lessonCompleted where userID = ?) as a\n"
+                    + "(select lessonID from lessonCompleted where userID = ?) as a\n"
                     + "join\n"
-                    + "(select ID from lesson where chapterID = ?) as b\n"
-                    + "on a.ID = b.ID");
+                    + "(select lessonID from lesson where chapterID = ?) as b\n"
+                    + "on a.lessonID = b.lessonID");
             statement.setInt(1, userID);
             statement.setInt(2, chapterID);
             ResultSet resultSet = statement.executeQuery();
@@ -203,9 +203,9 @@ public class LessonDAO extends DBConnection {
 
             statement = conn.prepareStatement("select top 1 lessonID from\n"
                     + "(select chapterIndex, lessonID, lessonIndex from\n"
-                    + "(select ID as chapterID, [index] as chapterIndex from chapter where courseID = ?) as a\n"
+                    + "(select chapterID, [index] as chapterIndex from chapter where courseID = ?) as a\n"
                     + "join\n"
-                    + "(select chapterID, ID as lessonID, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID) a\n"
+                    + "(select chapterID, lessonID, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID) a\n"
                     + "where lessonID not in\n"
                     + "(select lessonID from lessonCompleted where userID = ?)\n"
                     + "order by chapterIndex, lessonIndex;");
@@ -237,9 +237,9 @@ public class LessonDAO extends DBConnection {
             connect();
 
             statement = conn.prepareStatement("select top 1 lessonID from\n"
-                    + "(select ID as chapterID, [index] as chapterIndex from chapter where courseID = ?) as a\n"
+                    + "(select chapterID, [index] as chapterIndex from chapter where courseID = ?) as a\n"
                     + "join\n"
-                    + "(select chapterID, ID as lessonID, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID\n"
+                    + "(select chapterID, lessonID, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID\n"
                     + "order by chapterIndex desc, lessonIndex desc");
             statement.setInt(1, courseID);
             ResultSet resultSet = statement.executeQuery();
@@ -269,7 +269,7 @@ public class LessonDAO extends DBConnection {
 
             while (resultSet.next()) {
                 Lesson lesson = new Lesson(
-                        resultSet.getInt("ID"),
+                        resultSet.getInt("lessonID"),
                         resultSet.getInt("chapterID"),
                         resultSet.getString("name"),
                         resultSet.getInt("index"),
@@ -337,13 +337,13 @@ public class LessonDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update lesson set chapterID=?, name=?, [index]=?, type=?, [time]=? where ID=?");
+            statement = conn.prepareStatement("update lesson set chapterID=?, name=?, [index]=?, type=?, [time]=? where lessonID=?");
             statement.setInt(1, lesson.getChapterID());
             statement.setString(2, lesson.getName());
             statement.setInt(3, lesson.getIndex());
             statement.setInt(4, lesson.getType());
             statement.setInt(5, lesson.getTime());
-            statement.setInt(6, lesson.getID());
+            statement.setInt(6, lesson.getLessonID());
             statement.executeUpdate();
 
             //disconnect to database
@@ -356,17 +356,17 @@ public class LessonDAO extends DBConnection {
         return false;
     }
 
-    public static boolean deleteLesson(int ID) {
+    public static boolean deleteLesson(int lessonID) {
         try {
-            if (!existLesson(ID)) {
+            if (!existLesson(lessonID)) {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from lesson where ID=?");
-            statement.setInt(1, ID);
+            statement = conn.prepareStatement("delete from lesson where lessonID=?");
+            statement.setInt(1, lessonID);
             statement.execute();
             disconnect();
-            if (!existLesson(ID)) {
+            if (!existLesson(lessonID)) {
                 return true;
             } else {
                 return false;

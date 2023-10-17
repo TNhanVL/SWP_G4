@@ -6,7 +6,7 @@ package com.swp_project_g4.Model;
 
 /**
  *
- * @author Thanh Duong
+ * @author TTNhan
  */
 
 import lombok.*;
@@ -21,8 +21,7 @@ public class Course {
     private String image;
     private String description;
     private int organizationID;
-    private int lecturerID;
-    private double originPrice;
+    private int instructorID;
     private double price;
     private double rate;
 

@@ -40,7 +40,7 @@ public class MomoPay {
         }
 
         //link after pay success
-        String returnURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/finishedPayment?userID=" + userID;
+        String returnURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/checkOut/finishedPayment?userID=" + userID;
         if (courseIDs != null) {
             for (String courseID : courseIDs) {
                 returnURL += "&course=" + courseID;

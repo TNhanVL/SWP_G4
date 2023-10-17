@@ -14,7 +14,11 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.swp_project_g4.Database.CourseDAO;
+<<<<<<< HEAD
 import com.swp_project_g4.Database.LecturerDAO;
+=======
+import com.swp_project_g4.Database.InstructorDAO;
+>>>>>>> 53029af8c5dc931bb1243a98c27d3aea6a007bd1
 import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Database.UserDAO;
 import com.swp_project_g4.Model.Course;
@@ -80,13 +84,21 @@ public class Certificate {
         addText(CourseName, fontName, baseColor, size, px, py, contentByte, document);
     }
 
+<<<<<<< HEAD
     static void addLecturerName(String LecturerName, PdfContentByte contentByte, Document document) {
+=======
+    static void addInstructorName(String InstructorName, PdfContentByte contentByte, Document document) {
+>>>>>>> 53029af8c5dc931bb1243a98c27d3aea6a007bd1
         String fontName = "Garet-Book.ttf";
         BaseColor baseColor = new BaseColor(182, 140, 39);
         float size = 15.5f;
         float px = 155;
         float py = 110;
+<<<<<<< HEAD
         addText(LecturerName, fontName, baseColor, size, px, py, contentByte, document);
+=======
+        addText(InstructorName, fontName, baseColor, size, px, py, contentByte, document);
+>>>>>>> 53029af8c5dc931bb1243a98c27d3aea6a007bd1
     }
 
     static void addDate(PdfContentByte contentByte, Document document) {
@@ -142,9 +154,15 @@ public class Certificate {
             addUserName(user.getFirstName() + " " + user.getLastName(), contentByte, document);
             addCourseName(course.getName(), contentByte, document);
 
+<<<<<<< HEAD
             User lecturer = LecturerDAO.getLecturer(course.getLecturerID());
             if (lecturer != null) {
                 addLecturerName(lecturer.getFirstName() + " " + lecturer.getLastName(), contentByte, document);
+=======
+            User instructor = InstructorDAO.getInstructor(course.getInstructorID());
+            if (instructor != null) {
+                addInstructorName(instructor.getFirstName() + " " + instructor.getLastName(), contentByte, document);
+>>>>>>> 53029af8c5dc931bb1243a98c27d3aea6a007bd1
             }
 
             addDate(contentByte, document);
