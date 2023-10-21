@@ -4,13 +4,14 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Database.UserDAO"%>
-<%@page import="com.swp_project_g4.Database.AdminDAO"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.swp_project_g4.Model.User"%>
+<%@page import="com.swp_project_g4.Database.UserDAO" %>
+<%@page import="com.swp_project_g4.Database.AdminDAO" %>
+<%@page import="java.util.ArrayList" %>
+<%@page import="com.swp_project_g4.Model.User" %>
 <%@page import="com.swp_project_g4.Service.CookieServices" %>
 <%@ page import="com.swp_project_g4.Database.UserDAO" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
     if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
@@ -31,6 +32,7 @@
 
 <table>
     <h2>List of Users</h2>
+
     <tr class="tableHeader">
         <th>ID</th>
         <th>Username</th>
@@ -41,47 +43,44 @@
         <th>Status</th>
         <th>Modify</th>
     </tr>
-    <%
-        ArrayList<User> users = UserDAO.getAllUsers();
-        for (int i = 0; i < users.size(); i++) {
 
-    %>
-    <tr>
-        <td><%out.print(users.get(i).getID());%></td>
-        <td><%out.print(users.get(i).getUsername());%></td>
-        <td><%out.print(users.get(i).getEmail());%></td>
-        <td><%out.print(users.get(i).getFirstName());%></td>
-        <td><%out.print(users.get(i).getLastName());%></td>
-        <td><%switch (users.get(i).getRole()) {
-                case 0:
-                    out.print("Student");
-                    break;
-                case 1:
-                    out.print("Instructor");
-                    break;
-            }
-            %></td>
-        <td><%switch (users.get(i).getStatus()) {
-                case 0:
-                    out.print("Locked");
-                    break;
-                case 1:
-                    out.print("Legal");
-                    break;
-            }
-            %></td>
-        <td>
-            <a
-                href="./editUser?id=<%out.print(users.get(i).getID());%>">
-                <i class="fas fa-solid fa-pen"></i>
-            </a>
-            <a
-                href="./deleteUser?id=<%out.print(users.get(i).getID());%>">
-                <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
-            </a>
-        </td>
-    </tr>
-    <%}%>
+    <c:forEach var="user" items="${sessionScope.userList}">
+        <tr>
+            <td>${user.ID}</td>
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td>${user.firstName}</td>
+            <td>${user.lastName}</td>
+            <td>
+                <c:choose>
+                    <c:when test="${user.role == 0}">
+                        Student
+                    </c:when>
+                    <c:when test="${user.role == 1}">
+                        Instructor
+                    </c:when>
+                </c:choose>
+            </td>
+            <td>
+                <c:choose>
+                    <c:when test="${user.status == 0}">
+                        Locked
+                    </c:when>
+                    <c:when test="${user.status == 1}">
+                        Active
+                    </c:when>
+                </c:choose>
+            </td>
+            <td>
+                <a href="./editUser?id=${user.ID}">
+                    <i class="fas fa-solid fa-pen"></i>
+                </a>
+                <a href="./deleteUser?id=${user.ID}">
+                    <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
+                </a>
+            </td>
+        </tr>
+    </c:forEach>
 </table>
 
 </body>

@@ -4,14 +4,16 @@
  */
 package com.swp_project_g4.Database;
 
+import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.MD5;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author TTNhan
  */
 public class AdminDAO extends DBConnection {
@@ -46,7 +48,7 @@ public class AdminDAO extends DBConnection {
      *
      * @param username
      * @param password
-     * @param hashed true if password hashed
+     * @param hashed   true if password hashed
      * @return 0 - ok; 1 - not exist; 2 - incorrect pw
      */
     public static int checkAdmin(String username, String password, boolean hashed) {
@@ -88,4 +90,5 @@ public class AdminDAO extends DBConnection {
     public static void main(String[] args) throws ClassNotFoundException {
 //        System.out.println(getAllUsers().size());
     }
+    
 }

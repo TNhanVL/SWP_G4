@@ -6,11 +6,14 @@ import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.JwtUtil;
 import com.swp_project_g4.Service.MD5;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -66,7 +69,10 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public String dashboard(ModelMap model) {
+    public String dashboard(ModelMap model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        UserDAO userDAO = new UserDAO();
+        session.setAttribute("userList", UserDAO.getAllUsers());
         return "admin/dashboard";
     }
 
@@ -87,13 +93,13 @@ public class AdminController {
 
     @RequestMapping(value = "/editUser", method = RequestMethod.POST)
     public String editUserPost(ModelMap model, HttpServletRequest request, @RequestParam String id, @ModelAttribute("user") User user) {
-        
+
         //check logged in
-        if(!CookieServices.checkAdminLoggedIn(request.getCookies())){
+        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:./login";
         }
-        
+
         try {
             boolean ok = UserDAO.updateUser(user);
             if (ok) {
@@ -110,13 +116,13 @@ public class AdminController {
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
     public String deleteUser(ModelMap model, @RequestParam String id, HttpServletRequest request) {
-        
+
         //check logged in
-        if(!CookieServices.checkAdminLoggedIn(request.getCookies())){
+        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
-        
+
         try {
             if (UserDAO.deleteUser(Integer.parseInt(id))) {
                 request.getSession().setAttribute("success", "Delete user succeed!");
