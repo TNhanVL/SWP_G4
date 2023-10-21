@@ -490,12 +490,15 @@ VALUES (1, 'a', 1),
 --(26, 'josei', 1), (26, 'jiso', 0), (26, 'jose', 0), (26, 'jisei', 0)
 
 GO
-select * from review
+select * from [transaction]
+insert into [transaction](userID, courseID, originPrice, price, type, description, status)
+values('2','7','20.00000000','40.00000000','2','dung roi','0')
+ select * from review
 --SELECT * FROM [user];
-insert into review(userID, courseID, reviewed, verified, note)
-values ('2','7','0','2','COI LAI KIEN THUC')
-update review set courseID = '7',reviewed='0',verified='1',note='thay sai roi' where userID ='2'
-delete from review where userID = '1'
+-- insert into review(userID, courseID, reviewed, verified, note)
+-- values ('2','7','0','2','COI LAI KIEN THUC')
+-- update review set courseID = '7',reviewed='0',verified='1',note='thay sai roi' where userID ='2'
+-- delete from review where userID = '1'
 --get sum of completed lesson of a course
 --select sum([time]) as sumTime from
 --(select l.ID, [time] from
