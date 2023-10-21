@@ -1,20 +1,19 @@
-
 USE master;
-    go
+go
 
 IF EXISTS (SELECT name
 FROM sys.databases
-WHERE name = N'DB_PRJ_Project_G2')
-BEGIN
-    ALTER DATABASE [DB_PRJ_Project_G2] SET OFFLINE WITH ROLLBACK IMMEDIATE;
-    ALTER DATABASE [DB_PRJ_Project_G2] SET ONLINE;
-    DROP DATABASE [DB_PRJ_Project_G2];
+WHERE name = N'DB_SWP_Project_G4')
+    BEGIN
+    ALTER DATABASE [DB_SWP_Project_G4] SET OFFLINE WITH ROLLBACK IMMEDIATE;
+    ALTER DATABASE [DB_SWP_Project_G4] SET ONLINE;
+    DROP DATABASE [DB_SWP_Project_G4];
 END
 
-CREATE DATABASE DB_PRJ_Project_G2
+CREATE DATABASE DB_SWP_Project_G4
 GO
 
-USE DB_PRJ_Project_G2
+USE DB_SWP_Project_G4
 GO
 
 CREATE TABLE [admin]
@@ -91,8 +90,8 @@ CREATE TABLE sale
     saleID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     courseID INT NOT NULL,
     price NUMERIC(10, 2) NOT NULL,
-    startDate DATE,
-    endDate DATE,
+    startDate DATETIME,
+    endDate DATETIME,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -295,7 +294,7 @@ INSERT INTO [user]
 VALUES
     ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gmail.com', 'Nhan', 'Tran Thanh', 0,
         '1990-01-01', 16, 1),
-    ('a.jpg', 'dylan12', '0cc175b9c0f1b6a831c399e269772661', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem', 0,
+    ('a.jpg', 'dylan12', 'e10adc3949ba59abbe56e057f20f883e', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem', 0,
         '2003-10-12', 16, 1),
     ('a.jpg', 'diemhuong1210', '12345678', 'dh1210@example.com', 'Duong', 'Thanh', 1, '2003-10-10', 16, 1)
 GO
@@ -504,12 +503,23 @@ VALUES
 --(26, 'josei', 1), (26, 'jiso', 0), (26, 'jose', 0), (26, 'jisei', 0)
 
 GO
-select * from review
+-- select * from [transaction]
+-- insert into [transaction](userID, courseID, originPrice, price, type, description, status)
+-- values('2','7','20.00000000','40.00000000','2','dung roi','0')
+-- update [transaction] set courseID = '7' , originPrice = '40',price = '60',type ='3',description ='moi update',status ='1'where userID ='2'
+-- delete from [transaction] where userID ='1'
+select *
+from sale;
+-- insert into sale(courseID, price, startDate, endDate)
+-- values ('2','20','12/16/2022','12/20/2022')
+--     UPDATE sale set price = '30',startDate ='11/22/2022',endDate ='12/23/2022'where courseID ='2'
+delete from sale where courseID = '2'
+--  select * from review
 --SELECT * FROM [user];
-insert into review(userID, courseID, reviewed, verified, note)
-values ('2','7','0','2','COI LAI KIEN THUC')
-update review set courseID = '7',reviewed='0',verified='1',note='thay sai roi' where userID ='2'
-delete from review where userID = '1'
+-- insert into review(userID, courseID, reviewed, verified, note)
+-- values ('2','7','0','2','COI LAI KIEN THUC')
+-- update review set courseID = '7',reviewed='0',verified='1',note='thay sai roi' where userID ='2'
+-- delete from review where userID = '1'
 --get sum of completed lesson of a course
 --select sum([time]) as sumTime from
 --(select l.ID, [time] from
