@@ -88,6 +88,37 @@ public class UserDAO extends DBConnection {
         return status;
     }
 
+    public static boolean checkUserPassword(String username, String password, boolean hashed) {
+        boolean res = false;
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select [password] from [user] where username = ?");
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            //not exist
+            if (resultSet != null && resultSet.next()) {
+            } else {
+                String pw = resultSet.getString("password");
+                if (!hashed) {
+                    password = MD5.getMd5(password);
+                }
+                if (pw.equals(password)) {
+                    //correct
+                    res = true;
+                }
+            }
+
+            //disconnect to database
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
+
     public static User getUser(int ID) {
         User user = null;
 
