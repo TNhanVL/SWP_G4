@@ -105,6 +105,60 @@ public class CourseDAO extends DBConnection {
         return courses;
     }
 
+    public static ArrayList<Course> searchCourses(String name) throws SQLException, ClassNotFoundException {
+        ArrayList<Course> courses = new ArrayList<>();
+
+        try {
+            //connect to database
+            connect();
+
+            if (name.equals("")) {
+                // search all courses
+                String sql = "select * from course";
+                statement = conn.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Course course = new Course(
+                            resultSet.getInt("courseID"),
+                            resultSet.getString("name"),
+                            resultSet.getString("image"),
+                            resultSet.getString("description"),
+                            resultSet.getInt("organizationID"),
+                            resultSet.getInt("instructorID"),
+                            resultSet.getDouble("price"),
+                            resultSet.getDouble("rate"));
+                    courses.add(course);
+                }
+            } else {
+                // search course by name
+                String sql = "select * from course where name like ?";
+                statement = conn.prepareStatement(sql);
+                statement.setString(1, "%" + name + "%");
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Course course = new Course(
+                            resultSet.getInt("courseID"),
+                            resultSet.getString("name"),
+                            resultSet.getString("image"),
+                            resultSet.getString("description"),
+                            resultSet.getInt("organizationID"),
+                            resultSet.getInt("instructorID"),
+                            resultSet.getDouble("price"),
+                            resultSet.getDouble("rate"));
+                    courses.add(course);
+                }
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return courses;
+    }
+
     public static ArrayList<Course> getPopularCourses(int limit) {
         ArrayList<Course> courses = new ArrayList<>();
 
