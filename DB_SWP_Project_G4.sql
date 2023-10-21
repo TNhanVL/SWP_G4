@@ -1,8 +1,25 @@
-drop table sale, instruct, review, [admin], [transaction], chosenAnswer, answer, question, quizResult, post, lessonCompleted, lesson, chapter, cartProduct, purchasedCourse, [certificate], course, instructor, [user], organization, country
--- Create the tables
+USE master;
+go
+
+IF EXISTS (SELECT name
+           FROM sys.databases
+           WHERE name = N'DB_PRJ_Project_G2')
+    BEGIN
+        ALTER DATABASE [DB_PRJ_Project_G2] SET OFFLINE WITH ROLLBACK IMMEDIATE;
+        ALTER DATABASE [DB_PRJ_Project_G2] SET ONLINE;
+        DROP DATABASE [DB_PRJ_Project_G2];
+    END
+
+CREATE DATABASE DB_PRJ_Project_G2
+GO
+
+USE DB_PRJ_Project_G2
+GO
+
 CREATE TABLE [admin]
 (
-    username   VARCHAR(50) PRIMARY KEY,
+    ID         INT IDENTITY (1,1) PRIMARY KEY,
+    username   VARCHAR(50),
     [password] VARCHAR(50)
 );
 GO
@@ -16,7 +33,8 @@ GO
 
 CREATE TABLE organization
 (
-    ID            INT IDENTITY (1,1) PRIMARY KEY, -- giá trị bắt đầu là 1, giá trị tăng thêm là 1
+    ID            INT IDENTITY (1,1) PRIMARY KEY,
+    -- giá trị bắt đầu là 1, giá trị tăng thêm là 1
     countryID     INT FOREIGN KEY REFERENCES [country],
     username      VARCHAR(50),
     [password]    VARCHAR(50),
@@ -208,7 +226,8 @@ CREATE TABLE answer
     [answerID] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     questionID INT                NOT NULL,
     content    NTEXT,
-    correct    BIT                NOT NULL, --True: 1, False: 0
+    correct    BIT                NOT NULL,
+    --True: 1, False: 0
     FOREIGN KEY (questionID) REFERENCES question (questionID)
 );
 GO
@@ -239,7 +258,8 @@ GO
 
 -- insert data
 
-INSERT INTO country(countryID, [name])
+INSERT INTO country
+    (countryID, [name])
 VALUES (1, 'United States'),
        (2, 'Canada'),
        (3, 'Mexico'),
@@ -261,25 +281,31 @@ VALUES (1, 'United States'),
        (19, 'Malaysia'),
        (20, 'Singapore')
 GO
-INSERT INTO [admin](username, [password])
+INSERT INTO [admin]
+    (username, [password])
 VALUES ('admin', '0e7517141fb53f21ee439b355b5a1d0a'),
-       ('quantri', '0e7517141fb53f21ee439b355b5a1d0a')
+       ('quantri', '0e7517141fb53f21ee439b355b5a1d0a'),
+       ('sussy', '80b87ad4e28b6e6c6b0efc1cb797c649')
 GO
-INSERT INTO [user](picture, username, [password], email, firstName, lastName, [role], birthday, countryID, [status])
+INSERT INTO [user]
+(picture, username, [password], email, firstName, lastName, [role], birthday, countryID, [status])
 VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gmail.com', 'Nhan', 'Tran Thanh', 0,
         '1990-01-01', 16, 1),
-       ('a.jpg', 'dylan12', '0cc175b9c0f1b6a831c399e269772661', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem', 0,
+       ('a.jpg', 'dylan12', 'e10adc3949ba59abbe56e057f20f883e', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem', 0,
         '2003-10-12', 16, 1),
        ('a.jpg', 'diemhuong1210', '12345678', 'dh1210@example.com', 'Duong', 'Thanh', 1, '2003-10-10', 16, 1)
 GO
-INSERT INTO organization([name], picture, [description])
+INSERT INTO organization
+    ([name], picture, [description])
 VALUES ('FPT University', 'FPT.png', N'Trường đại học top 1 Việt Nam');
 GO
-INSERT INTO instructor(userID, organizationID)
+INSERT INTO instructor
+    (userID, organizationID)
 VALUES (1, 1),
        (2, 1)
 GO
-INSERT INTO course(name, [image], [description], organizationID, instructorID, price, rate)
+INSERT INTO course
+(name, [image], [description], organizationID, instructorID, price, rate)
 VALUES ('Dekiru Nihongo', 'a.png', 'ezsy', 1, 1, 1, 4.2),
        ('Java advance', 'a.png', 'medium difficult', 1, 2, 2, 4.5),
        ('C++', 'a.png', 'hard', 1, 3, 1.2, 4.7),
@@ -293,20 +319,24 @@ VALUES ('Dekiru Nihongo', 'a.png', 'ezsy', 1, 1, 1, 4.2),
        ('Java advance', 'a.png', 'medium difficult', 1, 2, 2, 4.5),
        ('C++', 'a.png', 'hard', 1, 3, 5, 4.7)
 GO
-INSERT INTO cartProduct(userID, courseID)
+INSERT INTO cartProduct
+    (userID, courseID)
 VALUES (1, 2),
        (1, 3)
 GO
-INSERT INTO purchasedCourse(userID, courseID)
+INSERT INTO purchasedCourse
+    (userID, courseID)
 VALUES (1, 1),
        (1, 2)
 GO
-INSERT INTO chapter(courseID, [index], name, [description])
+INSERT INTO chapter
+    (courseID, [index], name, [description])
 VALUES (1, 1, N'Hiragana 。ひらがな', ''),
        (1, 2, N'Katakana 。かたがな', ''),
        (2, 1, N'Test chapter', '')
 GO
-INSERT INTO lesson(chapterID, name, [index], [type], [time])
+INSERT INTO lesson
+    (chapterID, name, [index], [type], [time])
 VALUES (1, 'A, Ka Row', 1, 3, 3),
        (1, 'Sa, Ta Row', 2, 3, 3),
        (1, 'Practice 1: Choose the pronunciation', 3, 2, 5),
@@ -325,7 +355,8 @@ VALUES (1, 'A, Ka Row', 1, 3, 3),
        (2, 'Post', 3, 1, 5),
        (3, 'Youtube', 1, 3, 5)
 GO
-INSERT INTO post(content, lessonID)
+INSERT INTO post
+    (content, lessonID)
 VALUES ('s4RXDEVFO_E', 1),
        ('J9MvqJnj5kQ', 2),
        ('rsL86uUTJpw', 4),
@@ -340,7 +371,8 @@ VALUES ('s4RXDEVFO_E', 1),
        ('DoggieCorgi-4.mp4', 15),
        ('V34OFinfTbU', 17)
 GO
-INSERT INTO question(lessonID, [index], content, [type], point)
+INSERT INTO question
+    (lessonID, [index], content, [type], point)
 VALUES (3, 1, 'a.png', 0, 1),
        (3, 2, 'i.png', 0, 1),
        (3, 3, 'u.png', 1, 1),
@@ -379,7 +411,8 @@ VALUES (3, 1, 'a.png', 0, 1),
 --(13, 20, 'https://statics.gojapan.vn/ufiles/2020/02/5b5bf0532cc51939d51b9798/5e3a2d9a59e7be49d06e8cb7.png', 10, 0.5)--josei
 
 GO
-INSERT INTO answer(questionID, content, correct)
+INSERT INTO answer
+    (questionID, content, correct)
 VALUES (1, 'a', 1),
        (1, 'u', 0),
        (1, 'e', 0),
@@ -508,7 +541,8 @@ delete from review where userID = '1'
 --(select lessonID from lessonCompleted where userID = 1)
 --order by chapterIndex, lessonIndex;
 
-insert into post(lessonID, content)
+insert into post
+    (lessonID, content)
 values (16, N'<h3>Lý thuyết</h3>
     <p>Khái niệm biến trong lập trình cũng giống khái niệm biến trong toán học, biến được dùng để đại diện cho một giá trị nào đó.</p>
     <p>Để khai báo biến kiểu số nguyên trong Java bạn sử dụng từ khóa <code>int</code> (<code>int</code> và viết tắt của <code>integer</code>) giống như sau:</p>
