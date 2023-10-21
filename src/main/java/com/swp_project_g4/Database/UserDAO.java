@@ -99,7 +99,8 @@ public class UserDAO extends DBConnection {
             ResultSet resultSet = statement.executeQuery();
 
             //not exist
-            if (resultSet != null && resultSet.next()) {
+            if (resultSet == null || !resultSet.next()) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "not exist user");
             } else {
                 String pw = resultSet.getString("password");
                 if (!hashed) {
@@ -108,6 +109,9 @@ public class UserDAO extends DBConnection {
                 if (pw.equals(password)) {
                     //correct
                     res = true;
+                    Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "success");
+                }else{
+                    Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "wrong password");
                 }
             }
 
@@ -115,6 +119,7 @@ public class UserDAO extends DBConnection {
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "execute query failed");
         }
         return res;
     }
