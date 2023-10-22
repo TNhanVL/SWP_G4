@@ -13,19 +13,19 @@ public class UserServices {
         try {
             boolean fineName = name.matches("^[\\p{L}\\p{M}]+([\\p{L}\\p{Pd}\\p{Zs}'.]*[\\p{L}\\p{M}])+$|^[\\p{L}\\p{M}]+$");
             if(!fineName){
-                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "incorrect name");
+                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "invalid name");
                 return false;
             }
 
             boolean finePhoneNumber = phone_number.matches("^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$");
             if(!finePhoneNumber){
-                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "incorrect phone number");
+                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "invalid phone number");
                 return false;
             }
         } catch (Exception e) {
 
         }
-        Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "success");
+        Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "valid");
         return true;
     }
 }
