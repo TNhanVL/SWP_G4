@@ -22,10 +22,10 @@ public class CourseDAOTest {
     void searchCoursesWithCorrectName() throws SQLException, ClassNotFoundException {
         CourseDAO courseDAO = new CourseDAO();
 
-        String correctName = "PYTHON FOR BEGINNER";
+        String correctName = "Dekiru Nihongo";
         ArrayList<Course> courses = courseDAO.searchCourses(correctName);
 
-        assertEquals(1, courses.size());
+        assertEquals(1, courses.size()); // có nhiều khóa học bị trùng thì lỗi!!!
         assertEquals(correctName, courses.get(0).getName());
     }
 
