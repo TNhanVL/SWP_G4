@@ -15,75 +15,139 @@
 
 <%
     if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
-        response.sendRedirect("/login");
+        response.sendRedirect("/admin/login");
     }
 %>
 
-<jsp:include page="head.jsp">
-    <jsp:param name="title" value="Dashboard"/>
-</jsp:include>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="/public/admin/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/public/admin/assets/img/favicon.png">
+    <title>
+        Admin dashboard
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"/>
+    <!-- Nucleo Icons -->
+    <link href="/public/admin/assets/css/nucleo-icons.css" rel="stylesheet"/>
+    <link href="/public/admin/assets/css/nucleo-svg.css" rel="stylesheet"/>
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="/public/admin/assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet"/>
 
-<body class="not-login-page">
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet"/>
+</head>
 
-<div class="hello">
-    <h1>Hi <b><%out.print(CookieServices.getUserName(request.getCookies()));%>!</b></h1>
-    <button onclick="location.href = './logout';">Logout</button>
-</div>
+<body class="g-sidenav-show  bg-gray-200">
 
-<table>
-    <h2>List of Users</h2>
+<%@include file="sidebar.jsp" %>
 
-    <tr class="tableHeader">
-        <th>ID</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>FirstName</th>
-        <th>LastName</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Modify</th>
-    </tr>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
 
-    <c:forEach var="user" items="${sessionScope.userList}">
-        <tr>
-            <td>${user.ID}</td>
-            <td>${user.username}</td>
-            <td>${user.email}</td>
-            <td>${user.firstName}</td>
-            <td>${user.lastName}</td>
-            <td>
-                <c:choose>
-                    <c:when test="${user.role == 0}">
-                        Student
-                    </c:when>
-                    <c:when test="${user.role == 1}">
-                        Instructor
-                    </c:when>
-                </c:choose>
-            </td>
-            <td>
-                <c:choose>
-                    <c:when test="${user.status == 0}">
-                        Locked
-                    </c:when>
-                    <c:when test="${user.status == 1}">
-                        Active
-                    </c:when>
-                </c:choose>
-            </td>
-            <td>
-                <a href="./editUser?id=${user.ID}">
-                    <i class="fas fa-solid fa-pen"></i>
-                </a>
-                <a href="./deleteUser?id=${user.ID}">
-                    <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
-                </a>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Users table</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0" style="margin: 10px">
+
+                            <table id="example" class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Account
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Username
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Status
+                                    </th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="user" items="${sessionScope.userList}">
+                                    <tr>
+
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="../assets/img/team-2.jpg"
+                                                         class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">${user.username}</h6>
+                                                    <p class="text-xs text-secondary mb-0">${user.email}</</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">
+                                                <c:choose>
+                                                    <c:when test="${user.role == 0}">
+                                                        Student
+                                                    </c:when>
+                                                    <c:when test="${user.role == 1}">
+                                                        Instructor
+                                                    </c:when>
+                                                </c:choose>
+                                            </p>
+                                            <p class="text-xs text-secondary mb-0">Organization</p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <c:choose>
+                                                <c:when test="${user.status == 0}">
+                                                    <span class="badge badge-sm bg-gradient-danger">Locked</span>
+                                                </c:when>
+                                                <c:when test="${user.status == 1}">
+                                                    <span class="badge badge-sm bg-gradient-success">Active</span>
+                                                </c:when>
+                                            </c:choose>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="./editUser?id=${user.ID}"
+                                               class="text-secondary font-weight-bold text-xs">
+                                                <i class="fas fa-solid fa-pen"></i>
+                                            </a>
+                                            <a href="./deleteUser?id=${user.ID}"
+                                               class="text-secondary font-weight-bold text-xs">
+                                                <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!--   Core JS Files   -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>
+    new DataTable('#example');
+</script>
+
 
 </body>
-<%@ include file="foot.jsp" %>
+
+</html>
 
 <%@ include file="popUpMessage.jsp" %>
