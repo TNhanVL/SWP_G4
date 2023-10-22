@@ -497,8 +497,10 @@ GO
 -- delete from [transaction] where userID ='1'
 select *
 from sale;
-insert into sale(courseID, price, startDate, endDate)
-values ('2','20','12/16/2022','12/20/2022')
+-- insert into sale(courseID, price, startDate, endDate)
+-- values ('2','20','12/16/2022','12/20/2022')
+--     UPDATE sale set price = '30',startDate ='11/22/2022',endDate ='12/23/2022'where courseID ='2'
+    delete from sale where courseID = '2'
 --  select * from review
 --SELECT * FROM [user];
 -- insert into review(userID, courseID, reviewed, verified, note)
