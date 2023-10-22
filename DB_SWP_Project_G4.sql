@@ -490,11 +490,15 @@ VALUES (1, 'a', 1),
 --(26, 'josei', 1), (26, 'jiso', 0), (26, 'jose', 0), (26, 'jisei', 0)
 
 GO
-select * from [transaction]
-insert into [transaction](userID, courseID, originPrice, price, type, description, status)
-values('2','7','20.00000000','40.00000000','2','dung roi','0')
-update [transaction] set courseID = '7' , originPrice = '40',price = '60',type ='3',description ='moi update',status ='1'where userID ='2'
-delete from [transaction] where userID ='1'
+-- select * from [transaction]
+-- insert into [transaction](userID, courseID, originPrice, price, type, description, status)
+-- values('2','7','20.00000000','40.00000000','2','dung roi','0')
+-- update [transaction] set courseID = '7' , originPrice = '40',price = '60',type ='3',description ='moi update',status ='1'where userID ='2'
+-- delete from [transaction] where userID ='1'
+select *
+from sale;
+insert into sale(courseID, price, startDate, endDate)
+values ('2','20','12/16/2022','12/20/2022')
 --  select * from review
 --SELECT * FROM [user];
 -- insert into review(userID, courseID, reviewed, verified, note)
