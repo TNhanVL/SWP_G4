@@ -495,12 +495,13 @@ GO
 -- values('2','7','20.00000000','40.00000000','2','dung roi','0')
 -- update [transaction] set courseID = '7' , originPrice = '40',price = '60',type ='3',description ='moi update',status ='1'where userID ='2'
 -- delete from [transaction] where userID ='1'
-select *
-from sale;
+select * from instruct
+insert into instruct(userID, courseID)values ('2','8')
+delete from instruct where userID = '1' and courseID = '10'
 -- insert into sale(courseID, price, startDate, endDate)
 -- values ('2','20','12/16/2022','12/20/2022')
 --     UPDATE sale set price = '30',startDate ='11/22/2022',endDate ='12/23/2022'where courseID ='2'
-    delete from sale where courseID = '2'
+--     delete from sale where courseID = '2'
 --  select * from review
 --SELECT * FROM [user];
 -- insert into review(userID, courseID, reviewed, verified, note)
