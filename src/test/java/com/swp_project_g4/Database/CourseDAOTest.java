@@ -38,4 +38,20 @@ public class CourseDAOTest {
 
         assertEquals(0, courses.size());
     }
+
+    @Test
+    void searchCoursesWithPartialName() throws SQLException, ClassNotFoundException {
+        CourseDAO courseDAO = new CourseDAO();
+
+        String name = "Java";
+        ArrayList<Course> courses = courseDAO.searchCourses(name);
+
+        // Kiểm tra xem danh sách khóa học trả về có ít nhất 6 khóa học hay không
+        assertThat(courses.size()).isGreaterThanOrEqualTo(6);
+
+        // Kiểm tra xem tên của tất cả các khóa học trong danh sách có chứa tên "Java" hay không
+        for (Course course : courses) {
+            assertThat(course.getName().contains(name)).isTrue();
+        }
+    }
 }
