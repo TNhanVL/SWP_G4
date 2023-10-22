@@ -3,17 +3,17 @@ go
 
 IF EXISTS (SELECT name
            FROM sys.databases
-           WHERE name = N'DB_PRJ_Project_G2')
+           WHERE name = N'DB_SWP_Project_G4')
     BEGIN
-        ALTER DATABASE [DB_PRJ_Project_G2] SET OFFLINE WITH ROLLBACK IMMEDIATE;
-        ALTER DATABASE [DB_PRJ_Project_G2] SET ONLINE;
-        DROP DATABASE [DB_PRJ_Project_G2];
+        ALTER DATABASE [DB_SWP_Project_G4] SET OFFLINE WITH ROLLBACK IMMEDIATE;
+        ALTER DATABASE [DB_SWP_Project_G4] SET ONLINE;
+        DROP DATABASE [DB_SWP_Project_G4];
     END
 
-CREATE DATABASE DB_PRJ_Project_G2
+CREATE DATABASE DB_SWP_Project_G4
 GO
 
-USE DB_PRJ_Project_G2
+USE DB_SWP_Project_G4
 GO
 
 CREATE TABLE [admin]
@@ -90,8 +90,8 @@ CREATE TABLE sale
     saleID    INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     courseID  INT                NOT NULL,
     price     NUMERIC(10, 2)     NOT NULL,
-    startDate DATE,
-    endDate   DATE,
+    startDate DATETIME,
+    endDate   DATETIME,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
