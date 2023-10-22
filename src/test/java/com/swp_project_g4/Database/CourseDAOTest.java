@@ -47,11 +47,14 @@ public class CourseDAOTest {
         ArrayList<Course> courses = courseDAO.searchCourses(name);
 
         // Kiểm tra xem danh sách khóa học trả về có ít nhất 6 khóa học hay không
-        assertThat(courses.size()).isGreaterThanOrEqualTo(6);
+//        assertThat(courses.size()).isGreaterThanOrEqualTo(6);
+        assertEquals(true, courses.size() >= 6);
+
 
         // Kiểm tra xem tên của tất cả các khóa học trong danh sách có chứa tên "Java" hay không
         for (Course course : courses) {
-            assertThat(course.getName().contains(name)).isTrue();
+            assertEquals(true, course.getName().contains(name));
+//            assertThat(course.getName().contains(name)).isTrue();
         }
     }
 }
