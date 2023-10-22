@@ -493,7 +493,9 @@ GO
 select * from [transaction]
 insert into [transaction](userID, courseID, originPrice, price, type, description, status)
 values('2','7','20.00000000','40.00000000','2','dung roi','0')
- select * from review
+update [transaction] set courseID = '7' , originPrice = '40',price = '60',type ='3',description ='moi update',status ='1'where userID ='2'
+delete from [transaction] where userID ='1'
+--  select * from review
 --SELECT * FROM [user];
 -- insert into review(userID, courseID, reviewed, verified, note)
 -- values ('2','7','0','2','COI LAI KIEN THUC')
