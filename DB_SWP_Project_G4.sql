@@ -90,8 +90,8 @@ CREATE TABLE sale
     saleID    INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     courseID  INT                NOT NULL,
     price     NUMERIC(10, 2)     NOT NULL,
-    startDate DATE,
-    endDate   DATE,
+    startDate DATETIME,
+    endDate   DATETIME,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
