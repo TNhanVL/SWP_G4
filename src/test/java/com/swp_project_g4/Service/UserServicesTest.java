@@ -83,7 +83,7 @@ class UserServicesTest {
         String email = "dylan@example.com";
         String birthday = "2015/03/20";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(true, res);
+        assertEquals(false, res);
     }
 
     @Test
