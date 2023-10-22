@@ -119,7 +119,7 @@ public class UserDAO extends DBConnection {
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "execute query failed");
+            Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "execute query failed");
         }
         return res;
     }
