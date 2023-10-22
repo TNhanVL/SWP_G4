@@ -39,9 +39,47 @@ public class TransactionDAO extends DBConnection {
 
     }
 
+    public static boolean updateTransaction(Transaction transaction) {
+
+        try {
+            //connect to database
+            connect();
+            statement = conn.prepareStatement("update [transaction] set courseID = ? , originPrice = ?,price = ?,type =?,description =?,status =?where userID =?\n");
+            statement.setInt(1, transaction.getCourse());
+            statement.setFloat(2, transaction.getOrginPrice());
+            statement.setFloat(3,transaction.getPrice());
+            statement.setString(5,transaction.getDescription());
+            statement.setInt(6,transaction.getType());
+            statement.setInt(7,transaction.getStatus());
+            statement.setInt(8,transaction.getID());
+            statement.executeUpdate();
+            //disconnect to database
+            disconnect();
+            return true;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return false;
+    }
+
+    public static boolean deleteTransaction(int userID) {
+        try {
+
+            connect();
+            statement = conn.prepareStatement("delete from [transaction] where userID =?");
+            statement.setInt(1, userID);
+            statement.execute();
+            disconnect();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
 public static void main(String[] args) {
-    User user = UserDAO.getUser(1);
-    Transaction lect = new Transaction( user ,1,40,30,1,"hong mua",2);
-    insertTransaction(lect);
+
 }
 }

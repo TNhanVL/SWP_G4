@@ -29,7 +29,7 @@ public class DBConnection {
         ds.setPassword(Config.PASSWORD);
         ds.setPortNumber(Config.PORT);
         ds.setDatabaseName(Config.DATABASE_NAME);
-        ds.setEncrypt(false);
+        //ds.setEncrypt(false);
 
         conn = ds.getConnection();
     }
