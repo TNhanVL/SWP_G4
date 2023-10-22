@@ -5,15 +5,12 @@
 package com.swp_project_g4.Database;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Gr2
  */
 public class DBConnection {
@@ -22,16 +19,15 @@ public class DBConnection {
     static PreparedStatement statement;
 
     static void connect() throws SQLException, ClassNotFoundException {
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDataSource");
-        SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setServerName(Config.SERVER);
-        ds.setUser(Config.USER);
-        ds.setPassword(Config.PASSWORD);
-        ds.setPortNumber(Config.PORT);
-        ds.setDatabaseName(Config.DATABASE_NAME);
-        ds.setEncrypt(false);
-
-        conn = ds.getConnection();
+        String connectionUrl =
+                "jdbc:sqlserver://localhost;"
+                        + "database=" + Config.DATABASE_NAME + ";"
+                        + "user=" + Config.USER + ";"
+                        + "password=" + Config.PASSWORD + ";"
+                        + "encrypt=false;"
+                        + "trustServerCertificate=false;"
+                        + "loginTimeout=30;";
+        conn = DriverManager.getConnection(connectionUrl);
     }
 
     static void disconnect() throws SQLException {
@@ -61,9 +57,9 @@ public class DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("UPDATE [user] SET firstName = ?  WHERE ID = 4");
-            statement.setString(1, "Thanh Nhân");
-            statement.execute();
+//            statement = conn.prepareStatement("UPDATE [user] SET firstName = ?  WHERE ID = 4");
+//            statement.setString(1, "Thanh Nhân");
+//            statement.execute();
 
             disconnect();
 
