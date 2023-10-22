@@ -2,9 +2,7 @@ package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.Course;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,10 +1,7 @@
 package com.swp_project_g4.Service;
 
-import com.swp_project_g4.Database.DBConnection;
 import com.swp_project_g4.Database.UserDAO;
-import com.swp_project_g4.Model.User;
 
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,8 +34,9 @@ public class UserServices {
 
 
         } catch (Exception e) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "valid");
+
         }
+        Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "valid");
         return true;
     }
 }
