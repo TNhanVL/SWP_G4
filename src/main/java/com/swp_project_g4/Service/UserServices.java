@@ -10,7 +10,10 @@ import java.util.logging.Logger;
 public class UserServices {
     public static boolean isValidInformation(String name, String phone_number, String email, String birthday) {
         try {
-
+            boolean fineName = name.matches("^[\\p{L}\\p{M}]+([\\p{L}\\p{Pd}\\p{Zs}'.]*[\\p{L}\\p{M}])+$|^[\\p{L}\\p{M}]+$");
+            if(!fineName){
+                return false;
+            }
         } catch (Exception e) {
 
         }
