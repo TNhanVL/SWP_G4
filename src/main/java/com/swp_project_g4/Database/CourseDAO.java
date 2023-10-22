@@ -6,6 +6,7 @@ package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Chapter;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author TTNhan
  */
 public class CourseDAO extends DBConnection {
@@ -100,6 +100,40 @@ public class CourseDAO extends DBConnection {
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return courses;
+    }
+
+    public static ArrayList<Course> searchCourses(String name) {
+        ArrayList<Course> courses = new ArrayList<>();
+
+        try {
+            //connect to database
+            connect();
+
+            // search course by name
+            String sql = "select * from course where name like ?";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, "%" + name + "%");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Course course = new Course(
+                        resultSet.getInt("courseID"),
+                        resultSet.getString("name"),
+                        resultSet.getString("image"),
+                        resultSet.getString("description"),
+                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("instructorID"),
+                        resultSet.getDouble("price"),
+                        resultSet.getDouble("rate"));
+                courses.add(course);
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return courses;
@@ -543,7 +577,7 @@ public class CourseDAO extends DBConnection {
 
         return 0;
     }
-    
+
     public static int getNumberPurchasedOfCourse(int courseID) {
 
         try {
