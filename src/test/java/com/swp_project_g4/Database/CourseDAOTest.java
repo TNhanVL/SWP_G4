@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CourseDAOTest {
 
     @Test
-    void searchCoursesWithEmptyName() throws SQLException, ClassNotFoundException {
+    void searchCoursesWithEmptyName() {
         CourseDAO courseDAO = new CourseDAO();
 
         ArrayList<Course> courses = courseDAO.searchCourses("");
@@ -20,7 +20,7 @@ public class CourseDAOTest {
     }
 
     @Test
-    void searchCoursesWithCorrectName() throws SQLException, ClassNotFoundException {
+    void searchCoursesWithCorrectName() {
         CourseDAO courseDAO = new CourseDAO();
 
         String correctName = "Dekiru Nihongo";
@@ -31,7 +31,7 @@ public class CourseDAOTest {
     }
 
     @Test
-    void searchCoursesWithIncorrectName() throws SQLException, ClassNotFoundException {
+    void searchCoursesWithIncorrectName() {
         CourseDAO courseDAO = new CourseDAO();
 
         String incorrectName = "Basic Java";

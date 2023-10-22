@@ -6,6 +6,7 @@ package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Chapter;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author TTNhan
  */
 public class CourseDAO extends DBConnection {
@@ -105,7 +105,7 @@ public class CourseDAO extends DBConnection {
         return courses;
     }
 
-    public static ArrayList<Course> searchCourses(String name) throws SQLException, ClassNotFoundException {
+    public static ArrayList<Course> searchCourses(String name) {
         ArrayList<Course> courses = new ArrayList<>();
 
         try {
@@ -597,7 +597,7 @@ public class CourseDAO extends DBConnection {
 
         return 0;
     }
-    
+
     public static int getNumberPurchasedOfCourse(int courseID) {
 
         try {
