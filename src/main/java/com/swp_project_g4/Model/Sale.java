@@ -5,14 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sale {
- private int courseID;
- private Double price ;
- private String startDate;
- private String endDate;
+    private int courseID;
+    private Double price;
+    private Date startDate;
+    private Date endDate;
 
 }
