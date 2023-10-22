@@ -734,11 +734,11 @@ public class CourseDAO extends DBConnection {
                 return false;
             }
             if (name == null || name == "") {
-                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "course name invalid");
+                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "invalid name");
                 return false;
             }
             if (price < 0) {
-                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "price invalid");
+                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "invalid price");
                 return false;
             }
         } catch (Exception e) {
