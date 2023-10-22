@@ -181,8 +181,8 @@ public class CourseDAO extends DBConnection {
             statement.setString(3, course.getDescription());
             statement.setInt(4, course.getOrganizationID());
             statement.setInt(5, course.getInstructorID());
-            statement.setDouble(7, course.getPrice());
-            statement.setDouble(8, course.getRate());
+            statement.setDouble(6, course.getPrice());
+            statement.setDouble(7, course.getRate());
 
             statement.execute();
 
@@ -208,9 +208,9 @@ public class CourseDAO extends DBConnection {
             statement.setString(3, course.getDescription());
             statement.setInt(4, course.getOrganizationID());
             statement.setInt(5, course.getInstructorID());
-            statement.setDouble(7, course.getPrice());
-            statement.setDouble(8, course.getRate());
-            statement.setInt(9, course.getCourseID());
+            statement.setDouble(6, course.getPrice());
+            statement.setDouble(7, course.getRate());
+            statement.setInt(8, course.getCourseID());
 
             statement.executeUpdate();
 
@@ -234,11 +234,7 @@ public class CourseDAO extends DBConnection {
             statement.setInt(1, courseID);
             statement.execute();
             disconnect();
-            if (!existCourse(courseID)) {
-                return true;
-            } else {
-                return false;
-            }
+            return !existCourse(courseID);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -250,11 +246,12 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select sum([time]) as sumTime from\n"
-                    + "(select * from lesson) as l\n"
-                    + "join\n"
-                    + "(select * from chapter where courseID = ?) as m\n"
-                    + "on l.chapterID = m.chapterID");
+            statement = conn.prepareStatement("""
+                    select sum([time]) as sumTime from
+                    (select * from lesson) as l
+                    join
+                    (select * from chapter where courseID = ?) as m
+                    on l.chapterID = m.chapterID""");
             statement.setInt(1, courseID);
             ResultSet resultSet = statement.executeQuery();
 
@@ -276,15 +273,16 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select sum([time]) as sumTime from\n"
-                    + "(select l.lessonID, [time] from\n"
-                    + "(select * from lesson) as l\n"
-                    + "join\n"
-                    + "(select * from chapter where courseID = ?) as m\n"
-                    + "on l.chapterID = m.chapterID) l\n"
-                    + "join\n"
-                    + "(select * from lessonCompleted where userID = ?) lc\n"
-                    + "on l.lessonID = lc.lessonID");
+            statement = conn.prepareStatement("""
+                    select sum([time]) as sumTime from
+                    (select l.lessonID, [time] from
+                    (select * from lesson) as l
+                    join
+                    (select * from chapter where courseID = ?) as m
+                    on l.chapterID = m.chapterID) l
+                    join
+                    (select * from lessonCompleted where userID = ?) lc
+                    on l.lessonID = lc.lessonID""");
             statement.setInt(1, courseID);
             statement.setInt(2, userID);
             ResultSet resultSet = statement.executeQuery();
@@ -307,15 +305,16 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select sum([time]) as sumTime from\n"
-                    + "(select l.lessonID, [time] from\n"
-                    + "(select * from lesson) as l\n"
-                    + "join\n"
-                    + "(select * from chapter where courseID in (select courseID from purchasedCourse where userID = ?)) as m\n"
-                    + "on l.chapterID = m.chapterID) l\n"
-                    + "join\n"
-                    + "(select * from lessonCompleted where userID = ?) lc\n"
-                    + "on l.lessonID = lc.lessonID");
+            statement = conn.prepareStatement("""
+                    select sum([time]) as sumTime from
+                    (select l.lessonID, [time] from
+                    (select * from lesson) as l
+                    join
+                    (select * from chapter where courseID in (select courseID from purchasedCourse where userID = ?)) as m
+                    on l.chapterID = m.chapterID) l
+                    join
+                    (select * from lessonCompleted where userID = ?) lc
+                    on l.lessonID = lc.lessonID""");
             statement.setInt(1, userID);
             statement.setInt(2, userID);
             ResultSet resultSet = statement.executeQuery();
