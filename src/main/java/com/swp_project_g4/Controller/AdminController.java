@@ -1,7 +1,10 @@
 package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.AdminDAO;
+import com.swp_project_g4.Database.CourseDAO;
+import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.JwtUtil;
@@ -23,6 +26,16 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+    @GetMapping("")
+    public String redirect(HttpServletRequest request) {
+        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
+            request.getSession().setAttribute("error", "You need to log in to continue!");
+            return "redirect:admin/login";
+        }
+
+        return "redirect:admin/dashboard";
+    }
 
     @GetMapping("/login")
 //    @ResponseBody
@@ -70,9 +83,9 @@ public class AdminController {
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String dashboard(ModelMap model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        UserDAO userDAO = new UserDAO();
-        session.setAttribute("userList", UserDAO.getAllUsers());
+        request.getSession().setAttribute("userList", UserDAO.getAllUsers());
+        request.getSession().setAttribute("orgList", OrganizationDAO.getAllOrganization());
+        request.getSession().setAttribute("courseList", CourseDAO.getAllCourses());
         return "admin/dashboard";
     }
 
