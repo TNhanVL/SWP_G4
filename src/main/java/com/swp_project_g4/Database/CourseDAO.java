@@ -726,6 +726,28 @@ public class CourseDAO extends DBConnection {
         return true;
     }
 
+    public static boolean addCourse(int organizationID, String name, String picture, double price) {
+        try {
+            boolean existOgranization = OrganizationDAO.existOrganization(organizationID);
+            if (!existOgranization) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "ogranization not exist");
+                return false;
+            }
+            if (name == null || name == "") {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "invalid name");
+                return false;
+            }
+            if (price < 0) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "invalid price");
+                return false;
+            }
+        } catch (Exception e) {
+
+        }
+        Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "success");
+        return true;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(existCourse(1));
 //
