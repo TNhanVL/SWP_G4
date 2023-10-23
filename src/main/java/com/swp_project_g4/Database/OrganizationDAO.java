@@ -5,13 +5,15 @@
 package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.Organization;
+
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author TTNhan
  */
 public class OrganizationDAO extends DBConnection {
@@ -68,6 +70,31 @@ public class OrganizationDAO extends DBConnection {
         return organization;
     }
 
+    public static ArrayList<Organization> getAllOrganization() {
+        ArrayList<Organization> organizationList = new ArrayList<>();
+        try {
+            //connect to database
+            connect();
+
+            statement = conn.prepareStatement("select * from organization order by ID");
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                organizationList.add(new Organization(
+                        resultSet.getInt("ID"),
+                        resultSet.getString("name"),
+                        resultSet.getString("picture"),
+                        resultSet.getString("description")));
+            }
+
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return organizationList;
+    }
+
     public static boolean insertOrganization(Organization organization) {
         try {
             //connect to database
@@ -122,11 +149,7 @@ public class OrganizationDAO extends DBConnection {
             statement.setInt(1, ID);
             statement.execute();
             disconnect();
-            if (!existOrganization(ID)) {
-                return true;
-            } else {
-                return false;
-            }
+            return !existOrganization(ID);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

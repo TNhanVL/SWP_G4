@@ -1,16 +1,22 @@
 package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.AdminDAO;
+import com.swp_project_g4.Database.CourseDAO;
+import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.JwtUtil;
 import com.swp_project_g4.Service.MD5;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +26,16 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+    @GetMapping("")
+    public String redirect(HttpServletRequest request) {
+        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
+            request.getSession().setAttribute("error", "You need to log in to continue!");
+            return "redirect:admin/login";
+        }
+
+        return "redirect:admin/dashboard";
+    }
 
     @GetMapping("/login")
 //    @ResponseBody
@@ -66,12 +82,18 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public String dashboard(ModelMap model) {
+    public String dashboard(ModelMap model, HttpServletRequest request) {
+        request.getSession().setAttribute("userList", UserDAO.getAllUsers());
+        request.getSession().setAttribute("orgList", OrganizationDAO.getAllOrganization());
+        request.getSession().setAttribute("courseList", CourseDAO.getAllCourses());
         return "admin/dashboard";
     }
 
     @RequestMapping(value = "/editUser", method = RequestMethod.GET)
-    public String editUser(ModelMap model, @RequestParam String id) {
+    public String editUser(ModelMap model, HttpServletRequest request, @RequestParam String id) {
+        HttpSession session = request.getSession();
+        UserDAO userDAO = new UserDAO();
+        session.setAttribute("currentUser", UserDAO.getUser(Integer.parseInt(id)));
         return "admin/editUser";
     }
 
@@ -87,13 +109,13 @@ public class AdminController {
 
     @RequestMapping(value = "/editUser", method = RequestMethod.POST)
     public String editUserPost(ModelMap model, HttpServletRequest request, @RequestParam String id, @ModelAttribute("user") User user) {
-        
+
         //check logged in
-        if(!CookieServices.checkAdminLoggedIn(request.getCookies())){
+        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:./login";
         }
-        
+
         try {
             boolean ok = UserDAO.updateUser(user);
             if (ok) {
@@ -110,13 +132,13 @@ public class AdminController {
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
     public String deleteUser(ModelMap model, @RequestParam String id, HttpServletRequest request) {
-        
+
         //check logged in
-        if(!CookieServices.checkAdminLoggedIn(request.getCookies())){
+        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
-        
+
         try {
             if (UserDAO.deleteUser(Integer.parseInt(id))) {
                 request.getSession().setAttribute("success", "Delete user succeed!");
