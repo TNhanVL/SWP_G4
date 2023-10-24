@@ -95,8 +95,9 @@
 
                                             <div class="form-group" hidden="hidden">
                                                 <label>ID</label>
-                                                <input type="text" name="ID" value="<%out.print(user.getID());%>"
-                                                       style="display: none">
+                                                <input type="text" name="ID" value="<%out.print(user.getID());%>">
+                                                <input type="text" name="picture" value="<%out.print(user.getPicture());%>">
+
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">Username</label>
@@ -107,7 +108,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="password">Password</label>
-                                                <input type="text" class="form-control" id="password"
+                                                <input type="password" class="form-control" id="password"
                                                        name="password" placeholder="Password"
                                                        value="<%out.print(user.getPassword());%>"
                                                        required>

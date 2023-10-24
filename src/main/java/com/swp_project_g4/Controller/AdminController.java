@@ -108,6 +108,7 @@ public class AdminController {
     @RequestMapping(value = "/editUser", method = RequestMethod.POST)
     public String editUserPost(ModelMap model, HttpServletRequest request, @RequestParam String id, @ModelAttribute("user") User user) {
 
+        user.setPassword(MD5.getMd5(user.getPassword()));
         //check logged in
         if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
