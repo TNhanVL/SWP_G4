@@ -30,18 +30,17 @@
             </thead>
             <tbody>
             <c:forEach var="user" items="${sessionScope.userList}">
-                <tr>
-                    <td>
+                <tr><td>
                         <div class="d-flex px-2 py-1">
                             <div>
                                 <img class="avatar avatar-sm me-3 border-radius-lg" alt="user1"
                                      src=
                                      <c:choose>
-                                     <c:when test='${empty sessionScope.currentUser.picture}'>
+                                     <c:when test='${user.picture == "null"}'>
                                              "/public/assets/imgs/logo.png"
                                 </c:when>
                                 <c:otherwise>
-                                    "${sessionScope.currentUser.picture}"
+                                    "/public/media/user/${user.ID}/${user.picture}"
                                 </c:otherwise>
                                 </c:choose>
                                 >
@@ -66,7 +65,6 @@
                                 </c:when>
                             </c:choose>
                         </p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
                     </td>
                     <td class="align-middle text-center text-sm">
                         <c:choose>

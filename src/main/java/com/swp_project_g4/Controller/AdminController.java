@@ -91,9 +91,7 @@ public class AdminController {
 
     @RequestMapping(value = "/editUser", method = RequestMethod.GET)
     public String editUser(ModelMap model, HttpServletRequest request, @RequestParam String id) {
-        HttpSession session = request.getSession();
-        UserDAO userDAO = new UserDAO();
-        session.setAttribute("currentUser", UserDAO.getUser(Integer.parseInt(id)));
+        request.getSession().setAttribute("currentUser", UserDAO.getUser(Integer.parseInt(id)));
         return "admin/editUser";
     }
 

@@ -56,11 +56,11 @@
                             <div class="card" style="width: 18rem;">
                                 <img class="card-img-top" src=
                                 <c:choose>
-                                <c:when test='${empty sessionScope.currentUser.picture}'>
+                                <c:when test='${user.picture == "null"}'>
                                         "/public/assets/imgs/logo.png"
                                 </c:when>
                                 <c:otherwise>
-                                    "${sessionScope.currentUser.picture}"
+                                    "/public/media/user/${sessionScope.currentUser.ID}/${sessionScope.currentUser.picture}"
                                 </c:otherwise>
                                 </c:choose>>
                                 <div class="card-body">
