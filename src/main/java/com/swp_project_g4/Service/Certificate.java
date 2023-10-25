@@ -113,7 +113,7 @@ public class Certificate {
 
     public static void createCertificate(String certificateName, int userID, int courseID, HttpServletRequest request) {
         
-        srcPath = request.getSession().getServletContext().getRealPath("/") + "../../src/main/webapp/public";
+        srcPath = request.getSession().getServletContext().getRealPath("/") + "../../main/webapp/public";
         
         User user = UserDAO.getUser(userID);
         Course course = CourseDAO.getCourse(courseID);

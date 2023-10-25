@@ -4,9 +4,7 @@
  */
 package com.swp_project_g4.Database;
 
-import com.swp_project_g4.Model.Lesson;
-import com.swp_project_g4.Model.Chapter;
-import com.swp_project_g4.Model.QuizResult;
+import com.swp_project_g4.Model.*;
 import com.swp_project_g4.Service.Certificate;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.swp_project_g4.Service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -162,14 +162,15 @@ public class LessonDAO extends DBConnection {
             Lesson lesson = LessonDAO.getLesson(lessonID);
             Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
             // Generate new certificate if completed course
-            if (CourseDAO.checkCourseCompleted(userID, chapter.getCourseID())) {
+            if (CourseDAO.markCourseCompleted(userID, chapter.getCourseID())) {
                 // if completed course
                 String certificateName = "certificate_" + chapter.getCourseID() + "_" + userID + ".pdf";
                 CourseDAO.insertCertificate(userID, chapter.getCourseID(), certificateName);
                 Certificate.createCertificate(certificateName, userID, chapter.getCourseID(), request);
                 
-//                User user = UserDAO.getUser(userID);
-//                EmailService.sendCompletecourse(user.getEmail(), "http://localhost:8080/swp_project_g4/public/media/certificate/" + certificateName);
+                User user = UserDAO.getUser(userID);
+                Course course = CourseDAO.getCourse(chapter.getCourseID());
+                EmailService.sendCompletecourse(user, course, "http://localhost:8080/public/media/certificate/" + certificateName);
             }
 
             return true;

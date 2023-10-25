@@ -4,6 +4,9 @@
  */
 package com.swp_project_g4.Service;
 
+import com.swp_project_g4.Model.Course;
+import com.swp_project_g4.Model.User;
+
 import javax.mail.Authenticator;
 import java.util.Date;
 import java.util.Properties;
@@ -17,16 +20,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- *
  * @author TTNhan
  */
+
 /**
+ * <<<<<<< HEAD
  *
-<<<<<<< HEAD
  * @author Thanh Duong
-=======
+ * =======
  * @author TTNhan
->>>>>>> 53029af8c5dc931bb1243a98c27d3aea6a007bd1
+ * >>>>>>> 53029af8c5dc931bb1243a98c27d3aea6a007bd1
  */
 public class EmailService {
 //    thanhduongjnguyen@gmail.com
@@ -122,16 +125,16 @@ public class EmailService {
 
     }
 
-    public static void sendCompletecourse(String obj, String cerURL) {
+    public static void sendCompletecourse(User user, Course course, String cerURL) {
         System.out.println(cerURL);
         String complete = "<div>\n"
-                + "        <p><b>Dear Dylanruan1210,</b></p>\n"
-                + "        <p>Congratulations! You’ve successfully completed <b>Java Basic</b>.</p>\n"
+                + "        <p><b>Dear " + user.getFirstName() + " " + user.getLastName() + ",</b></p>\n"
+                + "        <p>Congratulations! You’ve successfully completed <b>" + course.getName() + "</b>.</p>\n"
                 + "        <p><b>Best regards,</b></p>\n"
                 + "    </div>"
                 + "    <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a style=\"color:#fff;\" href=\"" + cerURL + "\">View Certificate</a></button></p>";
 
-        mailTo(obj, "[Yojihan] Congratulations, Your Certificate is Ready!", "html", complete);
+        mailTo(user.getEmail(), "[Yojihan] Congratulations, Your Certificate is Ready!", "html", complete);
 
     }
 
@@ -143,7 +146,7 @@ public class EmailService {
 //        mailTo("thanhduongjnguyen@gmail.com", "You have ...", "html", changePassContent);
 //        sendWelcomMail("thanhduongjnguyen@gmail.com", "http://127.0.0.1:5500/courseInfo.html");
 //            sendChangePassword("thanhduongjnguyen@gmail.com", "http://127.0.0.1:5500/changPassword.html");
-        sendCompletecourse("nhan12341184@gmail.com", "http://127.0.0.1:5500/courseInfo.html");
+//        sendCompletecourse("nhan12341184@gmail.com", "http://localhost:8080/public/media/certificate/certificate_2_1.pdf");
     }
 
 }

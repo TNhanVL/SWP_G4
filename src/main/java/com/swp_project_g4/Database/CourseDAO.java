@@ -713,7 +713,7 @@ public class CourseDAO extends DBConnection {
         return false;
     }
 
-    public static boolean checkCourseCompleted(int userID, int courseID) {
+    public static boolean markCourseCompleted(int userID, int courseID) {
         ArrayList<Chapter> chapters = ChapterDAO.getChaptersByCourseID(courseID);
         for (Chapter chapter : chapters) {
             int numberOfCompleted = LessonDAO.getNumberLessonsCompleted(userID, chapter.getChapterID());
