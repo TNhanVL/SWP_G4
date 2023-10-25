@@ -274,9 +274,9 @@ CREATE TABLE answer
 );
 GO
 
-CREATE TABLE quizResult
+CREATE TABLE quiz_result
 (
-    quizResultID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    quiz_resultID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     lessonID     INT                NOT NULL,
     userID       INT                NOT NULL,
     startTime    DATETIME,
@@ -288,13 +288,13 @@ GO
 
 CREATE TABLE chosen_answer
 (
-    quizResultID   INT NOT NULL,
+    quiz_resultID   INT NOT NULL,
     questionID     INT NOT NULL,
-    selectedAnswer INT NOT NULL,
-    FOREIGN KEY (quizResultID) REFERENCES quizResult (quizResultID),
+    selected_answer INT NOT NULL,
+    FOREIGN KEY (quiz_resultID) REFERENCES quiz_result (quiz_resultID),
     FOREIGN KEY (questionID) REFERENCES question (questionID),
-    FOREIGN KEY (selectedAnswer) REFERENCES answer (answerID),
-    UNIQUE (quizResultID, questionID, selectedAnswer)
+    FOREIGN KEY (selected_answer) REFERENCES answer (answerID),
+    UNIQUE (quiz_resultID, questionID, selected_answer)
 );
 GO
 
@@ -563,13 +563,13 @@ GO
 
 -- Check if question are correct
 --select 1 from
---(select selectedAnswer as ID from chosen_answer where quizResultID = 1 and questionID = 4) a
+--(select selected_answer as ID from chosen_answer where quiz_resultID = 1 and questionID = 4) a
 --full join
 --(select answerID from answer where questionID = 4 and correct = 1) b
 --on a.ID = b.answerID
 --where a.ID is null or b.answerID is null;
 
---select top 1 * from quizResult where userID = 1 and lessonID = 2 order by startTime desc;
+--select top 1 * from quiz_result where userID = 1 and lessonID = 2 order by startTime desc;
 
 --get number completed lesson of a chapter
 --select count(*) as number from

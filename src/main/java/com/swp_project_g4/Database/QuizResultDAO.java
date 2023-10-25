@@ -25,12 +25,12 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select quizResultID from quizResult where quizResultID = ?");
+            statement = conn.prepareStatement("select quiz_resultID from quiz_result where quiz_resultID = ?");
             statement.setInt(1, quizResultID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                if (resultSet.getInt("quizResultID") == quizResultID) {
+                if (resultSet.getInt("quiz_resultID") == quizResultID) {
                     ok = true;
                 }
             }
@@ -51,13 +51,13 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from quizResult where quizResultID = ?");
+            statement = conn.prepareStatement("select * from quiz_result where quiz_resultID = ?");
             statement.setInt(1, quizResultID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 quizResult = new QuizResult(
-                        resultSet.getInt("quizResultID"),
+                        resultSet.getInt("quiz_resultID"),
                         resultSet.getInt("lessonID"),
                         resultSet.getInt("userID"),
                         resultSet.getTimestamp("startTime"),
@@ -100,14 +100,14 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select top 1 * from quizResult where userID = ? and lessonID = ? order by startTime desc");
+            statement = conn.prepareStatement("select top 1 * from quiz_result where userID = ? and lessonID = ? order by startTime desc");
             statement.setInt(1, userID);
             statement.setInt(2, lessonID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 quizResult = new QuizResult(
-                        resultSet.getInt("quizResultID"),
+                        resultSet.getInt("quiz_resultID"),
                         resultSet.getInt("lessonID"),
                         resultSet.getInt("userID"),
                         resultSet.getTimestamp("startTime"),
@@ -131,7 +131,7 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into quizResult(lessonID,userID,startTime,endTime) values(?,?,?,?)");
+            statement = conn.prepareStatement("insert into quiz_result(lessonID,userID,startTime,endTime) values(?,?,?,?)");
             statement.setInt(1, quizResult.getLessonID());
             statement.setInt(2, quizResult.getUserID());
             statement.setString(3, dateFormat.format(quizResult.getStartTime()));
@@ -160,7 +160,7 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update quizResult set lessonID=?,userID=?, startTime=?, endTime=? where quizResultID=?");
+            statement = conn.prepareStatement("update quiz_result set lessonID=?,userID=?, startTime=?, endTime=? where quiz_resultID=?");
             statement.setInt(1, quizResult.getLessonID());
             statement.setInt(2, quizResult.getUserID());
             statement.setString(3, dateFormat.format(quizResult.getStartTime()));

@@ -15,15 +15,15 @@ import java.util.logging.Logger;
  */
 public class ChosenAnswerDAO extends DBConnection {
 
-    public static boolean CheckChosenAnswer(int quizResultID, int questionID, int selectedAnswer) {
+    public static boolean CheckChosenAnswer(int quizResultID, int questionID, int selected_answer) {
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select 1 from chosen_answer where quizResultID = ? and questionID = ? and selectedAnswer = ?");
+            statement = conn.prepareStatement("select 1 from chosen_answer where quiz_resultID = ? and questionID = ? and selected_answer = ?");
             statement.setInt(1, quizResultID);
             statement.setInt(2, questionID);
-            statement.setInt(3, selectedAnswer);
+            statement.setInt(3, selected_answer);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -45,7 +45,7 @@ public class ChosenAnswerDAO extends DBConnection {
             connect();
 
             statement = conn.prepareStatement("select 1 from\n"
-                    + "(select selectedAnswer as ID from chosen_answer where quizResultID = ? and questionID = ?) a\n"
+                    + "(select selected_answer as ID from chosen_answer where quiz_resultID = ? and questionID = ?) a\n"
                     + "full join\n"
                     + "(select answerID from answer where questionID = ? and correct = 1) b\n"
                     + "on a.ID = b.answerID\n"
@@ -68,15 +68,15 @@ public class ChosenAnswerDAO extends DBConnection {
         return true;
     }
 
-    public static boolean insertChosenAnswer(int quizResultID, int questionID, int selectedAnswer) {
+    public static boolean insertChosenAnswer(int quizResultID, int questionID, int selected_answer) {
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into chosen_answer(quizResultID,questionID,selectedAnswer) values(?,?,?)");
+            statement = conn.prepareStatement("insert into chosen_answer(quiz_resultID,questionID,selected_answer) values(?,?,?)");
             statement.setInt(1, quizResultID);
             statement.setInt(2, questionID);
-            statement.setInt(3, selectedAnswer);
+            statement.setInt(3, selected_answer);
             statement.execute();
 
             //disconnect to database
@@ -94,7 +94,7 @@ public class ChosenAnswerDAO extends DBConnection {
     public static void deleteChosenAnswerOfQuestion(int quizResultID, int questionID) {
         try {
             connect();
-            statement = conn.prepareStatement("delete from chosen_answer where quizResultID = ? and questionID = ?");
+            statement = conn.prepareStatement("delete from chosen_answer where quiz_resultID = ? and questionID = ?");
             statement.setInt(1, quizResultID);
             statement.setInt(2, questionID);
             statement.execute();
