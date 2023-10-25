@@ -23,7 +23,7 @@ public class SaleDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into sale(courseID, price, startDate, endDate)\n" +
+            statement = conn.prepareStatement("insert into sale(courseID, price, start_date, end_date)\n" +
                     "values (?,?,?,?)");
 //            statement.setInt(1,Review.getReviewID());
             statement.setInt(1, sale.getCourseID());
@@ -49,7 +49,7 @@ public class SaleDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("UPDATE sale set price =?,startDate =?,endDate =?where courseID =?");
+            statement = conn.prepareStatement("UPDATE sale set price =?,start_date =?,end_date =?where courseID =?");
             statement.setDouble(1,sale.getPrice());
             statement.setString(2, dateFormat.format(sale.getStartDate()));
             statement.setString(3, dateFormat.format(sale.getEndDate()));

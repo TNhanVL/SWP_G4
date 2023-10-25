@@ -90,8 +90,8 @@ CREATE TABLE sale
     saleID    INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     courseID  INT                NOT NULL,
     price     NUMERIC(10, 2)     NOT NULL,
-    startDate DATETIME,
-    endDate   DATETIME,
+    start_date DATETIME,
+    end_date   DATETIME,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -100,7 +100,7 @@ CREATE TABLE [certificate]
 (
     userID          INT NOT NULL,
     courseID        INT NOT NULL,
-    certificateName text,
+    certificate_name text,
     PRIMARY KEY (userID, courseID),
     FOREIGN KEY (userID) REFERENCES [user] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID)
@@ -210,7 +210,7 @@ CREATE TABLE course_progress
     completed        BIT,
     rated            BIT,
     rate             INT,
-    startAt          DATETIME,
+    start_at          DATETIME,
     FOREIGN KEY (learnerID) REFERENCES [user] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
@@ -223,7 +223,7 @@ CREATE TABLE chapter_progress
     course_progressID  INT                NOT NULL,
     progress_percent   INT,
     completed         BIT,
-    startAt           DATETIME,
+    start_at           DATETIME,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
     FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID)
 );
@@ -236,7 +236,7 @@ CREATE TABLE lesson_progress
     chapter_progressID INT                NOT NULL,
     progress_percent   INT,
     completed         BIT,
-    startAt           DATETIME,
+    start_at           DATETIME,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
     FOREIGN KEY (chapter_progressID) REFERENCES chapter_progress (chapter_progressID)
 );
@@ -279,8 +279,8 @@ CREATE TABLE quiz_result
     quiz_resultID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     lessonID     INT                NOT NULL,
     userID       INT                NOT NULL,
-    startTime    DATETIME,
-    endTime      DATETIME,
+    start_at    DATETIME,
+    end_at      DATETIME,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
     FOREIGN KEY (userID) REFERENCES [user] (ID)
 );
@@ -540,9 +540,9 @@ GO
 -- select * from instruct
 -- insert into instruct(userID, courseID)values ('2','8')
 -- delete from instruct where userID = '1' and courseID = '10'
--- insert into sale(courseID, price, startDate, endDate)
+-- insert into sale(courseID, price, start_date, end_date)
 -- values ('2','20','12/16/2022','12/20/2022')
---     UPDATE sale set price = '30',startDate ='11/22/2022',endDate ='12/23/2022'where courseID ='2'
+--     UPDATE sale set price = '30',start_date ='11/22/2022',end_date ='12/23/2022'where courseID ='2'
 --     delete from sale where courseID = '2'
 --  select * from review
 --SELECT * FROM [user];
@@ -569,7 +569,7 @@ GO
 --on a.ID = b.answerID
 --where a.ID is null or b.answerID is null;
 
---select top 1 * from quiz_result where userID = 1 and lessonID = 2 order by startTime desc;
+--select top 1 * from quiz_result where userID = 1 and lessonID = 2 order by start_at desc;
 
 --get number completed lesson of a chapter
 --select count(*) as number from

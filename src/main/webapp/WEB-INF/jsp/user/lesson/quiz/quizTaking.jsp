@@ -54,7 +54,7 @@
                 <i class="fa-regular fa-clock"></i>
                 <span class="countdown"><%
                     //calculate remain time then format and print out
-                    long timeSecond = (quizResult.getEndTime().getTime() - new Date().getTime()) / 1000;
+                    long timeSecond = (quizResult.getEndAt().getTime() - new Date().getTime()) / 1000;
                     if (timeSecond < 0) {
                         timeSecond = 0;
                     }

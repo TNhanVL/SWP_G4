@@ -678,7 +678,7 @@ public class CourseDAO extends DBConnection {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                certificateName = resultSet.getString("certificateName");
+                certificateName = resultSet.getString("certificate_name");
             }
 
             //disconnect to database
@@ -695,7 +695,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into [certificate](userID, courseID, certificateName) values (?, ?, ?)");
+            statement = conn.prepareStatement("insert into [certificate](userID, courseID, certificate_name) values (?, ?, ?)");
             statement.setInt(1, userID);
             statement.setInt(2, courseID);
             statement.setString(3, certificateName);

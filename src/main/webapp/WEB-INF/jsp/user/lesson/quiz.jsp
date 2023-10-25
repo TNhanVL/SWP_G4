@@ -20,7 +20,7 @@
 %>
 <%@include file="./quiz/preTakeQuiz.jsp" %>
 <%
-} else if (quizResult.getEndTime().after(new Date())) {
+} else if (quizResult.getEndAt().after(new Date())) {
     //if are taking quiz
 %>
 <%@include file="./quiz/quizTaking.jsp" %>

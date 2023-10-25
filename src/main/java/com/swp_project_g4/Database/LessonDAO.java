@@ -103,7 +103,7 @@ public class LessonDAO extends DBConnection {
             if (lesson.getType() == 2) {
                 QuizResult quizResult = QuizResultDAO.getLastQuizResult(userID, lessonID);
                 //if not take quiz yet or not finished yet
-                if (quizResult == null || quizResult.getEndTime().after(new Date())) {
+                if (quizResult == null || quizResult.getEndAt().after(new Date())) {
                     return false;
                 }
                 int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResult.getQuizResultID());

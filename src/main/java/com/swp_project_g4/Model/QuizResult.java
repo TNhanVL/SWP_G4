@@ -20,7 +20,7 @@ public class QuizResult {
     private int quizResultID;
     private int lessonID;
     private int userID;
-    private Date startTime;
-    private Date endTime;
+    private Date startAt;
+    private Date endAt;
 
 }

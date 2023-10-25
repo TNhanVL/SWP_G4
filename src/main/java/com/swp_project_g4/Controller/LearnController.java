@@ -90,7 +90,7 @@ public class LearnController {
             return "not owned";
         }
 
-        if (quizResult.getEndTime().before(new Date())) {
+        if (quizResult.getEndAt().before(new Date())) {
             return "out of time!";
         }
 
@@ -134,12 +134,12 @@ public class LearnController {
         Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
 
         //if quiz end yet
-        if (quizResult.getEndTime().before(new Date())) {
+        if (quizResult.getEndAt().before(new Date())) {
             return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();
         }
 
-        //set endTime to current
-        quizResult.setEndTime(new Date());
+        //set end_at to current
+        quizResult.setEndAt(new Date());
         QuizResultDAO.updateQuizResult(quizResult);
 
         int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
