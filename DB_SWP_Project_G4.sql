@@ -74,7 +74,7 @@ CREATE TABLE course
 (
     courseID       INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     name           NVARCHAR(50)       NOT NULL,
-    [picture]        TEXT,
+    [picture]      TEXT,
     [description]  NVARCHAR(50),
     organizationID INT                NOT NULL,
     instructorID   INT                NOT NULL,
@@ -197,6 +197,47 @@ CREATE TABLE lessonCompleted
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
     FOREIGN KEY (userID) REFERENCES [user] (ID),
     UNIQUE (lessonID, userID)
+);
+GO
+
+CREATE TABLE courseProgress
+(
+    courseProgressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    learnerID        INT                NOT NULL,
+    courseID         INT                NOT NULL,
+    enrolled         BIT,
+    progressPercent  INT,
+    completed        BIT,
+    rate             INT,
+    startAt          DATETIME,
+    FOREIGN KEY (learnerID) REFERENCES [user] (ID),
+    FOREIGN KEY (courseID) REFERENCES course (courseID)
+);
+GO
+
+CREATE TABLE chapterProgress
+(
+    chapterProgressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    chapterID         INT                NOT NULL,
+    courseProgressID  INT                NOT NULL,
+    progressPercent   INT,
+    completed         BIT,
+    startAt           DATETIME,
+    FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
+    FOREIGN KEY (courseProgressID) REFERENCES courseProgress (courseProgressID)
+);
+GO
+
+CREATE TABLE lessonProgress
+(
+    lessonProgressID  INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    lessonID          INT                NOT NULL,
+    chapterProgressID INT                NOT NULL,
+    progressPercent   INT,
+    completed         BIT,
+    startAt           DATETIME,
+    FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
+    FOREIGN KEY (chapterProgressID) REFERENCES chapterProgress (chapterProgressID)
 );
 GO
 

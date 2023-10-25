@@ -5,11 +5,15 @@
 package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Repository.UserRepository;
 import com.swp_project_g4.Service.MD5;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -344,61 +348,6 @@ public class UserDAO extends DBConnection {
     }
 
     public static void main(String[] args) throws ClassNotFoundException {
-//<<<<<<< HEAD
-////<<<<<<< HEAD
-//=======
-//>>>>>>> 6cccdf640766a2ed2b76a67412cee356e5dd9750
-//        User user = null;
-//
-//        try {
-//            //connect to database
-//            connect();
-//
-//            statement = conn.prepareStatement("select * from [user] where ID = ?");
-//            statement.setString(1, "3");
-//            ResultSet resultSet = statement.executeQuery();
-//
-//            if (resultSet.next()) {
-//                user = new User(
-//                        resultSet.getInt("ID"),
-//                        resultSet.getString("picture"),
-//                        resultSet.getString("username"),
-//                        resultSet.getString("password"),
-//                        resultSet.getString("email"),
-//                        resultSet.getString("firstName"),
-//                        resultSet.getString("lastName"),
-//                        resultSet.getDate("birthday"),
-//                        resultSet.getInt("countryID"),
-//                        resultSet.getInt("status")
-//                );
-//            }
-//
-//            disconnect();
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-////        System.out.println(user);
-//        user.setPicture("https://ex.png");
-//        user.setUsername("duongthanh");
-//
-////        System.out.println(insertUser(user));
-////        updateUser(user);
-////          deleteUser(5);
-//        ArrayList<User> users = getUser();
-//
-//        for (User u : users) {
-//            System.out.println(u);
-//        }
-//<<<<<<< HEAD
-//
-////    User s = getUser(1);
-////        System.out.println(s.toString());
-////=======
-////        System.out.println(getUserByEmail("user1@example.com"));
-////>>>>>>> b1683b36740c8f06ec9e65a7e66ebac662c6a69b
-//=======
-//        System.out.println(getUserByEmail("user1@example.com"));
-//>>>>>>> 6cccdf640766a2ed2b76a67412cee356e5dd9750
+
     }
 }

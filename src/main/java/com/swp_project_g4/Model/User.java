@@ -1,14 +1,19 @@
 package com.swp_project_g4.Model;
 
 import java.util.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.*;
+
 /**
- *
  * @author TTNhan
  */
+@Entity
+@Table(name = "[user]")
 public class User {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private String picture;
     private String username;

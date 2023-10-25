@@ -7,6 +7,8 @@ import com.swp_project_g4.Database.UserDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.GooglePojo;
 import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Repository.UserRepository;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.GoogleUtils;
 import com.swp_project_g4.Service.JwtUtil;
@@ -14,8 +16,11 @@ import com.swp_project_g4.Service.MD5;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +33,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Controller
+@Service
 //@RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    @ResponseBody
+    public String getAll() {
+        var a = userRepository.findAll();
+        System.out.println(a);
+        return "ok";
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model) {

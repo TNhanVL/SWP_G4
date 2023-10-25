@@ -5,11 +5,15 @@ import com.swp_project_g4.Database.UserDAO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.swp_project_g4.Repository.UserRepository;
 import org.apache.commons.validator.GenericValidator;
 import org.apache.commons.validator.Validator;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 public class UserServices {
+
     public static boolean isValidInformation(String name, String phone_number, String email, String birthday) {
         try {
             boolean fineName = name.matches("^[\\p{L}\\p{M}]+([\\p{L}\\p{Pd}\\p{Zs}'.]*[\\p{L}\\p{M}])+$|^[\\p{L}\\p{M}]+$");
@@ -43,4 +47,5 @@ public class UserServices {
         Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "valid");
         return true;
     }
+
 }
