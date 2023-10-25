@@ -83,7 +83,7 @@ public class LessonDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select 1 from lessonCompleted where lessonID = ? and userID = ?");
+            statement = conn.prepareStatement("select 1 from lesson_completed where lessonID = ? and userID = ?");
             statement.setInt(1, lessonID);
             statement.setInt(2, userID);
             ResultSet resultSet = statement.executeQuery();
@@ -126,7 +126,7 @@ public class LessonDAO extends DBConnection {
             connect();
 
             statement = conn.prepareStatement("select count(*) as number from\n"
-                    + "(select lessonID from lessonCompleted where userID = ?) as a\n"
+                    + "(select lessonID from lesson_completed where userID = ?) as a\n"
                     + "join\n"
                     + "(select lessonID from lesson where chapterID = ?) as b\n"
                     + "on a.lessonID = b.lessonID");
@@ -152,7 +152,7 @@ public class LessonDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into lessonCompleted(lessonID, userID) values(?,?)");
+            statement = conn.prepareStatement("insert into lesson_completed(lessonID, userID) values(?,?)");
             statement.setInt(1, lessonID);
             statement.setInt(2, userID);
             statement.executeUpdate();
@@ -184,7 +184,7 @@ public class LessonDAO extends DBConnection {
     public static void deleteLessonCompleted(int userID, int lessonID) {
         try {
             connect();
-            statement = conn.prepareStatement("delete from lessonCompleted where lessonID = ?, userID = ?");
+            statement = conn.prepareStatement("delete from lesson_completed where lessonID = ?, userID = ?");
             statement.setInt(1, lessonID);
             statement.setInt(2, userID);
             statement.execute();
@@ -207,7 +207,7 @@ public class LessonDAO extends DBConnection {
                     + "join\n"
                     + "(select chapterID, lessonID, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID) a\n"
                     + "where lessonID not in\n"
-                    + "(select lessonID from lessonCompleted where userID = ?)\n"
+                    + "(select lessonID from lesson_completed where userID = ?)\n"
                     + "order by chapterIndex, lessonIndex;");
             statement.setInt(1, courseID);
             statement.setInt(2, userID);

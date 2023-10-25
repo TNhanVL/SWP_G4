@@ -136,7 +136,7 @@ setInterval(remarkQuestionLabel, 1000);
 let answers = $(".answer input");
 for (let i = 0; i < answers.length; i++) {
   answers[i].addEventListener('click', function (e) {
-    //send new answer to chosenAnswer
+    //send new answer to chosen_answer
     if (typeof sendUpdateAnswer === 'function') {
       sendUpdateAnswer(this.name);
     }

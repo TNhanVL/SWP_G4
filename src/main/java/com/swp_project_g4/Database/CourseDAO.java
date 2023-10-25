@@ -281,7 +281,7 @@ public class CourseDAO extends DBConnection {
                     (select * from chapter where courseID = ?) as m
                     on l.chapterID = m.chapterID) l
                     join
-                    (select * from lessonCompleted where userID = ?) lc
+                    (select * from lesson_completed where userID = ?) lc
                     on l.lessonID = lc.lessonID""");
             statement.setInt(1, courseID);
             statement.setInt(2, userID);
@@ -310,10 +310,10 @@ public class CourseDAO extends DBConnection {
                     (select l.lessonID, [time] from
                     (select * from lesson) as l
                     join
-                    (select * from chapter where courseID in (select courseID from purchasedCourse where userID = ?)) as m
+                    (select * from chapter where courseID in (select courseID from purchased_course where userID = ?)) as m
                     on l.chapterID = m.chapterID) l
                     join
-                    (select * from lessonCompleted where userID = ?) lc
+                    (select * from lesson_completed where userID = ?) lc
                     on l.lessonID = lc.lessonID""");
             statement.setInt(1, userID);
             statement.setInt(2, userID);
@@ -337,7 +337,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select count(*) as number from cartProduct where userID = ?");
+            statement = conn.prepareStatement("select count(*) as number from cart_product where userID = ?");
             statement.setInt(1, userID);
             ResultSet resultSet = statement.executeQuery();
 
@@ -359,7 +359,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select 1 from cartProduct where userID = ? and courseID = ?");
+            statement = conn.prepareStatement("select 1 from cart_product where userID = ? and courseID = ?");
             statement.setInt(1, userID);
             statement.setInt(2, courseID);
             ResultSet resultSet = statement.executeQuery();
@@ -382,7 +382,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into cartProduct(userID, courseID) values (?,?)");
+            statement = conn.prepareStatement("insert into cart_product(userID, courseID) values (?,?)");
             statement.setInt(1, userID);
             statement.setInt(2, courseID);
 
@@ -405,7 +405,7 @@ public class CourseDAO extends DBConnection {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from cartProduct where userID = ? and courseID = ?");
+            statement = conn.prepareStatement("delete from cart_product where userID = ? and courseID = ?");
             statement.setInt(1, userID);
             statement.setInt(2, courseID);
             statement.execute();
@@ -424,7 +424,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select courseID from cartProduct where userID = ?");
+            statement = conn.prepareStatement("select courseID from cart_product where userID = ?");
             statement.setInt(1, userID);
             ResultSet resultSet = statement.executeQuery();
 
@@ -447,7 +447,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select 1 from purchasedCourse where userID = ? and courseID = ?");
+            statement = conn.prepareStatement("select 1 from purchased_course where userID = ? and courseID = ?");
             statement.setInt(1, userID);
             statement.setInt(2, courseID);
             ResultSet resultSet = statement.executeQuery();
@@ -470,7 +470,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into purchasedCourse(userID, courseID) values (?,?)");
+            statement = conn.prepareStatement("insert into purchased_course(userID, courseID) values (?,?)");
             statement.setInt(1, userID);
             statement.setInt(2, courseID);
 
@@ -493,7 +493,7 @@ public class CourseDAO extends DBConnection {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from purchasedCourse where userID = ? and courseID = ?");
+            statement = conn.prepareStatement("delete from purchased_course where userID = ? and courseID = ?");
             statement.setInt(1, userID);
             statement.setInt(2, courseID);
             statement.execute();
@@ -512,7 +512,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select courseID from purchasedCourse where userID = ?");
+            statement = conn.prepareStatement("select courseID from purchased_course where userID = ?");
             statement.setInt(1, userID);
             ResultSet resultSet = statement.executeQuery();
 
@@ -561,7 +561,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select count(*) as number from purchasedCourse where userID = ?");
+            statement = conn.prepareStatement("select count(*) as number from purchased_course where userID = ?");
             statement.setInt(1, userID);
             ResultSet resultSet = statement.executeQuery();
 
@@ -583,7 +583,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select count(*) as number from purchasedCourse where courseID = ?");
+            statement = conn.prepareStatement("select count(*) as number from purchased_course where courseID = ?");
             statement.setInt(1, courseID);
             ResultSet resultSet = statement.executeQuery();
 

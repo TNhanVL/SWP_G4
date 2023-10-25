@@ -107,7 +107,7 @@ CREATE TABLE [certificate]
 );
 GO
 
-CREATE TABLE purchasedCourse
+CREATE TABLE purchased_course
 (
     userID   INT NOT NULL,
     courseID INT NOT NULL,
@@ -157,7 +157,7 @@ CREATE TABLE review
 );
 GO
 
-CREATE TABLE cartProduct
+CREATE TABLE cart_product
 (
     userID   INT NOT NULL,
     courseID INT NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE lesson
 );
 GO
 
-CREATE TABLE lessonCompleted
+CREATE TABLE lesson_completed
 (
     lessonID INT NOT NULL,
     userID   INT NOT NULL,
@@ -200,14 +200,15 @@ CREATE TABLE lessonCompleted
 );
 GO
 
-CREATE TABLE courseProgress
+CREATE TABLE course_progress
 (
-    courseProgressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    course_progressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     learnerID        INT                NOT NULL,
     courseID         INT                NOT NULL,
     enrolled         BIT,
-    progressPercent  INT,
+    progress_percent  INT,
     completed        BIT,
+    rated            BIT,
     rate             INT,
     startAt          DATETIME,
     FOREIGN KEY (learnerID) REFERENCES [user] (ID),
@@ -215,29 +216,29 @@ CREATE TABLE courseProgress
 );
 GO
 
-CREATE TABLE chapterProgress
+CREATE TABLE chapter_progress
 (
-    chapterProgressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    chapter_progressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     chapterID         INT                NOT NULL,
-    courseProgressID  INT                NOT NULL,
-    progressPercent   INT,
+    course_progressID  INT                NOT NULL,
+    progress_percent   INT,
     completed         BIT,
     startAt           DATETIME,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
-    FOREIGN KEY (courseProgressID) REFERENCES courseProgress (courseProgressID)
+    FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID)
 );
 GO
 
-CREATE TABLE lessonProgress
+CREATE TABLE lesson_progress
 (
-    lessonProgressID  INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    lesson_progressID  INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     lessonID          INT                NOT NULL,
-    chapterProgressID INT                NOT NULL,
-    progressPercent   INT,
+    chapter_progressID INT                NOT NULL,
+    progress_percent   INT,
     completed         BIT,
     startAt           DATETIME,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
-    FOREIGN KEY (chapterProgressID) REFERENCES chapterProgress (chapterProgressID)
+    FOREIGN KEY (chapter_progressID) REFERENCES chapter_progress (chapter_progressID)
 );
 GO
 
@@ -285,7 +286,7 @@ CREATE TABLE quizResult
 );
 GO
 
-CREATE TABLE chosenAnswer
+CREATE TABLE chosen_answer
 (
     quizResultID   INT NOT NULL,
     questionID     INT NOT NULL,
@@ -360,12 +361,12 @@ VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 1, 4.2),
        ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5),
        ('C++', 'a.png', 'hard', 1, 3, 5, 4.7)
 GO
-INSERT INTO cartProduct
+INSERT INTO cart_product
     (userID, courseID)
 VALUES (1, 2),
        (1, 3)
 GO
-INSERT INTO purchasedCourse
+INSERT INTO purchased_course
     (userID, courseID)
 VALUES (1, 1),
        (1, 2)
@@ -557,12 +558,12 @@ GO
 --(select * from chapter where courseID = 1) as m
 --on l.chapterID = m.ID) l
 --join
---(select * from lessonCompleted where userID = 1) lc
+--(select * from lesson_completed where userID = 1) lc
 --on l.ID = lc.lessonID
 
 -- Check if question are correct
 --select 1 from
---(select selectedAnswer as ID from chosenAnswer where quizResultID = 1 and questionID = 4) a
+--(select selectedAnswer as ID from chosen_answer where quizResultID = 1 and questionID = 4) a
 --full join
 --(select answerID from answer where questionID = 4 and correct = 1) b
 --on a.ID = b.answerID
@@ -572,7 +573,7 @@ GO
 
 --get number completed lesson of a chapter
 --select count(*) as number from
---(select lessonID as ID from lessonCompleted where userID = 1) as a
+--(select lessonID as ID from lesson_completed where userID = 1) as a
 --join
 --(select ID from lesson where chapterID = 1) as b
 --on a.ID = b.ID;
@@ -591,7 +592,7 @@ GO
 --join
 --(select chapterID, ID as lessonID, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID) a
 --where lessonID not in
---(select lessonID from lessonCompleted where userID = 1)
+--(select lessonID from lesson_completed where userID = 1)
 --order by chapterIndex, lessonIndex;
 
 insert into post

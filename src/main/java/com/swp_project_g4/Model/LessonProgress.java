@@ -9,14 +9,14 @@ import java.util.Date;
  * @author TTNhan
  */
 @Entity
-@Table(name = "[lessonProgress]")
+@Table(name = "[lesson_progress]")
 public class LessonProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int lessonProgressID;
+    private int lesson_progressID;
     private int lessonID;
-    private int chapterProgressID;
-    private int progressPercent;
+    private int chapter_progressID;
+    private int progress_percent;
     private boolean completed;
     private Date startAt;
 
