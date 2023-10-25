@@ -18,12 +18,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class CourseProgressServiceTest {
     @Autowired
     private CourseProgressService courseProgressService;
+    @Autowired
+    private CourseProgressRepository courseProgressRepository;
 
     @Test
     void getAllCourseProgresses() {
-        var a = new CourseProgress(0, 1, 1, false, 0, false, new Date(), false, 0);
-        courseProgressService.addCourseProgress(a);
-        var b = courseProgressService.getAllCourseProgresses();
-        System.out.println(b);
+//        var a = new CourseProgress(0, 1, 1, false, 0, false, new Date(), false, 0);
+//        courseProgressService.addCourseProgress(a);
+        var b = courseProgressRepository.findById(2);
+        System.out.println(b.isPresent());
     }
 }

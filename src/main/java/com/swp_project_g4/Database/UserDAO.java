@@ -146,8 +146,8 @@ public class UserDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
                         resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
@@ -181,8 +181,8 @@ public class UserDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
                         resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
@@ -216,8 +216,8 @@ public class UserDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
                         resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
@@ -250,8 +250,8 @@ public class UserDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
                         resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
@@ -274,7 +274,7 @@ public class UserDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("insert into [user](picture,username,[password],email,firstName,lastName,[role],birthday,countryID,status) values(?,?,?,?,?,?,?,?,?,?)");
+            statement = conn.prepareStatement("insert into [user](picture,username,[password],email,first_name,last_name,[role],birthday,countryID,status) values(?,?,?,?,?,?,?,?,?,?)");
             statement.setString(1, user.getPicture());
             statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
@@ -304,7 +304,7 @@ public class UserDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("UPDATE [user] SET picture = ?, username = ?, [password] = ?, email = ?, firstName = ?, lastName = ?, role = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
+            statement = conn.prepareStatement("UPDATE [user] SET picture = ?, username = ?, [password] = ?, email = ?, first_name = ?, last_name = ?, role = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
             statement.setString(1, user.getPicture());
             statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
