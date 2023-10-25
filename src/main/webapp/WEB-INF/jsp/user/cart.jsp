@@ -72,7 +72,7 @@
                             <input type="checkbox" id="course<%out.print(courseIndex);%>" name="course" value="<%out.print(course.getCourseID());%>">
 
                             <a href="/course/<%out.print(course.getCourseID());%>">
-                                <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getImage());%>" class="itemImg" alt="">
+                                <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getPicture());%>" class="itemImg" alt="">
                                 <div class="itemInformation">
                                     <p class="itemName"><%out.print(course.getName());%></p>
                                     <div class="itemRating"><%out.print(course.getRate());%><i class="fa-solid fa-star"></i> (2503 reviewer)</div>

@@ -50,7 +50,7 @@
                             %>
                             <li class="listItem">
                                 <a href="/course/<%out.print(course.getCourseID());%>">
-                                    <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getImage());%>" alt="" class="courseImg">
+                                    <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getPicture());%>" alt="" class="courseImg">
                                     <h4 class="courseName"><%out.print(course.getName());%></h4>
                                     <div class="courseDescription">
                                         <span class="type">

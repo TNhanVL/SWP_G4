@@ -58,7 +58,7 @@ public class CourseDAO extends DBConnection {
                 course = new Course(
                         resultSet.getInt("courseID"),
                         resultSet.getString("name"),
-                        resultSet.getString("image"),
+                        resultSet.getString("picture"),
                         resultSet.getString("description"),
                         resultSet.getInt("organizationID"),
                         resultSet.getInt("instructorID"),
@@ -88,7 +88,7 @@ public class CourseDAO extends DBConnection {
                 Course course = new Course(
                         resultSet.getInt("courseID"),
                         resultSet.getString("name"),
-                        resultSet.getString("image"),
+                        resultSet.getString("picture"),
                         resultSet.getString("description"),
                         resultSet.getInt("organizationID"),
                         resultSet.getInt("instructorID"),
@@ -122,7 +122,7 @@ public class CourseDAO extends DBConnection {
                 Course course = new Course(
                         resultSet.getInt("courseID"),
                         resultSet.getString("name"),
-                        resultSet.getString("image"),
+                        resultSet.getString("picture"),
                         resultSet.getString("description"),
                         resultSet.getInt("organizationID"),
                         resultSet.getInt("instructorID"),
@@ -153,7 +153,7 @@ public class CourseDAO extends DBConnection {
                 Course course = new Course(
                         resultSet.getInt("courseID"),
                         resultSet.getString("name"),
-                        resultSet.getString("image"),
+                        resultSet.getString("picture"),
                         resultSet.getString("description"),
                         resultSet.getInt("organizationID"),
                         resultSet.getInt("instructorID"),
@@ -175,9 +175,9 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into course(name,[image],[description],organizationID,instructorID,price,rate) values (?,?,?,?,?,?,?)");
+            statement = conn.prepareStatement("insert into course(name,[picture],[description],organizationID,instructorID,price,rate) values (?,?,?,?,?,?,?)");
             statement.setString(1, course.getName());
-            statement.setString(2, course.getImage());
+            statement.setString(2, course.getPicture());
             statement.setString(3, course.getDescription());
             statement.setInt(4, course.getOrganizationID());
             statement.setInt(5, course.getInstructorID());
@@ -202,9 +202,9 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update course set name=?, [image]=?, [description]=?,organizationID=?,instructorID=?,price=?,rate=? where courseID =?");
+            statement = conn.prepareStatement("update course set name=?, [picture]=?, [description]=?,organizationID=?,instructorID=?,price=?,rate=? where courseID =?");
             statement.setString(1, course.getName());
-            statement.setString(2, course.getImage());
+            statement.setString(2, course.getPicture());
             statement.setString(3, course.getDescription());
             statement.setInt(4, course.getOrganizationID());
             statement.setInt(5, course.getInstructorID());

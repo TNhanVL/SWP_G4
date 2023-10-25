@@ -23,7 +23,7 @@
 
         <!-- a course -->
         <div class="courseTaken">
-            <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getImage());%>" alt="" class="courseImg">
+            <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getPicture());%>" alt="" class="courseImg">
             <div class="courseInfor">
                 <a href="/course/<%out.print(course.getCourseID());%>">
                     <p class="courseName"><%out.print(course.getName());%></p>
@@ -95,7 +95,7 @@
 
         <!-- a course -->
         <div class="courseTaken">
-            <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getImage());%>" alt="" class="courseImg">
+            <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getPicture());%>" alt="" class="courseImg">
             <div class="courseInfor">
                 <a href="/course/<%out.print(course.getCourseID());%>">
                     <p class="courseName"><%out.print(course.getName());%></p>

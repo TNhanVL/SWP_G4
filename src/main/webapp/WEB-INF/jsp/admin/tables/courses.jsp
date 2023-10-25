@@ -39,11 +39,11 @@
                                 <img class="avatar avatar-sm me-3 border-radius-lg" alt="user1"
                                      src=
                                      <c:choose>
-                                     <c:when test='${empty course.image}'>
+                                     <c:when test='${empty course.picture}'>
                                              "/public/assets/imgs/logo.png"
                                 </c:when>
                                 <c:otherwise>
-                                    "/public/media/course/${course.courseID}/${course.image}"
+                                    "/public/media/course/${course.courseID}/${course.picture}"
                                 </c:otherwise>
                                 </c:choose>
                                 >

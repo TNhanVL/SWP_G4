@@ -74,7 +74,7 @@ CREATE TABLE course
 (
     courseID       INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     name           NVARCHAR(50)       NOT NULL,
-    [image]        TEXT,
+    [picture]        TEXT,
     [description]  NVARCHAR(50),
     organizationID INT                NOT NULL,
     instructorID   INT                NOT NULL,
@@ -305,7 +305,7 @@ VALUES (1, 1),
        (2, 1)
 GO
 INSERT INTO course
-(name, [image], [description], organizationID, instructorID, price, rate)
+(name, [picture], [description], organizationID, instructorID, price, rate)
 VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 1, 4.2),
        ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5),
        ('C++', 'a.png', 'hard', 1, 3, 1.2, 4.7),
@@ -495,9 +495,9 @@ GO
 -- values('2','7','20.00000000','40.00000000','2','dung roi','0')
 -- update [transaction] set courseID = '7' , originPrice = '40',price = '60',type ='3',description ='moi update',status ='1'where userID ='2'
 -- delete from [transaction] where userID ='1'
-select * from instruct
-insert into instruct(userID, courseID)values ('2','8')
-delete from instruct where userID = '1' and courseID = '10'
+-- select * from instruct
+-- insert into instruct(userID, courseID)values ('2','8')
+-- delete from instruct where userID = '1' and courseID = '10'
 -- insert into sale(courseID, price, startDate, endDate)
 -- values ('2','20','12/16/2022','12/20/2022')
 --     UPDATE sale set price = '30',startDate ='11/22/2022',endDate ='12/23/2022'where courseID ='2'

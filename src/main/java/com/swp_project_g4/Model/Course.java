@@ -18,7 +18,7 @@ public class Course {
 
     private int courseID;
     private String name;
-    private String image;
+    private String picture;
     private String description;
     private int organizationID;
     private int instructorID;
