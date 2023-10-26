@@ -4,6 +4,7 @@ import com.swp_project_g4.Database.AdminDAO;
 import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/admin")
@@ -93,14 +95,15 @@ public class AdminController {
 
     @RequestMapping(value = "/editUser", method = RequestMethod.GET)
     public String editUser(ModelMap model, HttpServletRequest request, @RequestParam String id) {
-        Integer user_id = null;
         try {
-            user_id = Integer.parseInt(id);
-            request.getSession().setAttribute("currentUser", UserDAO.getUser(user_id));
-
-        } catch (Exception e) {
+            var user_id = Integer.parseInt(id);
+            var user = repo.getUserRepository().findById(user_id).orElseThrow();
+            request.getSession().setAttribute("currentUser", user);
+        } catch (NoSuchElementException ex) {
+            request.getSession().setAttribute("error", "No such user information!");
+            return "redirect:./dashboard";
+        } catch (NumberFormatException ex) {
             request.getSession().setAttribute("error", "Failed to load user information!");
-
             return "redirect:./dashboard";
         }
         return "admin/editUser";
@@ -164,15 +167,39 @@ public class AdminController {
 
     @RequestMapping(value = "/editOrganization", method = RequestMethod.GET)
     public String editOrganization(ModelMap model, HttpServletRequest request, @RequestParam String id) {
-        Integer organization_id = null;
         try {
-            organization_id = Integer.parseInt(id);
-            request.setAttribute("currentOrg", OrganizationDAO.getOrganization(organization_id));
+            var organization_id = Integer.parseInt(id);
+//            var organization = repo.getOrganizationRepository().findById(organization_id).orElseThrow();
+            var organization = OrganizationDAO.getOrganization(organization_id);
+            request.setAttribute("currentOrg", organization);
             request.setAttribute("countryList", repo.getCountryRepository().findAll());
 
         } catch (Exception e) {
-            request.setAttribute("error", "Failed to load organization information!");
+            request.getSession().setAttribute("error", "Failed to load organization");
+            return "redirect:./dashboard";
+        }
+        return "admin/editOrganization";
+    }
 
+    @RequestMapping(value = "/editOrganization", method = RequestMethod.POST)
+    public String editOrganizationPost(ModelMap model, HttpServletRequest request, @RequestParam String id, @ModelAttribute("organization") Organization organization) {
+
+        organization.setPassword(MD5.getMd5(organization.getPassword()));
+        //check logged in
+        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
+            request.getSession().setAttribute("error", "You need to log in to continue!");
+            return "redirect:./login";
+        }
+
+        try {
+            boolean ok = OrganizationDAO.updateOrganization(organization);
+            if (ok) {
+                request.getSession().setAttribute("success", "Update organization information succeed!");
+            } else {
+                request.getSession().setAttribute("error", "Update organization information failed!");
+            }
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("error", "There are some error when update organization information!");
             return "redirect:./dashboard";
         }
         return "admin/editOrganization";

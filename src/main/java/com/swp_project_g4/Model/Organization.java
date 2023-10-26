@@ -29,5 +29,4 @@ public class Organization {
     private String picture;
     private String name;
     private String description;
-
 }

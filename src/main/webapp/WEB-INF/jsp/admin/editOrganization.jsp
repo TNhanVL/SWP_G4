@@ -138,9 +138,16 @@
 
                                             </div>
                                             <div class="form-group">
+                                                <label for="email">Organization name</label>
+                                                <input type="text" class="form-control" id="name"
+                                                       name="name" placeholder="Organization name"
+                                                       value="${org.name}"
+                                                       required>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="username">Account name</label>
                                                 <input type="text" class="form-control" id="username"
-                                                       name="username" placeholder="Username"
+                                                       name="username" placeholder="Account name"
                                                        value="${org.username}"
                                                        required>
                                             </div>
@@ -159,10 +166,17 @@
                                                        required>
                                             </div>
                                             <div class="form-group">
+                                                <label for="email">Description</label>
+                                                <input type="text" class="form-control" id="description"
+                                                       name="description" placeholder="Description"
+                                                       value="${org.description}"
+                                                       required>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="country">country</label>
                                                 <select id="country" class="form-control" name="countryID" required>
                                                     <c:forEach var="country" items="${requestScope.countryList}">
-                                                        <option>
+                                                        <option value=${country.ID}>
                                                             <c:if test="${country.ID == org.countryID}">
                                                                 selected="selected"
                                                             </c:if>
