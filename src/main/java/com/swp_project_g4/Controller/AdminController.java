@@ -1,9 +1,6 @@
 package com.swp_project_g4.Controller;
 
-import com.swp_project_g4.Database.AdminDAO;
-import com.swp_project_g4.Database.CourseDAO;
-import com.swp_project_g4.Database.OrganizationDAO;
-import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Database.*;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.JwtUtil;
@@ -92,7 +89,10 @@ public class AdminController {
         try {
             user_id = Integer.parseInt(id);
             request.getSession().setAttribute("currentUser", UserDAO.getUser(user_id));
+
         } catch (Exception e) {
+            request.getSession().setAttribute("error", "Failed to load user information!");
+
             return "redirect:./dashboard";
         }
         return "admin/editUser";
@@ -152,5 +152,21 @@ public class AdminController {
         }
 
         return "redirect:./dashboard";
+    }
+
+    @RequestMapping(value = "/editOrganization", method = RequestMethod.GET)
+    public String editOrganization(ModelMap model, HttpServletRequest request, @RequestParam String id) {
+        Integer organization_id = null;
+        try {
+            organization_id = Integer.parseInt(id);
+            request.setAttribute("currentOrg", OrganizationDAO.getOrganization(organization_id));
+            request.setAttribute("countryList", CountryDAO.getAllCountry());
+
+        } catch (Exception e) {
+            request.setAttribute("error", "Failed to load organization information!");
+
+            return "redirect:./dashboard";
+        }
+        return "admin/editOrganization";
     }
 }
