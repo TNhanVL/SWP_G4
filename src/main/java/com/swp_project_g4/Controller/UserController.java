@@ -7,6 +7,7 @@ import com.swp_project_g4.Database.UserDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.GooglePojo;
 import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.GoogleUtils;
 import com.swp_project_g4.Service.JwtUtil;
@@ -35,20 +36,17 @@ import java.util.logging.Logger;
 //@RequestMapping("/user")
 public class UserController {
 
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Autowired
-//    private Repo repo;
-//
-//    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-//    @ResponseBody
-//    public String getAll() {
-//        var a = repo.getUserRepo();
-//        var b = a.findAll();
-//        System.out.println(b);
-//        return "ok";
-//    }
+    @Autowired
+    private Repo repo;
+
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    @ResponseBody
+    public String getAll() {
+        var userRepository = repo.getUserRepository();
+        var b = userRepository.findAll();
+        System.out.println(b);
+        return "ok";
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model) {
