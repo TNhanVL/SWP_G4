@@ -4,24 +4,21 @@ import com.swp_project_g4.Database.AdminDAO;
 import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Database.UserDAO;
-import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.JwtUtil;
 import com.swp_project_g4.Service.MD5;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/admin")
@@ -91,7 +88,13 @@ public class AdminController {
 
     @RequestMapping(value = "/editUser", method = RequestMethod.GET)
     public String editUser(ModelMap model, HttpServletRequest request, @RequestParam String id) {
-        request.getSession().setAttribute("currentUser", UserDAO.getUser(Integer.parseInt(id)));
+        Integer user_id = null;
+        try {
+            user_id = Integer.parseInt(id);
+            request.getSession().setAttribute("currentUser", UserDAO.getUser(user_id));
+        } catch (Exception e) {
+            return "redirect:./dashboard";
+        }
         return "admin/editUser";
     }
 

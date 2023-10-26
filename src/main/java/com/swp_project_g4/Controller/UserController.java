@@ -40,11 +40,15 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private Repo repo;
+
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     @ResponseBody
     public String getAll() {
-        var a = userRepository.findAll();
-        System.out.println(a);
+        var a = repo.getUserRepo();
+        var b = a.findAll();
+        System.out.println(b);
         return "ok";
     }
 
