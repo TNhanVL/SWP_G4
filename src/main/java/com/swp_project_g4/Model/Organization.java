@@ -20,8 +20,6 @@ public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int organizationID;
-    private int ID;
-    private int countryID;
     private String username;
     private String password;
     private String email;

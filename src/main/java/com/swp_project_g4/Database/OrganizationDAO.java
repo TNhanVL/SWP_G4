@@ -90,7 +90,7 @@ public class OrganizationDAO extends DBConnection {
                         resultSet.getString("email"),
                         resultSet.getString("picture"),
                         resultSet.getString("name"),
-                        resultSet.getString("description"));
+                        resultSet.getString("description"))
                 );
             }
 
@@ -133,7 +133,7 @@ public class OrganizationDAO extends DBConnection {
             statement.setString(1, organization.getName());
             statement.setString(2, organization.getPicture());
             statement.setString(3, organization.getDescription());
-            statement.setInt(4, organization.getID());
+            statement.setInt(4, organization.getOrganizationID());
             statement.executeUpdate();
 
             //disconnect to database

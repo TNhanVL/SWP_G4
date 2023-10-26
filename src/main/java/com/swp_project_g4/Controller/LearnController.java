@@ -68,7 +68,7 @@ public class LearnController {
 
         User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
         Lesson lesson = LessonDAO.getLesson(lessonID);
-        QuizResultDAO.insertQuizResult(new QuizResult(0, lessonID, user.getID(), new Date(), new Date((new Date()).getTime() + lesson.getTime() * 60000)));
+//        QuizResultDAO.insertQuizResult(new QuizResult(0, lessonID, user.getID(), new Date(), new Date((new Date()).getTime() + lesson.getTime() * 60000)));
 
         return "redirect:/learn/" + ChapterDAO.getChapter(lesson.getChapterID()).getCourseID() + "/" + lessonID;
     }
@@ -86,9 +86,9 @@ public class LearnController {
 
         //check owner
         QuizResult quizResult = QuizResultDAO.getQuizResult(quizResultID);
-        if (quizResult.getUserID() != user.getID()) {
-            return "not owned";
-        }
+//        if (quizResult.getUserID() != user.getID()) {
+//            return "not owned";
+//        }
 
         if (quizResult.getEndAt().before(new Date())) {
             return "out of time!";
@@ -126,9 +126,9 @@ public class LearnController {
         }
 
         //check owner
-        if (quizResult.getUserID() != user.getID()) {
-            return "redirect:/";
-        }
+//        if (quizResult.getUserID() != user.getID()) {
+//            return "redirect:/";
+//        }
 
         Lesson lesson = LessonDAO.getLesson(quizResult.getLessonID());
         Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());

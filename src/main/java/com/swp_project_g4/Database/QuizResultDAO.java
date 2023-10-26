@@ -112,7 +112,10 @@ public class QuizResultDAO extends DBConnection {
                 quizResult = new QuizResult(
                         resultSet.getInt("quiz_resultID"),
                         resultSet.getInt("lessonID"),
-                        resultSet.getInt("userID"),
+                        resultSet.getInt("lesson_progressID"),
+                        resultSet.getInt("number_of_correct_answer"),
+                        resultSet.getInt("number_of_question"),
+                        resultSet.getInt("mark"),
                         resultSet.getTimestamp("start_at"),
                         resultSet.getTimestamp("end_at")
                 );
@@ -134,11 +137,10 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into quiz_result(lessonID,userID,start_at,end_at) values(?,?,?,?)");
+            statement = conn.prepareStatement("insert into quiz_result(lessonID,start_at,end_at) values(?,?,?)");
             statement.setInt(1, quizResult.getLessonID());
-            statement.setInt(2, quizResult.getUserID());
-            statement.setString(3, dateFormat.format(quizResult.getStartAt()));
-            statement.setString(4, dateFormat.format(quizResult.getEndAt()));
+            statement.setString(2, dateFormat.format(quizResult.getStartAt()));
+            statement.setString(3, dateFormat.format(quizResult.getEndAt()));
             statement.executeUpdate();
 
             int newID = lastModifyID(conn);
@@ -163,12 +165,11 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update quiz_result set lessonID=?,userID=?, start_at=?, end_at=? where quiz_resultID=?");
+            statement = conn.prepareStatement("update quiz_result set lessonID=?, start_at=?, end_at=? where quiz_resultID=?");
             statement.setInt(1, quizResult.getLessonID());
-            statement.setInt(2, quizResult.getUserID());
-            statement.setString(3, dateFormat.format(quizResult.getStartAt()));
-            statement.setString(4, dateFormat.format(quizResult.getEndAt()));
-            statement.setInt(5, quizResult.getQuizResultID());
+            statement.setString(2, dateFormat.format(quizResult.getStartAt()));
+            statement.setString(3, dateFormat.format(quizResult.getEndAt()));
+            statement.setInt(4, quizResult.getQuizResultID());
             statement.executeUpdate();
 
             //disconnect to database
@@ -187,7 +188,7 @@ public class QuizResultDAO extends DBConnection {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from quizResult where quizResultID=?");
+            statement = conn.prepareStatement("delete from quiz_result where quiz_resultID=?");
             statement.setInt(1, quizResultID);
             statement.execute();
             disconnect();
