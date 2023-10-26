@@ -8,8 +8,8 @@ import lombok.*;
  *
  * @author TTNhan
  */
-@Entity
-@Table(name = "admin")
+//@Entity
+//@Table(name = "admin")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

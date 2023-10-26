@@ -19,8 +19,8 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private int role;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
@@ -32,14 +32,14 @@ public class User {
         this.status = 1;
     }
 
-    public User(int ID, String picture, String username, String password, String email, String firstname, String lastname, int role, Date birthday, int countryID, int status) {
+    public User(int ID, String picture, String username, String password, String email, String firstName, String lastName, int role, Date birthday, int countryID, int status) {
         this.ID = ID;
         this.picture = picture;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.role = role;
         this.birthday = birthday;
         this.countryID = countryID;
@@ -52,8 +52,8 @@ public class User {
         this.username = user.username;
         this.password = user.password;
         this.email = user.email;
-        this.firstname = user.firstname;
-        this.lastname = user.lastname;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
         this.role = user.role;
         this.birthday = user.birthday;
         this.countryID = user.countryID;
@@ -62,8 +62,8 @@ public class User {
 
     public User(GooglePojo googlePojo) {
         this.email = googlePojo.getEmail();
-        this.firstname = googlePojo.getGiven_name();
-        this.lastname = googlePojo.getFamily_name();
+        this.firstName = googlePojo.getGiven_name();
+        this.lastName = googlePojo.getFamily_name();
         this.picture = googlePojo.getPicture();
         this.role = 1;
         this.status = 1;
@@ -110,19 +110,19 @@ public class User {
     }
 
     public String getFirstName() {
-        return firstname;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        this.firstname = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return lastname;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        this.lastname = lastName;
+        this.lastName = lastName;
     }
 
     public int getRole() {
@@ -159,7 +159,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "ID=" + ID + ", picture=" + picture + ", username=" + username + ", password=" + password + ", email=" + email + ", firstname=" + firstname + ", lastname=" + lastname + ", birthday=" + birthday + ", countryID=" + countryID + ", status=" + status + '}';
+        return "User{" + "ID=" + ID + ", picture=" + picture + ", username=" + username + ", password=" + password + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", birthday=" + birthday + ", countryID=" + countryID + ", status=" + status + '}';
     }
 
 }

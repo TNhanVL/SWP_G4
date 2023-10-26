@@ -5,15 +5,12 @@
 package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.User;
-import com.swp_project_g4.Repository.UserRepository;
 import com.swp_project_g4.Service.MD5;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

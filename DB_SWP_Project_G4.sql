@@ -78,8 +78,6 @@ CREATE TABLE course
     name           NVARCHAR(50)       NOT NULL,
     [picture]      TEXT,
     [description]  NVARCHAR(50),
-    organizationID INT                NOT NULL,
-    instructorID   INT                NOT NULL,
     verify         BIT,
     price          NUMERIC(10, 2)     NOT NULL,
     rate           NUMERIC(2, 1)      NOT NULL,
@@ -123,16 +121,15 @@ GO
 CREATE TABLE [transaction]
 (
     transactionID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    userID        INT                NOT NULL,
+    learnerID        INT                NOT NULL,
     courseID      INT                NOT NULL,
-    originPrice   NUMERIC(10, 2)     NOT NULL,
+    origin_price   NUMERIC(10, 2)     NOT NULL,
     price         NUMERIC(10, 2)     NOT NULL,
     type          INT,
     description   NTEXT,
     status        INT,
-    FOREIGN KEY (userID) REFERENCES [user] (ID),
-    FOREIGN KEY (courseID) REFERENCES course (courseID),
-    UNIQUE (userID, courseID)
+    FOREIGN KEY (learnerID) REFERENCES [user] (ID),
+    FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
 

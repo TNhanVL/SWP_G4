@@ -8,8 +8,8 @@ import java.util.Date;
 /**
  * @author TTNhan
  */
-@Entity
-@Table(name = "[lesson_progress]")
+//@Entity
+//@Table(name = "[lesson_progress]")
 public class LessonProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

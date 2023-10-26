@@ -11,8 +11,6 @@ import lombok.*;
  *
  * @author TTNhan
  */
-@Entity
-@Table(name = "certificate")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

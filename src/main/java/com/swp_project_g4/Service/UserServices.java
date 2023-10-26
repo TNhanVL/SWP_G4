@@ -1,16 +1,11 @@
 package com.swp_project_g4.Service;
 
 import com.swp_project_g4.Database.UserDAO;
+import org.apache.commons.validator.GenericValidator;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.swp_project_g4.Repository.UserRepository;
-import org.apache.commons.validator.GenericValidator;
-import org.apache.commons.validator.Validator;
-import org.apache.commons.validator.routines.EmailValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 public class UserServices {
 
