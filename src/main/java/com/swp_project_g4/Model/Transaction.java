@@ -1,16 +1,19 @@
 package com.swp_project_g4.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Getter
-@Setter
+@Entity
+@Table(name = "transaction")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction extends User  {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int transactionID;
+    private int learnerID;
+    private int courseID;
     private int course ;
     private float orginPrice;
     private float price;

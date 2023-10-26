@@ -4,6 +4,7 @@
  */
 package com.swp_project_g4.Model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -12,14 +13,20 @@ import java.util.Date;
  *
  * @author TTNhan
  */
+@Entity
+@Table(name = "quizResult")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuizResult {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int quizResultID;
     private int lessonID;
-    private int userID;
+    private int lessonProgressID;
+    private int numberOfCorrectAnswer;
+    private int numberOfQuestion;
+    private int mark;
     private Date startAt;
     private Date endAt;
 

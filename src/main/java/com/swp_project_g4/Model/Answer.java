@@ -4,16 +4,21 @@
  */
 package com.swp_project_g4.Model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 /**
  *
  * @author TTNhan
  */
+@Entity
+@Table(name = "answer")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Answer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int answerID;
     private String content;
     private boolean correct;

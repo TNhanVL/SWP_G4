@@ -4,20 +4,26 @@
  */
 package com.swp_project_g4.Model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 /**
  *
  * @author TTNhan
  */
+@Entity
+@Table(name = "chapter")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Chapter {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int chapterID;
     private int courseID;
     private int index;
     private String name;
     private String description;
+    private int totalTime;
     
 }

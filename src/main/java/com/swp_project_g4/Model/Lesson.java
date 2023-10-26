@@ -4,22 +4,30 @@
  */
 package com.swp_project_g4.Model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 /**
  *
  * @author TTNhan
  */
+@Entity
+@Table(name = "lesson")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Lesson {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lessonID;
     private int chapterID;
     private String name;
-    private int index;
+    private String description;
+    private int percent_to_passed;
+    private boolean must_be_completed = false;
+    private String content;
     private int type;
+    private int index;
     private int time;
 
 }
