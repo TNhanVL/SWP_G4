@@ -11,9 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Instruct {
 
-    private int intructorID ;
-    private int courseID ;
-
-
-
+    private int intructorID;
+    private int courseID;
 }
