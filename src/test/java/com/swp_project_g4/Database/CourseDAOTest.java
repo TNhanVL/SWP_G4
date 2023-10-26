@@ -25,7 +25,7 @@ public class CourseDAOTest {
 
         String correctName = "Dekiru Nihongo";
         ArrayList<Course> courses = courseDAO.searchCourses(correctName);
-        assertEquals(1, courses.size()); // có nhiều khóa học bị trùng thì lỗi!!!
+        assertEquals(1, courses.size());
         assertEquals(correctName, courses.get(0).getName());
     }
 

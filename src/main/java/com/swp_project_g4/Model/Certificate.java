@@ -4,16 +4,21 @@
  */
 package com.swp_project_g4.Model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 /**
  *
  * @author TTNhan
  */
+@Entity
+@Table(name = "certificate")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Certificate {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userID;
     private int courseID;
     private String certificateURL;

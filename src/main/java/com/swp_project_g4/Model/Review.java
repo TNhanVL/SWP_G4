@@ -1,14 +1,17 @@
 package com.swp_project_g4.Model;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-@Getter
-@Setter
+@Entity
+@Table(name = "review")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review extends User {
-
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int reviewID;
+    private int instructorID;
     private int courseID;
     private boolean reviewed;
     private boolean verified;
