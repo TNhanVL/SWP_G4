@@ -59,7 +59,10 @@ public class QuizResultDAO extends DBConnection {
                 quizResult = new QuizResult(
                         resultSet.getInt("quiz_resultID"),
                         resultSet.getInt("lessonID"),
-                        resultSet.getInt("userID"),
+                        resultSet.getInt("lesson_progressID"),
+                        resultSet.getInt("number_of_correct_answer"),
+                        resultSet.getInt("number_of_question"),
+                        resultSet.getInt("mark"),
                         resultSet.getTimestamp("start_at"),
                         resultSet.getTimestamp("end_at")
                 );

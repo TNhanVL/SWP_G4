@@ -56,9 +56,12 @@ public class OrganizationDAO extends DBConnection {
 
             if (resultSet.next()) {
                 organization = new Organization(
-                        resultSet.getInt("ID"),
-                        resultSet.getString("name"),
+                        resultSet.getInt("organizationID"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
                         resultSet.getString("picture"),
+                        resultSet.getString("name"),
                         resultSet.getString("description"));
             }
 
@@ -81,10 +84,14 @@ public class OrganizationDAO extends DBConnection {
 
             if (resultSet.next()) {
                 organizationList.add(new Organization(
-                        resultSet.getInt("ID"),
-                        resultSet.getString("name"),
+                        resultSet.getInt("organizationID"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
                         resultSet.getString("picture"),
-                        resultSet.getString("description")));
+                        resultSet.getString("name"),
+                        resultSet.getString("description"));
+                );
             }
 
             disconnect();

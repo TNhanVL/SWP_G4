@@ -57,13 +57,15 @@ public class CourseDAO extends DBConnection {
             if (resultSet.next()) {
                 course = new Course(
                         resultSet.getInt("courseID"),
+                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("instructorID"),
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
-                        resultSet.getInt("organizationID"),
-                        resultSet.getInt("instructorID"),
+                        resultSet.getBoolean("verify"),
                         resultSet.getDouble("price"),
-                        resultSet.getDouble("rate"));
+                        resultSet.getDouble("rate")
+                );
             }
 
             disconnect();
@@ -87,13 +89,15 @@ public class CourseDAO extends DBConnection {
             while (resultSet.next()) {
                 Course course = new Course(
                         resultSet.getInt("courseID"),
+                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("instructorID"),
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
-                        resultSet.getInt("organizationID"),
-                        resultSet.getInt("instructorID"),
+                        resultSet.getBoolean("verify"),
                         resultSet.getDouble("price"),
-                        resultSet.getDouble("rate"));
+                        resultSet.getDouble("rate")
+                );
                 courses.add(course);
             }
 
@@ -121,13 +125,15 @@ public class CourseDAO extends DBConnection {
             while (resultSet.next()) {
                 Course course = new Course(
                         resultSet.getInt("courseID"),
+                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("instructorID"),
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
-                        resultSet.getInt("organizationID"),
-                        resultSet.getInt("instructorID"),
+                        resultSet.getBoolean("verify"),
                         resultSet.getDouble("price"),
-                        resultSet.getDouble("rate"));
+                        resultSet.getDouble("rate")
+                );
                 courses.add(course);
             }
 
@@ -152,13 +158,15 @@ public class CourseDAO extends DBConnection {
             while (resultSet.next()) {
                 Course course = new Course(
                         resultSet.getInt("courseID"),
+                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("instructorID"),
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
-                        resultSet.getInt("organizationID"),
-                        resultSet.getInt("instructorID"),
+                        resultSet.getBoolean("verify"),
                         resultSet.getDouble("price"),
-                        resultSet.getDouble("rate"));
+                        resultSet.getDouble("rate")
+                );
                 courses.add(course);
             }
 

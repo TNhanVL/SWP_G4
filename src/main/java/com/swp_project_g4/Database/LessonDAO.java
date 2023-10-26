@@ -28,7 +28,7 @@ public class LessonDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select ID from lesson where lessonID = ?");
+            statement = conn.prepareStatement("select lessonID from lesson where lessonID = ?");
             statement.setInt(1, lessonID);
             ResultSet resultSet = statement.executeQuery();
 
@@ -63,8 +63,12 @@ public class LessonDAO extends DBConnection {
                         resultSet.getInt("lessonID"),
                         resultSet.getInt("ChapterID"),
                         resultSet.getString("name"),
-                        resultSet.getInt("index"),
+                        resultSet.getString("description"),
+                        resultSet.getInt("percent_to_passed"),
+                        resultSet.getBoolean("must_be_completed"),
+                        resultSet.getString("content"),
                         resultSet.getInt("type"),
+                        resultSet.getInt("index"),
                         resultSet.getInt("time"));
             }
 
@@ -182,19 +186,6 @@ public class LessonDAO extends DBConnection {
         return false;
     }
 
-    public static void deleteLessonCompleted(int userID, int lessonID) {
-        try {
-            connect();
-            statement = conn.prepareStatement("delete from lesson_completed where lessonID = ?, userID = ?");
-            statement.setInt(1, lessonID);
-            statement.setInt(2, userID);
-            statement.execute();
-            disconnect();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public static int getFirstUncompleteLessonID(int userID, int courseID) {
         int lessonID = -1;
 
@@ -271,10 +262,14 @@ public class LessonDAO extends DBConnection {
             while (resultSet.next()) {
                 Lesson lesson = new Lesson(
                         resultSet.getInt("lessonID"),
-                        resultSet.getInt("chapterID"),
+                        resultSet.getInt("ChapterID"),
                         resultSet.getString("name"),
-                        resultSet.getInt("index"),
+                        resultSet.getString("description"),
+                        resultSet.getInt("percent_to_passed"),
+                        resultSet.getBoolean("must_be_completed"),
+                        resultSet.getString("content"),
                         resultSet.getInt("type"),
+                        resultSet.getInt("index"),
                         resultSet.getInt("time"));
                 lessons.add(lesson);
             }

@@ -5,6 +5,7 @@
 package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.Chapter;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author TTNhan
  */
 public class ChapterDAO extends DBConnection {
@@ -59,7 +59,8 @@ public class ChapterDAO extends DBConnection {
                         resultSet.getInt("courseID"),
                         resultSet.getInt("index"),
                         resultSet.getString("name"),
-                        resultSet.getString("description"));
+                        resultSet.getString("description"),
+                        resultSet.getInt("total_time"));
             }
 
             disconnect();
@@ -87,7 +88,8 @@ public class ChapterDAO extends DBConnection {
                         resultSet.getInt("courseID"),
                         resultSet.getInt("index"),
                         resultSet.getString("name"),
-                        resultSet.getString("description"));
+                        resultSet.getString("description"),
+                        resultSet.getInt("total_time"));
                 chapters.add(chapter);
             }
 
