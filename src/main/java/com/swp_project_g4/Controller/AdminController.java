@@ -1,13 +1,18 @@
 package com.swp_project_g4.Controller;
 
-import com.swp_project_g4.Database.*;
+import com.swp_project_g4.Database.AdminDAO;
+import com.swp_project_g4.Database.CourseDAO;
+import com.swp_project_g4.Database.OrganizationDAO;
+import com.swp_project_g4.Database.UserDAO;
 import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.JwtUtil;
 import com.swp_project_g4.Service.MD5;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +25,9 @@ import java.util.Date;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+    @Autowired
+    private Repo repo;
 
     @GetMapping("")
     public String redirect(HttpServletRequest request) {
@@ -160,7 +168,7 @@ public class AdminController {
         try {
             organization_id = Integer.parseInt(id);
             request.setAttribute("currentOrg", OrganizationDAO.getOrganization(organization_id));
-            request.setAttribute("countryList", CountryDAO.getAllCountry());
+            request.setAttribute("countryList", repo.getCountryRepository().findAll());
 
         } catch (Exception e) {
             request.setAttribute("error", "Failed to load organization information!");

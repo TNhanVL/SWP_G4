@@ -33,7 +33,7 @@
                 <tr>
                     <td>
                         <p class="text-xs font-weight-bold mb-0">
-                                ${org.organizationID}
+                                ${org.ID}
                         </p>
                     </td>
                     <td>
@@ -46,7 +46,7 @@
                                              "/public/assets/imgs/logo.png"
                                 </c:when>
                                 <c:otherwise>
-                                    "/public/media/organization/${org.organizationID}/${org.picture}"
+                                    "/public/media/organization/${org.ID}/${org.picture}"
                                 </c:otherwise>
                                 </c:choose>
                                 >
@@ -62,7 +62,7 @@
                         </p>
                     </td>
                     <td class="align-middle">
-                        <a href="./editOrganization?id=${org.organizationID}"
+                        <a href="./editOrganization?id=${org.ID}"
                            class="text-secondary font-weight-bold text-xs">
                             <i class="fas fa-solid fa-pen"></i>
                         </a>

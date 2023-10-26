@@ -100,7 +100,7 @@
                                         "/public/assets/imgs/logo.png"
                                 </c:when>
                                 <c:otherwise>
-                                    "/public/media/organization/${org.organizationID}/${org.picture}"
+                                    "/public/media/organization/${org.ID}/${org.picture}"
                                 </c:otherwise>
                                 </c:choose>>
                                 <div class="card-body">
@@ -110,7 +110,7 @@
                                         </h5>
                                         ID
                                         <h6 class="text-dark font-weight-bold ">
-                                            ${org.organizationID}
+                                            ${org.ID}
                                         </h6>
                                     </div>
                                 </div>
@@ -125,14 +125,14 @@
                                         <h3 class="card-title">Organization Information</h3>
                                     </div>
 
-                                    <form modelAttribute="driver" action="./editOrganization?id=${org.organizationID}"
+                                    <form modelAttribute="driver" action="./editOrganization?id=${org.ID}"
                                           method="post"
                                           id="updateUserForm">
                                         <div class="card-body">
 
                                             <div class="form-group" hidden="hidden">
                                                 <label>ID</label>
-                                                <input type="text" name="ID" value="${org.organizationID}">
+                                                <input type="text" name="ID" value="${org.ID}">
                                                 <input type="text" name="picture"
                                                        value="${org.picture}">
 
@@ -161,23 +161,12 @@
                                             <div class="form-group">
                                                 <label for="country">country</label>
                                                 <select id="country" class="form-control" name="countryID" required>
-                                                    <%--                                                    <%--%>
-                                                    <%--                                                        ArrayList<Country> countries = CountryDAO.getAllCountry();--%>
-                                                    <%--                                                        for (Country country : countries) {--%>
-                                                    <%--                                                    %>--%>
-                                                    <%--                                                    <option value=--%>
-                                                    <%--                                                                <%out.print(country.getID());--%>
-                                                    <%--                                                                                                                if (country.getID() == ${org.organizationID}) {%>--%>
-                                                    <%--                                                                    selected="selected"--%>
-                                                    <%--                                                            <%}%>>--%>
-                                                    <%--                                                        <%out.print(country.getName());%>--%>
-                                                    <%--                                                    </option>--%>
-                                                    <%--                                                    <%}%>--%>
                                                     <c:forEach var="country" items="${requestScope.countryList}">
                                                         <option>
-                                                            <c:if test="${country.name = org.}"></c:if>
+                                                            <c:if test="${country.ID == org.countryID}">
+                                                                selected="selected"
+                                                            </c:if>
                                                                 ${country.name}
-
                                                         </option>
                                                     </c:forEach>
                                                 </select>

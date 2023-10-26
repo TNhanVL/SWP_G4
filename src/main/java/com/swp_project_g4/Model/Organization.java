@@ -5,14 +5,16 @@
 package com.swp_project_g4.Model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 /**
- *
  * @author TTNhan
  */
-//@Entity
-//@Table(name = "organization")
+@Entity
+@Table(name = "organization")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,5 +29,5 @@ public class Organization {
     private String picture;
     private String name;
     private String description;
-    
+
 }
