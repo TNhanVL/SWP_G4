@@ -133,7 +133,7 @@ public class OrganizationDAO extends DBConnection {
             statement.setString(1, organization.getName());
             statement.setString(2, organization.getPicture());
             statement.setString(3, organization.getDescription());
-            statement.setInt(4, organization.getOrganizationID());
+            statement.setInt(4, organization.getID());
             statement.executeUpdate();
 
             //disconnect to database

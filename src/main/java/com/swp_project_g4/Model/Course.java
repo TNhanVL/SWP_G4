@@ -12,8 +12,8 @@ package com.swp_project_g4.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
-//@Entity
-//@Table(name = "course")
+@Entity
+@Table(name = "course")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

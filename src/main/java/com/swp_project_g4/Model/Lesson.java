@@ -11,8 +11,8 @@ import lombok.*;
  *
  * @author TTNhan
  */
-//@Entity
-//@Table(name = "lesson")
+@Entity
+@Table(name = "lesson")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

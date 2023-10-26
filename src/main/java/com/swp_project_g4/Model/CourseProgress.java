@@ -10,8 +10,8 @@ import java.util.Date;
 /**
  * @author TTNhan
  */
-//@Entity
-//@Table(name = "course_progress")
+@Entity
+@Table(name = "course_progress")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

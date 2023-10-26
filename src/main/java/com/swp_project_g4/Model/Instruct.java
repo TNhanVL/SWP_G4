@@ -3,8 +3,8 @@ package com.swp_project_g4.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
-//@Entity
-//@Table(name = "instruct")
+@Entity
+@Table(name = "instruct")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

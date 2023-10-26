@@ -121,9 +121,9 @@ GO
 CREATE TABLE [transaction]
 (
     transactionID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    learnerID        INT                NOT NULL,
+    learnerID     INT                NOT NULL,
     courseID      INT                NOT NULL,
-    origin_price   NUMERIC(10, 2)     NOT NULL,
+    origin_price  NUMERIC(10, 2)     NOT NULL,
     price         NUMERIC(10, 2)     NOT NULL,
     type          INT,
     description   NTEXT,

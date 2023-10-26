@@ -8,15 +8,15 @@ import lombok.*;
  *
  * @author TTNhan
  */
-//@Entity
-//@Table(name = "admin")
+@Entity
+@Table(name = "admin")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String adminID;
+    private int ID;
     private String username;
     private String password;
     
