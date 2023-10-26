@@ -6,7 +6,6 @@ package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.Organization;
 
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -56,7 +55,9 @@ public class OrganizationDAO extends DBConnection {
 
             if (resultSet.next()) {
                 organization = new Organization(
-                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("ID"),
+                        resultSet.getInt("countryID"),
+
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
@@ -84,7 +85,8 @@ public class OrganizationDAO extends DBConnection {
 
             if (resultSet.next()) {
                 organizationList.add(new Organization(
-                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("ID"),
+                        resultSet.getInt("countryID"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),

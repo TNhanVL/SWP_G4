@@ -17,6 +17,9 @@
             <thead>
             <tr>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    ID
+                </th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Account
                 </th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -30,7 +33,13 @@
             </thead>
             <tbody>
             <c:forEach var="user" items="${sessionScope.userList}">
-                <tr><td>
+                <tr>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">
+                                ${user.ID}
+                        </p>
+                    </td>
+                    <td>
                         <div class="d-flex px-2 py-1">
                             <div>
                                 <img class="avatar avatar-sm me-3 border-radius-lg" alt="user1"

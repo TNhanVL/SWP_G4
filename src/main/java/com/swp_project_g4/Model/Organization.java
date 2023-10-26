@@ -11,8 +11,8 @@ import lombok.*;
  *
  * @author TTNhan
  */
-@Entity
-@Table(name = "organization")
+//@Entity
+//@Table(name = "organization")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +20,7 @@ public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
+    private int countryID;
     private String username;
     private String password;
     private String email;

@@ -17,6 +17,9 @@
             <thead>
             <tr>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    ID
+                </th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Organization
                 </th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -29,6 +32,11 @@
             <c:forEach var="org" items="${sessionScope.orgList}">
                 <tr>
                     <td>
+                        <p class="text-xs font-weight-bold mb-0">
+                                ${org.organizationID}
+                        </p>
+                    </td>
+                    <td>
                         <div class="d-flex px-2 py-1">
                             <div>
                                 <img class="avatar avatar-sm me-3 border-radius-lg" alt="user1"
@@ -38,7 +46,7 @@
                                              "/public/assets/imgs/logo.png"
                                 </c:when>
                                 <c:otherwise>
-                                    "/public/media/organization/${org.ID}/${org.picture}"
+                                    "/public/media/organization/${org.organizationID}/${org.picture}"
                                 </c:otherwise>
                                 </c:choose>
                                 >
@@ -54,7 +62,7 @@
                         </p>
                     </td>
                     <td class="align-middle">
-                        <a href="./editUser?id=${user.ID}"
+                        <a href="./editOrganization?id=${org.organizationID}"
                            class="text-secondary font-weight-bold text-xs">
                             <i class="fas fa-solid fa-pen"></i>
                         </a>
