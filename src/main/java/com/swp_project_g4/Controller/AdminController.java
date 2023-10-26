@@ -169,8 +169,8 @@ public class AdminController {
     public String editOrganization(ModelMap model, HttpServletRequest request, @RequestParam String id) {
         try {
             var organization_id = Integer.parseInt(id);
-//            var organization = repo.getOrganizationRepository().findById(organization_id).orElseThrow();
-            var organization = OrganizationDAO.getOrganization(organization_id);
+            var organization = repo.getOrganizationRepository().findById(organization_id).orElseThrow();
+//            var organization = OrganizationDAO.getOrganization(organization_id);
             request.setAttribute("currentOrg", organization);
             request.setAttribute("countryList", repo.getCountryRepository().findAll());
 
