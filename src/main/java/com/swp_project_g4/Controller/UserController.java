@@ -42,9 +42,8 @@ public class UserController {
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     @ResponseBody
     public String getAll() {
-        var userRepository = repo.getUserRepository();
-        var b = userRepository.findAll();
-        System.out.println(b);
+        var a = repo.getCountryRepository().findAll();
+        System.out.println(a);
         return "ok";
     }
 
