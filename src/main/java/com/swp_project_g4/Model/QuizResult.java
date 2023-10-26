@@ -27,7 +27,6 @@ public class QuizResult {
     private int number_of_correct_answer;
     private int number_of_question;
     private int mark;
-    private int userID;
     private Date startAt;
     private Date endAt;
 

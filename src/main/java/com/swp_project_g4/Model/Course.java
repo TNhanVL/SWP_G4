@@ -21,12 +21,12 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int courseID;
+    private int organizationID;
+    private int instructorID;
     private String name;
     private String picture;
     private String description;
     private boolean verify = false;
-    private int organizationID;
-    private int instructorID;
     private double price;
     private double rate;
 
