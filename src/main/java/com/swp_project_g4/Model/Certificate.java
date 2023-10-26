@@ -19,6 +19,7 @@ import lombok.*;
 public class Certificate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int certificateID;
     private int userID;
     private int courseID;
     private String certificateURL;

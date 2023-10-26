@@ -19,6 +19,7 @@ import lombok.*;
 public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int organizationID;
     private int ID;
     private int countryID;
     private String username;
