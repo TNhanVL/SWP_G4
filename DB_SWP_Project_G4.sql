@@ -47,17 +47,17 @@ GO
 
 CREATE TABLE [user]
 (
-    ID          INT IDENTITY (1,1) PRIMARY KEY,
-    picture     TEXT,
-    username    VARCHAR(50),
-    [password]  VARCHAR(50),
-    email       VARCHAR(320),
+    ID           INT IDENTITY (1,1) PRIMARY KEY,
+    picture      TEXT,
+    username     VARCHAR(50),
+    [password]   VARCHAR(50),
+    email        VARCHAR(320),
     [first_name] NVARCHAR(50),
     [last_name]  NVARCHAR(50),
-    [role]      INT,
-    birthday    DATE,
-    countryID   INT FOREIGN KEY REFERENCES [country],
-    [status]    int
+    [role]       INT,
+    birthday     DATE,
+    countryID    INT FOREIGN KEY REFERENCES [country],
+    [status]     int
 );
 GO
 
@@ -73,11 +73,14 @@ GO
 CREATE TABLE course
 (
     courseID       INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    organizationID INT                NOT NULL,
+    instructorID   INT                NOT NULL,
     name           NVARCHAR(50)       NOT NULL,
     [picture]      TEXT,
     [description]  NVARCHAR(50),
     organizationID INT                NOT NULL,
     instructorID   INT                NOT NULL,
+    verify         BIT,
     price          NUMERIC(10, 2)     NOT NULL,
     rate           NUMERIC(2, 1)      NOT NULL,
     FOREIGN KEY (organizationID) REFERENCES organization (ID),
@@ -87,9 +90,9 @@ GO
 
 CREATE TABLE sale
 (
-    saleID    INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    courseID  INT                NOT NULL,
-    price     NUMERIC(10, 2)     NOT NULL,
+    saleID     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    courseID   INT                NOT NULL,
+    price      NUMERIC(10, 2)     NOT NULL,
     start_date DATETIME,
     end_date   DATETIME,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
@@ -98,8 +101,8 @@ GO
 
 CREATE TABLE [certificate]
 (
-    userID          INT NOT NULL,
-    courseID        INT NOT NULL,
+    userID           INT NOT NULL,
+    courseID         INT NOT NULL,
     certificate_name text,
     PRIMARY KEY (userID, courseID),
     FOREIGN KEY (userID) REFERENCES [user] (ID),
@@ -174,18 +177,23 @@ CREATE TABLE chapter
     [index]       INT                NOT NULL,
     name          NVARCHAR(50),
     [description] NVARCHAR(50),
+    total_time    INT,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
 
 CREATE TABLE lesson
 (
-    lessonID  INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    chapterID INT                NOT NULL,
-    name      NVARCHAR(50),
-    [index]   INT                NOT NULL,
-    [type]    INT                NOT NULL,
-    [time]    INT                NOT NULL,
+    lessonID          INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    chapterID         INT                NOT NULL,
+    name              NVARCHAR(50),
+    description       NTEXT,
+    percent_to_passed INT,
+    must_be_completed INT,
+    content           NTEXT,
+    [index]           INT                NOT NULL,
+    [type]            INT                NOT NULL,
+    [time]            INT                NOT NULL,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID)
 );
 GO
@@ -203,13 +211,13 @@ GO
 CREATE TABLE course_progress
 (
     course_progressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    learnerID        INT                NOT NULL,
-    courseID         INT                NOT NULL,
-    enrolled         BIT,
+    learnerID         INT                NOT NULL,
+    courseID          INT                NOT NULL,
+    enrolled          BIT,
     progress_percent  INT,
-    completed        BIT,
-    rated            BIT,
-    rate             INT,
+    completed         BIT,
+    rated             BIT,
+    rate              INT,
     start_at          DATETIME,
     FOREIGN KEY (learnerID) REFERENCES [user] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID)
@@ -219,10 +227,10 @@ GO
 CREATE TABLE chapter_progress
 (
     chapter_progressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    chapterID         INT                NOT NULL,
+    chapterID          INT                NOT NULL,
     course_progressID  INT                NOT NULL,
     progress_percent   INT,
-    completed         BIT,
+    completed          BIT,
     start_at           DATETIME,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
     FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID)
@@ -232,10 +240,10 @@ GO
 CREATE TABLE lesson_progress
 (
     lesson_progressID  INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonID          INT                NOT NULL,
+    lessonID           INT                NOT NULL,
     chapter_progressID INT                NOT NULL,
     progress_percent   INT,
-    completed         BIT,
+    completed          BIT,
     start_at           DATETIME,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
     FOREIGN KEY (chapter_progressID) REFERENCES chapter_progress (chapter_progressID)
@@ -276,20 +284,23 @@ GO
 
 CREATE TABLE quiz_result
 (
-    quiz_resultID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonID     INT                NOT NULL,
-    userID       INT                NOT NULL,
-    start_at    DATETIME,
-    end_at      DATETIME,
+    quiz_resultID            INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    lessonID                 INT                NOT NULL,
+    lesson_progressID        INT                NOT NULL,
+    number_of_correct_answer INT,
+    number_of_question       INT,
+    mark                     INT,
+    start_at                 DATETIME,
+    end_at                   DATETIME,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
-    FOREIGN KEY (userID) REFERENCES [user] (ID)
+    FOREIGN KEY (lesson_progressID) REFERENCES [lesson_progress] (lesson_progressID)
 );
 GO
 
 CREATE TABLE chosen_answer
 (
     quiz_resultID   INT NOT NULL,
-    questionID     INT NOT NULL,
+    questionID      INT NOT NULL,
     selected_answer INT NOT NULL,
     FOREIGN KEY (quiz_resultID) REFERENCES quiz_result (quiz_resultID),
     FOREIGN KEY (questionID) REFERENCES question (questionID),
