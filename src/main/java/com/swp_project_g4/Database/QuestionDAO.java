@@ -5,6 +5,7 @@
 package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.Question;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author TTNhan
  */
 public class QuestionDAO extends DBConnection {
@@ -131,7 +131,7 @@ public class QuestionDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into question(lessonID,[index],content,[type],point) values (?,?,?,?)");
+            statement = conn.prepareStatement("insert into question(lessonID,[index],content,[type],point) values (?,?,?,?,?)");
             statement.setInt(1, question.getLessonID());
             statement.setInt(2, question.getIndex());
             statement.setString(3, question.getContent());
