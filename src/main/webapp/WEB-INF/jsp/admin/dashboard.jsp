@@ -37,7 +37,7 @@
 
         <span class="navbar-brand m-0 ms-1 font-weight-bold text-white">
                 Hello
-                <%out.print(CookieServices.getUserName(request.getCookies()));%>!
+                <%out.print(CookieServices.getUserNameOfAdmin(request.getCookies()));%>!
             </span>
     </div>
     <hr class="horizontal light mt-0 mb-2">

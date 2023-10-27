@@ -25,6 +25,7 @@ public class CookieServices {
     private Repo repo;
 
     static final String learnerTokenName = "learnerJwtToken";
+    static final String adminTokenName = "adminJwtToken";
 
     public static boolean checkAdminLoggedIn(Cookie[] cookies) {
         boolean ok = false;
@@ -33,18 +34,21 @@ public class CookieServices {
             String jwtToken = null;
 
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("jwtToken")) {
+                if (cookie.getName().equals(adminTokenName)) {
                     jwtToken = cookie.getValue();
                     break;
                 }
             }
 
             Claims claims = JwtUtil.parseJwt(jwtToken);
-            String username = (String) claims.get("username");
-            String password = (String) claims.get("password");
-            if (AdminDAO.checkAdmin(username, password, true) == 0) {
-                ok = true;
+            if (claims != null) {
+                String username = (String) claims.get("username");
+                String password = (String) claims.get("password");
+                if (AdminDAO.checkAdmin(username, password, true) == 0) {
+                    return true;
+                }
             }
+            return false;
 
         } catch (Exception e) {
         }
@@ -111,6 +115,35 @@ public class CookieServices {
         return false;
     }
 
+    public static boolean loginAdmin(HttpServletResponse response, User user) {
+        try {
+            String TokenBody = JwtUtil.generateJwt(user.getUsername(), user.getPassword());
+            Cookie cookie = new Cookie(adminTokenName, TokenBody);
+            cookie.setMaxAge(60 * 60 * 6);
+            response.addCookie(cookie);
+            return true;
+        } catch (Exception e) {
+
+        }
+        return false;
+    }
+
+    public static boolean logoutAdmin(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals(adminTokenName)) {
+                    cookie.setValue(null);
+                    response.addCookie(cookie);
+                    break;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+
+        }
+        return false;
+    }
+
     public static String getUserNameOfLearner(Cookie[] cookies) {
         String ans = "";
 
@@ -133,14 +166,14 @@ public class CookieServices {
         return ans;
     }
 
-    public static String getUserName(Cookie[] cookies) {
+    public static String getUserNameOfAdmin(Cookie[] cookies) {
         String ans = "";
 
         try {
             String jwtToken = null;
 
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("jwtToken")) {
+                if (cookie.getName().equals(adminTokenName)) {
                     jwtToken = cookie.getValue();
                     break;
                 }

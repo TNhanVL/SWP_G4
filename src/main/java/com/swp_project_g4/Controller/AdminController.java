@@ -63,24 +63,19 @@ public class AdminController {
             return "redirect:./login";
         }
 
-        String TokenBody = JwtUtil.generateJwt(username, MD5.getMd5(password));
-        Cookie cookie = new Cookie("jwtToken", TokenBody);
-        cookie.setMaxAge(60 * 60);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(MD5.getMd5(password));
+
+        CookieServices.loginAdmin(response, user);
         request.getSession().setAttribute("success", "Login succeed!");
-        response.addCookie(cookie);
         return "redirect:./dashboard";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 //        model.addAttribute("title", "Index!");
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("jwtToken")) {
-                cookie.setValue(null);
-                response.addCookie(cookie);
-                break;
-            }
-        }
+        CookieServices.logoutAdmin(request, response);
         request.getSession().setAttribute("success", "Logout succeed!");
         return "redirect:./login";
     }
