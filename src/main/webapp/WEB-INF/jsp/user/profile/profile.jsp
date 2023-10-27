@@ -26,7 +26,7 @@
     boolean guest = true;
     //Get user loggedIn
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-        User userLoggedin = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        User userLoggedin = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
         guest = (userLoggedin == null || user.getID() != userLoggedin.getID());
     }
 

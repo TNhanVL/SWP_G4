@@ -66,13 +66,8 @@ public class UserController {
                 User user = UserDAO.getUserByEmail(googlePojo.getEmail());
 
 //                System.out.println(googlePojo);
-                if (user != null) {
-                    String TokenBody = JwtUtil.generateJwt(user.getUsername(), user.getPassword());
-                    System.out.println(user);
-                    Cookie cookie = new Cookie("jwtToken", TokenBody);
-                    cookie.setMaxAge(60 * 60 * 6);
+                if (user != null && CookieServices.loginLearner(response, user)) {
                     request.getSession().setAttribute("success", "Login succeed!");
-                    response.addCookie(cookie);
                     return "redirect:./";
                 }
 
@@ -194,25 +189,24 @@ public class UserController {
             return "redirect:/login";
         }
 
-        String TokenBody = JwtUtil.generateJwt(username, MD5.getMd5(password));
-        Cookie cookie = new Cookie("jwtToken", TokenBody);
-        cookie.setMaxAge(60 * 60 * 6);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(MD5.getMd5(password));
+
+        CookieServices.loginLearner(response, user);
         request.getSession().setAttribute("success", "Login succeed!");
-        response.addCookie(cookie);
         return "redirect:./";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("jwtToken")) {
-                cookie.setValue(null);
-                response.addCookie(cookie);
-                break;
-            }
+        if (CookieServices.logoutLearner(request, response)) {
+            request.getSession().setAttribute("success", "Logout succeed!");
+            return "redirect:/login";
+        } else {
+            request.getSession().setAttribute("error", "Logout failed!");
+            return "redirect:/";
         }
-        request.getSession().setAttribute("success", "Logout succeed!");
-        return "redirect:/login";
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -222,7 +216,7 @@ public class UserController {
             return "redirect:./";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         model.addAttribute("username", user.getUsername());
         return "user/profile/profile";

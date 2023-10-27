@@ -18,7 +18,7 @@
 
 <%
 
-    User user1 = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+    User user1 = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     Lesson lesson1 = LessonDAO.getLesson(Integer.parseInt(request.getParameter("lessonID")));
     Chapter chapter1 = ChapterDAO.getChapter(lesson1.getChapterID());
     Course course1 = CourseDAO.getCourse(chapter1.getCourseID());

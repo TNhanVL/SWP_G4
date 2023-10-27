@@ -29,7 +29,7 @@ public class CartController {
             return "redirect:/login";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         CourseDAO.insertCartProduct(user.getID(), courseID);
 
@@ -45,7 +45,7 @@ public class CartController {
             return "redirect:/login";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         CourseDAO.deleteCartProduct(user.getID(), courseID);
 

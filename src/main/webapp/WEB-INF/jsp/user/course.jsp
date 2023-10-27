@@ -36,7 +36,7 @@
 
     User user = null;
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-        user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 %>
 

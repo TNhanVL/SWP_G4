@@ -36,7 +36,7 @@ public class LearnController {
     public String markLessonComplete(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
         //check logged in
         if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-            User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+            User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
             LessonDAO.insertLessonCompleted(user.getID(), lessonID, request);
         }
 
@@ -51,7 +51,7 @@ public class LearnController {
     public String markLessonCompletePost(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
         //check logged in
         if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-            User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+            User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
             LessonDAO.insertLessonCompleted(user.getID(), lessonID, request);
         }
 
@@ -66,7 +66,7 @@ public class LearnController {
             return "redirect:/login";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
         Lesson lesson = LessonDAO.getLesson(lessonID);
 //        QuizResultDAO.insertQuizResult(new QuizResult(0, lessonID, user.getID(), new Date(), new Date((new Date()).getTime() + lesson.getTime() * 60000)));
 
@@ -82,7 +82,7 @@ public class LearnController {
             return "redirect:/login";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //check owner
         QuizResult quizResult = QuizResultDAO.getQuizResult(quizResultID);
@@ -117,7 +117,7 @@ public class LearnController {
             return "redirect:/login";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //check quizResult exist
         QuizResult quizResult = QuizResultDAO.getQuizResult(quizResultID);

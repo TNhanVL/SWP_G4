@@ -40,7 +40,7 @@ public class CheckOutController {
             return "redirect:/login";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //get all courses ID
         String[] courseIDStrs = request.getParameterValues("course");
@@ -84,7 +84,7 @@ public class CheckOutController {
             return "redirect:/login";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //get all courses ID
         String[] courseIDStrs = request.getParameterValues("course");

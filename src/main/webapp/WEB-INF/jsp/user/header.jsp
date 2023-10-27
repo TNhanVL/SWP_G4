@@ -17,7 +17,7 @@
     User userHeader = null;
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
         loggedInHeader = true;
-        userHeader = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        userHeader = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 %>
 

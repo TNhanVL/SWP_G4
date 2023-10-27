@@ -21,7 +21,7 @@
         response.sendRedirect("/login");
         return;
     } else {
-        user = UserDAO.getUserByUsername(CookieServices.getUserName(request.getCookies()));
+        user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 
     //check courseID
