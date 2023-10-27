@@ -362,11 +362,7 @@ public class LessonDAO extends DBConnection {
             statement.setInt(1, lessonID);
             statement.execute();
             disconnect();
-            if (!existLesson(lessonID)) {
-                return true;
-            } else {
-                return false;
-            }
+            return !existLesson(lessonID);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -151,11 +151,7 @@ public class AnswerDAO extends DBConnection {
             statement.setInt(1, answerID);
             statement.execute();
             disconnect();
-            if (!existAnswer(answerID)) {
-                return true;
-            } else {
-                return false;
-            }
+            return !existAnswer(answerID);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

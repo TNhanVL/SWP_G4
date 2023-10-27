@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CourseDAOTest {
 
@@ -14,7 +14,7 @@ public class CourseDAOTest {
     void searchCoursesWithEmptyName() {
         CourseDAO courseDAO = new CourseDAO();
 
-        ArrayList<Course> courses = courseDAO.searchCourses("");
+        ArrayList<Course> courses = CourseDAO.searchCourses("");
 
         assertEquals(12, courses.size());
     }
@@ -24,7 +24,7 @@ public class CourseDAOTest {
         CourseDAO courseDAO = new CourseDAO();
 
         String correctName = "Dekiru Nihongo";
-        ArrayList<Course> courses = courseDAO.searchCourses(correctName);
+        ArrayList<Course> courses = CourseDAO.searchCourses(correctName);
         assertEquals(1, courses.size());
         assertEquals(correctName, courses.get(0).getName());
     }
@@ -34,7 +34,7 @@ public class CourseDAOTest {
         CourseDAO courseDAO = new CourseDAO();
 
         String incorrectName = "Basic Java";
-        ArrayList<Course> courses = courseDAO.searchCourses(incorrectName);
+        ArrayList<Course> courses = CourseDAO.searchCourses(incorrectName);
 
         assertEquals(0, courses.size());
     }
@@ -43,13 +43,13 @@ public class CourseDAOTest {
     void searchCoursesWithPartialName() {
         CourseDAO courseDAO = new CourseDAO();
         String name = "Java";
-        ArrayList<Course> courses = courseDAO.searchCourses(name);
+        ArrayList<Course> courses = CourseDAO.searchCourses(name);
 
 //        assertThat(courses.size()).isGreaterThanOrEqualTo(6);
-        assertEquals(true, courses.size() >= 6);
+        assertTrue(courses.size() >= 6);
 
         for (Course course : courses) {
-            assertEquals(true, course.getName().contains(name));
+            assertTrue(course.getName().contains(name));
 //            assertThat(course.getName().contains(name)).isTrue();
         }
     }
@@ -61,7 +61,7 @@ public class CourseDAOTest {
         String picture = "";
         double price = 0;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class CourseDAOTest {
         String picture = "";
         double price = 0;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class CourseDAOTest {
         String picture = "a.png";
         double price = 10.234;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -91,7 +91,7 @@ public class CourseDAOTest {
         String picture = "a.png";
         double price = -10.12;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class CourseDAOTest {
         String picture = "a.png";
         double price = 4;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class CourseDAOTest {
         String picture = "https://www.vitto.vn/sac-hoa-tulip";
         double price = 4;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -121,7 +121,7 @@ public class CourseDAOTest {
         String picture = "a.png";
         double price = 4;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -131,7 +131,7 @@ public class CourseDAOTest {
         String picture = "https://www.vitto.vn/sac-hoa-tulip";
         double price = 4;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -141,7 +141,7 @@ public class CourseDAOTest {
         String picture = "https://www.vitto.vn/sac-hoa-tulip";
         double price = 10.234;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -151,7 +151,7 @@ public class CourseDAOTest {
         String picture = "a.png";
         double price = 4;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -161,7 +161,7 @@ public class CourseDAOTest {
         String picture = "";
         double price = 0;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -171,7 +171,7 @@ public class CourseDAOTest {
         String picture = "https://www.vitto.vn/sac-hoa-tulip";
         double price = 10.234;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -181,7 +181,7 @@ public class CourseDAOTest {
         String picture = "";
         double price = -10.12;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -191,7 +191,7 @@ public class CourseDAOTest {
         String picture = "a.png";
         double price = 10.234;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -201,7 +201,7 @@ public class CourseDAOTest {
         String picture = "https://www.vitto.vn/sac-hoa-tulip";
         double price = 4;
         boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 }
 

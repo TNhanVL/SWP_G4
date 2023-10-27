@@ -157,11 +157,7 @@ public class ChapterDAO extends DBConnection {
             statement.setInt(1, chapterID);
             statement.execute();
             disconnect();
-            if (!existChapter(chapterID)) {
-                return true;
-            } else {
-                return false;
-            }
+            return !existChapter(chapterID);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

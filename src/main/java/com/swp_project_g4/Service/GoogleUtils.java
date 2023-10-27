@@ -33,7 +33,7 @@ public class GoogleUtils {
     public static String GOOGLE_LINK_GET_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
     public static String GOOGLE_GRANT_TYPE = "authorization_code";
 
-    public static String getToken(final String code) throws ClientProtocolException, IOException {
+    public static String getToken(final String code) throws IOException {
         String response = Request.Post(GOOGLE_LINK_GET_TOKEN)
                 .bodyForm(Form.form().add("client_id", GOOGLE_CLIENT_ID)
                         .add("client_secret", GOOGLE_CLIENT_SECRET)
@@ -46,7 +46,7 @@ public class GoogleUtils {
         return node.textValue();
     }
 
-    public static GooglePojo getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
+    public static GooglePojo getUserInfo(final String accessToken) throws IOException {
 //        System.out.println(GOOGLE_LINK_GET_USER_INFO + accessToken);
         String link = GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();

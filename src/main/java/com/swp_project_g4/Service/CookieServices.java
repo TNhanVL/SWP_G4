@@ -44,9 +44,7 @@ public class CookieServices {
             if (claims != null) {
                 String username = (String) claims.get("username");
                 String password = (String) claims.get("password");
-                if (AdminDAO.checkAdmin(username, password, true) == 0) {
-                    return true;
-                }
+                return AdminDAO.checkAdmin(username, password, true) == 0;
             }
             return false;
 
@@ -73,9 +71,7 @@ public class CookieServices {
             if (claims != null) {
                 String username = (String) claims.get("username");
                 String password = (String) claims.get("password");
-                if (LearnerDAO.checkUser(username, password, true) == 0) {
-                    return true;
-                }
+                return LearnerDAO.checkUser(username, password, true) == 0;
             }
             return false;
 

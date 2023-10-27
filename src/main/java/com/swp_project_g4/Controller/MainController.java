@@ -86,7 +86,7 @@ public class MainController {
     @RequestMapping(value = "/checkUsername", method = RequestMethod.GET)
     @ResponseBody
     public String checkUsername(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        String username = (String) request.getParameter("username");
+        String username = request.getParameter("username");
         Learner learner = LearnerDAO.getUserByUsername(username);
         response.setHeader("Access-Control-Allow-Origin", "*");
         if (learner != null) {
@@ -99,7 +99,7 @@ public class MainController {
     @RequestMapping(value = "/checkEmail", method = RequestMethod.GET)
     @ResponseBody
     public String checkEmail(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        String email = (String) request.getParameter("email");
+        String email = request.getParameter("email");
         Learner learner = LearnerDAO.getUserByEmail(email);
         response.setHeader("Access-Control-Allow-Origin", "*");
         if (learner != null) {

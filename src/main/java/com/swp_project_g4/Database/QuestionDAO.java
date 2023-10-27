@@ -182,11 +182,7 @@ public class QuestionDAO extends DBConnection {
             statement.setInt(1, questionID);
             statement.execute();
             disconnect();
-            if (!existQuestion(questionID)) {
-                return true;
-            } else {
-                return false;
-            }
+            return !existQuestion(questionID);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

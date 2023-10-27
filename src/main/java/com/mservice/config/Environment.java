@@ -115,7 +115,7 @@ public class Environment {
     public enum EnvTarget {
         DEV("development"), PROD("production");
 
-        private String target;
+        private final String target;
 
         EnvTarget(String target) {
             this.target = target;

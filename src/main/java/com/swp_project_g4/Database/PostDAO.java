@@ -144,11 +144,7 @@ public class PostDAO extends DBConnection {
             statement.setInt(1, ID);
             statement.execute();
             disconnect();
-            if (!existPost(ID)) {
-                return true;
-            } else {
-                return false;
-            }
+            return !existPost(ID);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
