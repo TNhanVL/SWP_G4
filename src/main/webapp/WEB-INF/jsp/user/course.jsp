@@ -30,13 +30,13 @@
         return;
     }
 
-    User instructor = com.swp_project_g4.Database.UserDAO.getUser(course.getInstructorID());
+    User instructor = LearnerDAO.getUser(course.getInstructorID());
 
     Organization organization = OrganizationDAO.getOrganization(course.getOrganizationID());
 
     User user = null;
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-        user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 %>
 

@@ -1,7 +1,7 @@
 package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.CourseDAO;
-import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.CookieServices;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class CourseController {
             return "redirect:/login";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         CourseDAO.deleteCartProduct(user.getID(), courseID);
 

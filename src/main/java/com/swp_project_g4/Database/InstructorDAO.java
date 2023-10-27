@@ -29,7 +29,7 @@ public class InstructorDAO extends DBConnection {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                User user = UserDAO.getUser(userID);
+                User user = LearnerDAO.getUser(userID);
                 instructor = new Instructor(user, resultSet.getInt("organizationID"));
             }
 
@@ -101,7 +101,7 @@ public class InstructorDAO extends DBConnection {
     }
 
     public static void main(String[] args) {
-        User user = UserDAO.getUser(1);
+        User user = LearnerDAO.getUser(1);
         Instructor lect = new Instructor(user, 1);
         insertInstructor(lect);
     }

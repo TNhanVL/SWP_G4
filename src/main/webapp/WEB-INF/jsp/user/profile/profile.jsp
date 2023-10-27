@@ -15,7 +15,7 @@
 <%
     //get user that want to show profile
     String profileUsername = (String) request.getAttribute("username");
-    User user = UserDAO.getUserByUsername(profileUsername);
+    User user = LearnerDAO.getUserByUsername(profileUsername);
 
     if (user == null) {
         request.getSession().setAttribute("error", "Not exist this username!");
@@ -26,7 +26,7 @@
     boolean guest = true;
     //Get user loggedIn
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-        User userLoggedin = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        User userLoggedin = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
         guest = (userLoggedin == null || user.getID() != userLoggedin.getID());
     }
 

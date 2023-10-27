@@ -7,7 +7,7 @@
 <%@page import="com.swp_project_g4.Model.Course"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="com.swp_project_g4.Database.CourseDAO" %>
-<%@ page import="com.swp_project_g4.Database.UserDAO" %>
+<%@ page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -19,7 +19,7 @@
         response.sendRedirect("/login");
         return;
     } else {
-        user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 
     ArrayList<Course> courses = CourseDAO.getAllCartProducts(user.getID());

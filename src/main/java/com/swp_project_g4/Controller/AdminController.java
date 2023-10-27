@@ -3,14 +3,12 @@ package com.swp_project_g4.Controller;
 import com.swp_project_g4.Database.AdminDAO;
 import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.OrganizationDAO;
-import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
-import com.swp_project_g4.Service.JwtUtil;
 import com.swp_project_g4.Service.MD5;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +80,7 @@ public class AdminController {
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String dashboard(ModelMap model, HttpServletRequest request) {
-        request.getSession().setAttribute("userList", UserDAO.getAllUsers());
+        request.getSession().setAttribute("userList", LearnerDAO.getAllUsers());
         request.getSession().setAttribute("orgList", OrganizationDAO.getAllOrganization());
         request.getSession().setAttribute("courseList", CourseDAO.getAllCourses());
         return "admin/dashboard";
@@ -125,7 +123,7 @@ public class AdminController {
         }
 
         try {
-            boolean ok = UserDAO.updateUser(user);
+            boolean ok = LearnerDAO.updateUser(user);
             if (ok) {
                 request.getSession().setAttribute("success", "Update User information succeed!");
             } else {
@@ -148,7 +146,7 @@ public class AdminController {
         }
 
         try {
-            if (UserDAO.deleteUser(Integer.parseInt(id))) {
+            if (LearnerDAO.deleteUser(Integer.parseInt(id))) {
                 request.getSession().setAttribute("success", "Delete user succeed!");
             } else {
                 request.getSession().setAttribute("error", "Delete user failed!");

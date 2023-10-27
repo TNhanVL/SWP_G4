@@ -1,21 +1,14 @@
 package com.swp_project_g4.Controller;
 
-import com.mservice.enums.RequestType;
-import com.mservice.momo.MomoPay;
-import com.swp_project_g4.Database.CourseDAO;
-import com.swp_project_g4.Database.UserDAO;
-import com.swp_project_g4.Model.Course;
+import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.GooglePojo;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.GoogleUtils;
-import com.swp_project_g4.Service.JwtUtil;
 import com.swp_project_g4.Service.MD5;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -26,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +26,7 @@ import java.util.logging.Logger;
 @Controller
 @Service
 //@RequestMapping("/user")
-public class UserController {
+public class MainController {
 
     @Autowired
     private Repo repo;
@@ -63,7 +55,7 @@ public class UserController {
                 String accessToken = GoogleUtils.getToken(code);
                 GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
 
-                User user = UserDAO.getUserByEmail(googlePojo.getEmail());
+                User user = LearnerDAO.getUserByEmail(googlePojo.getEmail());
 
 //                System.out.println(googlePojo);
                 if (user != null && CookieServices.loginLearner(response, user)) {
@@ -76,7 +68,7 @@ public class UserController {
                 request.setAttribute("userSignUp", user);
 
             } catch (IOException ex) {
-                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                 request.getSession().setAttribute("error", "Error when login with Google!");
                 return "redirect:/login";
             }
@@ -95,7 +87,7 @@ public class UserController {
     @ResponseBody
     public String checkUsername(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         String username = (String) request.getParameter("username");
-        User user = UserDAO.getUserByUsername(username);
+        User user = LearnerDAO.getUserByUsername(username);
         response.setHeader("Access-Control-Allow-Origin", "*");
         if (user != null) {
             return "exist";
@@ -108,7 +100,7 @@ public class UserController {
     @ResponseBody
     public String checkEmail(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         String email = (String) request.getParameter("email");
-        User user = UserDAO.getUserByEmail(email);
+        User user = LearnerDAO.getUserByEmail(email);
         response.setHeader("Access-Control-Allow-Origin", "*");
         if (user != null) {
             return "exist";
@@ -134,17 +126,17 @@ public class UserController {
         }
         user.setPassword(MD5.getMd5(user.getPassword()));
 
-        if (UserDAO.getUserByUsername(user.getUsername()) != null) {
+        if (LearnerDAO.getUserByUsername(user.getUsername()) != null) {
             request.getSession().setAttribute("error", "User already exist!");
             return "redirect:./signup";
         }
 
-        if (UserDAO.getUserByEmail(user.getEmail()) != null) {
+        if (LearnerDAO.getUserByEmail(user.getEmail()) != null) {
             request.getSession().setAttribute("error", "Email already exist!");
             return "redirect:./signup";
         }
 
-        UserDAO.insertUser(user);
+        LearnerDAO.insertUser(user);
         request.getSession().setAttribute("success", "Signup successful!");
         return "redirect:/login";
     }
@@ -152,7 +144,7 @@ public class UserController {
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public String updateUser(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int userID, @ModelAttribute("user") User user) {
 
-        User user1 = UserDAO.getUser(userID);
+        User user1 = LearnerDAO.getUser(userID);
 
         if (user1 == null) {
             request.getSession().setAttribute("error", "User not exist!");
@@ -165,14 +157,14 @@ public class UserController {
         user1.setCountryID(user.getCountryID());
         user1.setEmail(user.getEmail());
 
-        UserDAO.updateUser(user1);
+        LearnerDAO.updateUser(user1);
         request.getSession().setAttribute("success", "Update user success!");
         return "redirect:./profile";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String username, @RequestParam String password) {
-        int status = UserDAO.checkUser(username, password, false);
+        int status = LearnerDAO.checkUser(username, password, false);
 
         if (status < 0) {
             request.getSession().setAttribute("error", "Some error with database!");
@@ -207,25 +199,6 @@ public class UserController {
             request.getSession().setAttribute("error", "Logout failed!");
             return "redirect:/";
         }
-    }
-
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String selfProfile(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
-            return "redirect:./";
-        }
-
-        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
-
-        model.addAttribute("username", user.getUsername());
-        return "user/profile/profile";
-    }
-
-    @RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
-    public String profile(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable String username) {
-        model.addAttribute("username", username);
-        return "user/profile/profile";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

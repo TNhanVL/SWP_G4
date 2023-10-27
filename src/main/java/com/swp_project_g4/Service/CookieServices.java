@@ -5,7 +5,7 @@
 package com.swp_project_g4.Service;
 
 import com.swp_project_g4.Database.AdminDAO;
-import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Repository.Repo;
 import io.jsonwebtoken.Claims;
@@ -73,7 +73,7 @@ public class CookieServices {
             if (claims != null) {
                 String username = (String) claims.get("username");
                 String password = (String) claims.get("password");
-                if (UserDAO.checkUser(username, password, true) == 0) {
+                if (LearnerDAO.checkUser(username, password, true) == 0) {
                     return true;
                 }
             }

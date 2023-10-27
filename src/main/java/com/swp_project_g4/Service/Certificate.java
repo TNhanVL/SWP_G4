@@ -16,7 +16,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.InstructorDAO;
 import com.swp_project_g4.Database.OrganizationDAO;
-import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Model.User;
@@ -115,7 +115,7 @@ public class Certificate {
         
         srcPath = request.getSession().getServletContext().getRealPath("/") + "../../main/webapp/public";
         
-        User user = UserDAO.getUser(userID);
+        User user = LearnerDAO.getUser(userID);
         Course course = CourseDAO.getCourse(courseID);
         String imagePath = srcPath + "/assets/imgs/certificate/Yojihan_Certificate.png"; // Provide the path to your image file
         

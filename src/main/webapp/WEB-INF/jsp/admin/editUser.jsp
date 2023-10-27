@@ -6,12 +6,12 @@
 <%@page import="com.swp_project_g4.Database.CountryDAO" %>
 <%@page import="com.swp_project_g4.Model.Country" %>
 <%@page import="java.text.SimpleDateFormat" %>
-<%@page import="com.swp_project_g4.Database.UserDAO" %>
+<%@page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page import="com.swp_project_g4.Database.AdminDAO" %>
 <%@page import="java.util.ArrayList" %>
 <%@page import="com.swp_project_g4.Model.User" %>
 <%@page import="com.swp_project_g4.Service.CookieServices" %>
-<%@ page import="com.swp_project_g4.Database.UserDAO" %>
+<%@ page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -24,7 +24,7 @@
     int ID;
     try {
         ID = Integer.parseInt(request.getParameter("id"));
-        if (UserDAO.getUser(ID) == null) {
+        if (LearnerDAO.getUser(ID) == null) {
             throw new Exception();
         }
     } catch (Exception e) {
@@ -125,7 +125,7 @@
                                         <h3 class="card-title">User Information</h3>
                                     </div>
                                     <%
-                                        User user = UserDAO.getUser(ID);
+                                        User user = LearnerDAO.getUser(ID);
                                         request.setAttribute("userID", user.getID());
                                     %>
 

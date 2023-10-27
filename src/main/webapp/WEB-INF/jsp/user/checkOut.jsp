@@ -18,7 +18,7 @@
         response.sendRedirect("/login");
         return;
     } else {
-        user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 
     ArrayList<Course> courses = (ArrayList<Course>) request.getAttribute("courses");

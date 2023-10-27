@@ -6,7 +6,7 @@
 
 <%@page import="java.net.URL"%>
 <%@page import="com.swp_project_g4.Database.CourseDAO"%>
-<%@page import="com.swp_project_g4.Database.UserDAO"%>
+<%@page import="com.swp_project_g4.Database.LearnerDAO"%>
 <%@page import="com.swp_project_g4.Model.User"%>
 <%@page import="com.swp_project_g4.Service.CookieServices"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -17,7 +17,7 @@
     User userHeader = null;
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
         loggedInHeader = true;
-        userHeader = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        userHeader = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 %>
 

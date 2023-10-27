@@ -37,7 +37,7 @@ public class CourseDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return ok;
@@ -270,7 +270,7 @@ public class CourseDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return 0;
@@ -302,7 +302,7 @@ public class CourseDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return 0;
@@ -334,7 +334,7 @@ public class CourseDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return 0;
@@ -356,7 +356,7 @@ public class CourseDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return 0;
@@ -379,7 +379,7 @@ public class CourseDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return false;
@@ -467,7 +467,7 @@ public class CourseDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return false;
@@ -668,7 +668,7 @@ public class CourseDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return false;
@@ -692,7 +692,7 @@ public class CourseDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return certificateName;
@@ -738,21 +738,21 @@ public class CourseDAO extends DBConnection {
         try {
             boolean existOgranization = OrganizationDAO.existOrganization(organizationID);
             if (!existOgranization) {
-                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "ogranization not exist");
+                Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "ogranization not exist");
                 return false;
             }
             if (name == null || name == "") {
-                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "invalid name");
+                Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "invalid name");
                 return false;
             }
             if (price < 0) {
-                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "invalid price");
+                Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "invalid price");
                 return false;
             }
         } catch (Exception e) {
 
         }
-        Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "success");
+        Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "success");
         return true;
     }
 

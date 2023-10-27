@@ -3,27 +3,16 @@ package com.swp_project_g4.Controller;
 import com.mservice.enums.RequestType;
 import com.mservice.momo.MomoPay;
 import com.swp_project_g4.Database.CourseDAO;
-import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
-import com.swp_project_g4.Model.GooglePojo;
 import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Service.CookieServices;
-import com.swp_project_g4.Service.GoogleUtils;
-import com.swp_project_g4.Service.JwtUtil;
-import com.swp_project_g4.Service.MD5;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,7 +29,7 @@ public class CheckOutController {
             return "redirect:/login";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //get all courses ID
         String[] courseIDStrs = request.getParameterValues("course");
@@ -84,7 +73,7 @@ public class CheckOutController {
             return "redirect:/login";
         }
 
-        User user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //get all courses ID
         String[] courseIDStrs = request.getParameterValues("course");
@@ -113,7 +102,7 @@ public class CheckOutController {
         User user = null;
 
         try {
-            user = UserDAO.getUser(Integer.parseInt(userID));
+            user = LearnerDAO.getUser(Integer.parseInt(userID));
             if (resultCode != 0) {
                 throw new Exception();
             }

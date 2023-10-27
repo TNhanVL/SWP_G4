@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author TTNhan
  */
-public class UserDAO extends DBConnection {
+public class LearnerDAO extends DBConnection {
 
     public static boolean existUser(String username) {
         boolean ok = false;
@@ -39,7 +39,7 @@ public class UserDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return ok;
@@ -83,7 +83,7 @@ public class UserDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return status;
@@ -101,7 +101,7 @@ public class UserDAO extends DBConnection {
 
             //not exist
             if (resultSet == null || !resultSet.next()) {
-                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "not exist user");
+                Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "not exist user");
             } else {
                 String pw = resultSet.getString("password");
                 if (!hashed) {
@@ -110,17 +110,17 @@ public class UserDAO extends DBConnection {
                 if (pw.equals(password)) {
                     //correct
                     res = true;
-                    Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "success");
+                    Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "success");
                 }else{
-                    Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "wrong password");
+                    Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "wrong password");
                 }
             }
 
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "execute query failed");
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "execute query failed");
         }
         return res;
     }
