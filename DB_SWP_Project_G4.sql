@@ -306,6 +306,19 @@ CREATE TABLE chosen_answer
 );
 GO
 
+CREATE TABLE notification
+(
+    notificationID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    learnerID      INT                NOT NULL,
+    type           INT,
+    description    NTEXT              NOT NULL,
+    [read]           BIT                NOT NULL,
+    --True: 1, False: 0
+    receive_At     DATETIME,
+    FOREIGN KEY (learnerID) REFERENCES [user] (ID)
+);
+GO
+
 -- insert data
 
 INSERT INTO country
@@ -660,3 +673,11 @@ values (16, N'<h3>Lý thuyết</h3>
     <span class="token keyword">int</span> <span class="token keyword">int</span><span class="token punctuation">;</span>
     </code></pre>
     ');
+GO
+
+-- INSERT INTO notification (learnerID, type, description, read, receive_At)
+-- VALUES (1, 1, 'You have a new message.', 0, GETDATE());
+--
+-- INSERT INTO notification (learnerID, type, description, read, receive_At)
+-- VALUES (2, 2, 'You have a new course assignment.', 0, GETDATE());
+
