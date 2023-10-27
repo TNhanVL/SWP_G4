@@ -11,7 +11,7 @@ import jakarta.persistence.*;
  * @author TTNhan
  */
 @Entity
-@Table(name = "[user]")
+@Table(name = "[learner]")
 @Data
 public class User {
     @Id

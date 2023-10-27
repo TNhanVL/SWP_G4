@@ -45,7 +45,7 @@ CREATE TABLE organization
 );
 GO
 
-CREATE TABLE [user]
+CREATE TABLE [learner]
 (
     ID           INT IDENTITY (1,1) PRIMARY KEY,
     picture      TEXT,
@@ -65,7 +65,7 @@ CREATE TABLE instructor
 (
     userID         INT NOT NULL PRIMARY KEY,
     organizationID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [user] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (ID),
     FOREIGN KEY (organizationID) REFERENCES organization (ID)
 );
 GO
@@ -82,7 +82,7 @@ CREATE TABLE course
     price          NUMERIC(10, 2)     NOT NULL,
     rate           NUMERIC(2, 1)      NOT NULL,
     FOREIGN KEY (organizationID) REFERENCES organization (ID),
-    FOREIGN KEY (instructorID) REFERENCES [user] (ID)
+    FOREIGN KEY (instructorID) REFERENCES [learner] (ID)
 );
 GO
 
@@ -103,7 +103,7 @@ CREATE TABLE [certificate]
     courseID         INT NOT NULL,
     certificate_name text,
     PRIMARY KEY (userID, courseID),
-    FOREIGN KEY (userID) REFERENCES [user] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -112,7 +112,7 @@ CREATE TABLE purchased_course
 (
     userID   INT NOT NULL,
     courseID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [user] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (userID, courseID)
 );
@@ -128,7 +128,7 @@ CREATE TABLE [transaction]
     type          INT,
     description   NTEXT,
     status        INT,
-    FOREIGN KEY (learnerID) REFERENCES [user] (ID),
+    FOREIGN KEY (learnerID) REFERENCES [learner] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -137,7 +137,7 @@ CREATE TABLE instruct
 (
     userID   INT NOT NULL,
     courseID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [user] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (userID, courseID)
 );
@@ -151,7 +151,7 @@ CREATE TABLE review
     reviewed BIT,
     verified BIT,
     note     NTEXT,
-    FOREIGN KEY (userID) REFERENCES [user] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (userID, courseID)
 );
@@ -161,7 +161,7 @@ CREATE TABLE cart_product
 (
     userID   INT NOT NULL,
     courseID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [user] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (userID, courseID)
 );
@@ -200,7 +200,7 @@ CREATE TABLE lesson_completed
     lessonID INT NOT NULL,
     userID   INT NOT NULL,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
-    FOREIGN KEY (userID) REFERENCES [user] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (ID),
     UNIQUE (lessonID, userID)
 );
 GO
@@ -216,7 +216,7 @@ CREATE TABLE course_progress
     rated             BIT,
     rate              INT,
     start_at          DATETIME,
-    FOREIGN KEY (learnerID) REFERENCES [user] (ID),
+    FOREIGN KEY (learnerID) REFERENCES [learner] (ID),
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -315,7 +315,7 @@ CREATE TABLE notification
     [read]         BIT                NOT NULL,
     --True: 1, False: 0
     receive_at     DATETIME,
-    FOREIGN KEY (learnerID) REFERENCES [user] (ID)
+    FOREIGN KEY (learnerID) REFERENCES [learner] (ID)
 );
 GO
 
@@ -350,7 +350,7 @@ VALUES ('admin', '0e7517141fb53f21ee439b355b5a1d0a'),
        ('quantri', '0e7517141fb53f21ee439b355b5a1d0a'),
        ('sussy', '80b87ad4e28b6e6c6b0efc1cb797c649')
 GO
-INSERT INTO [user]
+INSERT INTO [learner]
 (picture, username, [password], email, first_name, last_name, [role], birthday, countryID, [status])
 VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gmail.com', 'Nhan', 'Tran Thanh', 0,
         '1990-01-01', 16, 1),
@@ -568,7 +568,7 @@ GO
 --     UPDATE sale set price = '30',start_date ='11/22/2022',end_date ='12/23/2022'where courseID ='2'
 --     delete from sale where courseID = '2'
 --  select * from review
---SELECT * FROM [user];
+--SELECT * FROM [learner];
 -- insert into review(userID, courseID, reviewed, verified, note)
 -- values ('2','7','0','2','COI LAI KIEN THUC')
 -- update review set courseID = '7',reviewed='0',verified='1',note='thay sai roi' where userID ='2'

@@ -26,7 +26,7 @@ public class LearnerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select username from [user] where username = ?");
+            statement = conn.prepareStatement("select username from [learner] where username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
@@ -59,7 +59,7 @@ public class LearnerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select [password] from [user] where username = ?");
+            statement = conn.prepareStatement("select [password] from [learner] where username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
@@ -95,7 +95,7 @@ public class LearnerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select [password] from [user] where username = ?");
+            statement = conn.prepareStatement("select [password] from [learner] where username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
@@ -132,7 +132,7 @@ public class LearnerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from [user] where ID = ?");
+            statement = conn.prepareStatement("select * from [learner] where ID = ?");
             statement.setInt(1, ID);
             ResultSet resultSet = statement.executeQuery();
 
@@ -167,7 +167,7 @@ public class LearnerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from [user] where email = ?");
+            statement = conn.prepareStatement("select * from [learner] where email = ?");
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
 
@@ -202,7 +202,7 @@ public class LearnerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from [user] where username = ?");
+            statement = conn.prepareStatement("select * from [learner] where username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
@@ -237,7 +237,7 @@ public class LearnerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from [user]");
+            statement = conn.prepareStatement("select * from [learner]");
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -271,7 +271,7 @@ public class LearnerDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("insert into [user](picture,username,[password],email,first_name,last_name,[role],birthday,countryID,status) values(?,?,?,?,?,?,?,?,?,?)");
+            statement = conn.prepareStatement("insert into [learner](picture,username,[password],email,first_name,last_name,[role],birthday,countryID,status) values(?,?,?,?,?,?,?,?,?,?)");
             statement.setString(1, user.getPicture());
             statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
@@ -301,7 +301,7 @@ public class LearnerDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("UPDATE [user] SET picture = ?, username = ?, [password] = ?, email = ?, first_name = ?, last_name = ?, role = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
+            statement = conn.prepareStatement("UPDATE [learner] SET picture = ?, username = ?, [password] = ?, email = ?, first_name = ?, last_name = ?, role = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
             statement.setString(1, user.getPicture());
             statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
@@ -333,7 +333,7 @@ public class LearnerDAO extends DBConnection {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from [user] where ID=?");
+            statement = conn.prepareStatement("delete from [learner] where ID=?");
             statement.setInt(1, ID);
             statement.execute();
             disconnect();
