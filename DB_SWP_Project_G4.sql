@@ -41,7 +41,8 @@ CREATE TABLE organization
     email         VARCHAR(320),
     picture       TEXT,
     [name]        VARCHAR(100),
-    [description] NVARCHAR(100)
+    [description] NVARCHAR(100),
+    [status]      int
 );
 GO
 
@@ -63,9 +64,16 @@ GO
 
 CREATE TABLE instructor
 (
-    userID         INT NOT NULL PRIMARY KEY,
+    instructorID   INT IDENTITY (1,1) PRIMARY KEY,
     organizationID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [learner] (ID),
+    countryID      INT FOREIGN KEY REFERENCES [country],
+    username       VARCHAR(50),
+    [password]     VARCHAR(50),
+    email          VARCHAR(320),
+    picture        TEXT,
+    [first_name]   NVARCHAR(50),
+    [last_name]    NVARCHAR(50),
+    [status]       int,
     FOREIGN KEY (organizationID) REFERENCES organization (ID)
 );
 GO
@@ -365,9 +373,10 @@ VALUES (16, 'FPT University', 'fptuni', '5e7c74592ea8dffbfdc20c84de15afea', 'Nha
         N'Trường đại học top 1 Việt Nam');
 GO
 INSERT INTO instructor
-    (userID, organizationID)
-VALUES (1, 1),
-       (2, 1)
+    (organizationID)
+VALUES (1),
+       (1),
+       (1)
 GO
 INSERT INTO course
 (name, [picture], [description], organizationID, instructorID, price, rate)

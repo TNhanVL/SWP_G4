@@ -25,6 +25,8 @@ public class Repo {
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
+    private InstructorRepository instructorRepository;
+    @Autowired
     private InstructRepository instructRepository;
     @Autowired
     private LessonProgressRepository lessonProgressRepository;

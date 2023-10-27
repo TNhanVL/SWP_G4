@@ -18,6 +18,7 @@ import com.swp_project_g4.Database.InstructorDAO;
 import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
+import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Model.User;
 import java.io.FileOutputStream;
@@ -141,7 +142,7 @@ public class Certificate {
             // Add Info into the certificate
             addUserName(user.getFirstName() + " " + user.getLastName(), contentByte, document);
             addCourseName(course.getName(), contentByte, document);
-            User instructor = InstructorDAO.getInstructor(course.getInstructorID());
+            Instructor instructor = InstructorDAO.getInstructor(course.getInstructorID());
             if (instructor != null) {
                 addInstructorName(instructor.getFirstName() + " " + instructor.getLastName(), contentByte, document);
             }
