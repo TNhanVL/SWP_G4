@@ -31,6 +31,8 @@ public class Repo {
     @Autowired
     private LessonRepository lessonRepository;
     @Autowired
+    private NotificationRepository notificationRepository;
+    @Autowired
     private OrganizationRepository organizationRepository;
     @Autowired
     private QuestionRepository questionRepository;
