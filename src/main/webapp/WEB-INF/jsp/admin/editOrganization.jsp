@@ -80,7 +80,15 @@
 
 
 </aside>
-<c:set var="org" scope="request" value="${requestScope.currentOrg}"/>
+<c:set var="org" scope="session" value="${sessionScope.currentOrg}"/>
+<c:choose>
+    <c:when test='${org.picture == "null"}'>
+        <c:set var="picture" scope="session" value="/public/assets/imgs/logo.png"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="picture" scope="session" value="/public/media/organization/${org.ID}/${org.picture}"/>
+    </c:otherwise>
+</c:choose>
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <div class="container-fluid py-4">
         <div class="row">
@@ -94,19 +102,11 @@
                     <div class="row container-fluid">
                         <div class="col-12 col-md-4 col-xl-3">
                             <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src=
-                                <c:choose>
-                                <c:when test='${org.picture == "null"}'>
-                                        "/public/assets/imgs/logo.png"
-                                </c:when>
-                                <c:otherwise>
-                                    "/public/media/organization/${org.ID}/${org.picture}"
-                                </c:otherwise>
-                                </c:choose>>
+                                <img class="card-img-top" src=${picture}>
                                 <div class="card-body">
                                     <div class="card-title">
                                         <h5 class="">
-                                            ${org.name}
+                                            ${sessionScope.currentOrg.name}
                                         </h5>
                                         ID
                                         <h6 class="text-dark font-weight-bold ">
@@ -175,11 +175,8 @@
                                             <div class="form-group">
                                                 <label for="country">country</label>
                                                 <select id="country" class="form-control" name="countryID" required>
-                                                    <c:forEach var="country" items="${requestScope.countryList}">
-                                                        <option value=${country.ID}>
-                                                            <c:if test="${country.ID == org.countryID}">
-                                                                selected="selected"
-                                                            </c:if>
+                                                    <c:forEach var="country" items="${sessionScope.countryList}">
+                                                        <option value=${country.ID} ${country.ID == org.countryID ? "selected" : "" }>
                                                                 ${country.name}
                                                         </option>
                                                     </c:forEach>

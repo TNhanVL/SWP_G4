@@ -140,7 +140,7 @@ public class AdminController {
             request.getSession().setAttribute("error", "There are some error when update User information!");
             return "redirect:./dashboard";
         }
-        return "admin/editUser";
+        return "redirect:./editUser?id=" + user.getID();
     }
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
@@ -170,9 +170,8 @@ public class AdminController {
         try {
             var organization_id = Integer.parseInt(id);
             var organization = repo.getOrganizationRepository().findById(organization_id).orElseThrow();
-//            var organization = OrganizationDAO.getOrganization(organization_id);
-            request.setAttribute("currentOrg", organization);
-            request.setAttribute("countryList", repo.getCountryRepository().findAll());
+            request.getSession().setAttribute("currentOrg", organization);
+            request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
 
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Failed to load organization");
@@ -182,7 +181,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/editOrganization", method = RequestMethod.POST)
-    public String editOrganizationPost(ModelMap model, HttpServletRequest request, @RequestParam String id, @ModelAttribute("organization") Organization organization) {
+    public String editOrganizationPost(HttpServletRequest request, @ModelAttribute("organization") Organization organization) {
 
         organization.setPassword(MD5.getMd5(organization.getPassword()));
         //check logged in
@@ -202,6 +201,6 @@ public class AdminController {
             request.getSession().setAttribute("error", "There are some error when update organization information!");
             return "redirect:./dashboard";
         }
-        return "admin/editOrganization";
+        return "redirect:./editOrganization?id=" + organization.getID();
     }
 }
