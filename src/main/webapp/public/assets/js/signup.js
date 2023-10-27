@@ -43,7 +43,7 @@ if (emailInput) {
             this.classList.add("is-invalid");
         } else {
 
-            let res = (await fetch(`http://localhost:8080/swp_project_g4/checkEmail?email=${email}`));
+            let res = (await fetch(`http://localhost:8080/checkEmail?email=${email}`));
             if (res.status == 200) {
                 res = await res.text();
                 if (res == "not exist") {
