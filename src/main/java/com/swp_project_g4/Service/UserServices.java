@@ -1,12 +1,17 @@
 package com.swp_project_g4.Service;
 
 import com.swp_project_g4.Database.UserDAO;
+import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Repository.UserRepository;
 import org.apache.commons.validator.GenericValidator;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Service
 public class UserServices {
 
     public static boolean isValidInformation(String name, String phone_number, String email, String birthday) {
