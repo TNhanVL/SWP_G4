@@ -358,9 +358,11 @@ VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gma
         '2003-10-12', 16, 1),
        ('a.jpg', 'diemhuong1210', '12345678', 'dh1210@example.com', 'Duong', 'Thanh', 1, '2003-10-10', 16, 1)
 GO
+--password Fpt@123
 INSERT INTO organization
-    ([name], picture, [description])
-VALUES ('FPT University', 'FPT.png', N'Trường đại học top 1 Việt Nam');
+    (countryID, [name], username, password, email, picture, [description])
+VALUES (16, 'FPT University', 'fptuni', '5e7c74592ea8dffbfdc20c84de15afea', 'NhanTTCE171358@fpt.edu.vn', 'FPT.png',
+        N'Trường đại học top 1 Việt Nam');
 GO
 INSERT INTO instructor
     (userID, organizationID)

@@ -131,11 +131,17 @@ public class OrganizationDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update organization set name=?, picture=?,description=? where ID =?");
+            statement = conn.prepareStatement("update organization set name=?,picture=?,description=?,countryID=?,username=?,password=?,email=? where ID =?");
+
             statement.setString(1, organization.getName());
             statement.setString(2, organization.getPicture());
             statement.setString(3, organization.getDescription());
-            statement.setInt(4, organization.getID());
+            statement.setInt(4, organization.getCountryID());
+            statement.setString(5, organization.getUsername());
+            statement.setString(6, organization.getPassword());
+            statement.setString(7, organization.getEmail());
+            statement.setInt(8, organization.getID());
+
             statement.executeUpdate();
 
             //disconnect to database
