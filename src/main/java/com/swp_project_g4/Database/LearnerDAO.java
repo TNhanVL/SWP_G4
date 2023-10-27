@@ -145,7 +145,6 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("email"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
-                        resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -180,7 +179,6 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("email"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
-                        resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -215,7 +213,6 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("email"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
-                        resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -249,7 +246,6 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("email"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
-                        resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -271,17 +267,16 @@ public class LearnerDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("insert into [learner](picture,username,[password],email,first_name,last_name,[role],birthday,countryID,status) values(?,?,?,?,?,?,?,?,?,?)");
+            statement = conn.prepareStatement("insert into [learner](picture,username,[password],email,first_name,last_name,birthday,countryID,status) values(?,?,?,?,?,?,?,?,?)");
             statement.setString(1, user.getPicture());
             statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getEmail());
             statement.setString(5, user.getFirstName());
             statement.setString(6, user.getLastName());
-            statement.setInt(7, user.getRole());
-            statement.setString(8, dateFormat.format(user.getBirthday()));
-            statement.setInt(9, user.getCountryID());
-            statement.setInt(10, user.getStatus());
+            statement.setString(7, dateFormat.format(user.getBirthday()));
+            statement.setInt(8, user.getCountryID());
+            statement.setInt(9, user.getStatus());
             statement.executeUpdate();
 
             int newID = lastModifyID(conn);
@@ -301,18 +296,17 @@ public class LearnerDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("UPDATE [learner] SET picture = ?, username = ?, [password] = ?, email = ?, first_name = ?, last_name = ?, role = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
+            statement = conn.prepareStatement("UPDATE [learner] SET picture = ?, username = ?, [password] = ?, email = ?, first_name = ?, last_name = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
             statement.setString(1, user.getPicture());
             statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getEmail());
             statement.setString(5, user.getFirstName());
             statement.setString(6, user.getLastName());
-            statement.setInt(7, user.getRole());
-            statement.setString(8, dateFormat.format(user.getBirthday()));
-            statement.setInt(9, user.getCountryID());
-            statement.setInt(10, user.getStatus());
-            statement.setInt(11, user.getID());
+            statement.setString(7, dateFormat.format(user.getBirthday()));
+            statement.setInt(8, user.getCountryID());
+            statement.setInt(9, user.getStatus());
+            statement.setInt(10, user.getID());
             statement.execute();
 
             disconnect();

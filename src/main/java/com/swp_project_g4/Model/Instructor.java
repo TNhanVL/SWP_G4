@@ -7,6 +7,7 @@ package com.swp_project_g4.Model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.Date;
 @Table(name = "[instructor]")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Instructor extends User1 {
     @Column(name = "instructorID")
     @Id
@@ -26,10 +28,6 @@ public class Instructor extends User1 {
     private int organizationID;
     private String firstName;
     private String lastName;
-
-    public Instructor() {
-        this.setStatus(1);
-    }
 
     public Instructor(int ID, int organizationID, String picture, String username, String password, String email, String firstName, String lastName, int countryID, int status) {
         super(picture, username, password, email, countryID, status);

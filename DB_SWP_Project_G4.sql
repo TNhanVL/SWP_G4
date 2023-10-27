@@ -55,7 +55,6 @@ CREATE TABLE [learner]
     email        VARCHAR(320),
     [first_name] NVARCHAR(50),
     [last_name]  NVARCHAR(50),
-    [role]       INT,
     birthday     DATE,
     countryID    INT FOREIGN KEY REFERENCES [country],
     [status]     int
@@ -359,12 +358,12 @@ VALUES ('admin', '0e7517141fb53f21ee439b355b5a1d0a'),
        ('sussy', '80b87ad4e28b6e6c6b0efc1cb797c649')
 GO
 INSERT INTO [learner]
-(picture, username, [password], email, first_name, last_name, [role], birthday, countryID, [status])
-VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gmail.com', 'Nhan', 'Tran Thanh', 0,
-        '1990-01-01', 16, 1),
-       ('a.jpg', 'dylan12', 'e10adc3949ba59abbe56e057f20f883e', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem', 0,
-        '2003-10-12', 16, 1),
-       ('a.jpg', 'diemhuong1210', '12345678', 'dh1210@example.com', 'Duong', 'Thanh', 1, '2003-10-10', 16, 1)
+(picture, username, [password], email, first_name, last_name, birthday, countryID, [status])
+VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gmail.com', 'Nhan', 'Tran Thanh',
+        '1990-01-01', 16, 0),
+       ('a.jpg', 'dylan12', 'e10adc3949ba59abbe56e057f20f883e', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem',
+        '2003-10-12', 16, 0),
+       ('a.jpg', 'diemhuong1210', '12345678', 'dh1210@example.com', 'Duong', 'Thanh', '2003-10-10', 16, 0)
 GO
 --password Fpt@123
 INSERT INTO organization

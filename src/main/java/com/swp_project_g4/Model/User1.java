@@ -3,6 +3,7 @@ package com.swp_project_g4.Model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
 @MappedSuperclass
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class User1 {
     private String picture;
     private String username;
@@ -20,10 +22,6 @@ public class User1 {
     private String email;
     private int countryID;
     private int status;
-
-    public User1() {
-        this.status = 1;
-    }
 
     public User1(User1 user) {
         this.picture = user.picture;
@@ -37,7 +35,6 @@ public class User1 {
     public User1(GooglePojo googlePojo) {
         this.email = googlePojo.getEmail();
         this.picture = googlePojo.getPicture();
-        this.status = 1;
     }
 
 }
