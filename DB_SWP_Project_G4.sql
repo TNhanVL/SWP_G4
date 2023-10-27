@@ -312,7 +312,7 @@ CREATE TABLE notification
     learnerID      INT                NOT NULL,
     type           INT,
     description    NTEXT              NOT NULL,
-    [read]           BIT                NOT NULL,
+    [read]         BIT                NOT NULL,
     --True: 1, False: 0
     receive_At     DATETIME,
     FOREIGN KEY (learnerID) REFERENCES [user] (ID)
@@ -677,9 +677,9 @@ values (16, N'<h3>Lý thuyết</h3>
     ');
 GO
 
--- INSERT INTO notification (learnerID, type, description, read, receive_At)
--- VALUES (1, 1, 'You have a new message.', 0, GETDATE());
---
--- INSERT INTO notification (learnerID, type, description, read, receive_At)
--- VALUES (2, 2, 'You have a new course assignment.', 0, GETDATE());
+INSERT INTO notification (learnerID, type, description, [read], receive_At)
+VALUES (1, 1, 'You have a new message.', 0, GETDATE()),
+       (3, 3, 'Your course enrollment has been approved.', 0, GETDATE()),
+       (1, 1, 'The website is down for maintenance. We will be back up soon.', 0, GETDATE()),
+       (2, 2, 'Your course certificate is now available.', 0, GETDATE());
 
