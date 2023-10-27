@@ -11,7 +11,7 @@ if (usernameInp) {
             this.classList.add("is-invalid");
         } else {
 
-            let res = (await fetch(`http://localhost:8080/swp_project_g4/checkUsername?username=${username}`));
+            let res = (await fetch(`http://localhost:8080/checkUsername?username=${username}`));
             if (res.status == 200) {
                 res = await res.text();
                 if (res == "not exist") {
