@@ -7,17 +7,17 @@
 <%@page import="java.net.URL"%>
 <%@page import="com.swp_project_g4.Database.CourseDAO"%>
 <%@page import="com.swp_project_g4.Database.LearnerDAO"%>
-<%@page import="com.swp_project_g4.Model.User"%>
+<%@page import="com.swp_project_g4.Model.Learner"%>
 <%@page import="com.swp_project_g4.Service.CookieServices"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
     boolean loggedInHeader = false;
-    User userHeader = null;
+    Learner learnerHeader = null;
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
         loggedInHeader = true;
-        userHeader = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        learnerHeader = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 %>
 
@@ -42,8 +42,8 @@
             <i class="fa-solid fa-cart-shopping"></i>
             <%
                 int numberOfOrderHeader = 0;
-                if (userHeader != null) {
-                    numberOfOrderHeader = CourseDAO.countCartProduct(userHeader.getID());
+                if (learnerHeader != null) {
+                    numberOfOrderHeader = CourseDAO.countCartProduct(learnerHeader.getID());
                 }
                 if (numberOfOrderHeader > 0) {
             %>
@@ -69,15 +69,15 @@
 
                         boolean isUrl = false;
                         try {
-                            new URL(userHeader.getPicture()).toURI();
+                            new URL(learnerHeader.getPicture()).toURI();
                             isUrl = true;
                         } catch (Exception e) {
                         }
 
                         if (isUrl) {
-                            out.print(userHeader.getPicture());
+                            out.print(learnerHeader.getPicture());
                         } else {
-                            out.print("/public/media/user/" + userHeader.getID() + "/" + userHeader.getPicture());
+                            out.print("/public/media/user/" + learnerHeader.getID() + "/" + learnerHeader.getPicture());
                         }
                     } else {
                         out.print("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png");
@@ -86,7 +86,7 @@
                      alt="avatar">
                 <span class="userInfor"><%
                     if (loggedInHeader) {
-                        out.print(userHeader.getUsername());
+                        out.print(learnerHeader.getUsername());
                     } else {
                         out.print("Guest!");
                     }
@@ -97,7 +97,7 @@
                 if (loggedInHeader) {
             %>
             <div id="userMenu" class="userMenu close">
-                <a href="/profile/<%out.print(userHeader.getUsername());%>">
+                <a href="/profile/<%out.print(learnerHeader.getUsername());%>">
                     <i class="fa-solid fa-user"></i>
                     <span>Profile</span>
                 </a>

@@ -9,7 +9,7 @@
 <%@page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page import="com.swp_project_g4.Database.AdminDAO" %>
 <%@page import="java.util.ArrayList" %>
-<%@page import="com.swp_project_g4.Model.User" %>
+<%@page import="com.swp_project_g4.Model.Learner" %>
 <%@page import="com.swp_project_g4.Service.CookieServices" %>
 <%@ page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
@@ -96,7 +96,7 @@
                             <div class="card" style="width: 18rem;">
                                 <img class="card-img-top" src=
                                 <c:choose>
-                                <c:when test='${user.picture == "null"}'>
+                                <c:when test='${learner.picture == "null"}'>
                                         "/public/assets/imgs/logo.png"
                                 </c:when>
                                 <c:otherwise>
@@ -125,8 +125,8 @@
                                         <h3 class="card-title">User Information</h3>
                                     </div>
                                     <%
-                                        User user = LearnerDAO.getUser(ID);
-                                        request.setAttribute("userID", user.getID());
+                                        Learner learner = LearnerDAO.getUser(ID);
+                                        request.setAttribute("userID", learner.getID());
                                     %>
 
                                     <form modelAttribute="driver" action="./editUser?id=${userID}" method="post"
@@ -135,55 +135,55 @@
 
                                             <div class="form-group" hidden="hidden">
                                                 <label>ID</label>
-                                                <input type="text" name="ID" value="<%out.print(user.getID());%>">
+                                                <input type="text" name="ID" value="<%out.print(learner.getID());%>">
                                                 <input type="text" name="picture"
-                                                       value="<%out.print(user.getPicture());%>">
+                                                       value="<%out.print(learner.getPicture());%>">
 
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">Username</label>
                                                 <input type="text" class="form-control" id="username"
                                                        name="username" placeholder="Username"
-                                                       value="<%out.print(user.getUsername());%>"
+                                                       value="<%out.print(learner.getUsername());%>"
                                                        required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="password">Password</label>
                                                 <input type="password" class="form-control" id="password"
                                                        name="password" placeholder="Password"
-                                                       value="<%out.print(user.getPassword());%>"
+                                                       value="<%out.print(learner.getPassword());%>"
                                                        required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="email">Email</label>
                                                 <input type="email" class="form-control" id="email"
                                                        name="email" placeholder="Email"
-                                                       value="<%out.print(user.getEmail());%>"
+                                                       value="<%out.print(learner.getEmail());%>"
                                                        required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="firstName">First name</label>
                                                 <input type="text" class="form-control" id="firstName"
                                                        name="firstName" placeholder="First Name"
-                                                       value="<%out.print(user.getFirstName());%>"
+                                                       value="<%out.print(learner.getFirstName());%>"
                                                        required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="lastName">Last name</label>
                                                 <input type="text" class="form-control" id="lastName"
                                                        name="lastName" placeholder="Last Name"
-                                                       value="<%out.print(user.getLastName());%>"
+                                                       value="<%out.print(learner.getLastName());%>"
                                                        required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="role">Role</label>
                                                 <select id="role" class="form-control" name="role" required>
                                                     <option value="0"
-                                                            <%if (user.getRole() == 0) {%>selected="selected"<%}%>>
+                                                            <%if (learner.getRole() == 0) {%>selected="selected"<%}%>>
                                                         Student
                                                     </option>
                                                     <option value="1"
-                                                            <%if (user.getRole() == 1) {%>selected="selected"<%}%>>
+                                                            <%if (learner.getRole() == 1) {%>selected="selected"<%}%>>
                                                         Instructor
                                                     </option>
                                                 </select>
@@ -192,7 +192,7 @@
                                                 <label for="birthday">birthday</label>
                                                 <input type="date" class="form-control" id="birthday"
                                                        name="birthday" placeholder="Birthday"
-                                                       value="<%out.print(user.getBirthday());%>"
+                                                       value="<%out.print(learner.getBirthday());%>"
                                                        required>
                                             </div>
                                             <div class="form-group">
@@ -203,7 +203,7 @@
                                                         for (Country country : countries) {
                                                     %>
                                                     <option value=<%out.print(country.getID());
-                                        if (country.getID() == user.getCountryID()) {%>
+                                        if (country.getID() == learner.getCountryID()) {%>
                                                                     selected="selected"
                                                             <%}%>>
                                                         <%out.print(country.getName());%>
@@ -215,11 +215,11 @@
                                                 <label for="status">status</label>
                                                 <select id="status" class="form-control" name="status" required>
                                                     <option value="0"
-                                                            <%if (user.getStatus() == 0) {%>selected="selected"<%}%>>
+                                                            <%if (learner.getStatus() == 0) {%>selected="selected"<%}%>>
                                                         Locked
                                                     </option>
                                                     <option value="1"
-                                                            <%if (user.getStatus() == 1) {%>selected="selected"<%}%>>
+                                                            <%if (learner.getStatus() == 1) {%>selected="selected"<%}%>>
                                                         Legal
                                                     </option>
                                                 </select>

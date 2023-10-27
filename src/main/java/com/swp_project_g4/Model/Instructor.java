@@ -8,9 +8,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
 
 /**
  * @author TTNhan
@@ -20,7 +17,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Instructor extends User1 {
+public class Instructor extends User {
     @Column(name = "instructorID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,11 +34,11 @@ public class Instructor extends User1 {
         this.lastName = lastName;
     }
 
-    public Instructor(User user) {
-        super(user);
-        this.ID = user.getID();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
+    public Instructor(Learner learner) {
+        super(learner);
+        this.ID = learner.getID();
+        this.firstName = learner.getFirstName();
+        this.lastName = learner.getLastName();
     }
 
     public Instructor(Instructor instructor) {

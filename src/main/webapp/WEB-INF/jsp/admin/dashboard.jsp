@@ -7,7 +7,7 @@
 <%@page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page import="com.swp_project_g4.Database.AdminDAO" %>
 <%@page import="java.util.ArrayList" %>
-<%@page import="com.swp_project_g4.Model.User" %>
+<%@page import="com.swp_project_g4.Model.Learner" %>
 <%@page import="com.swp_project_g4.Service.CookieServices" %>
 <%@ page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>

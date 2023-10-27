@@ -172,9 +172,9 @@ public class LessonDAO extends DBConnection {
                 CourseDAO.insertCertificate(userID, chapter.getCourseID(), certificateName);
                 Certificate.createCertificate(certificateName, userID, chapter.getCourseID(), request);
                 
-                User user = LearnerDAO.getUser(userID);
+                Learner learner = LearnerDAO.getUser(userID);
                 Course course = CourseDAO.getCourse(chapter.getCourseID());
-                EmailService.sendCompletecourse(user, course, "http://localhost:8080/public/media/certificate/" + certificateName);
+                EmailService.sendCompletecourse(learner, course, "http://localhost:8080/public/media/certificate/" + certificateName);
             }
 
             return true;

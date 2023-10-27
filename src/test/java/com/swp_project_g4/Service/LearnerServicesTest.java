@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserServicesTest {
+class LearnerServicesTest {
 
     @Test
     void isValidInformation_test_1() {

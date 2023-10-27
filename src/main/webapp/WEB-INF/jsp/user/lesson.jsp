@@ -8,20 +8,20 @@
 <%@page import="com.swp_project_g4.Model.Chapter"%>
 <%@page import="com.swp_project_g4.Model.Lesson"%>
 <%@page import="com.swp_project_g4.Service.CookieServices"%>
-<%@page import="com.swp_project_g4.Model.User"%>
+<%@page import="com.swp_project_g4.Model.Learner"%>
 <%@page import="com.swp_project_g4.Model.Course"%>
 <%@ page import="com.swp_project_g4.Database.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
     //check user loggedIn
-    User user;
+    Learner learner;
     if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
         request.getSession().setAttribute("error", "You must be logged in before enter this lesson!");
         response.sendRedirect("/login");
         return;
     } else {
-        user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 
     //check courseID
@@ -52,7 +52,7 @@
 
     //get last lesson in the course
     if (lesson == null) {
-        int lessonID = LessonDAO.getFirstUncompleteLessonID(user.getID(), course.getCourseID());
+        int lessonID = LessonDAO.getFirstUncompleteLessonID(learner.getID(), course.getCourseID());
         //if have no lesson in this course
         if (lessonID < 0) {
             request.getSession().setAttribute("error", "There is no lesson in this course!");
@@ -72,7 +72,7 @@
 
     //check purchased course
     try {
-        if (!CourseDAO.checkPurchasedCourse(user.getID(), course.getCourseID())) {
+        if (!CourseDAO.checkPurchasedCourse(learner.getID(), course.getCourseID())) {
             request.getSession().setAttribute("error", "You haven't purchased this course!");
             throw new Exception("Not purchased course yet!");
         }

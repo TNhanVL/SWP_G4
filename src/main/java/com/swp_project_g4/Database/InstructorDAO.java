@@ -5,7 +5,7 @@
 package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.Instructor;
-import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Model.Learner;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,8 +29,8 @@ public class InstructorDAO extends DBConnection {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                User user = LearnerDAO.getUser(userID);
-                instructor = new Instructor(user);
+                Learner learner = LearnerDAO.getUser(userID);
+                instructor = new Instructor(learner);
                 instructor.setOrganizationID(resultSet.getInt("organizationID"));
             }
 

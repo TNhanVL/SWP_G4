@@ -15,9 +15,9 @@
 <%
     //get user that want to show profile
     String profileUsername = (String) request.getAttribute("username");
-    User user = LearnerDAO.getUserByUsername(profileUsername);
+    Learner learner = LearnerDAO.getUserByUsername(profileUsername);
 
-    if (user == null) {
+    if (learner == null) {
         request.getSession().setAttribute("error", "Not exist this username!");
         response.sendRedirect("/");
         return;
@@ -26,14 +26,14 @@
     boolean guest = true;
     //Get user loggedIn
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-        User userLoggedin = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
-        guest = (userLoggedin == null || user.getID() != userLoggedin.getID());
+        Learner learnerLoggedin = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        guest = (learnerLoggedin == null || learner.getID() != learnerLoggedin.getID());
     }
 
     request.getSession().setAttribute("guest", guest);
-    request.getSession().setAttribute("user", user);
+    request.getSession().setAttribute("learner", learner);
 
-    Instructor instructor = InstructorDAO.getInstructor(user.getID());
+    Instructor instructor = InstructorDAO.getInstructor(learner.getID());
 %>
 
 <!DOCTYPE html>
@@ -73,15 +73,15 @@
 
                                         boolean isUrl = false;
                                         try {
-                                            new URL(user.getPicture()).toURI();
+                                            new URL(learner.getPicture()).toURI();
                                             isUrl = true;
                                         } catch (Exception e) {
                                         }
 
                                         if (isUrl) {
-                                            out.print(user.getPicture());
+                                            out.print(learner.getPicture());
                                         } else {
-                                            out.print("/public/media/user/" + user.getID() + "/" + user.getPicture());
+                                            out.print("/public/media/user/" + learner.getID() + "/" + learner.getPicture());
                                         }
                                     } else {
                                         out.print("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png");
@@ -89,11 +89,11 @@
                                      %>" alt="">
                             </div>
                             <div class="name">
-                                <h4>${user.firstName} ${user.lastName}</h4>
+                                <h4>${learner.firstName} ${learner.lastName}</h4>
                             </div>
 
                             <div class="orgranization">
-                                <p><%out.print(CountryDAO.getCountry(user.getCountryID()).getName());%></p>
+                                <p><%out.print(CountryDAO.getCountry(learner.getCountryID()).getName());%></p>
                                 <%
                                     if (instructor != null) {
                                         Organization organization = OrganizationDAO.getOrganization(instructor.getOrganizationID());
@@ -118,15 +118,15 @@
                             <h4>Experience</h4>
                             <p class="element"><i class="fa-sharp fa-regular fa-clock"></i>Total learning hours
                                 <span><%
-                                    int sumTimeCompletedInMinute = CourseDAO.getSumTimeCompletedOfAllCourses(user.getID());
+                                    int sumTimeCompletedInMinute = CourseDAO.getSumTimeCompletedOfAllCourses(learner.getID());
                                     out.print(Math.round(sumTimeCompletedInMinute / 6.0) / 10.0);
                                     %></span>
                             </p>
-                            <p class="element"><i class="fa-solid fa-cart-shopping"></i>Courses purchased<span><%out.print(CourseDAO.getNumberPurchasedCourse(user.getID()));%></span></p>
-                            <p class="element"><i class="fa-regular fa-circle-check"></i>Courses completed <span><%out.print(CourseDAO.getNumberCompletedCourse(user.getID()));%></span>
+                            <p class="element"><i class="fa-solid fa-cart-shopping"></i>Courses purchased<span><%out.print(CourseDAO.getNumberPurchasedCourse(learner.getID()));%></span></p>
+                            <p class="element"><i class="fa-regular fa-circle-check"></i>Courses completed <span><%out.print(CourseDAO.getNumberCompletedCourse(learner.getID()));%></span>
                             </p>
                             <p class="element"><i class="fa-sharp fa-solid fa-certificate"></i>Courses created
-                                <span><%out.print(CourseDAO.getNumberCreatedCourse(user.getID()));%></span>
+                                <span><%out.print(CourseDAO.getNumberCreatedCourse(learner.getID()));%></span>
                             </p>
                             <p class="element">Learn since 2020</p>
                         </div>
@@ -150,19 +150,19 @@
 
                         <p>Let the Yojihan community of other learners and instructors know more about you!</p>
 
-                        <form action="/updateUser?userID=${user.ID}" method="post">
+                        <form action="/updateUser?userID=${learner.ID}" method="post">
                             <div>
                                 <label for="firstName">First name:</label>
-                                <input value="${user.firstName}" type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                                <input value="${learner.firstName}" type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
                             </div>
 
                             <div>
                                 <label for="lastName">Last name:</label>
-                                <input value="${user.lastName}" type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                                <input value="${learner.lastName}" type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
                             </div>
                             <div>
                                 <label for="birthday">Birthday:</label>
-                                <input value="${user.birthday}" type="date" id="birthday" name="birthday" placeholder="dd/mm/yyyy" required>
+                                <input value="${learner.birthday}" type="date" id="birthday" name="birthday" placeholder="dd/mm/yyyy" required>
                             </div>
 
                             <%                                ArrayList<Country> countries = CountryDAO.getAllCountry();
@@ -173,14 +173,14 @@
                                 <label for="country">Country:</label>
                                 <select name="countryID" id="country">
                                     <c:forEach items="${countries}" var="country">
-                                        <option value="${country.ID}" class="form-control" placeholder="Enter your country" required <c:if test="${country.ID == user.countryID}">selected</c:if>>${country.name}</option>
+                                        <option value="${country.ID}" class="form-control" placeholder="Enter your country" required <c:if test="${country.ID == learner.countryID}">selected</c:if>>${country.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>
 
                             <div>
                                 <label for="email">Email address:</label>
-                                <input value="${user.email}" type="email" id="email" name="email" placeholder="Enter your email address" required>
+                                <input value="${learner.email}" type="email" id="email" name="email" placeholder="Enter your email address" required>
                             </div>
 
                             <hr>

@@ -1,51 +1,37 @@
 package com.swp_project_g4.Model;
 
-import java.util.Date;
-
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import jakarta.persistence.*;
 
 /**
  * @author TTNhan
  */
-@Entity
-@Table(name = "[learner]")
+@MappedSuperclass
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User extends User1 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
-    private String firstName;
-    private String lastName;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
-
-    public User(int ID, String picture, String username, String password, String email, String firstName, String lastName, Date birthday, int countryID, int status) {
-        super(picture, username, password, email, countryID, status);
-        this.ID = ID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthday = birthday;
-    }
+public class User {
+    private String picture;
+    private String username;
+    private String password;
+    private String email;
+    private int countryID;
+    private int status;
 
     public User(User user) {
-        super(user);
-        this.ID = user.ID;
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.birthday = user.birthday;
+        this.picture = user.picture;
+        this.username = user.username;
+        this.password = user.password;
+        this.email = user.email;
+        this.countryID = user.countryID;
+        this.status = user.status;
     }
 
     public User(GooglePojo googlePojo) {
-        super(googlePojo);
-        this.firstName = googlePojo.getGiven_name();
-        this.lastName = googlePojo.getFamily_name();
+        this.email = googlePojo.getEmail();
+        this.picture = googlePojo.getPicture();
     }
 
 }

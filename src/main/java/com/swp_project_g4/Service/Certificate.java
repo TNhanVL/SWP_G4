@@ -19,8 +19,9 @@ import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Instructor;
+import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Model.Organization;
-import com.swp_project_g4.Model.User;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -116,7 +117,7 @@ public class Certificate {
         
         srcPath = request.getSession().getServletContext().getRealPath("/") + "../../main/webapp/public";
         
-        User user = LearnerDAO.getUser(userID);
+        Learner learner = LearnerDAO.getUser(userID);
         Course course = CourseDAO.getCourse(courseID);
         String imagePath = srcPath + "/assets/imgs/certificate/Yojihan_Certificate.png"; // Provide the path to your image file
         
@@ -140,7 +141,7 @@ public class Certificate {
             contentByte.addImage(backgroundImage);
 
             // Add Info into the certificate
-            addUserName(user.getFirstName() + " " + user.getLastName(), contentByte, document);
+            addUserName(learner.getFirstName() + " " + learner.getLastName(), contentByte, document);
             addCourseName(course.getName(), contentByte, document);
             Instructor instructor = InstructorDAO.getInstructor(course.getInstructorID());
             if (instructor != null) {

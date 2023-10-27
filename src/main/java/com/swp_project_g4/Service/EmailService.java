@@ -5,7 +5,7 @@
 package com.swp_project_g4.Service;
 
 import com.swp_project_g4.Model.Course;
-import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Model.Learner;
 
 import javax.mail.Authenticator;
 import java.util.Date;
@@ -13,7 +13,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -125,16 +124,16 @@ public class EmailService {
 
     }
 
-    public static void sendCompletecourse(User user, Course course, String cerURL) {
+    public static void sendCompletecourse(Learner learner, Course course, String cerURL) {
         System.out.println(cerURL);
         String complete = "<div>\n"
-                + "        <p><b>Dear " + user.getFirstName() + " " + user.getLastName() + ",</b></p>\n"
+                + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
                 + "        <p>Congratulations! You’ve successfully completed <b>" + course.getName() + "</b>.</p>\n"
                 + "        <p><b>Best regards,</b></p>\n"
                 + "    </div>"
                 + "    <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a style=\"color:#fff;\" href=\"" + cerURL + "\">View Certificate</a></button></p>";
 
-        mailTo(user.getEmail(), "[Yojihan] Congratulations, Your Certificate is Ready!", "html", complete);
+        mailTo(learner.getEmail(), "[Yojihan] Congratulations, Your Certificate is Ready!", "html", complete);
 
     }
 

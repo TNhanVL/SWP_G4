@@ -2,7 +2,7 @@ package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.LearnerDAO;
-import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Service.CookieServices;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -29,9 +29,9 @@ public class CartController {
             return "redirect:/login";
         }
 
-        User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
-        CourseDAO.insertCartProduct(user.getID(), courseID);
+        CourseDAO.insertCartProduct(learner.getID(), courseID);
 
         return "redirect:/course/" + courseID;
     }
@@ -45,9 +45,9 @@ public class CartController {
             return "redirect:/login";
         }
 
-        User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
-        CourseDAO.deleteCartProduct(user.getID(), courseID);
+        CourseDAO.deleteCartProduct(learner.getID(), courseID);
 
         return "redirect:/cart";
     }

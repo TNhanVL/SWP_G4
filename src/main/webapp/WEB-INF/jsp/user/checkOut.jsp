@@ -12,13 +12,13 @@
 
 <%
     //check user loggedIn
-    User user = null;
+    Learner learner = null;
     if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
         request.getSession().setAttribute("error", "You must be logged in before enter cart!");
         response.sendRedirect("/login");
         return;
     } else {
-        user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 
     ArrayList<Course> courses = (ArrayList<Course>) request.getAttribute("courses");

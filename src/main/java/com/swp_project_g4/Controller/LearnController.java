@@ -36,8 +36,8 @@ public class LearnController {
     public String markLessonComplete(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
         //check logged in
         if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-            User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
-            LessonDAO.insertLessonCompleted(user.getID(), lessonID, request);
+            Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+            LessonDAO.insertLessonCompleted(learner.getID(), lessonID, request);
         }
 
         Lesson lesson = LessonDAO.getLesson(lessonID);
@@ -51,8 +51,8 @@ public class LearnController {
     public String markLessonCompletePost(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
         //check logged in
         if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-            User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
-            LessonDAO.insertLessonCompleted(user.getID(), lessonID, request);
+            Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+            LessonDAO.insertLessonCompleted(learner.getID(), lessonID, request);
         }
 
         return "ok";
@@ -66,7 +66,7 @@ public class LearnController {
             return "redirect:/login";
         }
 
-        User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
         Lesson lesson = LessonDAO.getLesson(lessonID);
 //        QuizResultDAO.insertQuizResult(new QuizResult(0, lessonID, user.getID(), new Date(), new Date((new Date()).getTime() + lesson.getTime() * 60000)));
 
@@ -82,7 +82,7 @@ public class LearnController {
             return "redirect:/login";
         }
 
-        User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //check owner
         QuizResult quizResult = QuizResultDAO.getQuizResult(quizResultID);
@@ -117,7 +117,7 @@ public class LearnController {
             return "redirect:/login";
         }
 
-        User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //check quizResult exist
         QuizResult quizResult = QuizResultDAO.getQuizResult(quizResultID);
@@ -145,7 +145,7 @@ public class LearnController {
         int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
         int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lesson.getLessonID());
         if (numberOfCorrectQuestion * 100 >= numberOfQuestion * 80) {
-            LessonDAO.insertLessonCompleted(user.getID(), lesson.getLessonID(), request);
+            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getLessonID(), request);
         }
 
         return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();

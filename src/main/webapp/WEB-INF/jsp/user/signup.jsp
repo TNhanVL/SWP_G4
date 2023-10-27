@@ -9,8 +9,9 @@
 <%@page import="com.swp_project_g4.Database.CountryDAO"%>
 <%@page import="com.swp_project_g4.Model.Country"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.swp_project_g4.Model.User"%>
+<%@page import="com.swp_project_g4.Model.Learner"%>
 <%@page import="com.swp_project_g4.Service.CookieServices"%>
+<%@ page import="com.swp_project_g4.Model.Learner" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
@@ -18,12 +19,12 @@
         return;
     }
 
-    User user = (User) request.getAttribute("userSignUp");
-    if (user == null) {
-        user = new User();
+    Learner learner = (Learner) request.getAttribute("userSignUp");
+    if (learner == null) {
+        learner = new Learner();
     }
     
-    request.getSession().setAttribute("user", user);
+    request.getSession().setAttribute("learner", learner);
 %>
 
 <!DOCTYPE html>
@@ -40,7 +41,7 @@
         <div id="main">
             <div class="box">
                 <form action="/signup" method="post" id="signUpForm" class="needs-validation">
-                    <input type="text" required="required" name="avatar" value="${user.picture}" style="display: none">
+                    <input type="text" required="required" name="avatar" value="${learner.picture}" style="display: none">
 
                     <h2>Sign up</h2>
                     <div class="inputBox">
@@ -50,18 +51,18 @@
                     </div>
                     <div class="inputBox">
                         <label class="form-label">Email</label>
-                        <input class="form-control <c:if test="${user.email != null}">is-valid</c:if>" id="email" type="text" placeholder="Enter your email" required="required" name="email" value="${user.email}" <c:if test="${user.email != null}">readonly</c:if>>
+                        <input class="form-control <c:if test="${learner.email != null}">is-valid</c:if>" id="email" type="text" placeholder="Enter your email" required="required" name="email" value="${learner.email}" <c:if test="${learner.email != null}">readonly</c:if>>
                             <i></i>
                         </div>
                         <div class="inputBox-name">
                             <div class="inputBox">
                                 <label class="form-label">First Name</label>
-                                <input class="form-control" type="text" placeholder="First name" required="required" name="firstName" value="${user.firstName}">
+                                <input class="form-control" type="text" placeholder="First name" required="required" name="firstName" value="${learner.firstName}">
                             <i></i>
                         </div>
                         <div class="inputBox">
                             <label class="form-label">Last Name</label>
-                            <input class="form-control" type="text" placeholder="Last name" required="required" name="lastName" value="${user.lastName}">
+                            <input class="form-control" type="text" placeholder="Last name" required="required" name="lastName" value="${learner.lastName}">
                             <i></i>
                         </div>
                     </div>

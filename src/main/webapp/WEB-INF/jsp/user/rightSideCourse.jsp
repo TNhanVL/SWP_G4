@@ -11,14 +11,15 @@
 <%@page import="com.swp_project_g4.Model.Lesson"%>
 <%@page import="com.swp_project_g4.Service.CookieServices"%>
 <%@page import="com.swp_project_g4.Database.LearnerDAO"%>
-<%@page import="com.swp_project_g4.Model.User"%>
+<%@page import="com.swp_project_g4.Model.Learner"%>
 <%@page import="com.swp_project_g4.Database.LessonDAO"%>
 <%@ page import="com.swp_project_g4.Database.LessonDAO" %>
+<%@ page import="com.swp_project_g4.Model.Learner" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
 
-    User user1 = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+    Learner learner1 = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     Lesson lesson1 = LessonDAO.getLesson(Integer.parseInt(request.getParameter("lessonID")));
     Chapter chapter1 = ChapterDAO.getChapter(lesson1.getChapterID());
     Course course1 = CourseDAO.getCourse(chapter1.getCourseID());

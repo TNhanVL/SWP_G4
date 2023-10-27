@@ -4,7 +4,7 @@
  */
 package com.swp_project_g4.Database;
 
-import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Service.MD5;
 
 import java.sql.ResultSet;
@@ -125,8 +125,8 @@ public class LearnerDAO extends DBConnection {
         return res;
     }
 
-    public static User getUser(int ID) {
-        User user = null;
+    public static Learner getUser(int ID) {
+        Learner learner = null;
 
         try {
             //connect to database
@@ -137,7 +137,7 @@ public class LearnerDAO extends DBConnection {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user = new User(
+                learner = new Learner(
                         resultSet.getInt("ID"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
@@ -156,11 +156,11 @@ public class LearnerDAO extends DBConnection {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return user;
+        return learner;
     }
 
-    public static User getUserByEmail(String email) {
-        User user = null;
+    public static Learner getUserByEmail(String email) {
+        Learner learner = null;
 
         try {
             //connect to database
@@ -171,7 +171,7 @@ public class LearnerDAO extends DBConnection {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user = new User(
+                learner = new Learner(
                         resultSet.getInt("ID"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
@@ -190,11 +190,11 @@ public class LearnerDAO extends DBConnection {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return user;
+        return learner;
     }
 
-    public static User getUserByUsername(String username) {
-        User user = null;
+    public static Learner getUserByUsername(String username) {
+        Learner learner = null;
 
         try {
             //connect to database
@@ -205,7 +205,7 @@ public class LearnerDAO extends DBConnection {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user = new User(
+                learner = new Learner(
                         resultSet.getInt("ID"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
@@ -224,11 +224,11 @@ public class LearnerDAO extends DBConnection {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return user;
+        return learner;
     }
 
-    public static ArrayList<User> getAllUsers() {
-        ArrayList<User> list = new ArrayList<>();
+    public static ArrayList<Learner> getAllUsers() {
+        ArrayList<Learner> list = new ArrayList<>();
 
         try {
             //connect to database
@@ -238,7 +238,7 @@ public class LearnerDAO extends DBConnection {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                User user = new User(
+                Learner learner = new Learner(
                         resultSet.getInt("ID"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
@@ -250,7 +250,7 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
                 );
-                list.add(user);
+                list.add(learner);
             }
 
             disconnect();
@@ -261,22 +261,22 @@ public class LearnerDAO extends DBConnection {
         return list;
     }
 
-    public static int insertUser(User user) {
+    public static int insertUser(Learner learner) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             connect();
 
             statement = conn.prepareStatement("insert into [learner](picture,username,[password],email,first_name,last_name,birthday,countryID,status) values(?,?,?,?,?,?,?,?,?)");
-            statement.setString(1, user.getPicture());
-            statement.setString(2, user.getUsername());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getEmail());
-            statement.setString(5, user.getFirstName());
-            statement.setString(6, user.getLastName());
-            statement.setString(7, dateFormat.format(user.getBirthday()));
-            statement.setInt(8, user.getCountryID());
-            statement.setInt(9, user.getStatus());
+            statement.setString(1, learner.getPicture());
+            statement.setString(2, learner.getUsername());
+            statement.setString(3, learner.getPassword());
+            statement.setString(4, learner.getEmail());
+            statement.setString(5, learner.getFirstName());
+            statement.setString(6, learner.getLastName());
+            statement.setString(7, dateFormat.format(learner.getBirthday()));
+            statement.setInt(8, learner.getCountryID());
+            statement.setInt(9, learner.getStatus());
             statement.executeUpdate();
 
             int newID = lastModifyID(conn);
@@ -290,23 +290,23 @@ public class LearnerDAO extends DBConnection {
         return -1;
     }
 
-    public static boolean updateUser(User user) {
+    public static boolean updateUser(Learner learner) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             connect();
 
             statement = conn.prepareStatement("UPDATE [learner] SET picture = ?, username = ?, [password] = ?, email = ?, first_name = ?, last_name = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
-            statement.setString(1, user.getPicture());
-            statement.setString(2, user.getUsername());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getEmail());
-            statement.setString(5, user.getFirstName());
-            statement.setString(6, user.getLastName());
-            statement.setString(7, dateFormat.format(user.getBirthday()));
-            statement.setInt(8, user.getCountryID());
-            statement.setInt(9, user.getStatus());
-            statement.setInt(10, user.getID());
+            statement.setString(1, learner.getPicture());
+            statement.setString(2, learner.getUsername());
+            statement.setString(3, learner.getPassword());
+            statement.setString(4, learner.getEmail());
+            statement.setString(5, learner.getFirstName());
+            statement.setString(6, learner.getLastName());
+            statement.setString(7, dateFormat.format(learner.getBirthday()));
+            statement.setInt(8, learner.getCountryID());
+            statement.setInt(9, learner.getStatus());
+            statement.setInt(10, learner.getID());
             statement.execute();
 
             disconnect();
@@ -321,9 +321,9 @@ public class LearnerDAO extends DBConnection {
 
     public static boolean deleteUser(int ID) {
         try {
-            User user = getUser(ID);
+            Learner learner = getUser(ID);
 
-            if (user == null) {
+            if (learner == null) {
                 return false;
             }
             connect();

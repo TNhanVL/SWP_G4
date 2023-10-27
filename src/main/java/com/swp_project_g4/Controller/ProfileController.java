@@ -1,7 +1,7 @@
 package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.LearnerDAO;
-import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,9 +28,9 @@ public class ProfileController {
             return "redirect:./";
         }
 
-        User user = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
-        model.addAttribute("username", user.getUsername());
+        model.addAttribute("username", learner.getUsername());
         return "user/profile/profile";
     }
 

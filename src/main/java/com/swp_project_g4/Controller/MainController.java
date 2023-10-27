@@ -2,7 +2,7 @@ package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.GooglePojo;
-import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.GoogleUtils;
@@ -55,17 +55,17 @@ public class MainController {
                 String accessToken = GoogleUtils.getToken(code);
                 GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
 
-                User user = LearnerDAO.getUserByEmail(googlePojo.getEmail());
+                Learner learner = LearnerDAO.getUserByEmail(googlePojo.getEmail());
 
 //                System.out.println(googlePojo);
-                if (user != null && CookieServices.loginLearner(response, user)) {
+                if (learner != null && CookieServices.loginLearner(response, learner)) {
                     request.getSession().setAttribute("success", "Login succeed!");
                     return "redirect:./";
                 }
 
-                user = new User(googlePojo);
+                learner = new Learner(googlePojo);
 
-                request.setAttribute("userSignUp", user);
+                request.setAttribute("userSignUp", learner);
 
             } catch (IOException ex) {
                 Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,7 +79,7 @@ public class MainController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signup(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        User user = (User) request.getAttribute("userSignUp");
+        Learner learner = (Learner) request.getAttribute("userSignUp");
         return "user/signup";
     }
 
@@ -87,9 +87,9 @@ public class MainController {
     @ResponseBody
     public String checkUsername(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         String username = (String) request.getParameter("username");
-        User user = LearnerDAO.getUserByUsername(username);
+        Learner learner = LearnerDAO.getUserByUsername(username);
         response.setHeader("Access-Control-Allow-Origin", "*");
-        if (user != null) {
+        if (learner != null) {
             return "exist";
         } else {
             return "not exist";
@@ -100,9 +100,9 @@ public class MainController {
     @ResponseBody
     public String checkEmail(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         String email = (String) request.getParameter("email");
-        User user = LearnerDAO.getUserByEmail(email);
+        Learner learner = LearnerDAO.getUserByEmail(email);
         response.setHeader("Access-Control-Allow-Origin", "*");
-        if (user != null) {
+        if (learner != null) {
             return "exist";
         } else {
             return "not exist";
@@ -120,44 +120,44 @@ public class MainController {
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signupPost(ModelMap model, HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user) {
-        if (user.getCountryID() == 0) {
-            user.setCountryID(16);
+    public String signupPost(ModelMap model, HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") Learner learner) {
+        if (learner.getCountryID() == 0) {
+            learner.setCountryID(16);
         }
-        user.setPassword(MD5.getMd5(user.getPassword()));
+        learner.setPassword(MD5.getMd5(learner.getPassword()));
 
-        if (LearnerDAO.getUserByUsername(user.getUsername()) != null) {
+        if (LearnerDAO.getUserByUsername(learner.getUsername()) != null) {
             request.getSession().setAttribute("error", "User already exist!");
             return "redirect:./signup";
         }
 
-        if (LearnerDAO.getUserByEmail(user.getEmail()) != null) {
+        if (LearnerDAO.getUserByEmail(learner.getEmail()) != null) {
             request.getSession().setAttribute("error", "Email already exist!");
             return "redirect:./signup";
         }
 
-        LearnerDAO.insertUser(user);
+        LearnerDAO.insertUser(learner);
         request.getSession().setAttribute("success", "Signup successful!");
         return "redirect:/login";
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public String updateUser(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int userID, @ModelAttribute("user") User user) {
+    public String updateUser(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int userID, @ModelAttribute("user") Learner learner) {
 
-        User user1 = LearnerDAO.getUser(userID);
+        Learner learner1 = LearnerDAO.getUser(userID);
 
-        if (user1 == null) {
+        if (learner1 == null) {
             request.getSession().setAttribute("error", "User not exist!");
             return "redirect:./";
         }
 
-        user1.setFirstName(user.getFirstName());
-        user1.setLastName(user.getLastName());
-        user1.setBirthday(user.getBirthday());
-        user1.setCountryID(user.getCountryID());
-        user1.setEmail(user.getEmail());
+        learner1.setFirstName(learner.getFirstName());
+        learner1.setLastName(learner.getLastName());
+        learner1.setBirthday(learner.getBirthday());
+        learner1.setCountryID(learner.getCountryID());
+        learner1.setEmail(learner.getEmail());
 
-        LearnerDAO.updateUser(user1);
+        LearnerDAO.updateUser(learner1);
         request.getSession().setAttribute("success", "Update user success!");
         return "redirect:./profile";
     }
@@ -181,11 +181,11 @@ public class MainController {
             return "redirect:/login";
         }
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(MD5.getMd5(password));
+        Learner learner = new Learner();
+        learner.setUsername(username);
+        learner.setPassword(MD5.getMd5(password));
 
-        CookieServices.loginLearner(response, user);
+        CookieServices.loginLearner(response, learner);
         request.getSession().setAttribute("success", "Login succeed!");
         return "redirect:./";
     }
