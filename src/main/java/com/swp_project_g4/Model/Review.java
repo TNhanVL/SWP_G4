@@ -8,9 +8,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review {
+    @Column(name = "reviewID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reviewID;
+    private int ID;
     private int instructorID;
     private int courseID;
     private boolean reviewed;

@@ -9,7 +9,7 @@
 <%
     //if have finished quiz
     quizFinished = true;
-    ArrayList<Question> questions = QuestionDAO.getQuestionByLessonID(lesson.getLessonID());
+    ArrayList<Question> questions = QuestionDAO.getQuestionByLessonID(lesson.getID());
 %>
 
 <div class="quiz-type1 finished">
@@ -108,11 +108,11 @@
                     %></span>
             </div>
             <div class="listQuestion">
-                <h5><%out.print(QuizResultDAO.getQuizResultPoint(quizResult.getQuizResultID()));%>/<%out.print(QuestionDAO.getNumberQuestionByLessonID(lesson.getLessonID()));%> corrects!</h5>
+                <h5><%out.print(QuizResultDAO.getQuizResultPoint(quizResult.getID()));%>/<%out.print(QuestionDAO.getNumberQuestionByLessonID(lesson.getID()));%> corrects!</h5>
                 <ul>
                     <%                        //show all questionLabel
                         for (int i = 1; i <= questions.size(); i++) {
-                            String correctClass = ChosenAnswerDAO.CheckChosenAnswerCorrect(quizResult.getQuizResultID(), questions.get(i - 1).getQuestionID()) ? "correct" : "incorrect";
+                            String correctClass = ChosenAnswerDAO.CheckChosenAnswerCorrect(quizResult.getID(), questions.get(i - 1).getID()) ? "correct" : "incorrect";
                     %>
                     <li class="<%out.print(correctClass);%>"><%out.print(i);%></li>
                         <%
@@ -122,7 +122,7 @@
             </div>
 
             <div class="finishBtn">
-                <a href="/learn/startAQuiz/<%out.print(lesson.getLessonID());%>">
+                <a href="/learn/startAQuiz/<%out.print(lesson.getID());%>">
                     <p>Retake</p>
                 </a>
             </div>

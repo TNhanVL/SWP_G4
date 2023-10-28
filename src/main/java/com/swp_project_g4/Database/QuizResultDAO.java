@@ -88,7 +88,7 @@ public class QuizResultDAO extends DBConnection {
         int point = 0;
 
         for (Question question : questions) {
-            if (ChosenAnswerDAO.CheckChosenAnswerCorrect(quizResult.getQuizResultID(), question.getQuestionID())) {
+            if (ChosenAnswerDAO.CheckChosenAnswerCorrect(quizResult.getID(), question.getID())) {
                 point++;
             }
         }
@@ -169,7 +169,7 @@ public class QuizResultDAO extends DBConnection {
             statement.setInt(1, quizResult.getLessonID());
             statement.setString(2, dateFormat.format(quizResult.getStartAt()));
             statement.setString(3, dateFormat.format(quizResult.getEndAt()));
-            statement.setInt(4, quizResult.getQuizResultID());
+            statement.setInt(4, quizResult.getID());
             statement.executeUpdate();
 
             //disconnect to database

@@ -11,4 +11,4 @@
     %>
 </div>
 
-<a href="/learn/markLessonComplete/<%out.print(lesson.getLessonID());%>" class="w-100 d-flex justify-content-center"><div class="btn btn-success m-4">Mark as completed</div></a>
+<a href="/learn/markLessonComplete/<%out.print(lesson.getID());%>" class="w-100 d-flex justify-content-center"><div class="btn btn-success m-4">Mark as completed</div></a>

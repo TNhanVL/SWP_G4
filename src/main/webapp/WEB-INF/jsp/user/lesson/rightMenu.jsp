@@ -10,10 +10,10 @@
     <h4><%out.print(course.getName());%></h4>
 
     <%
-        ArrayList<Chapter> chapters = ChapterDAO.getChaptersByCourseID(course.getCourseID());
+        ArrayList<Chapter> chapters = ChapterDAO.getChaptersByCourseID(course.getID());
         for (Chapter chapter1 : chapters) {
 
-            ArrayList<Lesson> lessons = LessonDAO.getLessonsByChapterID(chapter1.getChapterID());
+            ArrayList<Lesson> lessons = LessonDAO.getLessonsByChapterID(chapter1.getID());
     %>
 
     <!-- part -->
@@ -21,7 +21,7 @@
         <div class="partHeader">
             <div>
                 <h5>Part <%out.print(chapter1.getIndex() + ": " + chapter1.getName());%></h5>
-                <p class="progressLesson"><%out.print(LessonDAO.getNumberLessonsCompleted(learner.getID(), chapter1.getChapterID()) + "/" + lessons.size());%> Complete</p>
+                <p class="progressLesson"><%out.print(LessonDAO.getNumberLessonsCompleted(learner.getID(), chapter1.getID()) + "/" + lessons.size());%> Complete</p>
             </div>
             <i class="fa-solid fa-chevron-down"></i>
 
@@ -35,13 +35,13 @@
             %>
 
             <!-- Start lesson -->
-            <a href="<%out.print("/learn/" + course.getCourseID() + "/" + lesson1.getLessonID());%>">
-                <div class="lesson<%if (lesson1.getLessonID() == lesson.getLessonID()) {
+            <a href="<%out.print("/learn/" + course.getID() + "/" + lesson1.getID());%>">
+                <div class="lesson<%if (lesson1.getID() == lesson.getID()) {
                         out.print(" active");
                     }%>">
                     <span class="lesson-status">
                         <!-- checked -->
-                        <i class="<%if (LessonDAO.checkLessonCompleted(learner.getID(), lesson1.getLessonID(), request)) {
+                        <i class="<%if (LessonDAO.checkLessonCompleted(learner.getID(), lesson1.getID(), request)) {
                                 out.print("fa-solid fa-square-check");
                             } else {
                                 out.print("fa-regular fa-square");

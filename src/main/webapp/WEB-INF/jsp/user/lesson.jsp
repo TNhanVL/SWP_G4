@@ -52,7 +52,7 @@
 
     //get last lesson in the course
     if (lesson == null) {
-        int lessonID = LessonDAO.getFirstUncompleteLessonID(learner.getID(), course.getCourseID());
+        int lessonID = LessonDAO.getFirstUncompleteLessonID(learner.getID(), course.getID());
         //if have no lesson in this course
         if (lessonID < 0) {
             request.getSession().setAttribute("error", "There is no lesson in this course!");
@@ -64,7 +64,7 @@
 
     Chapter chapter = com.swp_project_g4.Database.ChapterDAO.getChapter(lesson.getChapterID());
     //check match lessonID with courseID
-    if (chapter != null && chapter.getCourseID() != course.getCourseID()) {
+    if (chapter != null && chapter.getCourseID() != course.getID()) {
         request.getSession().setAttribute("error", "Not exist the this lesson in the course!");
         response.sendRedirect("/");
         return;
@@ -72,7 +72,7 @@
 
     //check purchased course
     try {
-        if (!CourseDAO.checkPurchasedCourse(learner.getID(), course.getCourseID())) {
+        if (!CourseDAO.checkPurchasedCourse(learner.getID(), course.getID())) {
             request.getSession().setAttribute("error", "You haven't purchased this course!");
             throw new Exception("Not purchased course yet!");
         }
@@ -109,14 +109,14 @@
                             //type 3 -> Youtube ID
                             case 0:
                             case 3: {
-                                Post post = PostDAO.getPostByLessonID(lesson.getLessonID());
+                                Post post = PostDAO.getPostByLessonID(lesson.getID());
                                 %>
                     <%@include file="lesson/video.jsp" %>
                     <%
                             break;
                         }
                         case 1: {
-                            Post post = PostDAO.getPostByLessonID(lesson.getLessonID());
+                            Post post = PostDAO.getPostByLessonID(lesson.getID());
                     %>
                     <%@include file="lesson/post.jsp" %>
                     <%

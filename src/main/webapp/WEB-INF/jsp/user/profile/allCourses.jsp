@@ -23,9 +23,9 @@
 
         <!-- a course -->
         <div class="courseTaken">
-            <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getPicture());%>" alt="" class="courseImg">
+            <img src="/public/media/course/<%out.print(course.getID() + "/" + course.getPicture());%>" alt="" class="courseImg">
             <div class="courseInfor">
-                <a href="/course/<%out.print(course.getCourseID());%>">
+                <a href="/course/<%out.print(course.getID());%>">
                     <p class="courseName"><%out.print(course.getName());%></p>
                     <%
                         if (guest) {
@@ -41,8 +41,8 @@
                 </a>
                 <%
                     if (!guest) {
-                        int sumTimeOfCourse = CourseDAO.getSumTimeOfCourse(course.getCourseID());
-                        int sumOfCompletedTime = CourseDAO.getSumTimeCompletedOfCourse(learner.getID(), course.getCourseID());
+                        int sumTimeOfCourse = CourseDAO.getSumTimeOfCourse(course.getID());
+                        int sumOfCompletedTime = CourseDAO.getSumTimeCompletedOfCourse(learner.getID(), course.getID());
                         int percent = 100;
                         if (sumTimeOfCourse != 0) {
                             percent = (int) 100f * sumOfCompletedTime / sumTimeOfCourse;
@@ -58,8 +58,8 @@
                     <div class="completed">
                         <p>Completed</p>
                         <%
-                            if (CourseDAO.checkCertificate(learner.getID(), course.getCourseID())) {
-                                String certificateName = CourseDAO.getCertificateName(learner.getID(), course.getCourseID());
+                            if (CourseDAO.checkCertificate(learner.getID(), course.getID())) {
+                                String certificateName = CourseDAO.getCertificateName(learner.getID(), course.getID());
                         %>
                         <a href="/public/media/certificate/<%out.print(certificateName);%>" target="_blank">View certificate</a>
                         <%
@@ -95,9 +95,9 @@
 
         <!-- a course -->
         <div class="courseTaken">
-            <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getPicture());%>" alt="" class="courseImg">
+            <img src="/public/media/course/<%out.print(course.getID() + "/" + course.getPicture());%>" alt="" class="courseImg">
             <div class="courseInfor">
-                <a href="/course/<%out.print(course.getCourseID());%>">
+                <a href="/course/<%out.print(course.getID());%>">
                     <p class="courseName"><%out.print(course.getName());%></p>
                     <div class="rate">
                         <span><%out.print(course.getRate());%></span>

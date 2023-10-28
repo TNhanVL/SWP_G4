@@ -110,7 +110,7 @@ public class LessonDAO extends DBConnection {
                 if (quizResult == null || quizResult.getEndAt().after(new Date())) {
                     return false;
                 }
-                int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResult.getQuizResultID());
+                int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResult.getID());
                 int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lessonID);
                 if (numberOfCorrectQuestion * 100 >= numberOfQuestion * 80) {
                     LessonDAO.insertLessonCompleted(userID, lessonID, request);
@@ -339,7 +339,7 @@ public class LessonDAO extends DBConnection {
             statement.setInt(3, lesson.getIndex());
             statement.setInt(4, lesson.getType());
             statement.setInt(5, lesson.getTime());
-            statement.setInt(6, lesson.getLessonID());
+            statement.setInt(6, lesson.getID());
             statement.executeUpdate();
 
             //disconnect to database

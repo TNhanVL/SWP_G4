@@ -77,12 +77,12 @@
                     <div class="addCartBnt">
                         <%
                             if (learner != null) {
-                                if (CourseDAO.checkPurchasedCourse(learner.getID(), course.getCourseID())) {
-                                    out.print("<a href=\"/learn/" + course.getCourseID() + "\">Learn now</a>");
-                                } else if (CourseDAO.checkCartProduct(learner.getID(), course.getCourseID())) {
-                                    out.print("<a href=\"/course/deleteOrder/" + course.getCourseID() + "\">Delete from cart</a>");
+                                if (CourseDAO.checkPurchasedCourse(learner.getID(), course.getID())) {
+                                    out.print("<a href=\"/learn/" + course.getID() + "\">Learn now</a>");
+                                } else if (CourseDAO.checkCartProduct(learner.getID(), course.getID())) {
+                                    out.print("<a href=\"/course/deleteOrder/" + course.getID() + "\">Delete from cart</a>");
                                 } else {
-                                    out.print("<a href=\"/cart/add/" + course.getCourseID() + "\">Add to cart</a>");
+                                    out.print("<a href=\"/cart/add/" + course.getID() + "\">Add to cart</a>");
                                 }
                             } else {
                                 //if not logged in
@@ -94,8 +94,8 @@
                         <!--<a href="#">Add to cart</a>-->
                     </div>
                     <%                        if (learner != null) {
-                            if (CourseDAO.checkCertificate(learner.getID(), course.getCourseID())) {
-                                String certificateName = CourseDAO.getCertificateName(learner.getID(), course.getCourseID());
+                            if (CourseDAO.checkCertificate(learner.getID(), course.getID())) {
+                                String certificateName = CourseDAO.getCertificateName(learner.getID(), course.getID());
                     %>
                     <a href="/public/media/certificate/<%out.print(certificateName);%>" class="viewCer">View Certificate</a>
                     <%
@@ -103,7 +103,7 @@
                         }
                     %>
                     <p class="enrollers">
-                        <span><%out.print(CourseDAO.getNumberPurchasedOfCourse(course.getCourseID()));%></span> already enrolled
+                        <span><%out.print(CourseDAO.getNumberPurchasedOfCourse(course.getID()));%></span> already enrolled
                     </p>
                 </div>
 
@@ -124,7 +124,7 @@
                     </div>
 
                     <p class="time"><%
-                        int sumTimeInMinute = CourseDAO.getSumTimeOfCourse(course.getCourseID());
+                        int sumTimeInMinute = CourseDAO.getSumTimeOfCourse(course.getID());
                         out.print(Math.round(sumTimeInMinute / 6.0) / 10.0);
                         %> hours (approximately)</p>
 

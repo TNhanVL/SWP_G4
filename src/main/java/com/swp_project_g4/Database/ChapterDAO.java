@@ -134,7 +134,7 @@ public class ChapterDAO extends DBConnection {
             statement.setInt(2, chapter.getIndex());
             statement.setString(3, chapter.getName());
             statement.setString(4, chapter.getDescription());
-            statement.setInt(5, chapter.getChapterID());
+            statement.setInt(5, chapter.getID());
             statement.executeUpdate();
 
             //disconnect to database

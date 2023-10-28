@@ -19,9 +19,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuizResult {
+    @Column(name = "quizResultID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int quizResultID;
+    private int ID;
     private int lessonID;
     private int lessonProgressID;
     private int numberOfCorrectAnswer;

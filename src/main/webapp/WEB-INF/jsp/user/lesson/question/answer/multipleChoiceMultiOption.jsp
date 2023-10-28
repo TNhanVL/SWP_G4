@@ -14,22 +14,22 @@
 <p><b>Choose all correct answer:</b></p>
 <%
 //    Question question = null;
-    ArrayList<Answer> answers = AnswerDAO.getAnswersByQuestionID(question.getQuestionID());
+    ArrayList<Answer> answers = AnswerDAO.getAnswersByQuestionID(question.getID());
     if (!quizFinished) {
         Collections.shuffle(answers);
     }
     for (Answer answer : answers) {
-        String answerName = "answer" + answer.getAnswerID();
-        boolean checked = ChosenAnswerDAO.CheckChosenAnswer(quizResult.getQuizResultID(), question.getQuestionID(), answer.getAnswerID());
+        String answerName = "answer" + answer.getID();
+        boolean checked = ChosenAnswerDAO.CheckChosenAnswer(quizResult.getID(), question.getID(), answer.getID());
         String correctClass = "";
         if (quizFinished && checked) {
-            correctClass = AnswerDAO.getAnswer(answer.getAnswerID()).isCorrect() ? "correct" : "incorrect";
+            correctClass = AnswerDAO.getAnswer(answer.getID()).isCorrect() ? "correct" : "incorrect";
         }
 %>
 <label for="<%out.print(answerName);%>" <%if (correctClass != "") {
         out.print("class=\"" + correctClass + "\"");
-    }%>><input type="checkbox" id="<%out.print(answerName);%>" name="question<%out.print(question.getQuestionID());%>"
-        value="<%out.print(answer.getAnswerID());%>"
+    }%>><input type="checkbox" id="<%out.print(answerName);%>" name="question<%out.print(question.getID());%>"
+        value="<%out.print(answer.getID());%>"
         <%if (checked) {
                 out.print(" checked");
             }

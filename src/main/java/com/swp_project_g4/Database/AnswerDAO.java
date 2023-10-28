@@ -129,7 +129,7 @@ public class AnswerDAO extends DBConnection {
             statement.setString(1, answer.getContent());
             statement.setBoolean(2, answer.isCorrect());
             statement.setInt(3, answer.getQuestionID());
-            statement.setInt(4, answer.getAnswerID());
+            statement.setInt(4, answer.getID());
 
             //disconnect to database
             disconnect();

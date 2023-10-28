@@ -10,7 +10,7 @@
 <%
     if (lesson.getType() == 0) {
 %>
-<video id="my-video" src="/public/media/lesson/<%out.print(lesson.getLessonID() + "/" + post.getContent());%>" controls>
+<video id="my-video" src="/public/media/lesson/<%out.print(lesson.getID() + "/" + post.getContent());%>" controls>
     Trình duyệt của bạn không hỗ trợ video.
 </video>
 <%
@@ -55,7 +55,7 @@
 
             //check if 90% video
             if (currentTime >= duration * 0.9) {
-                fetch("/learn/markLessonComplete/<%out.print(lesson.getLessonID());%>", {method: 'POST'})
+                fetch("/learn/markLessonComplete/<%out.print(lesson.getID());%>", {method: 'POST'})
                                         .catch(error => console.error(error));
                                 sendedCompletedVideo = true;
                                 let checkLesson = $(".lesson.active i")[0];

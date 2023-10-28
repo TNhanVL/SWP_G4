@@ -69,10 +69,10 @@
 
                         <!-- an item -->
                         <div class="item">
-                            <input type="checkbox" id="course<%out.print(courseIndex);%>" name="course" value="<%out.print(course.getCourseID());%>">
+                            <input type="checkbox" id="course<%out.print(courseIndex);%>" name="course" value="<%out.print(course.getID());%>">
 
-                            <a href="/course/<%out.print(course.getCourseID());%>">
-                                <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getPicture());%>" class="itemImg" alt="">
+                            <a href="/course/<%out.print(course.getID());%>">
+                                <img src="/public/media/course/<%out.print(course.getID() + "/" + course.getPicture());%>" class="itemImg" alt="">
                                 <div class="itemInformation">
                                     <p class="itemName"><%out.print(course.getName());%></p>
                                     <div class="itemRating"><%out.print(course.getRate());%><i class="fa-solid fa-star"></i> (2503 reviewer)</div>
@@ -80,7 +80,7 @@
                             </a>
                             <p class="itemPrice"><%out.print(course.getPrice());%>$</p>
 
-                            <div class="itemEdit"><a href="/cart/delete/<%out.print(course.getCourseID());%>"><i class="fa-solid fa-trash"></i></a></div>
+                            <div class="itemEdit"><a href="/cart/delete/<%out.print(course.getID());%>"><i class="fa-solid fa-trash"></i></a></div>
                         </div>
                         <!-- end item -->
 

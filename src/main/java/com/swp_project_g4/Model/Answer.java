@@ -17,9 +17,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Answer {
+    @Column(name = "answerID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int answerID;
+    private int ID;
     private String content;
     private boolean correct;
     private int questionID;

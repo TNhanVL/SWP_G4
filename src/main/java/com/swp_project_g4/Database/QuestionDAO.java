@@ -160,7 +160,7 @@ public class QuestionDAO extends DBConnection {
             statement.setString(3, question.getContent());
             statement.setInt(4, question.getType());
             statement.setInt(5, question.getPoint());
-            statement.setInt(6, question.getQuestionID());
+            statement.setInt(6, question.getID());
 
             //disconnect to database
             disconnect();

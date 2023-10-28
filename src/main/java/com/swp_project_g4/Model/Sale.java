@@ -10,9 +10,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sale {
+    @Column(name = "saleID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int saleID;
+    private int ID;
     private int courseID;
     private Double price;
     private Date startAt;

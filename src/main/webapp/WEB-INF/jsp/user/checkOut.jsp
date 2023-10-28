@@ -49,7 +49,7 @@
             <form method="post" action="/checkOut/withPayment?price=<%
                 out.print(price);
                 for (Course course : courses) {
-                    out.print("&course=" + course.getCourseID());
+                    out.print("&course=" + course.getID());
                 }
                   %>">
                 <div class="ticket">

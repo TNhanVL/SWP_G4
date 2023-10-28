@@ -9,8 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Instruct {
+    @Column(name = "intructorID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int intructorID;
+    private int ID;
     private int courseID;
 }

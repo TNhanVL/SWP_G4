@@ -1,7 +1,9 @@
 package com.swp_project_g4.Model;
 
 import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -10,10 +12,14 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "[lesson_progress]")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class LessonProgress {
+    @Column(name = "lesson_progressID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int lesson_progressID;
+    private int ID;
     private int lessonID;
     private int chapter_progressID;
     private int progress_percent;

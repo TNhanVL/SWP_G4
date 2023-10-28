@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    ArrayList<Question> questions = QuestionDAO.getQuestionByLessonID(lesson.getLessonID());
+    ArrayList<Question> questions = QuestionDAO.getQuestionByLessonID(lesson.getID());
 %>
 
 <div class="quiz-type1">
@@ -93,7 +93,7 @@
             </div>
 
             <div class="finishBtn">
-                <a href="/learn/endAQuiz/<%out.print(quizResult.getQuizResultID());%>">
+                <a href="/learn/endAQuiz/<%out.print(quizResult.getID());%>">
                     <p>Finish</p>
                 </a>
             </div>
