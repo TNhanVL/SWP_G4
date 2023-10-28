@@ -21,8 +21,8 @@ class CourseProgressServiceTest {
 
     @Test
     void getInstructorByID() {
-        var b = repo.getChapterRepository().findById(1).get();
-        System.out.println(b);
+        var b = repo.getLearnerRepository().findById(1).get();
+        System.out.println(b.getCountry());
 
     }
 }
