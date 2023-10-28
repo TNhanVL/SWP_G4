@@ -360,10 +360,10 @@ BEGIN
           from chapter
           group by courseID) cal
     where course.courseID in (select distinct courseID
-                                from inserted
-                                union
-                                select distinct courseID
-                                from deleted)
+                              from inserted
+                              union
+                              select distinct courseID
+                              from deleted)
       and course.courseID = cal.courseID
 END
 GO
@@ -414,8 +414,17 @@ VALUES (16, 'FPT University', 'fptuni', '5e7c74592ea8dffbfdc20c84de15afea', 'Nha
         N'Trường đại học top 1 Việt Nam');
 GO
 
-INSERT INTO instructor (organizationID, username, [password], email, picture, [first_name], [last_name], [status])
-VALUES (1, 'sussybaka', '0cc175b9c0f1b6a831c399e269772661', 'instructor_email@example.com', '', 'Le', 'Truong Giang', 1);
+-- INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [first_name], [last_name], [status])
+-- VALUES (1, 1, 'sussybaka', '0cc175b9c0f1b6a831c399e269772661', 'instructor_email@example.com', '', 'Le', 'Truong Giang',
+--         1),
+--        (1, 1, 'instructor_1', '202cb962ac59075b964b07152d234b70', 'instructor_1@example.com', '', 'John', 'Doe', 1),
+--        (2, 2, 'instructor_2', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_2@example.com', '', 'Jane', 'Doe', 1);
+INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [first_name], [last_name], [status])
+VALUES (1, 1, 'instructor_1', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@example.com', NULL, 'John', 'Doe', 1),
+       (1, 1, 'instructor_2', '202cb962ac59075b964b07152d234b70', 'instructor_2@example.com', NULL, 'Jane', 'Doe', 1),
+       (1, 1, 'instructor_3', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_3@example.com', NULL, 'Peter', 'Parker', 1);
+
+
 GO
 INSERT INTO course
 (name, [picture], [description], organizationID, instructorID, price, rate)
