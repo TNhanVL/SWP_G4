@@ -86,6 +86,17 @@ public class AdminController {
         return "admin/dashboard";
     }
 
+
+    @InitBinder
+    private void dateBinder(WebDataBinder binder) {
+        //The date format to parse or output your dates
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        //Create a new CustomDateEditor
+        CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
+        //Register it as custom editor for the Date type
+        binder.registerCustomEditor(Date.class, editor);
+    }
+
     @RequestMapping(value = "/editUser", method = RequestMethod.GET)
     public String editUser(ModelMap model, HttpServletRequest request, @RequestParam String id) {
         try {
@@ -101,16 +112,6 @@ public class AdminController {
             return "redirect:./dashboard";
         }
         return "admin/editUser";
-    }
-
-    @InitBinder
-    private void dateBinder(WebDataBinder binder) {
-        //The date format to parse or output your dates
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        //Create a new CustomDateEditor
-        CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
-        //Register it as custom editor for the Date type
-        binder.registerCustomEditor(Date.class, editor);
     }
 
     @RequestMapping(value = "/editUser", method = RequestMethod.POST)
@@ -197,4 +198,44 @@ public class AdminController {
         }
         return "redirect:./editOrganization?id=" + organization.getID();
     }
+
+
+    @RequestMapping(value = "/editInstructor", method = RequestMethod.GET)
+    public String editInstructor(HttpServletRequest request, @RequestParam String id) {
+        try {
+            var user_id = Integer.parseInt(id);
+            var user = repo.getInstructRepository().findById(user_id).orElseThrow();
+            request.getSession().setAttribute("currentUser", user);
+            request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
+        } catch (Exception ex) {
+            request.getSession().setAttribute("error", "Failed to load instructor information!");
+            return "redirect:./dashboard";
+        }
+        return "admin/editUser";
+    }
+
+    @RequestMapping(value = "/editInstructor", method = RequestMethod.POST)
+    public String editInstructor(HttpServletRequest request, @ModelAttribute("user") Learner learner) {
+
+        learner.setPassword(MD5.getMd5(learner.getPassword()));
+        //check logged in
+        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
+            request.getSession().setAttribute("error", "You need to log in to continue!");
+            return "redirect:./login";
+        }
+
+        try {
+            boolean ok = LearnerDAO.updateUser(learner);
+            if (ok) {
+                request.getSession().setAttribute("success", "Update User information succeed!");
+            } else {
+                request.getSession().setAttribute("error", "Update User information failed!");
+            }
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("error", "There are some error when update User information!");
+            return "redirect:./dashboard";
+        }
+        return "redirect:./editUser?id=" + learner.getID();
+    }
+
 }
