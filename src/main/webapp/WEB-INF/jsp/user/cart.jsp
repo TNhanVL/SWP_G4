@@ -47,7 +47,14 @@
                 </h2>
 
                 <h4 class="number-of-course">
-                    <%out.print(courses.size());%> course in Cart
+                    <%
+                        if (courses.size() == 1) {
+                            out.print("1 course in Cart");
+                        } else {
+                            out.print(courses.size() + " courses in Cart");
+                        }
+                    %>
+
                 </h4>
                 <!-- When cart is empty display this -->
                 <div class="keepShopping ">
