@@ -5,8 +5,8 @@
 package com.swp_project_g4.Service;
 
 import com.swp_project_g4.Database.AdminDAO;
-import com.swp_project_g4.Database.UserDAO;
-import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Database.LearnerDAO;
+import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
@@ -44,9 +44,7 @@ public class CookieServices {
             if (claims != null) {
                 String username = (String) claims.get("username");
                 String password = (String) claims.get("password");
-                if (AdminDAO.checkAdmin(username, password, true) == 0) {
-                    return true;
-                }
+                return AdminDAO.checkAdmin(username, password, true) == 0;
             }
             return false;
 
@@ -73,9 +71,7 @@ public class CookieServices {
             if (claims != null) {
                 String username = (String) claims.get("username");
                 String password = (String) claims.get("password");
-                if (UserDAO.checkUser(username, password, true) == 0) {
-                    return true;
-                }
+                return LearnerDAO.checkUser(username, password, true) == 0;
             }
             return false;
 
@@ -86,9 +82,9 @@ public class CookieServices {
         return ok;
     }
 
-    public static boolean loginLearner(HttpServletResponse response, User user) {
+    public static boolean loginLearner(HttpServletResponse response, Learner learner) {
         try {
-            String TokenBody = JwtUtil.generateJwt(user.getUsername(), user.getPassword());
+            String TokenBody = JwtUtil.generateJwt(learner.getUsername(), learner.getPassword());
             Cookie cookie = new Cookie(learnerTokenName, TokenBody);
             cookie.setMaxAge(60 * 60 * 6);
             response.addCookie(cookie);
@@ -115,9 +111,9 @@ public class CookieServices {
         return false;
     }
 
-    public static boolean loginAdmin(HttpServletResponse response, User user) {
+    public static boolean loginAdmin(HttpServletResponse response, Learner learner) {
         try {
-            String TokenBody = JwtUtil.generateJwt(user.getUsername(), user.getPassword());
+            String TokenBody = JwtUtil.generateJwt(learner.getUsername(), learner.getPassword());
             Cookie cookie = new Cookie(adminTokenName, TokenBody);
             cookie.setMaxAge(60 * 60 * 6);
             response.addCookie(cookie);

@@ -7,22 +7,22 @@
 <%@page import="com.swp_project_g4.Model.Course"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="com.swp_project_g4.Database.CourseDAO" %>
-<%@ page import="com.swp_project_g4.Database.UserDAO" %>
+<%@ page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
     //check user loggedIn
-    User user = null;
+    Learner learner = null;
     if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
         request.getSession().setAttribute("error", "You must be logged in before enter cart!");
         response.sendRedirect("/login");
         return;
     } else {
-        user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 
-    ArrayList<Course> courses = CourseDAO.getAllCartProducts(user.getID());
+    ArrayList<Course> courses = CourseDAO.getAllCartProducts(learner.getID());
 %>
 
 <!DOCTYPE html>

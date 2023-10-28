@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserServicesTest {
+class LearnerServicesTest {
 
     @Test
     void isValidInformation_test_1() {
@@ -13,7 +13,7 @@ class UserServicesTest {
         String email = "";
         String birthday = "";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
         @Test
@@ -23,7 +23,7 @@ class UserServicesTest {
         String email = "nhan12341184@gmail.com";
         String birthday = "1990-01-01";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+            assertFalse(res);
     }
 
     @Test
@@ -33,7 +33,7 @@ class UserServicesTest {
         String email = "";
         String birthday = "";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -43,7 +43,7 @@ class UserServicesTest {
         String email = "nhan12341184@gmail.com";
         String birthday = "1990-01-01";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -53,7 +53,7 @@ class UserServicesTest {
         String email = "nhan12341184@gmail.com";
         String birthday = "2010-10-03";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -63,7 +63,7 @@ class UserServicesTest {
         String email = "nhan12341184@gmail.com";
         String birthday = "2023-13-32";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -73,7 +73,7 @@ class UserServicesTest {
         String email = "nhan12341184@gmail.com";
         String birthday = "11-05-1987";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -83,7 +83,7 @@ class UserServicesTest {
         String email = "dylan@example.com";
         String birthday = "2015/03/20";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -93,7 +93,7 @@ class UserServicesTest {
         String email = "dylan@example.com";
         String birthday = "20x3-02-11";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -103,7 +103,7 @@ class UserServicesTest {
         String email = "dylan@example.com";
         String birthday = "2010-10-03";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -113,7 +113,7 @@ class UserServicesTest {
         String email = "abc123@xyz";
         String birthday = "1990-01-01";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -123,7 +123,7 @@ class UserServicesTest {
         String email = "nhan12341184@gmail.com";
         String birthday = "1990-01-01";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -133,7 +133,7 @@ class UserServicesTest {
         String email = "abc123@xyz";
         String birthday = "1990-01-01";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -143,7 +143,7 @@ class UserServicesTest {
         String email = "nhan12341184@gmail.com";
         String birthday = "1990-01-01";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
@@ -153,7 +153,7 @@ class UserServicesTest {
         String email = "abc123@xyz";
         String birthday = "2023-13-32";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -163,7 +163,7 @@ class UserServicesTest {
         String email = "nhan12341184@gmail.com";
         String birthday = "2023-13-32";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -173,7 +173,7 @@ class UserServicesTest {
         String email = "dylan@example.com";
         String birthday = "1990-01-01";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
     @Test
@@ -183,7 +183,7 @@ class UserServicesTest {
         String email = "abc123@xyz";
         String birthday = "1990-01-01";
         boolean res = UserServices.isValidInformation(name, phone_number, email, birthday);
-        assertEquals(false, res);
+        assertFalse(res);
     }
 
 }

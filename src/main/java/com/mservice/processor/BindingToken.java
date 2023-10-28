@@ -60,14 +60,12 @@ public class BindingToken extends AbstractProcess<BindingTokenRequest, BindingTo
     public BindingTokenRequest createBindingTokenRequest(String orderId, String requestId, String partnerClientId, String callbackToken) {
 
         try {
-            String requestRawData = new StringBuilder()
-                    .append(Parameter.ACCESS_KEY).append("=").append(partnerInfo.getAccessKey()).append("&")
-                    .append(Parameter.CALLBACK_TOKEN).append("=").append(callbackToken).append("&")
-                    .append(Parameter.ORDER_ID).append("=").append(orderId).append("&")
-                    .append(Parameter.PARTNER_CLIENT_ID).append("=").append(partnerClientId).append("&")
-                    .append(Parameter.PARTNER_CODE).append("=").append(partnerInfo.getPartnerCode()).append("&")
-                    .append(Parameter.REQUEST_ID).append("=").append(requestId)
-                    .toString();
+            String requestRawData = Parameter.ACCESS_KEY + "=" + partnerInfo.getAccessKey() + "&" +
+                    Parameter.CALLBACK_TOKEN + "=" + callbackToken + "&" +
+                    Parameter.ORDER_ID + "=" + orderId + "&" +
+                    Parameter.PARTNER_CLIENT_ID + "=" + partnerClientId + "&" +
+                    Parameter.PARTNER_CODE + "=" + partnerInfo.getPartnerCode() + "&" +
+                    Parameter.REQUEST_ID + "=" + requestId;
 
             String signRequest = Encoder.signHmacSHA256(requestRawData, partnerInfo.getSecretKey());
             LogUtils.debug("[BindingTokenRequest] rawData: " + requestRawData + ", [Signature] -> " + signRequest);

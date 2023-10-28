@@ -21,7 +21,7 @@
         <div class="partHeader">
             <div>
                 <h5>Part <%out.print(chapter1.getIndex() + ": " + chapter1.getName());%></h5>
-                <p class="progressLesson"><%out.print(LessonDAO.getNumberLessonsCompleted(user.getID(), chapter1.getChapterID()) + "/" + lessons.size());%> Complete</p>
+                <p class="progressLesson"><%out.print(LessonDAO.getNumberLessonsCompleted(learner.getID(), chapter1.getChapterID()) + "/" + lessons.size());%> Complete</p>
             </div>
             <i class="fa-solid fa-chevron-down"></i>
 
@@ -41,7 +41,7 @@
                     }%>">
                     <span class="lesson-status">
                         <!-- checked -->
-                        <i class="<%if (LessonDAO.checkLessonCompleted(user.getID(), lesson1.getLessonID(), request)) {
+                        <i class="<%if (LessonDAO.checkLessonCompleted(learner.getID(), lesson1.getLessonID(), request)) {
                                 out.print("fa-solid fa-square-check");
                             } else {
                                 out.print("fa-regular fa-square");

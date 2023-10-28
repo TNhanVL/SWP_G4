@@ -1,8 +1,5 @@
 package com.swp_project_g4.Repository;
 
-import com.swp_project_g4.Database.CourseDAO;
-import com.swp_project_g4.Model.CourseProgress;
-import com.swp_project_g4.Model.QuizResult;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +22,11 @@ public class Repo {
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
+    private InstructorRepository instructorRepository;
+    @Autowired
     private InstructRepository instructRepository;
+    @Autowired
+    private LearnerRepository learnerRepository;
     @Autowired
     private LessonProgressRepository lessonProgressRepository;
     @Autowired
@@ -44,7 +45,5 @@ public class Repo {
     private SaleRepository saleRepository;
     @Autowired
     private TransactionRepository transactionRepository;
-    @Autowired
-    private UserRepository userRepository;
 
 }

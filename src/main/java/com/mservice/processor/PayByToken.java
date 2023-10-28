@@ -66,17 +66,15 @@ public class PayByToken extends AbstractProcess<PaymentTokenRequest, PaymentResp
     public PaymentTokenRequest createTokenPaymentRequest(String orderId, String requestId, String amount, String orderInfo,
                                                          String returnUrl, String notifyUrl, String extraData, String partnerClientId, String token, Boolean autoCapture) {
         try {
-            String requestRawData = new StringBuilder()
-                    .append(Parameter.ACCESS_KEY).append("=").append(partnerInfo.getAccessKey()).append("&")
-                    .append(Parameter.AMOUNT).append("=").append(amount).append("&")
-                    .append(Parameter.EXTRA_DATA).append("=").append(extraData).append("&")
-                    .append(Parameter.ORDER_ID).append("=").append(orderId).append("&")
-                    .append(Parameter.ORDER_INFO).append("=").append(orderInfo).append("&")
-                    .append(Parameter.PARTNER_CLIENT_ID).append("=").append(partnerClientId).append("&")
-                    .append(Parameter.PARTNER_CODE).append("=").append(partnerInfo.getPartnerCode()).append("&")
-                    .append(Parameter.REQUEST_ID).append("=").append(requestId).append("&")
-                    .append(Parameter.TOKEN).append("=").append(token)
-                    .toString();
+            String requestRawData = Parameter.ACCESS_KEY + "=" + partnerInfo.getAccessKey() + "&" +
+                    Parameter.AMOUNT + "=" + amount + "&" +
+                    Parameter.EXTRA_DATA + "=" + extraData + "&" +
+                    Parameter.ORDER_ID + "=" + orderId + "&" +
+                    Parameter.ORDER_INFO + "=" + orderInfo + "&" +
+                    Parameter.PARTNER_CLIENT_ID + "=" + partnerClientId + "&" +
+                    Parameter.PARTNER_CODE + "=" + partnerInfo.getPartnerCode() + "&" +
+                    Parameter.REQUEST_ID + "=" + requestId + "&" +
+                    Parameter.TOKEN + "=" + token;
 
             String signRequest = Encoder.signHmacSHA256(requestRawData, partnerInfo.getSecretKey());
             LogUtils.debug("[PaymentTokenRequest] rawData: " + requestRawData + ", [Signature] -> " + signRequest);

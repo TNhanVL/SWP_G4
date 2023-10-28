@@ -20,7 +20,7 @@
                 <i class="fa-regular fa-clock"></i>
                 <span><%
                     //calculate remain time then format and print out
-                    long timeSecond = lesson.getTime() * 60;
+                    long timeSecond = lesson.getTime() * 60L;
                     if (timeSecond < 0) {
                         timeSecond = 0;
                     }

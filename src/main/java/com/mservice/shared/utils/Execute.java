@@ -24,7 +24,7 @@ public class Execute {
             Response result = client.newCall(request).execute();
             HttpResponse response = new HttpResponse(result.code(), result.body().string(), result.headers());
 
-            LogUtils.info("[HttpResponseFromMoMo] " + response.toString());
+            LogUtils.info("[HttpResponseFromMoMo] " + response);
 
             return response;
         } catch (Exception e) {

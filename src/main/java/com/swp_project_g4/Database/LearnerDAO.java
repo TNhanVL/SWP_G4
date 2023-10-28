@@ -4,7 +4,7 @@
  */
 package com.swp_project_g4.Database;
 
-import com.swp_project_g4.Model.User;
+import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Service.MD5;
 
 import java.sql.ResultSet;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author TTNhan
  */
-public class UserDAO extends DBConnection {
+public class LearnerDAO extends DBConnection {
 
     public static boolean existUser(String username) {
         boolean ok = false;
@@ -26,7 +26,7 @@ public class UserDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select username from [user] where username = ?");
+            statement = conn.prepareStatement("select username from [learner] where username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
@@ -39,7 +39,7 @@ public class UserDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return ok;
@@ -59,7 +59,7 @@ public class UserDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select [password] from [user] where username = ?");
+            statement = conn.prepareStatement("select [password] from [learner] where username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
@@ -83,7 +83,7 @@ public class UserDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return status;
@@ -95,13 +95,13 @@ public class UserDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select [password] from [user] where username = ?");
+            statement = conn.prepareStatement("select [password] from [learner] where username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
             //not exist
             if (resultSet == null || !resultSet.next()) {
-                Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "not exist user");
+                Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "not exist user");
             } else {
                 String pw = resultSet.getString("password");
                 if (!hashed) {
@@ -110,34 +110,34 @@ public class UserDAO extends DBConnection {
                 if (pw.equals(password)) {
                     //correct
                     res = true;
-                    Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "success");
+                    Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "success");
                 }else{
-                    Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "wrong password");
+                    Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "wrong password");
                 }
             }
 
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            Logger.getLogger(UserDAO.class.getName()).log(Level.INFO, "execute query failed");
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "execute query failed");
         }
         return res;
     }
 
-    public static User getUser(int ID) {
-        User user = null;
+    public static Learner getUser(int ID) {
+        Learner learner = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from [user] where ID = ?");
+            statement = conn.prepareStatement("select * from [learner] where ID = ?");
             statement.setInt(1, ID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user = new User(
+                learner = new Learner(
                         resultSet.getInt("ID"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
@@ -145,7 +145,6 @@ public class UserDAO extends DBConnection {
                         resultSet.getString("email"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
-                        resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -157,22 +156,22 @@ public class UserDAO extends DBConnection {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return user;
+        return learner;
     }
 
-    public static User getUserByEmail(String email) {
-        User user = null;
+    public static Learner getUserByEmail(String email) {
+        Learner learner = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from [user] where email = ?");
+            statement = conn.prepareStatement("select * from [learner] where email = ?");
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user = new User(
+                learner = new Learner(
                         resultSet.getInt("ID"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
@@ -180,7 +179,6 @@ public class UserDAO extends DBConnection {
                         resultSet.getString("email"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
-                        resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -192,22 +190,22 @@ public class UserDAO extends DBConnection {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return user;
+        return learner;
     }
 
-    public static User getUserByUsername(String username) {
-        User user = null;
+    public static Learner getUserByUsername(String username) {
+        Learner learner = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from [user] where username = ?");
+            statement = conn.prepareStatement("select * from [learner] where username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user = new User(
+                learner = new Learner(
                         resultSet.getInt("ID"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
@@ -215,7 +213,6 @@ public class UserDAO extends DBConnection {
                         resultSet.getString("email"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
-                        resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -227,21 +224,21 @@ public class UserDAO extends DBConnection {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return user;
+        return learner;
     }
 
-    public static ArrayList<User> getAllUsers() {
-        ArrayList<User> list = new ArrayList<>();
+    public static ArrayList<Learner> getAllUsers() {
+        ArrayList<Learner> list = new ArrayList<>();
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from [user]");
+            statement = conn.prepareStatement("select * from [learner]");
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                User user = new User(
+                Learner learner = new Learner(
                         resultSet.getInt("ID"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
@@ -249,12 +246,11 @@ public class UserDAO extends DBConnection {
                         resultSet.getString("email"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
-                        resultSet.getInt("role"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
                 );
-                list.add(user);
+                list.add(learner);
             }
 
             disconnect();
@@ -265,23 +261,22 @@ public class UserDAO extends DBConnection {
         return list;
     }
 
-    public static int insertUser(User user) {
+    public static int insertUser(Learner learner) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             connect();
 
-            statement = conn.prepareStatement("insert into [user](picture,username,[password],email,first_name,last_name,[role],birthday,countryID,status) values(?,?,?,?,?,?,?,?,?,?)");
-            statement.setString(1, user.getPicture());
-            statement.setString(2, user.getUsername());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getEmail());
-            statement.setString(5, user.getFirstName());
-            statement.setString(6, user.getLastName());
-            statement.setInt(7, user.getRole());
-            statement.setString(8, dateFormat.format(user.getBirthday()));
-            statement.setInt(9, user.getCountryID());
-            statement.setInt(10, user.getStatus());
+            statement = conn.prepareStatement("insert into [learner](picture,username,[password],email,first_name,last_name,birthday,countryID,status) values(?,?,?,?,?,?,?,?,?)");
+            statement.setString(1, learner.getPicture());
+            statement.setString(2, learner.getUsername());
+            statement.setString(3, learner.getPassword());
+            statement.setString(4, learner.getEmail());
+            statement.setString(5, learner.getFirstName());
+            statement.setString(6, learner.getLastName());
+            statement.setString(7, dateFormat.format(learner.getBirthday()));
+            statement.setInt(8, learner.getCountryID());
+            statement.setInt(9, learner.getStatus());
             statement.executeUpdate();
 
             int newID = lastModifyID(conn);
@@ -295,24 +290,23 @@ public class UserDAO extends DBConnection {
         return -1;
     }
 
-    public static boolean updateUser(User user) {
+    public static boolean updateUser(Learner learner) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             connect();
 
-            statement = conn.prepareStatement("UPDATE [user] SET picture = ?, username = ?, [password] = ?, email = ?, first_name = ?, last_name = ?, role = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
-            statement.setString(1, user.getPicture());
-            statement.setString(2, user.getUsername());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getEmail());
-            statement.setString(5, user.getFirstName());
-            statement.setString(6, user.getLastName());
-            statement.setInt(7, user.getRole());
-            statement.setString(8, dateFormat.format(user.getBirthday()));
-            statement.setInt(9, user.getCountryID());
-            statement.setInt(10, user.getStatus());
-            statement.setInt(11, user.getID());
+            statement = conn.prepareStatement("UPDATE [learner] SET picture = ?, username = ?, [password] = ?, email = ?, first_name = ?, last_name = ?, birthday = ?, countryID = ?, [status] = ? WHERE ID = ?");
+            statement.setString(1, learner.getPicture());
+            statement.setString(2, learner.getUsername());
+            statement.setString(3, learner.getPassword());
+            statement.setString(4, learner.getEmail());
+            statement.setString(5, learner.getFirstName());
+            statement.setString(6, learner.getLastName());
+            statement.setString(7, dateFormat.format(learner.getBirthday()));
+            statement.setInt(8, learner.getCountryID());
+            statement.setInt(9, learner.getStatus());
+            statement.setInt(10, learner.getID());
             statement.execute();
 
             disconnect();
@@ -327,13 +321,13 @@ public class UserDAO extends DBConnection {
 
     public static boolean deleteUser(int ID) {
         try {
-            User user = getUser(ID);
+            Learner learner = getUser(ID);
 
-            if (user == null) {
+            if (learner == null) {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from [user] where ID=?");
+            statement = conn.prepareStatement("delete from [learner] where ID=?");
             statement.setInt(1, ID);
             statement.execute();
             disconnect();

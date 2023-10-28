@@ -93,18 +93,16 @@ public class CreateOrderMoMo extends AbstractProcess<PaymentRequest, PaymentResp
                                                            String returnUrl, String notifyUrl, String extraData, com.mservice.enums.RequestType requestType, Boolean autoCapture) {
 
         try {
-            String requestRawData = new StringBuilder()
-                    .append(Parameter.ACCESS_KEY).append("=").append(partnerInfo.getAccessKey()).append("&")
-                    .append(Parameter.AMOUNT).append("=").append(amount).append("&")
-                    .append(Parameter.EXTRA_DATA).append("=").append(extraData).append("&")
-                    .append(Parameter.IPN_URL).append("=").append(notifyUrl).append("&")
-                    .append(Parameter.ORDER_ID).append("=").append(orderId).append("&")
-                    .append(Parameter.ORDER_INFO).append("=").append(orderInfo).append("&")
-                    .append(Parameter.PARTNER_CODE).append("=").append(partnerInfo.getPartnerCode()).append("&")
-                    .append(Parameter.REDIRECT_URL).append("=").append(returnUrl).append("&")
-                    .append(Parameter.REQUEST_ID).append("=").append(requestId).append("&")
-                    .append(Parameter.REQUEST_TYPE).append("=").append(requestType.getRequestType())
-                    .toString();
+            String requestRawData = Parameter.ACCESS_KEY + "=" + partnerInfo.getAccessKey() + "&" +
+                    Parameter.AMOUNT + "=" + amount + "&" +
+                    Parameter.EXTRA_DATA + "=" + extraData + "&" +
+                    Parameter.IPN_URL + "=" + notifyUrl + "&" +
+                    Parameter.ORDER_ID + "=" + orderId + "&" +
+                    Parameter.ORDER_INFO + "=" + orderInfo + "&" +
+                    Parameter.PARTNER_CODE + "=" + partnerInfo.getPartnerCode() + "&" +
+                    Parameter.REDIRECT_URL + "=" + returnUrl + "&" +
+                    Parameter.REQUEST_ID + "=" + requestId + "&" +
+                    Parameter.REQUEST_TYPE + "=" + requestType.getRequestType();
 
             String signRequest = Encoder.signHmacSHA256(requestRawData, partnerInfo.getSecretKey());
             LogUtils.debug("[PaymentRequest] rawData: " + requestRawData + ", [Signature] -> " + signRequest);

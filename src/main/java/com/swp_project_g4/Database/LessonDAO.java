@@ -41,7 +41,7 @@ public class LessonDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return ok;
@@ -172,9 +172,9 @@ public class LessonDAO extends DBConnection {
                 CourseDAO.insertCertificate(userID, chapter.getCourseID(), certificateName);
                 Certificate.createCertificate(certificateName, userID, chapter.getCourseID(), request);
                 
-                User user = UserDAO.getUser(userID);
+                Learner learner = LearnerDAO.getUser(userID);
                 Course course = CourseDAO.getCourse(chapter.getCourseID());
-                EmailService.sendCompletecourse(user, course, "http://localhost:8080/public/media/certificate/" + certificateName);
+                EmailService.sendCompletecourse(learner, course, "http://localhost:8080/public/media/certificate/" + certificateName);
             }
 
             return true;
@@ -362,11 +362,7 @@ public class LessonDAO extends DBConnection {
             statement.setInt(1, lessonID);
             statement.execute();
             disconnect();
-            if (!existLesson(lessonID)) {
-                return true;
-            } else {
-                return false;
-            }
+            return !existLesson(lessonID);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

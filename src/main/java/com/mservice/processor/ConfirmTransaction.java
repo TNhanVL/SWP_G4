@@ -60,15 +60,13 @@ public class ConfirmTransaction extends AbstractProcess<ConfirmRequest, ConfirmR
     public ConfirmRequest createConfirmTransactionRequest(String orderId, String requestId, String amount, ConfirmRequestType requestType, String description) {
 
         try {
-            String requestRawData = new StringBuilder()
-                    .append(Parameter.ACCESS_KEY).append("=").append(partnerInfo.getAccessKey()).append("&")
-                    .append(Parameter.AMOUNT).append("=").append(amount).append("&")
-                    .append(Parameter.DESCRIPTION).append("=").append(description).append("&")
-                    .append(Parameter.ORDER_ID).append("=").append(orderId).append("&")
-                    .append(Parameter.PARTNER_CODE).append("=").append(partnerInfo.getPartnerCode()).append("&")
-                    .append(Parameter.REQUEST_ID).append("=").append(requestId).append("&")
-                    .append(Parameter.REQUEST_TYPE).append("=").append(requestType.getConfirmRequestType())
-                    .toString();
+            String requestRawData = Parameter.ACCESS_KEY + "=" + partnerInfo.getAccessKey() + "&" +
+                    Parameter.AMOUNT + "=" + amount + "&" +
+                    Parameter.DESCRIPTION + "=" + description + "&" +
+                    Parameter.ORDER_ID + "=" + orderId + "&" +
+                    Parameter.PARTNER_CODE + "=" + partnerInfo.getPartnerCode() + "&" +
+                    Parameter.REQUEST_ID + "=" + requestId + "&" +
+                    Parameter.REQUEST_TYPE + "=" + requestType.getConfirmRequestType();
 
             String signRequest = Encoder.signHmacSHA256(requestRawData, partnerInfo.getSecretKey());
             LogUtils.debug("[ConfirmRequest] rawData: " + requestRawData + ", [Signature] -> " + signRequest);

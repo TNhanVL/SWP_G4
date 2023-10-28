@@ -4,12 +4,12 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Database.UserDAO" %>
+<%@page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page import="com.swp_project_g4.Database.AdminDAO" %>
 <%@page import="java.util.ArrayList" %>
-<%@page import="com.swp_project_g4.Model.User" %>
+<%@page import="com.swp_project_g4.Model.Learner" %>
 <%@page import="com.swp_project_g4.Service.CookieServices" %>
-<%@ page import="com.swp_project_g4.Database.UserDAO" %>
+<%@ page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -75,7 +75,8 @@
 
     <div class="container-fluid py-4">
         <div class="row">
-            <%@include file="tables/users.jsp" %>
+            <%@include file="tables/learner.jsp" %>
+            <%@include file="tables/instructor.jsp" %>
             <%@include file="tables/organization.jsp" %>
             <%@include file="tables/courses.jsp" %>
         </div>
@@ -88,6 +89,8 @@
     new DataTable('#user');
     new DataTable('#organization');
     new DataTable('#courses');
+    new DataTable('#instructor');
+
 </script>
 </body>
 <%@ include file="popUpMessage.jsp" %>

@@ -60,12 +60,10 @@ public class QueryTransactionStatus extends AbstractProcess<QueryStatusTransacti
     public QueryStatusTransactionRequest createQueryTransactionRequest(String orderId, String requestId) {
 
         try {
-            String requestRawData = new StringBuilder()
-                    .append(Parameter.ACCESS_KEY).append("=").append(partnerInfo.getAccessKey()).append("&")
-                    .append(Parameter.ORDER_ID).append("=").append(orderId).append("&")
-                    .append(Parameter.PARTNER_CODE).append("=").append(partnerInfo.getPartnerCode()).append("&")
-                    .append(Parameter.REQUEST_ID).append("=").append(requestId)
-                    .toString();
+            String requestRawData = Parameter.ACCESS_KEY + "=" + partnerInfo.getAccessKey() + "&" +
+                    Parameter.ORDER_ID + "=" + orderId + "&" +
+                    Parameter.PARTNER_CODE + "=" + partnerInfo.getPartnerCode() + "&" +
+                    Parameter.REQUEST_ID + "=" + requestId;
 
             String signRequest = Encoder.signHmacSHA256(requestRawData, partnerInfo.getSecretKey());
             LogUtils.debug("[QueryTransactionRequest] rawData: " + requestRawData + ", [Signature] -> " + signRequest);

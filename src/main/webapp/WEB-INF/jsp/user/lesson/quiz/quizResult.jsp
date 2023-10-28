@@ -82,7 +82,7 @@
                     out.print(timeString);
                     %>/<%
                         //calculate remain time then format and print out
-                        timeSecond = lesson.getTime() * 60;
+                        timeSecond = lesson.getTime() * 60L;
                         if (timeSecond < 0) {
                             timeSecond = 0;
                         }

@@ -36,7 +36,7 @@ public class AnswerDAO extends DBConnection {
             //disconnect to database
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         //return result
         return ok;
@@ -151,11 +151,7 @@ public class AnswerDAO extends DBConnection {
             statement.setInt(1, answerID);
             statement.execute();
             disconnect();
-            if (!existAnswer(answerID)) {
-                return true;
-            } else {
-                return false;
-            }
+            return !existAnswer(answerID);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -59,14 +59,12 @@ public class DeleteToken extends AbstractProcess<DeleteTokenRequest, DeleteToken
 
     public DeleteTokenRequest createDeleteTokenRequest(String orderId, String requestId, String partnerClientId, String token) {
         try {
-            String requestRawData = new StringBuilder()
-                    .append(Parameter.ACCESS_KEY).append("=").append(partnerInfo.getAccessKey()).append("&")
-                    .append(Parameter.ORDER_ID).append("=").append(orderId).append("&")
-                    .append(Parameter.PARTNER_CLIENT_ID).append("=").append(partnerClientId).append("&")
-                    .append(Parameter.PARTNER_CODE).append("=").append(partnerInfo.getPartnerCode()).append("&")
-                    .append(Parameter.REQUEST_ID).append("=").append(requestId).append("&")
-                    .append(Parameter.TOKEN).append("=").append(token)
-                    .toString();
+            String requestRawData = Parameter.ACCESS_KEY + "=" + partnerInfo.getAccessKey() + "&" +
+                    Parameter.ORDER_ID + "=" + orderId + "&" +
+                    Parameter.PARTNER_CLIENT_ID + "=" + partnerClientId + "&" +
+                    Parameter.PARTNER_CODE + "=" + partnerInfo.getPartnerCode() + "&" +
+                    Parameter.REQUEST_ID + "=" + requestId + "&" +
+                    Parameter.TOKEN + "=" + token;
 
             String signRequest = Encoder.signHmacSHA256(requestRawData, partnerInfo.getSecretKey());
             LogUtils.debug("[DeleteTokenRequest] rawData: " + requestRawData + ", [Signature] -> " + signRequest);

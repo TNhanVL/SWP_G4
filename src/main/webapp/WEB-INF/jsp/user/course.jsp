@@ -30,13 +30,13 @@
         return;
     }
 
-    User instructor = com.swp_project_g4.Database.UserDAO.getUser(course.getInstructorID());
+    Learner instructor = LearnerDAO.getUser(course.getInstructorID());
 
     Organization organization = OrganizationDAO.getOrganization(course.getOrganizationID());
 
-    User user = null;
+    Learner learner = null;
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-        user = UserDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 %>
 
@@ -76,10 +76,10 @@
                     </div>
                     <div class="addCartBnt">
                         <%
-                            if (user != null) {
-                                if (CourseDAO.checkPurchasedCourse(user.getID(), course.getCourseID())) {
+                            if (learner != null) {
+                                if (CourseDAO.checkPurchasedCourse(learner.getID(), course.getCourseID())) {
                                     out.print("<a href=\"/learn/" + course.getCourseID() + "\">Learn now</a>");
-                                } else if (CourseDAO.checkCartProduct(user.getID(), course.getCourseID())) {
+                                } else if (CourseDAO.checkCartProduct(learner.getID(), course.getCourseID())) {
                                     out.print("<a href=\"/course/deleteOrder/" + course.getCourseID() + "\">Delete from cart</a>");
                                 } else {
                                     out.print("<a href=\"/cart/add/" + course.getCourseID() + "\">Add to cart</a>");
@@ -93,9 +93,9 @@
 
                         <!--<a href="#">Add to cart</a>-->
                     </div>
-                    <%                        if (user != null) {
-                            if (CourseDAO.checkCertificate(user.getID(), course.getCourseID())) {
-                                String certificateName = CourseDAO.getCertificateName(user.getID(), course.getCourseID());
+                    <%                        if (learner != null) {
+                            if (CourseDAO.checkCertificate(learner.getID(), course.getCourseID())) {
+                                String certificateName = CourseDAO.getCertificateName(learner.getID(), course.getCourseID());
                     %>
                     <a href="/public/media/certificate/<%out.print(certificateName);%>" class="viewCer">View Certificate</a>
                     <%

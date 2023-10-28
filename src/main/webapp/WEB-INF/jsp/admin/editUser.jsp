@@ -6,14 +6,15 @@
 <%@page import="com.swp_project_g4.Database.CountryDAO" %>
 <%@page import="com.swp_project_g4.Model.Country" %>
 <%@page import="java.text.SimpleDateFormat" %>
-<%@page import="com.swp_project_g4.Database.UserDAO" %>
+<%@page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page import="com.swp_project_g4.Database.AdminDAO" %>
 <%@page import="java.util.ArrayList" %>
-<%@page import="com.swp_project_g4.Model.User" %>
+<%@page import="com.swp_project_g4.Model.Learner" %>
 <%@page import="com.swp_project_g4.Service.CookieServices" %>
-<%@ page import="com.swp_project_g4.Database.UserDAO" %>
+<%@ page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
     if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
@@ -24,7 +25,7 @@
     int ID;
     try {
         ID = Integer.parseInt(request.getParameter("id"));
-        if (UserDAO.getUser(ID) == null) {
+        if (LearnerDAO.getUser(ID) == null) {
             throw new Exception();
         }
     } catch (Exception e) {
@@ -81,6 +82,16 @@
 
 </aside>
 
+<c:set var="user" scope="session" value="${sessionScope.currentUser}"/>
+<c:choose>
+    <c:when test='${user.picture == "null"}'>
+        <c:set var="picture" scope="session" value="/public/assets/imgs/logo.png"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="picture" scope="session" value="/public/media/organization/${user.ID}/${user.picture}"/>
+    </c:otherwise>
+</c:choose>
+
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <div class="container-fluid py-4">
         <div class="row">
@@ -94,15 +105,7 @@
                     <div class="row container-fluid">
                         <div class="col-12 col-md-4 col-xl-3">
                             <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src=
-                                <c:choose>
-                                <c:when test='${user.picture == "null"}'>
-                                        "/public/assets/imgs/logo.png"
-                                </c:when>
-                                <c:otherwise>
-                                    "/public/media/user/${sessionScope.currentUser.ID}/${sessionScope.currentUser.picture}"
-                                </c:otherwise>
-                                </c:choose>>
+                                <img class="card-img-top" src=${picture}>
                                 <div class="card-body">
                                     <div class="card-title">
                                         <h5 class="">
@@ -124,102 +127,82 @@
                                     <div class="card-header">
                                         <h3 class="card-title">User Information</h3>
                                     </div>
-                                    <%
-                                        User user = UserDAO.getUser(ID);
-                                        request.setAttribute("userID", user.getID());
-                                    %>
-
-                                    <form modelAttribute="driver" action="./editUser?id=${userID}" method="post"
+                                    <form modelAttribute="driver" action="./editUser?id=${user.ID}" method="post"
                                           id="updateUserForm">
                                         <div class="card-body">
 
                                             <div class="form-group" hidden="hidden">
                                                 <label>ID</label>
-                                                <input type="text" name="ID" value="<%out.print(user.getID());%>">
+                                                <input type="text" name="ID" value="${user.ID}">
                                                 <input type="text" name="picture"
-                                                       value="<%out.print(user.getPicture());%>">
+                                                       value="${user.picture}">
 
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">Username</label>
                                                 <input type="text" class="form-control" id="username"
                                                        name="username" placeholder="Username"
-                                                       value="<%out.print(user.getUsername());%>"
+                                                       value="${user.username}"
                                                        required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="password">Password</label>
                                                 <input type="password" class="form-control" id="password"
                                                        name="password" placeholder="Password"
-                                                       value="<%out.print(user.getPassword());%>"
+                                                       value="${user.password}"
                                                        required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="email">Email</label>
                                                 <input type="email" class="form-control" id="email"
                                                        name="email" placeholder="Email"
-                                                       value="<%out.print(user.getEmail());%>"
+                                                       value="${user.email}"
                                                        required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="firstName">First name</label>
                                                 <input type="text" class="form-control" id="firstName"
                                                        name="firstName" placeholder="First Name"
-                                                       value="<%out.print(user.getFirstName());%>"
+                                                       value="${user.firstName}"
                                                        required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="lastName">Last name</label>
                                                 <input type="text" class="form-control" id="lastName"
                                                        name="lastName" placeholder="Last Name"
-                                                       value="<%out.print(user.getLastName());%>"
+                                                       value="${user.lastName}"
                                                        required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="role">Role</label>
-                                                <select id="role" class="form-control" name="role" required>
-                                                    <option value="0"
-                                                            <%if (user.getRole() == 0) {%>selected="selected"<%}%>>
-                                                        Student
-                                                    </option>
-                                                    <option value="1"
-                                                            <%if (user.getRole() == 1) {%>selected="selected"<%}%>>
-                                                        Instructor
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="birthday">birthday</label>
+
+
+                                                <label for="birthday">Birthday</label>
                                                 <input type="date" class="form-control" id="birthday"
                                                        name="birthday" placeholder="Birthday"
-                                                       value="<%out.print(user.getBirthday());%>"
-                                                       required>
+                                                       value=
+                                                       <fmt:formatDate pattern="yyyy-MM-dd"
+                                                                       value="${user.birthday}"/>
+                                                               required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="country">country</label>
                                                 <select id="country" class="form-control" name="countryID" required>
-                                                    <%
-                                                        ArrayList<Country> countries = CountryDAO.getAllCountry();
-                                                        for (Country country : countries) {
-                                                    %>
-                                                    <option value=<%out.print(country.getID());
-                                        if (country.getID() == user.getCountryID()) {%>
-                                                                    selected="selected"
-                                                            <%}%>>
-                                                        <%out.print(country.getName());%>
-                                                    </option>
-                                                    <%}%>
+                                                    <c:forEach var="country" items="${sessionScope.countryList}">
+                                                        <option value=${country.ID} ${country.ID == user.countryID ? "selected" : "" }>
+                                                                ${country.name}
+                                                        </option>
+                                                    </c:forEach>
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="status">status</label>
                                                 <select id="status" class="form-control" name="status" required>
                                                     <option value="0"
-                                                            <%if (user.getStatus() == 0) {%>selected="selected"<%}%>>
+                                                    ${user.status == 0 ? "selected" : ""}>
                                                         Locked
                                                     </option>
                                                     <option value="1"
-                                                            <%if (user.getStatus() == 1) {%>selected="selected"<%}%>>
+                                                    ${user.status == 1 ? "selected" : ""}>
                                                         Legal
                                                     </option>
                                                 </select>
