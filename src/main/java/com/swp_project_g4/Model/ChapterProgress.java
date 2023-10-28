@@ -23,7 +23,7 @@ public class ChapterProgress {
     private int chapterID;
     private int courseProgressID;
     private int progressPercent;
-    private boolean completed;
+    private Boolean completed;
     private Date startAt;
 
     public ChapterProgress(int chapterID, int courseProgressID){

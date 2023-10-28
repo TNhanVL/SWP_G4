@@ -430,6 +430,7 @@ VALUES (1, 1, 'instructor_1', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@
 
 GO
 INSERT INTO course
+<<<<<<< HEAD
 (name, [picture], [description], organizationID, instructorID, price, rate, verified)
 VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 1, 4.2, 1),
        ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5, 1),
@@ -443,6 +444,21 @@ VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 1, 4.2, 1),
        ('Java basic', 'a.png', 'easy', 1, 1, 3, 4.2, 1),
        ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5, 1),
        ('C++', 'a.png', 'hard', 1, 3, 5, 4.7, 1)
+=======
+(name, [picture], [description], organizationID, instructorID, verify, price, rate)
+VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 1, 1, 4.2),
+       ('Java advance', 'a.png', 'medium', 1, 2, 1, 2, 4.5),
+       ('C++', 'a.png', 'hard', 1, 3, 1, 1.2, 4.7),
+       ('PYTHON FOR BEGINNER', 'a.png', 'easy', 1, 1, 1, 1.4, 4.2),
+       ('Java advance', 'a.png', 'medium', 1, 2, 1, 2.5, 4.5),
+       ('C++', 'a.png', 'hard', 1, 3, 1, 600, 4.7),
+       ('Java basic', 'a.png', 'easy', 1, 1, 1, 200, 4.2),
+       ('Java advance', 'a.png', 'medium', 1, 2, 1, 0.4, 4.5),
+       ('C++', 'a.png', 'hard', 1, 3, 1, 5, 4.7),
+       ('Java basic', 'a.png', 'easy', 1, 1, 1, 3, 4.2),
+       ('Java advance', 'a.png', 'medium', 1, 2, 1, 2, 4.5),
+       ('C++', 'a.png', 'hard', 1, 3, 1, 5, 4.7)
+>>>>>>> 6babf70f5139fcc2770fe5d2b89e4d126c752a10
 GO
 INSERT INTO cart_product
     (userID, courseID)
