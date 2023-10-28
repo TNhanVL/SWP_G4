@@ -18,6 +18,7 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Learner extends User {
+    @Column(name = "learnerID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;

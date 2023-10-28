@@ -23,12 +23,12 @@ public class OrganizationDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select ID from organization where ID = ?");
+            statement = conn.prepareStatement("select organizationID from organization where organizationID = ?");
             statement.setInt(1, ID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                if (resultSet.getInt("ID") == ID) {
+                if (resultSet.getInt("organizationID") == ID) {
                     ok = true;
                 }
             }
@@ -49,13 +49,13 @@ public class OrganizationDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from organization where ID = ?");
+            statement = conn.prepareStatement("select * from organization where organizationID = ?");
             statement.setInt(1, ID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 organization = new Organization(
-                        resultSet.getInt("ID"),
+                        resultSet.getInt("organizationID"),
                         resultSet.getInt("countryID"),
 
                         resultSet.getString("username"),
@@ -80,12 +80,12 @@ public class OrganizationDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from organization order by ID");
+            statement = conn.prepareStatement("select * from organization order by organizationID");
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 organizationList.add(new Organization(
-                        resultSet.getInt("ID"),
+                        resultSet.getInt("organizationID"),
                         resultSet.getInt("countryID"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
@@ -131,7 +131,7 @@ public class OrganizationDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update organization set name=?,picture=?,description=?,countryID=?,username=?,password=?,email=? where ID =?");
+            statement = conn.prepareStatement("update organization set name=?,picture=?,description=?,countryID=?,username=?,password=?,email=? where organizationID =?");
 
             statement.setString(1, organization.getName());
             statement.setString(2, organization.getPicture());
@@ -160,7 +160,7 @@ public class OrganizationDAO extends DBConnection {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from organization where ID=?");
+            statement = conn.prepareStatement("delete from organization where organizationID=?");
             statement.setInt(1, ID);
             statement.execute();
             disconnect();

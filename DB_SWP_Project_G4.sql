@@ -18,7 +18,7 @@ GO
 
 CREATE TABLE [admin]
 (
-    ID         INT IDENTITY (1,1) PRIMARY KEY,
+    adminID    INT IDENTITY (1,1) PRIMARY KEY,
     username   VARCHAR(50),
     [password] VARCHAR(50)
 );
@@ -33,22 +33,22 @@ GO
 
 CREATE TABLE organization
 (
-    ID            INT IDENTITY (1,1) PRIMARY KEY,
+    organizationID INT IDENTITY (1,1) PRIMARY KEY,
     -- giá trị bắt đầu là 1, giá trị tăng thêm là 1
-    countryID     INT FOREIGN KEY REFERENCES [country],
-    username      VARCHAR(50),
-    [password]    VARCHAR(50),
-    email         VARCHAR(320),
-    picture       TEXT,
-    [name]        VARCHAR(100),
-    [description] NVARCHAR(100),
-    [status]      int
+    countryID      INT FOREIGN KEY REFERENCES [country],
+    username       VARCHAR(50),
+    [password]     VARCHAR(50),
+    email          VARCHAR(320),
+    picture        TEXT,
+    [name]         VARCHAR(100),
+    [description]  NVARCHAR(100),
+    [status]       int
 );
 GO
 
 CREATE TABLE [learner]
 (
-    ID           INT IDENTITY (1,1) PRIMARY KEY,
+    learnerID    INT IDENTITY (1,1) PRIMARY KEY,
     picture      TEXT,
     username     VARCHAR(50),
     [password]   VARCHAR(50),
@@ -73,7 +73,7 @@ CREATE TABLE instructor
     [first_name]   NVARCHAR(50),
     [last_name]    NVARCHAR(50),
     [status]       int,
-    FOREIGN KEY (organizationID) REFERENCES organization (ID)
+    FOREIGN KEY (organizationID) REFERENCES organization (organizationID)
 );
 GO
 
@@ -89,8 +89,8 @@ CREATE TABLE course
     total_time     INT,
     price          NUMERIC(10, 2)     NOT NULL,
     rate           NUMERIC(2, 1)      NOT NULL,
-    FOREIGN KEY (organizationID) REFERENCES organization (ID),
-    FOREIGN KEY (instructorID) REFERENCES [learner] (ID)
+    FOREIGN KEY (organizationID) REFERENCES organization (organizationID),
+    FOREIGN KEY (instructorID) REFERENCES [learner] (learnerID)
 );
 GO
 
@@ -111,7 +111,7 @@ CREATE TABLE [certificate]
     courseID         INT NOT NULL,
     certificate_name text,
     PRIMARY KEY (userID, courseID),
-    FOREIGN KEY (userID) REFERENCES [learner] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -120,7 +120,7 @@ CREATE TABLE purchased_course
 (
     userID   INT NOT NULL,
     courseID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [learner] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (userID, courseID)
 );
@@ -136,7 +136,7 @@ CREATE TABLE [transaction]
     type          INT,
     description   NTEXT,
     status        INT,
-    FOREIGN KEY (learnerID) REFERENCES [learner] (ID),
+    FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -145,7 +145,7 @@ CREATE TABLE instruct
 (
     userID   INT NOT NULL,
     courseID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [learner] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (userID, courseID)
 );
@@ -159,7 +159,7 @@ CREATE TABLE review
     reviewed BIT,
     verified BIT,
     note     NTEXT,
-    FOREIGN KEY (userID) REFERENCES [learner] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (userID, courseID)
 );
@@ -169,7 +169,7 @@ CREATE TABLE cart_product
 (
     userID   INT NOT NULL,
     courseID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [learner] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (userID, courseID)
 );
@@ -208,7 +208,7 @@ CREATE TABLE lesson_completed
     lessonID INT NOT NULL,
     userID   INT NOT NULL,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
-    FOREIGN KEY (userID) REFERENCES [learner] (ID),
+    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
     UNIQUE (lessonID, userID)
 );
 GO
@@ -224,7 +224,7 @@ CREATE TABLE course_progress
     rated             BIT,
     rate              INT,
     start_at          DATETIME,
-    FOREIGN KEY (learnerID) REFERENCES [learner] (ID),
+    FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (learnerID, courseID)
 );
@@ -327,7 +327,7 @@ CREATE TABLE notification
     [read]         BIT                NOT NULL,
     --True: 1, False: 0
     receive_at     DATETIME,
-    FOREIGN KEY (learnerID) REFERENCES [learner] (ID)
+    FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID)
 );
 GO
 

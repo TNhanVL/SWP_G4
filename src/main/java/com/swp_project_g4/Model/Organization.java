@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Organization {
+    @Column(name = "organizationID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
