@@ -8,34 +8,36 @@ import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Learner;
-import jakarta.servlet.http.HttpServletRequest;
 
 import javax.mail.Authenticator;
-import java.util.Date;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author TTNhan
  */
 
 /**
- * <<<<<<< HEAD
- *
- * @author Group 04
- * =======
- * @author TTNhan
- * >>>>>>> 53029af8c5dc931bb1243a98c27d3aea6a007bd1
+ * @author Ko^ phai? dim~ huong?
  */
 public class EmailService {
     final static String from = "yojihangroup@gmail.com";
     final static String password = "drmoubkcmogfmrlu";
+
+    public static void sendResetPasswordEmail(int learnerID) {
+        Learner learner = LearnerDAO.getUser(learnerID);
+
+        var emailContent = "Legalize nuclear bombing";
+
+        mailTo(learner.getEmail(), "Test reset password", "html", emailContent);
+    }
 
     public static void sendEmail(int learnerID, int courseID, String type) {
         Learner learner = LearnerDAO.getUser(learnerID);

@@ -4,9 +4,8 @@ import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.GooglePojo;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
-import com.swp_project_g4.Service.CookieServices;
-import com.swp_project_g4.Service.GoogleUtils;
-import com.swp_project_g4.Service.MD5;
+import com.swp_project_g4.Service.*;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +41,35 @@ public class MainController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model) {
         return "user/login";
+    }
+
+    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
+    public String forgetPasswordGet(HttpServletRequest request) {
+        request.getSession().setAttribute("sentPasswordRecoveryEmail", 0);
+        return "user/forgotPassword";
+    }
+
+    @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
+    public String forgetPasswordPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String email) {
+        try {
+            var account = repo.getLearnerRepository().findByEmail(email).orElseThrow();
+
+            var resetToken = JwtUtil.generateJwt(account.getUsername(), "");
+
+            var cookie = new Cookie("ResetToken", resetToken);
+
+            cookie.setMaxAge(60 * 5);
+
+            EmailService.sendResetPasswordEmail(account.getID());
+
+            response.addCookie(cookie);
+
+            request.getSession().setAttribute("recoveryAccount", account);
+            request.getSession().setAttribute("sentPasswordRecoveryEmail", 1);
+        } catch (Exception e) {
+            request.getSession().setAttribute("sentPasswordRecoveryEmail", 2);
+        }
+        return "user/forgotPassword";
     }
 
     @RequestMapping(value = "/loginWithGG", method = RequestMethod.GET)

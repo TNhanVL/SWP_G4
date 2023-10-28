@@ -2,6 +2,7 @@
 
 <%@page import="com.swp_project_g4.Service.CookieServices" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
     if (CookieServices.checkUserLoggedIn(request.getCookies())) {
@@ -32,37 +33,29 @@
     <div class="box">
         <form action="" method="post">
 
-            <h2>Sign in</h2>
-            <div class="inputBox">
-                <input type="text" required="required" name="username">
-                <span>Userame</span>
-                <i></i>
-            </div>
-            <div class="inputBox">
-                <input type="password" required="required" name="password">
-                <span>Password</span>
-                <i></i>
-            </div>
-            <div class="links">
-                <a href="./forgotPassword">Forgot Password</a>
-                <a href="./signup">Signup</a>
-            </div>
-            <input type="submit" value="Login">
+            <c:choose>
+                <c:when test="${sessionScope.sentPasswordRecoveryEmail == 0}">
+                    <h2>Forgot password</h2>
+                    <div class="inputBox">
+                        <input type="email" required="required" name="email">
+                        <i></i>
+                    </div>
+                    <input type="submit" value="Login">
 
-            <p id="message"></p>
+                    <p id="message"></p>
+                </c:when>
+                <c:when test="${sessionScope.sentPasswordRecoveryEmail == 1}">
+                    yay
+                </c:when>
+                <c:when test="${sessionScope.sentPasswordRecoveryEmail == 2}">
+                    Email doesn't associate with any account
+                </c:when>
+                <c:otherwise>
 
+                </c:otherwise>
+            </c:choose>
         </form>
 
-        <div class="accountLogin">
-            <h6> or </h6>
-            <div class="loginWithGG">
-                <a href="https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/userinfo.email&redirect_uri=http://localhost:8080/loginWithGG&response_type=code
-                           &client_id=246255507082-vpebidclj199n0sgg035cos2ijabjrmg.apps.googleusercontent.com&approval_prompt=force">
-                    <img src="/public/assets/imgs/logogoogle.png" alt="">
-                    <p>Login with Google</p>
-                </a>
-            </div>
-        </div>
 
         <script>
             // Đợi 10 giây trước khi xóa div
