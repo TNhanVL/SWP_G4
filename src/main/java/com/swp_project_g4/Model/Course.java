@@ -48,6 +48,12 @@ public class Course {
         this.rate = rate;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "organizationID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Organization organization;
+
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "courseID")
     @EqualsAndHashCode.Exclude

@@ -24,4 +24,17 @@ public class Answer {
     private String content;
     private boolean correct;
     private int questionID;
+
+    public Answer(int ID, String content, boolean correct, int questionID) {
+        this.ID = ID;
+        this.content = content;
+        this.correct = correct;
+        this.questionID = questionID;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "questionID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Question question;
 }
