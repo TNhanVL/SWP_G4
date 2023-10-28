@@ -26,4 +26,22 @@ public class ChosenAnswer {
     private int answerID;
     private boolean correct;
 
+    @ManyToOne
+    @JoinColumn(name = "quizResultID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private QuizResult quizResult;
+
+    @ManyToOne
+    @JoinColumn(name = "questionID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Question question;
+
+    @ManyToOne
+    @JoinColumn(name = "answerID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Answer answer;
+
 }
