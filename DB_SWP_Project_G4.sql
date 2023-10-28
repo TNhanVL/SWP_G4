@@ -86,6 +86,7 @@ CREATE TABLE course
     [picture]      TEXT,
     [description]  NVARCHAR(50),
     verify         BIT,
+    total_time     INT,
     price          NUMERIC(10, 2)     NOT NULL,
     rate           NUMERIC(2, 1)      NOT NULL,
     FOREIGN KEY (organizationID) REFERENCES organization (ID),

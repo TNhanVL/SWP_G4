@@ -5,7 +5,6 @@
 package com.swp_project_g4.Model;
 
 /**
- *
  * @author TTNhan
  */
 
@@ -27,6 +26,7 @@ public class Course {
     private String picture;
     private String description;
     private boolean verify = false;
+    private int totalTime;
     private double price;
     private double rate;
 
