@@ -4,9 +4,11 @@ import com.swp_project_g4.Model.Learner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface LearnerRepository extends JpaRepository<Learner, Integer> {
-    Learner findUserByUsername(String username);
+    Optional<Learner> findByUsername(String username);
 
-    Learner findUserByUsernameAndPassword(String username, String password);
+    Optional<Learner> findByUsernameAndPassword(String username, String password);
 }

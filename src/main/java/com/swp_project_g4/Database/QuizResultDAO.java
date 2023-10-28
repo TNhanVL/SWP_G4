@@ -103,7 +103,7 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select top 1 * from quiz_result where userID = ? and lessonID = ? order by start_at desc");
+            statement = conn.prepareStatement("select top 1 * from quiz_result where learnerID = ? and lessonID = ? order by start_at desc");
             statement.setInt(1, userID);
             statement.setInt(2, lessonID);
             ResultSet resultSet = statement.executeQuery();

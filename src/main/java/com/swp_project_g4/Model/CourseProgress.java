@@ -27,4 +27,10 @@ public class CourseProgress {
     private Date startAt;
     private boolean rated = false;
     private int rate;
+
+    public CourseProgress(int learnerID, int courseID) {
+        this.learnerID = learnerID;
+        this.courseID = courseID;
+        this.startAt = new Date();
+    }
 }

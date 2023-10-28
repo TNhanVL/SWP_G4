@@ -2,9 +2,11 @@ package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.*;
 import com.swp_project_g4.Model.*;
+import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +20,28 @@ import java.util.Date;
 @RequestMapping("/learn")
 public class LearnController {
 
+    @Autowired
+    private Repo repo;
+
     @RequestMapping(value = "/{courseID}", method = RequestMethod.GET)
     public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID) {
+        String username = CookieServices.getUserNameOfLearner(request.getCookies());
+
+        var learnerOptional = repo.getLearnerRepository().findByUsername(username);
+        if(!learnerOptional.isPresent()){
+            request.getSession().setAttribute("error", "You need to log in to continue!");
+            return "redirect:/login";
+        }
+        int learnerID = learnerOptional.get().getID();
+
+        var courseProgressOptional = repo.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learnerID);
+        var courseProgress = courseProgressOptional.orElse(new CourseProgress(learnerID, courseID));
+        if(!courseProgressOptional.isPresent()){
+            courseProgress = repo.getCourseProgressRepository().save(courseProgress);
+        }
         model.addAttribute("courseID", courseID);
+        model.addAttribute("courseProgressID", courseProgress.getCourseProgressID());
+        System.out.println(courseProgress);
         return "user/lesson";
     }
 
