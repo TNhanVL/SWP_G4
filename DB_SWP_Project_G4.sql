@@ -327,6 +327,44 @@ CREATE TABLE notification
 );
 GO
 
+CREATE OR ALTER TRIGGER updateChapterTotalTimeTrigger
+    ON lesson
+    AFTER INSERT, UPDATE, DELETE
+    AS
+BEGIN
+    update chapter
+    set chapter.total_time = cal.total_time
+    from (select chapterID, sum(time) total_time
+          from lesson
+          group by chapterID) cal
+    where chapter.chapterID in (select distinct chapterID
+                                from inserted
+                                union
+                                select distinct chapterID
+                                from deleted)
+      and chapter.chapterID = cal.chapterID
+END
+GO
+
+CREATE OR ALTER TRIGGER updateCourseTotalTimeTrigger
+    ON chapter
+    AFTER INSERT, UPDATE, DELETE
+    AS
+BEGIN
+    update course
+    set course.total_time = cal.total_time
+    from (select courseID, sum(total_time) total_time
+          from chapter
+          group by courseID) cal
+    where course.courseID in (select distinct courseID
+                                from inserted
+                                union
+                                select distinct courseID
+                                from deleted)
+      and course.courseID = cal.courseID
+END
+GO
+
 -- insert data
 
 INSERT INTO country
