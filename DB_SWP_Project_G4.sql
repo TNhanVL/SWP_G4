@@ -117,16 +117,6 @@ CREATE TABLE [certificate]
 );
 GO
 
-CREATE TABLE purchased_course
-(
-    userID   INT NOT NULL,
-    courseID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
-    FOREIGN KEY (courseID) REFERENCES course (courseID),
-    UNIQUE (userID, courseID)
-);
-GO
-
 CREATE TABLE [transaction]
 (
     transactionID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
@@ -451,8 +441,7 @@ INSERT INTO cart_product
 VALUES (1, 2),
        (1, 3)
 GO
-INSERT INTO purchased_course
-    (userID, courseID)
+INSERT INTO course_progress(learnerID, courseID)
 VALUES (1, 1),
        (1, 2)
 GO
