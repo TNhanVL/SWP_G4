@@ -40,7 +40,7 @@ public class LearnController {
             courseProgress = repo.getCourseProgressRepository().save(courseProgress);
         }
         model.addAttribute("courseID", courseID);
-        model.addAttribute("courseProgressID", courseProgress.getCourseProgressID());
+        model.addAttribute("courseProgressID", courseProgress.getID());
         System.out.println(courseProgress);
         return "user/lesson";
     }
@@ -64,7 +64,7 @@ public class LearnController {
         Lesson lesson = LessonDAO.getLesson(lessonID);
         Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
         Course course = CourseDAO.getCourse(chapter.getCourseID());
-        return "redirect:/learn/" + course.getCourseID() + "/" + lessonID;
+        return "redirect:/learn/" + course.getID() + "/" + lessonID;
     }
 
     @RequestMapping(value = "/markLessonComplete/{lessonID}", method = RequestMethod.POST)
@@ -156,7 +156,7 @@ public class LearnController {
 
         //if quiz end yet
         if (quizResult.getEndAt().before(new Date())) {
-            return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();
+            return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getID();
         }
 
         //set end_at to current
@@ -164,12 +164,12 @@ public class LearnController {
         QuizResultDAO.updateQuizResult(quizResult);
 
         int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
-        int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lesson.getLessonID());
+        int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lesson.getID());
         if (numberOfCorrectQuestion * 100 >= numberOfQuestion * 80) {
-            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getLessonID(), request);
+            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getID(), request);
         }
 
-        return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getLessonID();
+        return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getID();
     }
 
 }

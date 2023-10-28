@@ -83,14 +83,14 @@
 
                                 <!-- course -->
                                 <li class="listItem">
-                                    <a href="/course/<%out.print(course.getCourseID());%>">
-                                        <img src="/public/media/course/<%out.print(course.getCourseID() + "/" + course.getPicture());%>" alt="" class="courseImg">
+                                    <a href="/course/<%out.print(course.getID());%>">
+                                        <img src="/public/media/course/<%out.print(course.getID() + "/" + course.getPicture());%>" alt="" class="courseImg">
                                         <h4 class="courseName"><%out.print(course.getName());%></h4>
                                         <div class="courseDescription">
                                             <span class="type">
                                                 <span><%out.print(course.getDescription());%></span>
                                                 <span><%
-                                                    int sumTimeInMinute = CourseDAO.getSumTimeOfCourse(course.getCourseID());
+                                                    int sumTimeInMinute = CourseDAO.getSumTimeOfCourse(course.getID());
                                                     out.print(Math.round(sumTimeInMinute / 6.0) / 10.0);
                                                     %>h</span>
                                             </span>

@@ -222,7 +222,7 @@ public class CourseDAO extends DBConnection {
             statement.setInt(5, course.getInstructorID());
             statement.setDouble(6, course.getPrice());
             statement.setDouble(7, course.getRate());
-            statement.setInt(8, course.getCourseID());
+            statement.setInt(8, course.getID());
 
             statement.executeUpdate();
 
@@ -728,8 +728,8 @@ public class CourseDAO extends DBConnection {
     public static boolean markCourseCompleted(int userID, int courseID) {
         ArrayList<Chapter> chapters = ChapterDAO.getChaptersByCourseID(courseID);
         for (Chapter chapter : chapters) {
-            int numberOfCompleted = LessonDAO.getNumberLessonsCompleted(userID, chapter.getChapterID());
-            int numberOfLesson = LessonDAO.getNumberLessonsByChapterID(chapter.getChapterID());
+            int numberOfCompleted = LessonDAO.getNumberLessonsCompleted(userID, chapter.getID());
+            int numberOfLesson = LessonDAO.getNumberLessonsByChapterID(chapter.getID());
             if (numberOfCompleted != numberOfLesson) {
                 return false;
             }

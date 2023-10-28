@@ -17,9 +17,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Chapter {
+    @Column(name = "chapterID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int chapterID;
+    private int ID;
     private int courseID;
     private int index;
     private String name;

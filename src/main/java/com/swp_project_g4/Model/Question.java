@@ -17,9 +17,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question {
+    @Column(name = "questionID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int questionID;
+    private int ID;
     private int lessonID;
     private int index;
     private String content;

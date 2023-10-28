@@ -17,9 +17,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Notification {
+    @Column(name = "notificationID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int notificationID;
+    private int ID;
     private int learnerID;
     private int type;
     private String description;

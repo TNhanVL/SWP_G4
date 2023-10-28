@@ -307,9 +307,10 @@ GO
 
 CREATE TABLE chosen_answer
 (
-    quiz_resultID   INT NOT NULL,
-    questionID      INT NOT NULL,
-    selected_answer INT NOT NULL,
+    chosen_answerID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    quiz_resultID   INT                NOT NULL,
+    questionID      INT                NOT NULL,
+    selected_answer INT                NOT NULL,
     FOREIGN KEY (quiz_resultID) REFERENCES quiz_result (quiz_resultID),
     FOREIGN KEY (questionID) REFERENCES question (questionID),
     FOREIGN KEY (selected_answer) REFERENCES answer (answerID),
@@ -419,10 +420,12 @@ GO
 --         1),
 --        (1, 1, 'instructor_1', '202cb962ac59075b964b07152d234b70', 'instructor_1@example.com', '', 'John', 'Doe', 1),
 --        (2, 2, 'instructor_2', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_2@example.com', '', 'Jane', 'Doe', 1);
-INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [first_name], [last_name], [status])
+INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [first_name], [last_name],
+                        [status])
 VALUES (1, 1, 'instructor_1', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@example.com', NULL, 'John', 'Doe', 1),
        (1, 1, 'instructor_2', '202cb962ac59075b964b07152d234b70', 'instructor_2@example.com', NULL, 'Jane', 'Doe', 1),
-       (1, 1, 'instructor_3', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_3@example.com', NULL, 'Peter', 'Parker', 1);
+       (1, 1, 'instructor_3', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_3@example.com', NULL, 'Peter', 'Parker',
+        1);
 
 
 GO

@@ -16,9 +16,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseProgress {
+    @Column(name = "courseProgressID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int courseProgressID;
+    private int ID;
     private int learnerID;
     private int courseID;
     private boolean enrolled = false;

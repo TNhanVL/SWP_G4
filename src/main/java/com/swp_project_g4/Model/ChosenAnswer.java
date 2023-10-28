@@ -17,8 +17,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChosenAnswer {
+    @Column(name = "chosen_answerID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ID;
     private int quizResultID;
     private int questionID;
     private int answerID;

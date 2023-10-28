@@ -46,10 +46,10 @@
                     %></span>
             </div>
             <div class="listQuestion">
-                <h5><%out.print(QuestionDAO.getNumberQuestionByLessonID(lesson.getLessonID()));%> questions</h5>
+                <h5><%out.print(QuestionDAO.getNumberQuestionByLessonID(lesson.getID()));%> questions</h5>
             </div>
 
-            <div class="finishBtn"><a href="/learn/startAQuiz/<%out.print(lesson.getLessonID());%>"><p>Take Quiz</p></a></div>
+            <div class="finishBtn"><a href="/learn/startAQuiz/<%out.print(lesson.getID());%>"><p>Take Quiz</p></a></div>
         </div>
     </form>
 </div>

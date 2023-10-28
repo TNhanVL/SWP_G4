@@ -11,7 +11,7 @@
         <%
             if ((question.getType() / 10) % 2 == 0) {
         %>
-        <img src="/public/media/question/<%out.print(question.getQuestionID() + "/" + question.getContent());%>" alt="">
+        <img src="/public/media/question/<%out.print(question.getID() + "/" + question.getContent());%>" alt="">
         <%
         } else {
         %>
