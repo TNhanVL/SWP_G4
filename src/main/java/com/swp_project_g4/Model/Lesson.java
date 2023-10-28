@@ -28,6 +28,7 @@ public class Lesson {
     private boolean mustBeCompleted = false;
     private String content;
     private int type;
+    @Column(name = "[index]")
     private int index;
     private int time;
 

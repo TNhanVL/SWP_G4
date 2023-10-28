@@ -22,6 +22,7 @@ public class Chapter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int courseID;
+    @Column(name = "[index]")
     private int index;
     private String name;
     private String description;
