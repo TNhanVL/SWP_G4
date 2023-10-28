@@ -28,7 +28,6 @@
 
 <body class="g-sidenav-show  bg-gray-200">
 
-
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
        id="sidenav-main">
     <div class="sidenav-header">
@@ -82,6 +81,8 @@
         </div>
     </div>
 </main>
+<%@ include file="popUpMessage.jsp" %>
+
 <!--   Core JS Files   -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -93,4 +94,3 @@
 
 </script>
 </body>
-<%@ include file="popUpMessage.jsp" %>
