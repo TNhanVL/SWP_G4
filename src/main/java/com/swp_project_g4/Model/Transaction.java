@@ -20,4 +20,16 @@ public class Transaction {
     private int type;
     private String description;
     private int status;
+
+    @ManyToOne
+    @JoinColumn(name = "learnerID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Learner learner;
+
+    @ManyToOne
+    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Course course;
 }

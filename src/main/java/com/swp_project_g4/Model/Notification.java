@@ -1,9 +1,7 @@
 package com.swp_project_g4.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -26,5 +24,10 @@ public class Notification {
     private String description;
     private boolean read = false;
     private Date receiveAt;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "learnerID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Learner learner;
 }

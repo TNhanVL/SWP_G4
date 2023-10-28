@@ -17,4 +17,16 @@ public class Review {
     private boolean reviewed;
     private boolean verified;
     private String note;
+
+    @ManyToOne
+    @JoinColumn(name = "instructorID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Instructor instructor;
+
+    @ManyToOne
+    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Course course;
 }

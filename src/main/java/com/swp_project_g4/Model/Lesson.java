@@ -34,4 +34,22 @@ public class Lesson {
     private int index;
     private int time;
 
+    public Lesson(int ID, int chapterID, String name, String description, int percentToPassed, boolean mustBeCompleted, String content, int type, int index, int time) {
+        this.ID = ID;
+        this.chapterID = chapterID;
+        this.name = name;
+        this.description = description;
+        this.percentToPassed = percentToPassed;
+        this.mustBeCompleted = mustBeCompleted;
+        this.content = content;
+        this.type = type;
+        this.index = index;
+        this.time = time;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "chapterID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Chapter chapter;
 }

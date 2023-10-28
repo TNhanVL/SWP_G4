@@ -14,4 +14,10 @@ public class Instruct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int courseID;
+
+    @ManyToOne
+    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Course course;
 }

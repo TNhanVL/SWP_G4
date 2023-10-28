@@ -19,4 +19,9 @@ public class Sale {
     private Date startAt;
     private Date endAt;
 
+    @ManyToOne
+    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Course course;
 }

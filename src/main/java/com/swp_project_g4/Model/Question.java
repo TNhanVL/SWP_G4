@@ -28,4 +28,18 @@ public class Question {
     private int type;
     private int point;
 
+    public Question(int ID, int lessonID, int index, String content, int type, int point) {
+        this.ID = ID;
+        this.lessonID = lessonID;
+        this.index = index;
+        this.content = content;
+        this.type = type;
+        this.point = point;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "lessonID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Lesson lesson;
 }

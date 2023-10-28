@@ -1,9 +1,7 @@
 package com.swp_project_g4.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -34,4 +32,16 @@ public class CourseProgress {
         this.courseID = courseID;
         this.startAt = new Date();
     }
+
+    @ManyToOne
+    @JoinColumn(name = "learnerID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Learner learner;
+
+    @ManyToOne
+    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Course course;
 }

@@ -36,4 +36,27 @@ public class QuizResult {
 //        endAt = new Date(startAt.getTime() + lesson.getTime() * 1000000);
     }
 
+    public QuizResult(int ID, int lessonID, int lessonProgressID, int numberOfCorrectAnswer, int numberOfQuestion, int mark, Date startAt, Date endAt) {
+        this.ID = ID;
+        this.lessonID = lessonID;
+        this.lessonProgressID = lessonProgressID;
+        this.numberOfCorrectAnswer = numberOfCorrectAnswer;
+        this.numberOfQuestion = numberOfQuestion;
+        this.mark = mark;
+        this.startAt = startAt;
+        this.endAt = endAt;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "lessonID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Lesson lesson;
+
+    @ManyToOne
+    @JoinColumn(name = "lessonProgressID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private LessonProgress lessonProgress;
+
 }

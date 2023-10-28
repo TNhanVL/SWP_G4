@@ -5,9 +5,7 @@
 package com.swp_project_g4.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * @author TTNhan
@@ -48,4 +46,10 @@ public class Instructor extends User {
         this.firstName = instructor.firstName;
         this.lastName = instructor.lastName;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "organizationID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Organization organization;
 }
