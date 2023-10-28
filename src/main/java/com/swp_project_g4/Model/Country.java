@@ -17,6 +17,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Country {
+    @Column(name = "countryID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
