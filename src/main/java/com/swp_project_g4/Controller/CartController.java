@@ -24,7 +24,7 @@ public class CartController {
     public String addOrderByCourseID(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
 
         //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
+        if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
@@ -40,7 +40,7 @@ public class CartController {
     public String deleteOrderFromCart(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
 
         //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
+        if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }

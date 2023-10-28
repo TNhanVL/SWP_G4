@@ -27,7 +27,7 @@ public class ProfileController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String selfProfile(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
+        if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             return "redirect:./";
         }
 

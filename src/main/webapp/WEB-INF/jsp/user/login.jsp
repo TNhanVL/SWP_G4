@@ -4,7 +4,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 
 <%
-    if (CookieServices.checkUserLoggedIn(request.getCookies())) {
+    if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
         response.sendRedirect("./");
         return;
     }

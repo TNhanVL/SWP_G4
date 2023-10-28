@@ -14,7 +14,7 @@
 <%
     //check user loggedIn
     Learner learner = null;
-    if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
+    if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
         request.getSession().setAttribute("error", "You must be logged in before enter cart!");
         response.sendRedirect("/login");
         return;

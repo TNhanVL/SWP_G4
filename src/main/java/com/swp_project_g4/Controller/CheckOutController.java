@@ -30,7 +30,7 @@ public class CheckOutController {
     public String checkOutPost(ModelMap model, HttpServletRequest request) {
 
         //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
+        if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
@@ -74,7 +74,7 @@ public class CheckOutController {
     public String checkOutWithPayment(ModelMap model, HttpServletRequest request, @RequestParam long price, @RequestParam String paymentMethod) {
 
         //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
+        if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }

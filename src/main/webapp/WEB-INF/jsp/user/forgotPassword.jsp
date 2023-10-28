@@ -5,7 +5,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
-    if (CookieServices.checkUserLoggedIn(request.getCookies())) {
+    if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
         response.sendRedirect("./");
         return;
     }

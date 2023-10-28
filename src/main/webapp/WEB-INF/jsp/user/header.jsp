@@ -15,7 +15,7 @@
 <%
     boolean loggedInHeader = false;
     Learner learnerHeader = null;
-    if (CookieServices.checkUserLoggedIn(request.getCookies())) {
+    if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
         loggedInHeader = true;
         learnerHeader = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }

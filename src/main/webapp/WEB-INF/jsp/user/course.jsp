@@ -35,7 +35,7 @@
     Organization organization = OrganizationDAO.getOrganization(course.getOrganizationID());
 
     Learner learner = null;
-    if (CookieServices.checkUserLoggedIn(request.getCookies())) {
+    if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
         learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 %>

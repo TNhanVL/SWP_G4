@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 @Controller
@@ -161,7 +160,7 @@ public class LearnController {
 //    @ResponseBody
     public String markLessonComplete(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
         //check logged in
-        if (CookieServices.checkUserLoggedIn(request.getCookies())) {
+        if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
             LessonDAO.insertLessonCompleted(learner.getID(), lessonID, request);
         }
@@ -176,7 +175,7 @@ public class LearnController {
     @ResponseBody
     public String markLessonCompletePost(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
         //check logged in
-        if (CookieServices.checkUserLoggedIn(request.getCookies())) {
+        if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
             LessonDAO.insertLessonCompleted(learner.getID(), lessonID, request);
         }
@@ -187,7 +186,7 @@ public class LearnController {
     @RequestMapping(value = "/startAQuiz/{lessonID}", method = RequestMethod.GET)
     public String startAQuiz(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
         //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
+        if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
@@ -203,7 +202,7 @@ public class LearnController {
     @ResponseBody
     public String updateChosenAnswer(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int quizResultID, @PathVariable int questionID, @PathVariable String data) {
         //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
+        if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
@@ -238,7 +237,7 @@ public class LearnController {
     @RequestMapping(value = "/endAQuiz/{quizResultID}", method = RequestMethod.GET)
     public String endAQuiz(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int quizResultID) {
         //check logged in
-        if (!CookieServices.checkUserLoggedIn(request.getCookies())) {
+        if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }

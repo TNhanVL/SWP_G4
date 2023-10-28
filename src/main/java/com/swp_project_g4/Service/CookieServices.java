@@ -54,7 +54,7 @@ public class CookieServices {
         return ok;
     }
 
-    public static boolean checkUserLoggedIn(Cookie[] cookies) {
+    public static boolean checkLearnerLoggedIn(Cookie[] cookies) {
         boolean ok = false;
 
         try {

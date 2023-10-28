@@ -14,7 +14,7 @@
 <%@ page import="com.swp_project_g4.Model.Learner" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    if (CookieServices.checkUserLoggedIn(request.getCookies())) {
+    if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
         response.sendRedirect("./");
         return;
     }
