@@ -225,7 +225,8 @@ CREATE TABLE course_progress
     rate              INT,
     start_at          DATETIME,
     FOREIGN KEY (learnerID) REFERENCES [learner] (ID),
-    FOREIGN KEY (courseID) REFERENCES course (courseID)
+    FOREIGN KEY (courseID) REFERENCES course (courseID),
+    UNIQUE (learnerID, courseID)
 );
 GO
 
@@ -238,7 +239,8 @@ CREATE TABLE chapter_progress
     completed          BIT,
     start_at           DATETIME,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
-    FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID)
+    FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID),
+    UNIQUE (chapterID, course_progressID)
 );
 GO
 
@@ -251,7 +253,8 @@ CREATE TABLE lesson_progress
     completed          BIT,
     start_at           DATETIME,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
-    FOREIGN KEY (chapter_progressID) REFERENCES chapter_progress (chapter_progressID)
+    FOREIGN KEY (chapter_progressID) REFERENCES chapter_progress (chapter_progressID),
+    UNIQUE (lessonID, chapter_progressID)
 );
 GO
 
