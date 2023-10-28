@@ -75,7 +75,8 @@
 
     <div class="container-fluid py-4">
         <div class="row">
-            <%@include file="tables/users.jsp" %>
+            <%@include file="tables/learner.jsp" %>
+            <%@include file="tables/instructor.jsp" %>
             <%@include file="tables/organization.jsp" %>
             <%@include file="tables/courses.jsp" %>
         </div>
@@ -88,6 +89,8 @@
     new DataTable('#user');
     new DataTable('#organization');
     new DataTable('#courses');
+    new DataTable('#instructor');
+
 </script>
 </body>
 <%@ include file="popUpMessage.jsp" %>

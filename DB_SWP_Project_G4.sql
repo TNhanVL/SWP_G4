@@ -413,11 +413,9 @@ INSERT INTO organization
 VALUES (16, 'FPT University', 'fptuni', '5e7c74592ea8dffbfdc20c84de15afea', 'NhanTTCE171358@fpt.edu.vn', 'FPT.png',
         N'Trường đại học top 1 Việt Nam');
 GO
-INSERT INTO instructor
-    (organizationID)
-VALUES (1),
-       (1),
-       (1)
+
+INSERT INTO instructor (organizationID, username, [password], email, picture, [first_name], [last_name], [status])
+VALUES (1, 'sussybaka', '0cc175b9c0f1b6a831c399e269772661', 'instructor_email@example.com', '', 'Le', 'Truong Giang', 1);
 GO
 INSERT INTO course
 (name, [picture], [description], organizationID, instructorID, price, rate)

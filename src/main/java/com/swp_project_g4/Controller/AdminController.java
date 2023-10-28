@@ -1,9 +1,8 @@
 package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.AdminDAO;
-import com.swp_project_g4.Database.CourseDAO;
-import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Database.LearnerDAO;
+import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Repository.Repo;
@@ -80,9 +79,10 @@ public class AdminController {
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String dashboard(ModelMap model, HttpServletRequest request) {
-        request.getSession().setAttribute("userList", LearnerDAO.getAllUsers());
-        request.getSession().setAttribute("orgList", OrganizationDAO.getAllOrganization());
-        request.getSession().setAttribute("courseList", CourseDAO.getAllCourses());
+        request.getSession().setAttribute("learnerList", repo.getLearnerRepository().findAll());
+        request.getSession().setAttribute("orgList", repo.getOrganizationRepository().findAll());
+        request.getSession().setAttribute("instructorsList", repo.getInstructorRepository().findAll());
+//        request.getSession().setAttribute("courseList", repo.getCourseRepository().findAll());
         return "admin/dashboard";
     }
 
@@ -92,6 +92,7 @@ public class AdminController {
             var user_id = Integer.parseInt(id);
             var user = repo.getLearnerRepository().findById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
+            request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
         } catch (NoSuchElementException ex) {
             request.getSession().setAttribute("error", "No such user information!");
             return "redirect:./dashboard";
