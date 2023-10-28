@@ -4,9 +4,9 @@
     Author     : TTNhan
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 
-<div id="toast"></div>
+<div id="toast" style="z-index: 10000"></div>
 
 <script src="/public/assets/js/popUpScript.js"></script>
 
