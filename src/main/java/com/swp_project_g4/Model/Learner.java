@@ -24,12 +24,14 @@ public class Learner extends User {
     private int ID;
     private String firstName;
     private String lastName;
+    private boolean emailVerified;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
-    public Learner(int ID, String picture, String username, String password, String email, String firstName, String lastName, Date birthday, int countryID, int status) {
+    public Learner(int ID, String picture, String username, String password, String email, boolean emailVerified, String firstName, String lastName, Date birthday, int countryID, int status) {
         super(picture, username, password, email, countryID, status);
         this.ID = ID;
+        this.emailVerified = emailVerified;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;

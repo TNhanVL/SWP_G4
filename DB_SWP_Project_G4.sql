@@ -48,16 +48,17 @@ GO
 
 CREATE TABLE [learner]
 (
-    learnerID    INT IDENTITY (1,1) PRIMARY KEY,
-    picture      TEXT,
-    username     VARCHAR(50) NOT NULL,
-    [password]   VARCHAR(50) NOT NULL,
-    email        VARCHAR(320),
-    [first_name] NVARCHAR(50),
-    [last_name]  NVARCHAR(50),
-    birthday     DATE,
-    countryID    INT FOREIGN KEY REFERENCES [country],
-    [status]     int DEFAULT 0
+    learnerID      INT IDENTITY (1,1) PRIMARY KEY,
+    picture        TEXT,
+    username       VARCHAR(50)   NOT NULL,
+    [password]     VARCHAR(50)   NOT NULL,
+    email          VARCHAR(320),
+    email_verified BIT DEFAULT 0 NOT NULL,
+    [first_name]   NVARCHAR(50),
+    [last_name]    NVARCHAR(50),
+    birthday       DATE,
+    countryID      INT FOREIGN KEY REFERENCES [country],
+    [status]       int DEFAULT 0
 );
 GO
 
@@ -143,7 +144,7 @@ GO
 
 CREATE TABLE instruct
 (
-    instructID       INT NOT NULL,
+    instructID   INT NOT NULL,
     courseID     INT NOT NULL,
     instructorID INT NOT NULL,
     FOREIGN KEY (instructorID) REFERENCES [instructor] (instructorID),
