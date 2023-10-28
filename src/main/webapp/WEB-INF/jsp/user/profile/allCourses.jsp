@@ -4,7 +4,7 @@
     Author     : TTNhan
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <div class="purchasedCourseAndCreatedCourse">
 
     <div class="purchasedCourse">
@@ -14,16 +14,17 @@
             } else {
                 out.print("All purchased courses");
             }
-            %></h3>
+        %></h3>
 
         <%
-            ArrayList<Course> courses = CourseDAO.getAllPurchasedCourses(learner.getID());
+            var courses = (ArrayList<Course>) request.getAttribute("purchasedCourses");
             for (Course course : courses) {
         %>
 
         <!-- a course -->
         <div class="courseTaken">
-            <img src="/public/media/course/<%out.print(course.getID() + "/" + course.getPicture());%>" alt="" class="courseImg">
+            <img src="/public/media/course/<%out.print(course.getID() + "/" + course.getPicture());%>" alt=""
+                 class="courseImg">
             <div class="courseInfor">
                 <a href="/course/<%out.print(course.getID());%>">
                     <p class="courseName"><%out.print(course.getName());%></p>
@@ -61,7 +62,8 @@
                             if (CourseDAO.checkCertificate(learner.getID(), course.getID())) {
                                 String certificateName = CourseDAO.getCertificateName(learner.getID(), course.getID());
                         %>
-                        <a href="/public/media/certificate/<%out.print(certificateName);%>" target="_blank">View certificate</a>
+                        <a href="/public/media/certificate/<%out.print(certificateName);%>" target="_blank">View
+                            certificate</a>
                         <%
                             }
                         %>
@@ -95,7 +97,8 @@
 
         <!-- a course -->
         <div class="courseTaken">
-            <img src="/public/media/course/<%out.print(course.getID() + "/" + course.getPicture());%>" alt="" class="courseImg">
+            <img src="/public/media/course/<%out.print(course.getID() + "/" + course.getPicture());%>" alt=""
+                 class="courseImg">
             <div class="courseInfor">
                 <a href="/course/<%out.print(course.getID());%>">
                     <p class="courseName"><%out.print(course.getName());%></p>

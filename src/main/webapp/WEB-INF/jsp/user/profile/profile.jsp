@@ -4,71 +4,53 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Model.Country"%>
-<%@page import="com.swp_project_g4.Model.Instructor"%>
-<%@page import="com.swp_project_g4.Model.Course"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.swp_project_g4.Model.Organization"%>
+<%@page import="com.swp_project_g4.Model.Country" %>
+<%@page import="com.swp_project_g4.Model.Instructor" %>
+<%@page import="com.swp_project_g4.Model.Course" %>
+<%@page import="java.util.ArrayList" %>
+<%@page import="com.swp_project_g4.Model.Organization" %>
 <%@ page import="com.swp_project_g4.Database.*" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 
 <%
-    //get user that want to show profile
-    String profileUsername = (String) request.getAttribute("username");
-    Learner learner = LearnerDAO.getUserByUsername(profileUsername);
-
-    if (learner == null) {
-        request.getSession().setAttribute("error", "Not exist this username!");
-        response.sendRedirect("/");
-        return;
-    }
-
-    boolean guest = true;
-    //Get user loggedIn
-    if (CookieServices.checkUserLoggedIn(request.getCookies())) {
-        Learner learnerLoggedin = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
-        guest = (learnerLoggedin == null || learner.getID() != learnerLoggedin.getID());
-    }
-
-    request.getSession().setAttribute("guest", guest);
-    request.getSession().setAttribute("learner", learner);
-
+    Learner learner = (Learner) request.getAttribute("learner");
+    boolean guest = (boolean) request.getAttribute("guest");
     Instructor instructor = InstructorDAO.getInstructor(learner.getID());
 %>
 
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <jsp:include page="../head.jsp">
-            <jsp:param name="title" value="Yojihan"/>
-        </jsp:include>
-        <link rel="stylesheet" href="/public/assets/css/profile.css">
-        <link rel="stylesheet" href="/public/assets/css/responsive.css">
-    </head>
+<head>
+    <jsp:include page="../head.jsp">
+        <jsp:param name="title" value="Yojihan"/>
+    </jsp:include>
+    <link rel="stylesheet" href="/public/assets/css/profile.css">
+    <link rel="stylesheet" href="/public/assets/css/responsive.css">
+</head>
 
-    <body>
-        <!-- HEADER -->
-        <%@include file="../header.jsp" %>
-        <!--END HEADER -->
+<body>
+<!-- HEADER -->
+<%@include file="../header.jsp" %>
+<!--END HEADER -->
 
-        <!-- BODY -->
+<!-- BODY -->
 
-        <div id="main">
+<div id="main">
 
-            <c:if test="${!guest}">
-                <div class="tab">
-                    <button class="tablinks" onclick="openTab(event, 'info')">Profile</button>
-                    <button class="tablinks" onclick="openTab(event, 'personal')">Personal Information</button>
-                </div>
-            </c:if>
+    <c:if test="${!guest}">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'info')">Profile</button>
+            <button class="tablinks" onclick="openTab(event, 'personal')">Personal Information</button>
+        </div>
+    </c:if>
 
-            <div id="info" class="tabcontent active">
-                <div class="infor">
-                    <div class="userTags">
-                        <div class="inforTag">
-                            <div class="avatar">
-                                <img src="<%
+    <div id="info" class="tabcontent active">
+        <div class="infor">
+            <div class="userTags">
+                <div class="inforTag">
+                    <div class="avatar">
+                        <img src="<%
                                     if (loggedInHeader) {
 
                                         boolean isUrl = false;
@@ -87,129 +69,137 @@
                                         out.print("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png");
                                     }
                                      %>" alt="">
-                            </div>
-                            <div class="name">
-                                <h4>${learner.firstName} ${learner.lastName}</h4>
-                            </div>
-
-                            <div class="orgranization">
-                                <p><%out.print(CountryDAO.getCountry(learner.getCountryID()).getName());%></p>
-                                <%
-                                    if (instructor != null) {
-                                        Organization organization = OrganizationDAO.getOrganization(instructor.getOrganizationID());
-                                %>
-                                <p>Instructor of <%out.print(organization.getName());%></p>
-                                <img class="org" src="/public/media/organization/<%out.print(organization.getID() + "/" + organization.getPicture());%>" alt="">
-                                <%
-                                    }
-                                %>
-                            </div>
-
-
-
-                            <!-- <div class="socialMedia" content="Comming Soon">
-                            <i class="fa-brands fa-facebook"></i>
-                            <i class="fa-brands fa-instagram"></i>
-                            <i class="fa-brands fa-github"></i>
-                            <i class="fa-solid fa-envelope"></i>
-                        </div> -->
-                        </div>
-                        <div class="expTag">
-                            <h4>Experience</h4>
-                            <p class="element"><i class="fa-sharp fa-regular fa-clock"></i>Total learning hours
-                                <span><%
-                                    int sumTimeCompletedInMinute = CourseDAO.getSumTimeCompletedOfAllCourses(learner.getID());
-                                    out.print(Math.round(sumTimeCompletedInMinute / 6.0) / 10.0);
-                                    %></span>
-                            </p>
-                            <p class="element"><i class="fa-solid fa-cart-shopping"></i>Courses purchased<span><%out.print(CourseDAO.getNumberPurchasedCourse(learner.getID()));%></span></p>
-                            <p class="element"><i class="fa-regular fa-circle-check"></i>Courses completed <span><%out.print(CourseDAO.getNumberCompletedCourse(learner.getID()));%></span>
-                            </p>
-                            <p class="element"><i class="fa-sharp fa-solid fa-certificate"></i>Courses created
-                                <span><%out.print(CourseDAO.getNumberCreatedCourse(learner.getID()));%></span>
-                            </p>
-                            <p class="element">Learn since 2020</p>
-                        </div>
+                    </div>
+                    <div class="name">
+                        <h4>${learner.firstName} ${learner.lastName}</h4>
                     </div>
 
-                    <%@include file="allCourses.jsp" %>
+                    <div class="orgranization">
+                        <p><%out.print(CountryDAO.getCountry(learner.getCountryID()).getName());%></p>
+                        <%
+                            if (instructor != null) {
+                                Organization organization = OrganizationDAO.getOrganization(instructor.getOrganizationID());
+                        %>
+                        <p>Instructor of <%out.print(organization.getName());%></p>
+                        <img class="org"
+                             src="/public/media/organization/<%out.print(organization.getID() + "/" + organization.getPicture());%>"
+                             alt="">
+                        <%
+                            }
+                        %>
+                    </div>
 
+
+                    <!-- <div class="socialMedia" content="Comming Soon">
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-github"></i>
+                    <i class="fa-solid fa-envelope"></i>
+                </div> -->
+                </div>
+                <div class="expTag">
+                    <h4>Experience</h4>
+                    <p class="element"><i class="fa-sharp fa-regular fa-clock"></i>Total learning hours
+                        <span><%
+                            int sumTimeCompletedInMinute = CourseDAO.getSumTimeCompletedOfAllCourses(learner.getID());
+                            out.print(Math.round(sumTimeCompletedInMinute / 6.0) / 10.0);
+                        %></span>
+                    </p>
+                    <p class="element"><i class="fa-solid fa-cart-shopping"></i>Courses
+                        purchased<span>${numberOfPurchasedCourses}</span></p>
+                    <p class="element"><i class="fa-regular fa-circle-check"></i>Courses completed
+                        <span><%out.print(CourseDAO.getNumberCompletedCourse(learner.getID()));%></span>
+                    </p>
+                    <p class="element"><i class="fa-sharp fa-solid fa-certificate"></i>Courses created
+                        <span><%out.print(CourseDAO.getNumberCreatedCourse(learner.getID()));%></span>
+                    </p>
+                    <p class="element">Learn since 2020</p>
                 </div>
             </div>
 
-
-            <c:if test="${!guest}">
-                <div id="personal" class="tabcontent">
-
-                    <div class="personal">
-
-                        <div class="header">
-                            <h3>Edit my profile</h3>
-                            <button onclick="window.location.href = '#changePassword'">Change password</button>
-                        </div>
-
-                        <p>Let the Yojihan community of other learners and instructors know more about you!</p>
-
-                        <form action="/updateUser?userID=${learner.ID}" method="post">
-                            <div>
-                                <label for="firstName">First name:</label>
-                                <input value="${learner.firstName}" type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
-                            </div>
-
-                            <div>
-                                <label for="lastName">Last name:</label>
-                                <input value="${learner.lastName}" type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
-                            </div>
-                            <div>
-                                <label for="birthday">Birthday:</label>
-                                <input value="${learner.birthday}" type="date" id="birthday" name="birthday" placeholder="dd/mm/yyyy" required>
-                            </div>
-
-                            <%                                ArrayList<Country> countries = CountryDAO.getAllCountry();
-                                request.getSession().setAttribute("countries", countries);
-                                %>
-
-                            <div>
-                                <label for="country">Country:</label>
-                                <select name="countryID" id="country">
-                                    <c:forEach items="${countries}" var="country">
-                                        <option value="${country.ID}" class="form-control" placeholder="Enter your country" required <c:if test="${country.ID == learner.countryID}">selected</c:if>>${country.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label for="email">Email address:</label>
-                                <input value="${learner.email}" type="email" id="email" name="email" placeholder="Enter your email address" required>
-                            </div>
-
-                            <hr>
-
-                            <div class="saveInfor">
-                                <button type="submit">Update</button>
-                            </div>
-                        </form>
-
-                    </div>
-
-                </div> 
-            </c:if>
-
-
+            <%@include file="allCourses.jsp" %>
 
         </div>
+    </div>
 
-        <!-- END BODY -->
 
-        <%@include file="../footer.jsp" %>
+    <c:if test="${!guest}">
+        <div id="personal" class="tabcontent">
 
-        <%@include file="../foot.jsp" %>
+            <div class="personal">
 
-        <script src="/public/assets/js/lesson.js"></script>
-        <script src="/public/assets/js/option.js"></script>
+                <div class="header">
+                    <h3>Edit my profile</h3>
+                    <button onclick="window.location.href = '#changePassword'">Change password</button>
+                </div>
 
-        <%@include file="../popUpMessage.jsp" %>
+                <p>Let the Yojihan community of other learners and instructors know more about you!</p>
 
-    </body>
+                <form action="/updateUser?userID=${learner.ID}" method="post">
+                    <div>
+                        <label for="firstName">First name:</label>
+                        <input value="${learner.firstName}" type="text" id="firstName" name="firstName"
+                               placeholder="Enter your first name" required>
+                    </div>
+
+                    <div>
+                        <label for="lastName">Last name:</label>
+                        <input value="${learner.lastName}" type="text" id="lastName" name="lastName"
+                               placeholder="Enter your last name" required>
+                    </div>
+                    <div>
+                        <label for="birthday">Birthday:</label>
+                        <input value="${learner.birthday}" type="date" id="birthday" name="birthday"
+                               placeholder="dd/mm/yyyy" required>
+                    </div>
+
+                    <% ArrayList<Country> countries = CountryDAO.getAllCountry();
+                        request.getSession().setAttribute("countries", countries);
+                    %>
+
+                    <div>
+                        <label for="country">Country:</label>
+                        <select name="countryID" id="country">
+                            <c:forEach items="${countries}" var="country">
+                                <option value="${country.ID}" class="form-control" placeholder="Enter your country"
+                                        required
+                                        <c:if test="${country.ID == learner.countryID}">selected</c:if>>${country.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="email">Email address:</label>
+                        <input value="${learner.email}" type="email" id="email" name="email"
+                               placeholder="Enter your email address" required>
+                    </div>
+
+                    <hr>
+
+                    <div class="saveInfor">
+                        <button type="submit">Update</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </c:if>
+
+
+</div>
+
+<!-- END BODY -->
+
+<%@include file="../footer.jsp" %>
+
+<%@include file="../foot.jsp" %>
+
+<script src="/public/assets/js/lesson.js"></script>
+<script src="/public/assets/js/option.js"></script>
+
+<%@include file="../popUpMessage.jsp" %>
+
+</body>
 
 </html>

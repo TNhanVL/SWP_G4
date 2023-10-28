@@ -107,7 +107,7 @@
                 }
             %>
             <p class="enrollers">
-                <span><%out.print(CourseDAO.getNumberPurchasedOfCourse(course.getID()));%></span> already enrolled
+                <span>${numberOfPurchased}</span> already enrolled
             </p>
         </div>
 

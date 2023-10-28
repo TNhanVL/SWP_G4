@@ -55,6 +55,9 @@ public class CourseController {
             }
         }
 
+        var courseProgresses = repo.getCourseProgressRepository().findByCourseID(courseID);
+
+        model.addAttribute("numberOfPurchased", courseProgresses.size());
         model.addAttribute("courseID", courseID);
         return "user/course";
     }

@@ -454,31 +454,6 @@ public class CourseDAO extends DBConnection {
         return courses;
     }
 
-    public static ArrayList<Course> getAllPurchasedCourses(int userID) {
-        ArrayList<Course> courses = new ArrayList<>();
-
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("select courseID from purchased_course where userID = ?");
-            statement.setInt(1, userID);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                int courseID = resultSet.getInt("courseID");
-                Course course = getCourse(courseID);
-                courses.add(course);
-            }
-
-            disconnect();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return courses;
-    }
-
     public static ArrayList<Course> getAllCreatedCourses(int lectureID) {
         ArrayList<Course> courses = new ArrayList<>();
 
@@ -502,28 +477,6 @@ public class CourseDAO extends DBConnection {
         }
 
         return courses;
-    }
-
-    public static int getNumberPurchasedCourse(int userID) {
-
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("select count(*) as number from purchased_course where userID = ?");
-            statement.setInt(1, userID);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                return resultSet.getInt("number");
-            }
-
-            disconnect();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return 0;
     }
 
     public static int getNumberPurchasedOfCourse(int courseID) {
