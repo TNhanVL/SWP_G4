@@ -8,6 +8,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import net.bytebuddy.build.ToStringPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author TTNhan
  */
@@ -42,4 +45,10 @@ public class Chapter {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Course course;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "chapterID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Lesson> lessons = new ArrayList<>();
 }

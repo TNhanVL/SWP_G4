@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Controller
@@ -49,12 +50,38 @@ public class LearnController {
         var courseProgressOptional = repo.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learnerID);
         var courseProgress = courseProgressOptional.orElse(new CourseProgress(learnerID, courseID));
         if (!courseProgressOptional.isPresent()) {
-            courseProgress = repo.getCourseProgressRepository().save(courseProgress);
+            request.getSession().setAttribute("error", "You need to purchased this course first!");
+            return "redirect:/";
+        }
+        if(!courseProgress.isEnrolled()){
+            courseProgress.setEnrolled(true);
+            repo.getCourseProgressRepository().save(courseProgress);
         }
 
-        model.addAttribute("courseID", courseID);
-        model.addAttribute("courseProgressID", courseProgress.getID());
-        return "user/lesson";
+        //Get last uncompleted lesson
+        int lessonID = 0;
+        for (var chapter : course.getChapters()) {
+            //check chapterProgress
+            var chapterProgressOptional = repo.getChapterProgressRepository().findByChapterIDAndCourseProgressID(chapter.getID(), courseProgress.getID());
+            var chapterProgress = chapterProgressOptional.orElse(new ChapterProgress(chapter.getID(), courseProgress.getID()));
+            if (!chapterProgressOptional.isPresent()) {
+                chapterProgress = repo.getChapterProgressRepository().save(chapterProgress);
+            }
+            for (var lesson : chapter.getLessons()) {
+                lessonID = lesson.getID();
+                //check lessonProgress
+                var lessonProgressOptional = repo.getLessonProgressRepository().findByLessonIDAndChapterProgressID(lessonID, chapterProgress.getID());
+                var lessonProgress = lessonProgressOptional.orElse(new LessonProgress(lessonID, chapterProgress.getID()));
+                if (!lessonProgressOptional.isPresent() || lessonProgress.isCompleted() == false) {
+                    if (!lessonProgressOptional.isPresent()) {
+                        lessonProgress = repo.getLessonProgressRepository().save(lessonProgress);
+                    }
+                    return "redirect:/learn/" + courseID + "/" + lessonID;
+                }
+            }
+        }
+
+        return "redirect:/learn/" + courseID + "/" + lessonID;
     }
 
     @RequestMapping(value = "/{courseID}/{lessonID}", method = RequestMethod.GET)
@@ -64,10 +91,11 @@ public class LearnController {
         //check learner logged in
         var learnerOptional = repo.getLearnerRepository().findByUsername(username);
         if (!learnerOptional.isPresent()) {
-            request.getSession().setAttribute("error", "You need to log in to continue!");
+            request.getSession().setAttribute("error", "You must be logged in before enter this lesson!");
             return "redirect:/login";
         }
-        int learnerID = learnerOptional.get().getID();
+        var learner = learnerOptional.get();
+        int learnerID = learner.getID();
 
         //check course exist
         var courseOptional = repo.getCourseRepository().findById(courseID);
@@ -82,7 +110,12 @@ public class LearnController {
         var courseProgressOptional = repo.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learnerID);
         var courseProgress = courseProgressOptional.orElse(new CourseProgress(learnerID, courseID));
         if (!courseProgressOptional.isPresent()) {
-            courseProgress = repo.getCourseProgressRepository().save(courseProgress);
+            request.getSession().setAttribute("error", "You need to purchased this course first!");
+            return "redirect:/";
+        }
+        if(!courseProgress.isEnrolled()){
+            courseProgress.setEnrolled(true);
+            repo.getCourseProgressRepository().save(courseProgress);
         }
 
         //check exist lesson
@@ -96,25 +129,29 @@ public class LearnController {
         //check course include lesson
         var chapter = repo.getChapterRepository().findById(lesson.getChapterID()).get();
         var course = repo.getCourseRepository().findById(chapter.getCourseID()).get();
-        if(course.getID() != courseID){
+        if (course.getID() != courseID) {
             request.getSession().setAttribute("error", "Not exist this lesson in the course!");
             return "redirect:/";
         }
 
         //check chapterProgress
-        var chapterProgressOptional = repo.getChapterProgressRepository().findByChapterIDAndCourseProgressID(courseProgress.getID(), chapter.getID());
+        var chapterProgressOptional = repo.getChapterProgressRepository().findByChapterIDAndCourseProgressID(chapter.getID(), courseProgress.getID());
         var chapterProgress = chapterProgressOptional.orElse(new ChapterProgress(chapter.getID(), courseProgress.getID()));
-        if(!chapterProgressOptional.isPresent()){
+        if (!chapterProgressOptional.isPresent()) {
             chapterProgress = repo.getChapterProgressRepository().save(chapterProgress);
         }
 
         //check lessonProgress
         var lessonProgressOptional = repo.getLessonProgressRepository().findByLessonIDAndChapterProgressID(lessonID, chapterProgress.getID());
         var lessonProgress = lessonProgressOptional.orElse(new LessonProgress(lessonID, chapterProgress.getID()));
-        if(!lessonProgressOptional.isPresent()){
+        if (!lessonProgressOptional.isPresent()) {
             lessonProgress = repo.getLessonProgressRepository().save(lessonProgress);
         }
 
+        model.addAttribute("learner", learner);
+        model.addAttribute("course", course);
+        model.addAttribute("chapter", chapter);
+        model.addAttribute("lesson", lesson);
         model.addAttribute("courseID", courseID);
         model.addAttribute("lessonID", lessonID);
         return "user/lesson";
