@@ -27,7 +27,7 @@ public class Lesson {
     private String name;
     private String description;
     private int percentToPassed;
-    private Boolean mustBeCompleted = false;
+    private boolean mustBeCompleted = false;
     private String content;
     private int type;
     @Column(name = "[index]")

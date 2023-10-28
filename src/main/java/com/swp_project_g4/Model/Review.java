@@ -14,7 +14,7 @@ public class Review {
     private int ID;
     private int instructorID;
     private int courseID;
-    private Boolean reviewed;
-    private Boolean verified;
+    private boolean reviewed;
+    private boolean verified;
     private String note;
 }

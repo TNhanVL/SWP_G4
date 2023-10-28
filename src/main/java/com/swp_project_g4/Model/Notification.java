@@ -24,7 +24,7 @@ public class Notification {
     private int learnerID;
     private int type;
     private String description;
-    private Boolean read = false;
+    private boolean read = false;
     private Date receiveAt;
     
 }

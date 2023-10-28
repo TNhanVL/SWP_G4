@@ -24,6 +24,6 @@ public class ChosenAnswer {
     private int quizResultID;
     private int questionID;
     private int answerID;
-    private Boolean correct;
+    private boolean correct;
 
 }
