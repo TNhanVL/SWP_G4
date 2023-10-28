@@ -6,7 +6,6 @@ import lombok.*;
 import java.util.Date;
 
 /**
- *
  * @author TTNhan
  */
 @Entity
@@ -22,11 +21,12 @@ public class Notification {
     private int learnerID;
     private int type;
     private String description;
+    @Column(name = "[read]")
     private boolean read = false;
     private Date receiveAt;
 
     @ManyToOne
-    @JoinColumn(name = "learnerID", insertable=false, updatable=false)
+    @JoinColumn(name = "learnerID", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Learner learner;
