@@ -9,6 +9,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import net.bytebuddy.utility.nullability.NeverNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author TTNhan
@@ -52,4 +55,22 @@ public class Lesson {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Chapter chapter;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "lessonID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "lessonID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<LessonProgress> lessonProgresses = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "lessonID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<QuizResult> quizResults = new ArrayList<>();
 }

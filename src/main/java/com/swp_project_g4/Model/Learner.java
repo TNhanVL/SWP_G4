@@ -1,10 +1,10 @@
 package com.swp_project_g4.Model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
@@ -49,4 +49,21 @@ public class Learner extends User {
         this.lastName = googlePojo.getFamily_name();
     }
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "learnerID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Notification> notifications = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "learnerID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Transaction> transactions = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "learnerID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<CourseProgress> courseProgresses = new ArrayList<>();
 }

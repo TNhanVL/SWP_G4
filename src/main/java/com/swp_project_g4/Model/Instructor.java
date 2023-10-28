@@ -7,6 +7,9 @@ package com.swp_project_g4.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author TTNhan
  */
@@ -52,4 +55,16 @@ public class Instructor extends User {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Organization organization;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "instructorID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Instruct> instructs = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "instructorID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Review> reviews = new ArrayList<>();
 }

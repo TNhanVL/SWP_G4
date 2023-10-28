@@ -3,7 +3,9 @@ package com.swp_project_g4.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author TTNhan
@@ -40,4 +42,10 @@ public class LessonProgress {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private ChapterProgress chapterProgress;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "lessonProgressID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<QuizResult> quizResults = new ArrayList<>();
 }

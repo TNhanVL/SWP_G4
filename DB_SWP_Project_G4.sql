@@ -143,11 +143,12 @@ GO
 
 CREATE TABLE instruct
 (
-    userID   INT NOT NULL,
-    courseID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
+    instructID       INT NOT NULL,
+    courseID     INT NOT NULL,
+    instructorID INT NOT NULL,
+    FOREIGN KEY (instructorID) REFERENCES [instructor] (instructorID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
-    UNIQUE (userID, courseID)
+    UNIQUE (instructorID, courseID)
 );
 GO
 

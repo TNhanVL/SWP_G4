@@ -7,6 +7,9 @@ package com.swp_project_g4.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author TTNhan
@@ -37,4 +40,10 @@ public class Answer {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Question question;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "answerID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<ChosenAnswer> chosenAnswers = new ArrayList<>();
 }

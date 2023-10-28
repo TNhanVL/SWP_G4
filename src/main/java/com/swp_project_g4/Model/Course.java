@@ -59,4 +59,22 @@ public class Course {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Chapter> chapters = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "courseID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Sale> sales = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "courseID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Transaction> transactions = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "courseID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<CourseProgress> courseProgresses = new ArrayList<>();
 }

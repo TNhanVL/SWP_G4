@@ -7,7 +7,9 @@ package com.swp_project_g4.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author TTNhan
@@ -59,4 +61,9 @@ public class QuizResult {
     @ToString.Exclude
     private LessonProgress lessonProgress;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "quizResultID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<ChosenAnswer> chosenAnswers = new ArrayList<>();
 }

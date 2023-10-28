@@ -5,9 +5,10 @@
 package com.swp_project_g4.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -31,5 +32,26 @@ public class Organization {
     private String name;
     private String description;
 
+    public Organization(int ID, int countryID, String username, String password, String email, String picture, String name, String description) {
+        this.ID = ID;
+        this.countryID = countryID;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.picture = picture;
+        this.name = name;
+        this.description = description;
+    }
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "organizationID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Instructor> instructors = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "organizationID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Course> courses = new ArrayList<>();
 }

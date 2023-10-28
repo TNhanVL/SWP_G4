@@ -51,4 +51,10 @@ public class Chapter {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Lesson> lessons = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "chapterID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<ChapterProgress> chapterProgresses = new ArrayList<>();
 }
