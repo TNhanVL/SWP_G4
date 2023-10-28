@@ -28,10 +28,6 @@ public class LearnController {
     public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID) {
         String username = CookieServices.getUserNameOfLearner(request.getCookies());
 
-        System.out.println();
-        System.out.println(username);
-        System.out.println();
-
         //check learner logged in
         var learnerOptional = repo.getLearnerRepository().findByUsername(username);
         if (!learnerOptional.isPresent()) {

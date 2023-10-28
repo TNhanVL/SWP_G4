@@ -454,69 +454,6 @@ public class CourseDAO extends DBConnection {
         return courses;
     }
 
-    public static boolean checkPurchasedCourse(int userID, int courseID) {
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("select 1 from purchased_course where userID = ? and courseID = ?");
-            statement.setInt(1, userID);
-            statement.setInt(2, courseID);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                return true;
-            }
-
-            //disconnect to database
-            disconnect();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //return result
-        return false;
-    }
-
-    public static boolean insertPurchasedCourse(int userID, int courseID) {
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("insert into purchased_course(userID, courseID) values (?,?)");
-            statement.setInt(1, userID);
-            statement.setInt(2, courseID);
-
-            statement.execute();
-
-            //disconnect to database
-            disconnect();
-            return true;
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-        return false;
-    }
-
-    public static boolean deletePurchasedCourse(int userID, int courseID) {
-        try {
-            if (!checkPurchasedCourse(userID, courseID)) {
-                return false;
-            }
-            connect();
-            statement = conn.prepareStatement("delete from purchased_course where userID = ? and courseID = ?");
-            statement.setInt(1, userID);
-            statement.setInt(2, courseID);
-            statement.execute();
-            disconnect();
-            return !checkPurchasedCourse(userID, courseID);
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
     public static ArrayList<Course> getAllPurchasedCourses(int userID) {
         ArrayList<Course> courses = new ArrayList<>();
 

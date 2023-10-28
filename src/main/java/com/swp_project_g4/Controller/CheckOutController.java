@@ -5,9 +5,12 @@ import com.mservice.momo.MomoPay;
 import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
+import com.swp_project_g4.Model.CourseProgress;
 import com.swp_project_g4.Model.Learner;
+import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,9 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping("/checkOut")
 public class CheckOutController {
+
+    @Autowired
+    private Repo repo;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String checkOutPost(ModelMap model, HttpServletRequest request) {
@@ -128,7 +134,7 @@ public class CheckOutController {
                     }
 
                     CourseDAO.deleteCartProduct(learner.getID(), courseID);
-                    CourseDAO.insertPurchasedCourse(learner.getID(), courseID);
+                    repo.getCourseProgressRepository().save(new CourseProgress(learner.getID(), courseID));
 
                 } catch (NumberFormatException e) {
                     System.out.println(e);
