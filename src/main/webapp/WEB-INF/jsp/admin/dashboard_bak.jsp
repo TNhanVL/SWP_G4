@@ -39,38 +39,38 @@
         <th>Modify</th>
     </tr>
 
-    <c:forEach var="user" items="${sessionScope.userList}">
+    <c:forEach var="instructor" items="${sessionScope.userList}">
         <tr>
-            <td>${user.ID}</td>
-            <td>${user.username}</td>
-            <td>${user.email}</td>
-            <td>${user.firstName}</td>
-            <td>${user.lastName}</td>
+            <td>${instructor.ID}</td>
+            <td>${instructor.username}</td>
+            <td>${instructor.email}</td>
+            <td>${instructor.firstName}</td>
+            <td>${instructor.lastName}</td>
             <td>
                 <c:choose>
-                    <c:when test="${user.role == 0}">
+                    <c:when test="${instructor.role == 0}">
                         Student
                     </c:when>
-                    <c:when test="${user.role == 1}">
+                    <c:when test="${instructor.role == 1}">
                         Instructor
                     </c:when>
                 </c:choose>
             </td>
             <td>
                 <c:choose>
-                    <c:when test="${user.status == 0}">
+                    <c:when test="${instructor.status == 0}">
                         Locked
                     </c:when>
-                    <c:when test="${user.status == 1}">
+                    <c:when test="${instructor.status == 1}">
                         Active
                     </c:when>
                 </c:choose>
             </td>
             <td>
-                <a href="./editUser?id=${user.ID}">
+                <a href="./editUser?id=${instructor.ID}">
                     <i class="fas fa-solid fa-pen"></i>
                 </a>
-                <a href="./deleteUser?id=${user.ID}">
+                <a href="./deleteUser?id=${instructor.ID}">
                     <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
                 </a>
             </td>
