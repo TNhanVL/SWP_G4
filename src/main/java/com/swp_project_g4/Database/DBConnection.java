@@ -4,9 +4,11 @@
  */
 package com.swp_project_g4.Database;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,14 +21,23 @@ public class DBConnection {
     static PreparedStatement statement;
 
     static void connect() throws SQLException, ClassNotFoundException {
-        String connectionUrl =
-                "jdbc:sqlserver://localhost;"
-                        + "database=" + Config.DATABASE_NAME + ";"
-                        + "user=" + Config.USER + ";"
-                        + "password=" + Config.PASSWORD + ";"
-                        + "encrypt=false;"
-                        + "trustServerCertificate=false;"
-                        + "loginTimeout=30;";
+
+        String connectionUrl = "";
+
+        try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("application.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+
+            connectionUrl += prop.getProperty("spring.datasource.url");
+            connectionUrl += "user=" + prop.getProperty("spring.datasource.username") + ";";
+            connectionUrl += "password=" + prop.getProperty("spring.datasource.password") + ";";
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         conn = DriverManager.getConnection(connectionUrl);
     }
 
