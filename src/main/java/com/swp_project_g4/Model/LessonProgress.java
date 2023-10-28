@@ -24,7 +24,7 @@ public class LessonProgress {
     private int chapterProgressID;
     private int progressPercent;
     private boolean completed;
-    private Date startAt;
+    private Date startAt = new Date();
 
     public LessonProgress(int lessonID, int chapterProgressID) {
         this.lessonID = lessonID;

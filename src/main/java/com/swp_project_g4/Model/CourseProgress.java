@@ -25,7 +25,7 @@ public class CourseProgress {
     private boolean enrolled = false;
     private int progressPercent;
     private boolean completed;
-    private Date startAt;
+    private Date startAt = new Date();
     private boolean rated = false;
     private int rate;
 

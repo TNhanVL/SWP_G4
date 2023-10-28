@@ -215,15 +215,15 @@ GO
 
 CREATE TABLE course_progress
 (
-    course_progressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    learnerID         INT                NOT NULL,
-    courseID          INT                NOT NULL,
-    enrolled          BIT      DEFAULT 0 NOT NULL,
-    progress_percent  INT      DEFAULT 0 NOT NULL,
-    completed         BIT      DEFAULT 0 NOT NULL,
-    rated             BIT      DEFAULT 0 NOT NULL,
-    rate              INT      DEFAULT 0 NOT NULL,
-    start_at          DATETIME DEFAULT GETDATE(),
+    course_progressID INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    learnerID         INT                                NOT NULL,
+    courseID          INT                                NOT NULL,
+    enrolled          BIT      DEFAULT 0                 NOT NULL,
+    progress_percent  INT      DEFAULT 0                 NOT NULL,
+    completed         BIT      DEFAULT 0                 NOT NULL,
+    rated             BIT      DEFAULT 0                 NOT NULL,
+    rate              INT      DEFAULT 0                 NOT NULL,
+    start_at          DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (learnerID, courseID)
@@ -232,12 +232,12 @@ GO
 
 CREATE TABLE chapter_progress
 (
-    chapter_progressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    chapterID          INT                NOT NULL,
-    course_progressID  INT                NOT NULL,
-    progress_percent   INT      DEFAULT 0 NOT NULL,
-    completed          BIT      DEFAULT 0 NOT NULL,
-    start_at           DATETIME DEFAULT GETDATE(),
+    chapter_progressID INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    chapterID          INT                                NOT NULL,
+    course_progressID  INT                                NOT NULL,
+    progress_percent   INT      DEFAULT 0                 NOT NULL,
+    completed          BIT      DEFAULT 0                 NOT NULL,
+    start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
     FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID),
     UNIQUE (chapterID, course_progressID)
@@ -246,12 +246,12 @@ GO
 
 CREATE TABLE lesson_progress
 (
-    lesson_progressID  INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonID           INT                NOT NULL,
-    chapter_progressID INT                NOT NULL,
-    progress_percent   INT      DEFAULT 0 NOT NULL,
-    completed          BIT      DEFAULT 0 NOT NULL,
-    start_at           DATETIME DEFAULT GETDATE(),
+    lesson_progressID  INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    lessonID           INT                                NOT NULL,
+    chapter_progressID INT                                NOT NULL,
+    progress_percent   INT      DEFAULT 0                 NOT NULL,
+    completed          BIT      DEFAULT 0                 NOT NULL,
+    start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
     FOREIGN KEY (chapter_progressID) REFERENCES chapter_progress (chapter_progressID),
     UNIQUE (lessonID, chapter_progressID)
@@ -431,7 +431,7 @@ VALUES (1, 1, 'instructor_1', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@
 GO
 INSERT INTO course
 (name, [picture], [description], organizationID, instructorID, price, rate, verified, total_time)
-VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 1, 4.2, 1 , 0),
+VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 1, 4.2, 1, 0),
        ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5, 1, 0),
        ('C++', 'a.png', 'hard', 1, 3, 1.2, 4.7, 1, 0),
        ('PYTHON FOR BEGINNER', 'a.png', 'easy', 1, 1, 1.4, 4.2, 1, 0),
@@ -738,7 +738,7 @@ values (16, N'<h3>Lý thuyết</h3>
 GO
 
 INSERT INTO notification (learnerID, type, description, [read], receive_at)
-VALUES (1, 1, 'You have a new message.', 0, GETDATE()),
-       (3, 3, 'Your course enrollment has been approved.', 0, GETDATE()),
-       (1, 1, 'The website is down for maintenance. We will be back up soon.', 0, GETDATE()),
-       (2, 2, 'Your course certificate is now available.', 0, GETDATE());
+VALUES (1, 1, 'You have a new message.', 0, CURRENT_TIMESTAMP),
+       (3, 3, 'Your course enrollment has been approved.', 0, CURRENT_TIMESTAMP),
+       (1, 1, 'The website is down for maintenance. We will be back up soon.', 0, CURRENT_TIMESTAMP),
+       (2, 2, 'Your course certificate is now available.', 0, CURRENT_TIMESTAMP);
