@@ -48,8 +48,8 @@
 
                 <h4 class="number-of-course">
                     <%
-                        if (courses.size() == 1) {
-                            out.print("1 course in Cart");
+                        if (courses.size() <= 1 ) {
+                            out.print(courses.size() + " course in Cart");
                         } else {
                             out.print(courses.size() + " courses in Cart");
                         }
