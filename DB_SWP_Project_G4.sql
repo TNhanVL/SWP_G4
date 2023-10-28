@@ -19,15 +19,15 @@ GO
 CREATE TABLE [admin]
 (
     adminID    INT IDENTITY (1,1) PRIMARY KEY,
-    username   VARCHAR(50),
-    [password] VARCHAR(50)
+    username   VARCHAR(50) NOT NULL,
+    [password] VARCHAR(50) NOT NULL
 );
 GO
 
 CREATE TABLE country
 (
     countryID INT PRIMARY KEY,
-    name      NVARCHAR(60)
+    name      NVARCHAR(60) NOT NULL
 );
 GO
 
@@ -36,13 +36,13 @@ CREATE TABLE organization
     organizationID INT IDENTITY (1,1) PRIMARY KEY,
     -- giá trị bắt đầu là 1, giá trị tăng thêm là 1
     countryID      INT FOREIGN KEY REFERENCES [country],
-    username       VARCHAR(50),
-    [password]     VARCHAR(50),
+    username       VARCHAR(50) NOT NULL,
+    [password]     VARCHAR(50) NOT NULL,
     email          VARCHAR(320),
     picture        TEXT,
     [name]         VARCHAR(100),
     [description]  NVARCHAR(100),
-    [status]       int
+    [status]       int DEFAULT 0
 );
 GO
 
@@ -50,29 +50,29 @@ CREATE TABLE [learner]
 (
     learnerID    INT IDENTITY (1,1) PRIMARY KEY,
     picture      TEXT,
-    username     VARCHAR(50),
-    [password]   VARCHAR(50),
+    username     VARCHAR(50) NOT NULL,
+    [password]   VARCHAR(50) NOT NULL,
     email        VARCHAR(320),
     [first_name] NVARCHAR(50),
     [last_name]  NVARCHAR(50),
     birthday     DATE,
     countryID    INT FOREIGN KEY REFERENCES [country],
-    [status]     int
+    [status]     int DEFAULT 0
 );
 GO
 
 CREATE TABLE instructor
 (
     instructorID   INT IDENTITY (1,1) PRIMARY KEY,
-    organizationID INT NOT NULL,
+    organizationID INT         NOT NULL,
     countryID      INT FOREIGN KEY REFERENCES [country],
-    username       VARCHAR(50),
-    [password]     VARCHAR(50),
+    username       VARCHAR(50) NOT NULL,
+    [password]     VARCHAR(50) NOT NULL,
     email          VARCHAR(320),
     picture        TEXT,
     [first_name]   NVARCHAR(50),
     [last_name]    NVARCHAR(50),
-    [status]       int,
+    [status]       int DEFAULT 0,
     FOREIGN KEY (organizationID) REFERENCES organization (organizationID)
 );
 GO
@@ -85,10 +85,10 @@ CREATE TABLE course
     name           NVARCHAR(50)       NOT NULL,
     [picture]      TEXT,
     [description]  NVARCHAR(50),
-    verify         BIT,
-    total_time     INT,
+    verified       BIT DEFAULT 0,
+    total_time     INT DEFAULT 0,
     price          NUMERIC(10, 2)     NOT NULL,
-    rate           NUMERIC(2, 1)      NOT NULL,
+    rate           NUMERIC(2, 1),
     FOREIGN KEY (organizationID) REFERENCES organization (organizationID),
     FOREIGN KEY (instructorID) REFERENCES [learner] (learnerID)
 );
@@ -133,9 +133,9 @@ CREATE TABLE [transaction]
     courseID      INT                NOT NULL,
     origin_price  NUMERIC(10, 2)     NOT NULL,
     price         NUMERIC(10, 2)     NOT NULL,
-    type          INT,
+    type          INT DEFAULT 0,
     description   NTEXT,
-    status        INT,
+    status        INT DEFAULT 0,
     FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
@@ -156,8 +156,8 @@ CREATE TABLE review
     reviewID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     userID   INT                NOT NULL,
     courseID INT                NOT NULL,
-    reviewed BIT,
-    verified BIT,
+    reviewed BIT DEFAULT 0      NOT NULL,
+    verified BIT DEFAULT 0      NOT NULL,
     note     NTEXT,
     FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
@@ -182,7 +182,7 @@ CREATE TABLE chapter
     [index]       INT                NOT NULL,
     name          NVARCHAR(50),
     [description] NVARCHAR(50),
-    total_time    INT,
+    total_time    INT DEFAULT 0      NOT NULL,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -193,12 +193,12 @@ CREATE TABLE lesson
     chapterID         INT                NOT NULL,
     name              NVARCHAR(50),
     description       NTEXT,
-    percent_to_passed INT,
-    must_be_completed INT,
+    percent_to_passed INT DEFAULT 80     NOT NULL,
+    must_be_completed BIT DEFAULT 1      NOT NULL,
     content           NTEXT,
     [index]           INT                NOT NULL,
     [type]            INT                NOT NULL,
-    [time]            INT                NOT NULL,
+    [time]            INT DEFAULT 0      NOT NULL,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID)
 );
 GO
@@ -215,15 +215,15 @@ GO
 
 CREATE TABLE course_progress
 (
-    course_progressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    learnerID         INT                NOT NULL,
-    courseID          INT                NOT NULL,
-    enrolled          BIT,
-    progress_percent  INT,
-    completed         BIT,
-    rated             BIT,
-    rate              INT,
-    start_at          DATETIME,
+    course_progressID INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    learnerID         INT                                NOT NULL,
+    courseID          INT                                NOT NULL,
+    enrolled          BIT      DEFAULT 0                 NOT NULL,
+    progress_percent  INT      DEFAULT 0                 NOT NULL,
+    completed         BIT      DEFAULT 0                 NOT NULL,
+    rated             BIT      DEFAULT 0                 NOT NULL,
+    rate              INT      DEFAULT 0                 NOT NULL,
+    start_at          DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (learnerID, courseID)
@@ -232,12 +232,12 @@ GO
 
 CREATE TABLE chapter_progress
 (
-    chapter_progressID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    chapterID          INT                NOT NULL,
-    course_progressID  INT                NOT NULL,
-    progress_percent   INT,
-    completed          BIT,
-    start_at           DATETIME,
+    chapter_progressID INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    chapterID          INT                                NOT NULL,
+    course_progressID  INT                                NOT NULL,
+    progress_percent   INT      DEFAULT 0                 NOT NULL,
+    completed          BIT      DEFAULT 0                 NOT NULL,
+    start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
     FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID),
     UNIQUE (chapterID, course_progressID)
@@ -246,12 +246,12 @@ GO
 
 CREATE TABLE lesson_progress
 (
-    lesson_progressID  INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonID           INT                NOT NULL,
-    chapter_progressID INT                NOT NULL,
-    progress_percent   INT,
-    completed          BIT,
-    start_at           DATETIME,
+    lesson_progressID  INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    lessonID           INT                                NOT NULL,
+    chapter_progressID INT                                NOT NULL,
+    progress_percent   INT      DEFAULT 0                 NOT NULL,
+    completed          BIT      DEFAULT 0                 NOT NULL,
+    start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
     FOREIGN KEY (chapter_progressID) REFERENCES chapter_progress (chapter_progressID),
     UNIQUE (lessonID, chapter_progressID)
@@ -274,7 +274,7 @@ CREATE TABLE question
     [index]      INT                NOT NULL,
     content      NTEXT              NOT NULL,
     [type]       INT                NOT NULL,
-    point        INT,
+    point        INT DEFAULT 1      NOT NULL,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID)
 );
 GO
@@ -284,7 +284,7 @@ CREATE TABLE answer
     [answerID] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     questionID INT                NOT NULL,
     content    NTEXT,
-    correct    BIT                NOT NULL,
+    correct    BIT DEFAULT 0      NOT NULL,
     --True: 1, False: 0
     FOREIGN KEY (questionID) REFERENCES question (questionID)
 );
@@ -310,11 +310,11 @@ CREATE TABLE chosen_answer
     chosen_answerID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     quiz_resultID   INT                NOT NULL,
     questionID      INT                NOT NULL,
-    selected_answer INT                NOT NULL,
+    answerID        INT                NOT NULL,
     FOREIGN KEY (quiz_resultID) REFERENCES quiz_result (quiz_resultID),
     FOREIGN KEY (questionID) REFERENCES question (questionID),
-    FOREIGN KEY (selected_answer) REFERENCES answer (answerID),
-    UNIQUE (quiz_resultID, questionID, selected_answer)
+    FOREIGN KEY (answerID) REFERENCES answer (answerID),
+    UNIQUE (quiz_resultID, questionID, answerID)
 );
 GO
 
@@ -430,19 +430,19 @@ VALUES (1, 1, 'instructor_1', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@
 
 GO
 INSERT INTO course
-(name, [picture], [description], organizationID, instructorID, price, rate)
-VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 1, 4.2),
-       ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5),
-       ('C++', 'a.png', 'hard', 1, 3, 1.2, 4.7),
-       ('PYTHON FOR BEGINNER', 'a.png', 'easy', 1, 1, 1.4, 4.2),
-       ('Java advance', 'a.png', 'medium', 1, 2, 2.5, 4.5),
-       ('C++', 'a.png', 'hard', 1, 3, 600, 4.7),
-       ('Java basic', 'a.png', 'easy', 1, 1, 200, 4.2),
-       ('Java advance', 'a.png', 'medium', 1, 2, 0.4, 4.5),
-       ('C++', 'a.png', 'hard', 1, 3, 5, 4.7),
-       ('Java basic', 'a.png', 'easy', 1, 1, 3, 4.2),
-       ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5),
-       ('C++', 'a.png', 'hard', 1, 3, 5, 4.7)
+(name, [picture], [description], organizationID, instructorID, price, rate, verified, total_time)
+VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 1, 4.2, 1, 0),
+       ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5, 1, 0),
+       ('C++', 'a.png', 'hard', 1, 3, 1.2, 4.7, 1, 0),
+       ('PYTHON FOR BEGINNER', 'a.png', 'easy', 1, 1, 1.4, 4.2, 1, 0),
+       ('Java advance', 'a.png', 'medium', 1, 2, 2.5, 4.5, 1, 0),
+       ('C++', 'a.png', 'hard', 1, 3, 600, 4.7, 1, 0),
+       ('Java basic', 'a.png', 'easy', 1, 1, 200, 4.2, 1, 0),
+       ('Java advance', 'a.png', 'medium', 1, 2, 0.4, 4.5, 1, 0),
+       ('C++', 'a.png', 'hard', 1, 3, 5, 4.7, 1, 0),
+       ('Java basic', 'a.png', 'easy', 1, 1, 3, 4.2, 1, 0),
+       ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5, 1, 0),
+       ('C++', 'a.png', 'hard', 1, 3, 5, 4.7, 1, 0)
 GO
 INSERT INTO cart_product
     (userID, courseID)
@@ -461,24 +461,24 @@ VALUES (1, 1, N'Hiragana 。ひらがな', ''),
        (2, 1, N'Test chapter', '')
 GO
 INSERT INTO lesson
-    (chapterID, name, [index], [type], [time])
-VALUES (1, 'A, Ka Row', 1, 3, 3),
-       (1, 'Sa, Ta Row', 2, 3, 3),
-       (1, 'Practice 1: Choose the pronunciation', 3, 2, 5),
-       (1, 'Na, Ha Row', 4, 3, 3),
-       (1, 'Ma, Ya Row', 5, 3, 3),
-       (1, 'Ra, Wa, N Row', 6, 3, 3),
-       (1, 'Dakuon - Ga, Za, Da, Ba', 7, 3, 3),
-       (1, 'Handakuon - Pa', 8, 3, 3),
-       (1, 'Sokuon - small つ', 9, 3, 3),
-       (1, 'Chouon - Long vowels', 10, 3, 3),
-       (1, 'Hiragana combination', 11, 3, 3),
-       (1, 'Dakuon & Handakuon of Hiragana combination', 12, 3, 3),
-       (1, 'Multiple-choice test (10 questions)', 13, 2, 30),
-       (2, 'Nihongo2', 1, 2, 5),
-       (2, 'Video', 2, 0, 5),
-       (2, 'Post', 3, 1, 5),
-       (3, 'Youtube', 1, 3, 5)
+    (chapterID, name, [index], [type], [time], must_be_completed)
+VALUES (1, 'A, Ka Row', 1, 3, 3, 1),
+       (1, 'Sa, Ta Row', 2, 3, 3, 1),
+       (1, 'Practice 1: Choose the pronunciation', 3, 2, 5, 1),
+       (1, 'Na, Ha Row', 4, 3, 3, 1),
+       (1, 'Ma, Ya Row', 5, 3, 3, 1),
+       (1, 'Ra, Wa, N Row', 6, 3, 3, 1),
+       (1, 'Dakuon - Ga, Za, Da, Ba', 7, 3, 3, 1),
+       (1, 'Handakuon - Pa', 8, 3, 3, 1),
+       (1, 'Sokuon - small つ', 9, 3, 3, 1),
+       (1, 'Chouon - Long vowels', 10, 3, 3, 1),
+       (1, 'Hiragana combination', 11, 3, 3, 1),
+       (1, 'Dakuon & Handakuon of Hiragana combination', 12, 3, 3, 1),
+       (1, 'Multiple-choice test (10 questions)', 13, 2, 30, 1),
+       (2, 'Nihongo2', 1, 2, 5, 1),
+       (2, 'Video', 2, 0, 5, 1),
+       (2, 'Post', 3, 1, 5, 1),
+       (3, 'Youtube', 1, 3, 5, 1)
 GO
 INSERT INTO post
     (content, lessonID)
@@ -738,7 +738,7 @@ values (16, N'<h3>Lý thuyết</h3>
 GO
 
 INSERT INTO notification (learnerID, type, description, [read], receive_at)
-VALUES (1, 1, 'You have a new message.', 0, GETDATE()),
-       (3, 3, 'Your course enrollment has been approved.', 0, GETDATE()),
-       (1, 1, 'The website is down for maintenance. We will be back up soon.', 0, GETDATE()),
-       (2, 2, 'Your course certificate is now available.', 0, GETDATE());
+VALUES (1, 1, 'You have a new message.', 0, CURRENT_TIMESTAMP),
+       (3, 3, 'Your course enrollment has been approved.', 0, CURRENT_TIMESTAMP),
+       (1, 1, 'The website is down for maintenance. We will be back up soon.', 0, CURRENT_TIMESTAMP),
+       (2, 2, 'Your course certificate is now available.', 0, CURRENT_TIMESTAMP);

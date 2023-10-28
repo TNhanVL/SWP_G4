@@ -12,6 +12,8 @@ public class Repo {
     @Autowired
     private AnswerRepository answerRepository;
     @Autowired
+    private ChapterProgressRepository chapterProgressRepository;
+    @Autowired
     private ChapterRepository chapterRepository;
     @Autowired
     private ChosenAnswerRepository chosenAnswerRepository;

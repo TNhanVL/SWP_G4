@@ -62,7 +62,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
-                        resultSet.getBoolean("verify"),
+                        resultSet.getBoolean("verified"),
                         resultSet.getInt("total_time"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate")
@@ -95,7 +95,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
-                        resultSet.getBoolean("verify"),
+                        resultSet.getBoolean("verified"),
                         resultSet.getInt("total_time"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate")
@@ -132,7 +132,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
-                        resultSet.getBoolean("verify"),
+                        resultSet.getBoolean("verified"),
                         resultSet.getInt("total_time"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate")
@@ -166,7 +166,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
-                        resultSet.getBoolean("verify"),
+                        resultSet.getBoolean("verified"),
                         resultSet.getInt("total_time"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate")

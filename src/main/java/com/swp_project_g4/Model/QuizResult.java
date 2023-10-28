@@ -10,7 +10,6 @@ import lombok.*;
 import java.util.Date;
 
 /**
- *
  * @author TTNhan
  */
 @Entity
@@ -28,7 +27,13 @@ public class QuizResult {
     private int numberOfCorrectAnswer;
     private int numberOfQuestion;
     private int mark;
-    private Date startAt;
+    private Date startAt = new Date();
     private Date endAt;
+
+    public QuizResult(int lessonID, int lessonProgressID, Lesson lesson) {
+        this.lessonID = lessonID;
+        this.lessonProgressID = lessonProgressID;
+//        endAt = new Date(startAt.getTime() + lesson.getTime() * 1000000);
+    }
 
 }

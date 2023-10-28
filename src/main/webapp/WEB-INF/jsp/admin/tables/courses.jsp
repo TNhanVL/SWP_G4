@@ -31,22 +31,25 @@
             </tr>
             </thead>
             <tbody>
+
             <c:forEach var="course" items="${sessionScope.courseList}">
+                <c:choose>
+                    <c:when test='${course.picture == "null"}'>
+                        <c:set var="picture" scope="page" value="/public/assets/imgs/logo.png"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="picture" scope="page"
+                               value="/public/media/course/${course.ID}/${course.picture}"/>
+                    </c:otherwise>
+                </c:choose>
                 <tr>
+
+
                     <td>
                         <div class="d-flex px-2 py-1">
                             <div>
                                 <img class="avatar avatar-sm me-3 border-radius-lg" alt="user1"
-                                     src=
-                                     <c:choose>
-                                     <c:when test='${empty course.picture}'>
-                                             "/public/assets/imgs/logo.png"
-                                </c:when>
-                                <c:otherwise>
-                                    "/public/media/course/${course.courseID}/${course.picture}"
-                                </c:otherwise>
-                                </c:choose>
-                                >
+                                     src=${picture}>
                             </div>
                             <div class="d-flex flex-column justify-content-center">
                                 <h6 class="mb-0 text-sm">${course.name}</h6>

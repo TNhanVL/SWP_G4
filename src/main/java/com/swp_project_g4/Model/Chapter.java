@@ -6,9 +6,9 @@ package com.swp_project_g4.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import net.bytebuddy.build.ToStringPlugin;
 
 /**
- *
  * @author TTNhan
  */
 @Entity
@@ -22,9 +22,24 @@ public class Chapter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int courseID;
+    @Column(name = "[index]")
     private int index;
     private String name;
     private String description;
     private int totalTime;
-    
+
+    public Chapter(int ID, int courseID, int index, String name, String description, int totalTime) {
+        this.ID = ID;
+        this.courseID = courseID;
+        this.index = index;
+        this.name = name;
+        this.description = description;
+        this.totalTime = totalTime;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Course course;
 }

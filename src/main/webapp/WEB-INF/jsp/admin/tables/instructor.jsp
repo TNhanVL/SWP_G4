@@ -62,16 +62,16 @@
                     </td>
                     <td class="align-middle text-center text-sm">
                         <c:choose>
-                            <c:when test="${instructor.status == 1}">
+                            <c:when test="${instructor.status == 0}">
                                 <span class="badge badge-sm bg-gradient-danger">Locked</span>
                             </c:when>
-                            <c:when test="${instructor.status == 0}">
+                            <c:when test="${instructor.status == 1}">
                                 <span class="badge badge-sm bg-gradient-success">Active</span>
                             </c:when>
                         </c:choose>
                     </td>
                     <td class="align-middle">
-                        <a href="./editUser?id=${instructor.ID}"
+                        <a href="./editInstructor?id=${instructor.ID}"
                            class="text-secondary font-weight-bold text-xs">
                             <i class="fas fa-solid fa-pen"></i>
                         </a>

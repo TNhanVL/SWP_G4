@@ -27,26 +27,94 @@ public class LearnController {
     public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID) {
         String username = CookieServices.getUserNameOfLearner(request.getCookies());
 
+        //check learner logged in
         var learnerOptional = repo.getLearnerRepository().findByUsername(username);
-        if(!learnerOptional.isPresent()){
+        if (!learnerOptional.isPresent()) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
         int learnerID = learnerOptional.get().getID();
 
+        //check course exist
+        var courseOptional = repo.getCourseRepository().findById(courseID);
+        if (!courseOptional.isPresent()) {
+            if (!learnerOptional.isPresent()) {
+                request.getSession().setAttribute("error", "Not exist this course!");
+                return "redirect:/";
+            }
+        }
+        var course = courseOptional.get();
+
+        //check courseProgress
         var courseProgressOptional = repo.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learnerID);
         var courseProgress = courseProgressOptional.orElse(new CourseProgress(learnerID, courseID));
-        if(!courseProgressOptional.isPresent()){
+        if (!courseProgressOptional.isPresent()) {
             courseProgress = repo.getCourseProgressRepository().save(courseProgress);
         }
+
         model.addAttribute("courseID", courseID);
         model.addAttribute("courseProgressID", courseProgress.getID());
-        System.out.println(courseProgress);
         return "user/lesson";
     }
 
     @RequestMapping(value = "/{courseID}/{lessonID}", method = RequestMethod.GET)
     public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID, @PathVariable int lessonID) {
+        String username = CookieServices.getUserNameOfLearner(request.getCookies());
+
+        //check learner logged in
+        var learnerOptional = repo.getLearnerRepository().findByUsername(username);
+        if (!learnerOptional.isPresent()) {
+            request.getSession().setAttribute("error", "You need to log in to continue!");
+            return "redirect:/login";
+        }
+        int learnerID = learnerOptional.get().getID();
+
+        //check course exist
+        var courseOptional = repo.getCourseRepository().findById(courseID);
+        if (!courseOptional.isPresent()) {
+            if (!learnerOptional.isPresent()) {
+                request.getSession().setAttribute("error", "Not exist this course!");
+                return "redirect:/";
+            }
+        }
+
+        //check courseProgress
+        var courseProgressOptional = repo.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learnerID);
+        var courseProgress = courseProgressOptional.orElse(new CourseProgress(learnerID, courseID));
+        if (!courseProgressOptional.isPresent()) {
+            courseProgress = repo.getCourseProgressRepository().save(courseProgress);
+        }
+
+        //check exist lesson
+        var lessonOptional = repo.getLessonRepository().findById(lessonID);
+        if (!lessonOptional.isPresent()) {
+            request.getSession().setAttribute("error", "Not exist this lesson!");
+            return "redirect:/";
+        }
+        var lesson = lessonOptional.get();
+
+        //check course include lesson
+        var chapter = repo.getChapterRepository().findById(lesson.getChapterID()).get();
+        var course = repo.getCourseRepository().findById(chapter.getCourseID()).get();
+        if(course.getID() != courseID){
+            request.getSession().setAttribute("error", "Not exist this lesson in the course!");
+            return "redirect:/";
+        }
+
+        //check chapterProgress
+        var chapterProgressOptional = repo.getChapterProgressRepository().findByChapterIDAndCourseProgressID(courseProgress.getID(), chapter.getID());
+        var chapterProgress = chapterProgressOptional.orElse(new ChapterProgress(chapter.getID(), courseProgress.getID()));
+        if(!chapterProgressOptional.isPresent()){
+            chapterProgress = repo.getChapterProgressRepository().save(chapterProgress);
+        }
+
+        //check lessonProgress
+        var lessonProgressOptional = repo.getLessonProgressRepository().findByLessonIDAndChapterProgressID(lessonID, chapterProgress.getID());
+        var lessonProgress = lessonProgressOptional.orElse(new LessonProgress(lessonID, chapterProgress.getID()));
+        if(!lessonProgressOptional.isPresent()){
+            lessonProgress = repo.getLessonProgressRepository().save(lessonProgress);
+        }
+
         model.addAttribute("courseID", courseID);
         model.addAttribute("lessonID", lessonID);
         return "user/lesson";
