@@ -3,6 +3,7 @@ package com.swp_project_g4.Controller;
 import com.swp_project_g4.Database.AdminDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Database.OrganizationDAO;
+import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Repository.Repo;
@@ -204,18 +205,18 @@ public class AdminController {
     public String editInstructor(HttpServletRequest request, @RequestParam String id) {
         try {
             var user_id = Integer.parseInt(id);
-            var user = repo.getInstructRepository().findById(user_id).orElseThrow();
+            var user = repo.getInstructorRepository().findById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
         } catch (Exception ex) {
             request.getSession().setAttribute("error", "Failed to load instructor information!");
             return "redirect:./dashboard";
         }
-        return "admin/editUser";
+        return "admin/editInstructor";
     }
 
     @RequestMapping(value = "/editInstructor", method = RequestMethod.POST)
-    public String editInstructor(HttpServletRequest request, @ModelAttribute("user") Learner learner) {
+    public String editInstructor(HttpServletRequest request, @ModelAttribute("user") Instructor learner) {
 
         learner.setPassword(MD5.getMd5(learner.getPassword()));
         //check logged in
@@ -225,17 +226,14 @@ public class AdminController {
         }
 
         try {
-            boolean ok = LearnerDAO.updateUser(learner);
-            if (ok) {
-                request.getSession().setAttribute("success", "Update User information succeed!");
-            } else {
-                request.getSession().setAttribute("error", "Update User information failed!");
-            }
+            repo.getInstructorRepository().save(learner);
+            request.getSession().setAttribute("success", "Update User information succeed!");
+
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("error", "There are some error when update User information!");
             return "redirect:./dashboard";
         }
-        return "redirect:./editUser?id=" + learner.getID();
+        return "redirect:./editInstructor?id=" + learner.getID();
     }
 
 }
