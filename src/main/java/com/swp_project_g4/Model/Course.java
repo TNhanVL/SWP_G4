@@ -10,6 +10,10 @@ package com.swp_project_g4.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import net.bytebuddy.build.ToStringPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "course")
@@ -31,4 +35,22 @@ public class Course {
     private double price;
     private double rate;
 
+    public Course(int ID, int organizationID, int instructorID, String name, String picture, String description, boolean verified, int totalTime, double price, double rate) {
+        this.ID = ID;
+        this.organizationID = organizationID;
+        this.instructorID = instructorID;
+        this.name = name;
+        this.picture = picture;
+        this.description = description;
+        this.verified = verified;
+        this.totalTime = totalTime;
+        this.price = price;
+        this.rate = rate;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "courseID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Chapter> chapters = new ArrayList<>();
 }

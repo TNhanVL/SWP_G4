@@ -21,7 +21,8 @@ class CourseProgressServiceTest {
 
     @Test
     void getInstructorByID() {
-        var b = repo.getInstructRepository().findById(1).orElseThrow();
-        System.out.println(b);
+        var b = repo.getCourseRepository().findById(1).get();
+        System.out.println(b.getChapters());
+
     }
 }
