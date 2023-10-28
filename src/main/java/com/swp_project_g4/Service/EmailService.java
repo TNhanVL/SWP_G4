@@ -34,9 +34,6 @@ import javax.mail.internet.MimeMessage;
  * >>>>>>> 53029af8c5dc931bb1243a98c27d3aea6a007bd1
  */
 public class EmailService {
-//    thanhduongjnguyen@gmail.com
-//    cpqrdilisnasjxoe
-
     final static String from = "yojihangroup@gmail.com";
     final static String password = "drmoubkcmogfmrlu";
 
@@ -69,7 +66,7 @@ public class EmailService {
                 + "        <p>Congratulations! You have successfully enrolled in the course <b>" + course.getName() + "</b>.</p>\n"
                 + "        <p>We hope you enjoy the course and learn a lot. If you have any questions, please do not hesitate to contact us.</p>\n"
                 + "        <p>To access the course, please click here:</p>\n"
-                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/course/" + course.getID() + "\">View course</a></p>\n"
+                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/course/" + course.getID() + "\" style=\"color: white; decoration: none;\">View course</a></p>\n"
                 + "        <p>Best regards,</p>\n"
                 + "        <p>The Yojihan Team</p>\n"
                 + "</div>";
@@ -93,7 +90,7 @@ public class EmailService {
                 + "        <p>Congratulations! You have successfully completed the course <b>" + course.getName() + "</b>.</p>\n"
                 + "        <p>We hope you enjoyed the course and learned a lot. Thank you for being a part of the Yojihan community.</p>\n"
                 + "        <p>To access your certificate, please click on the following link:</p>\n"
-                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/public/media/certificate/certificate_" + course.getID() + "_" + learner.getID() + ".pdf" + "\">View Certification</a></p>\n"
+                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/public/media/certificate/certificate_" + course.getID() + "_" + learner.getID() + ".pdf" + "\" style=\"color: white; decoration: none;\">View Certification</a></p>\n"
                 + "        <p>Best regards,</p>\n"
                 + "        <p>The Yojihan Team</p>\n"
                 + "</div>";
@@ -123,9 +120,7 @@ public class EmailService {
     public static int mailTo(String obj, String title, String type, String content) {
         try {
             final String to = obj;
-
             Properties props = new Properties();
-
             props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.port", "587");
 
@@ -140,14 +135,10 @@ public class EmailService {
                 protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
                     return new javax.mail.PasswordAuthentication(from, password); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
                 }
-
             };
-
             // Phien lam viec
             Session session = Session.getInstance(props, auth);
-
             MimeMessage msg = new MimeMessage(session);
-
             //Type
             msg.addHeader("Content-type", "text;charset=UTF-8");
             //From
@@ -168,10 +159,10 @@ public class EmailService {
         } catch (Exception ex) {
             Logger.getLogger(EmailService.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return -1;
     }
 
+    //CODE CŨ
     public static void sendCompletecourse(Learner learner, Course course, String cerURL) {
         System.out.println(cerURL);
         String complete = "<div>\n"
@@ -182,11 +173,10 @@ public class EmailService {
                 + "    <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a style=\"color:#fff;\" href=\"" + cerURL + "\">View Certificate</a></button></p>";
 
         mailTo(learner.getEmail(), "[Yojihan] Congratulations, Your Certificate is Ready!", "html", complete);
-
     }
 
     public static void main(String[] args) {
-        sendEmail(1,1,"certification");
+        sendEmail(3,5,"enroll");
 //        mailTo("diemhuongnt.vl@gmail.com", "Certificate", "html", complete);
 
     }

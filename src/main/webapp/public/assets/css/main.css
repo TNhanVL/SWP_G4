@@ -53,6 +53,7 @@ a:hover {
 .instructorAds {
     min-height: 300px;
     padding: 20px;
+    background: white;
 }
 
 .instructorAds .AdsImg img{
