@@ -82,7 +82,7 @@ public class AdminController {
         request.getSession().setAttribute("learnerList", repo.getLearnerRepository().findAll());
         request.getSession().setAttribute("orgList", repo.getOrganizationRepository().findAll());
         request.getSession().setAttribute("instructorsList", repo.getInstructorRepository().findAll());
-//        request.getSession().setAttribute("courseList", repo.getCourseRepository().findAll());
+        request.getSession().setAttribute("courseList", repo.getCourseRepository().findAll());
         return "admin/dashboard";
     }
 
