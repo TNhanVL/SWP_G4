@@ -106,7 +106,7 @@ public class AnswerDAO extends DBConnection {
 
             statement = conn.prepareStatement("insert into answer(content,correct,questionID) values (?,?,?)");
             statement.setString(1, answer.getContent());
-            statement.setBoolean(2, answer.getCorrect());
+            statement.setBoolean(2, answer.isCorrect());
             statement.setInt(3, answer.getQuestionID());
             statement.executeUpdate();
             //disconnect to database
@@ -127,7 +127,7 @@ public class AnswerDAO extends DBConnection {
 
             statement = conn.prepareStatement("update answer set content=?, correct=?, questionID=? where answerID=?");
             statement.setString(1, answer.getContent());
-            statement.setBoolean(2, answer.getCorrect());
+            statement.setBoolean(2, answer.isCorrect());
             statement.setInt(3, answer.getQuestionID());
             statement.setInt(4, answer.getID());
 
