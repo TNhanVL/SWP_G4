@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface LearnerRepository extends JpaRepository<Learner, Integer> {
     Optional<Learner> findByUsername(String username);
 
+    Optional<Learner> findByEmail(String email);
+
     Optional<Learner> findByUsernameAndPassword(String username, String password);
 }
