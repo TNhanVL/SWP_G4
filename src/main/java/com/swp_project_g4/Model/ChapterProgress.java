@@ -21,14 +21,14 @@ public class ChapterProgress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int chapterID;
-    private int course_progressID;
-    private int progress_percent;
+    private int courseProgressID;
+    private int progressPercent;
     private boolean completed;
     private Date startAt;
 
-    public ChapterProgress(int chapterID, int course_progressID){
+    public ChapterProgress(int chapterID, int courseProgressID){
         this.chapterID = chapterID;
-        this.course_progressID = course_progressID;
+        this.courseProgressID = courseProgressID;
     }
 
 }

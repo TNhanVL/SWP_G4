@@ -21,8 +21,8 @@ public class LessonProgress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int lessonID;
-    private int chapter_progressID;
-    private int progress_percent;
+    private int chapterProgressID;
+    private int progressPercent;
     private boolean completed;
     private Date startAt;
 

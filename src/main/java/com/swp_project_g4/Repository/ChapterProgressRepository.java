@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface ChapterProgressRepository extends JpaRepository<ChapterProgress, Integer> {
-    Optional<ChapterProgress> findByCourse_progressIDAndChapterID(int courseProgressID, int chapterID);
+    Optional<ChapterProgress> findByChapterIDAndCourseProgressID(int courseProgressID, int chapterID);
 }

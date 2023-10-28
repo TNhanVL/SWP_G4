@@ -96,7 +96,7 @@ public class LearnController {
         var chapter = repo.getChapterRepository().findById(lesson.getChapterID()).get();
 
         //check chapterProgress
-        var chapterProgressOptional = repo.getChapterProgressRepository().findByCourse_progressIDAndChapterID(courseProgress.getID(), chapter.getID());
+        var chapterProgressOptional = repo.getChapterProgressRepository().findByChapterIDAndCourseProgressID(courseProgress.getID(), chapter.getID());
         var chapterProgress = new ChapterProgress(courseID, courseProgress.getID());
 
         model.addAttribute("courseID", courseID);

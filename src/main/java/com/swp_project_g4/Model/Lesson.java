@@ -24,8 +24,8 @@ public class Lesson {
     private int chapterID;
     private String name;
     private String description;
-    private int percent_to_passed;
-    private boolean must_be_completed = false;
+    private int percentToPassed;
+    private boolean mustBeCompleted = false;
     private String content;
     private int type;
     private int index;
