@@ -4,8 +4,11 @@
  */
 package com.swp_project_g4.Service;
 
+import com.swp_project_g4.Database.CourseDAO;
+import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Learner;
+import jakarta.servlet.http.HttpServletRequest;
 
 import javax.mail.Authenticator;
 import java.util.Date;
@@ -25,7 +28,7 @@ import javax.mail.internet.MimeMessage;
 /**
  * <<<<<<< HEAD
  *
- * @author Thanh Duong
+ * @author Group 04
  * =======
  * @author TTNhan
  * >>>>>>> 53029af8c5dc931bb1243a98c27d3aea6a007bd1
@@ -37,6 +40,86 @@ public class EmailService {
     final static String from = "yojihangroup@gmail.com";
     final static String password = "drmoubkcmogfmrlu";
 
+    public static void sendEmail(int learnerID, int courseID, String type) {
+        Learner learner = LearnerDAO.getUser(learnerID);
+        Course course = CourseDAO.getCourse(courseID);
+
+        // Generate email content
+        String emailContent = "";
+        switch (type) {
+            case "enroll":
+                emailContent = generateEnrollEmailContent(learner, course);
+                break;
+            case "change_password":
+                emailContent = generateChangePasswordEmailContent(learner);
+                break;
+            case "certification":
+                emailContent = generateCompleteCourseEmailContent(learner, course);
+                break;
+
+        }
+
+        // Send email
+        mailTo(learner.getEmail(), generateEmailSubject(type, course.getName()), "html", emailContent);
+    }
+
+    private static String generateEnrollEmailContent(Learner learner, Course course) {
+        String content = "<div>\n"
+                + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
+                + "        <p>Congratulations! You have successfully enrolled in the course <b>" + course.getName() + "</b>.</p>\n"
+                + "        <p>We hope you enjoy the course and learn a lot. If you have any questions, please do not hesitate to contact us.</p>\n"
+                + "        <p>To access the course, please click here:</p>\n"
+                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/course/" + course.getID() + "\">View course</a></p>\n"
+                + "        <p>Best regards,</p>\n"
+                + "        <p>The Yojihan Team</p>\n"
+                + "</div>";
+        return content;
+    }
+
+    private static String generateChangePasswordEmailContent(Learner learner) {
+        String content = "<div>\n"
+                + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
+                + "        <p>You have successfully changed your password. Please keep your password safe and confidential.</p>\n"
+                + "        <p>If you have any questions, please do not hesitate to contact us.</p>\n"
+                + "        <p>Best regards,</p>\n"
+                + "        <p>The Yojihan Team</p>\n"
+                + "</div>";
+        return content;
+    }
+
+    private static String generateCompleteCourseEmailContent(Learner learner, Course course) {
+        String content = "<div>\n"
+                + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
+                + "        <p>Congratulations! You have successfully completed the course <b>" + course.getName() + "</b>.</p>\n"
+                + "        <p>We hope you enjoyed the course and learned a lot. Thank you for being a part of the Yojihan community.</p>\n"
+                + "        <p>To access your certificate, please click on the following link:</p>\n"
+                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/public/media/certificate/certificate_" + course.getID() + "_" + learner.getID() + ".pdf" + "\">View Certification</a></p>\n"
+                + "        <p>Best regards,</p>\n"
+                + "        <p>The Yojihan Team</p>\n"
+                + "</div>";
+        return content;
+    }
+
+    private static String generateEmailSubject(String type, String courseName) {
+        String subject = "";
+        switch (type) {
+            case "enroll":
+                subject = "[Yojihan] Successfully enrolled in the course " + courseName;
+                break;
+            case "change_password":
+                subject = "[Yojihan] Successfully changed your password!";
+                break;
+            case "certification":
+                subject = "[Yojihan] Congratulations, Your Certificate is Ready!";
+                break;
+            default:
+                subject = "Notification from Yojihan!";
+                break;
+        }
+        return subject;
+    }
+
+    //CODE CŨ
     public static int mailTo(String obj, String title, String type, String content) {
         try {
             final String to = obj;
@@ -65,7 +148,7 @@ public class EmailService {
 
             MimeMessage msg = new MimeMessage(session);
 
-            //Type 
+            //Type
             msg.addHeader("Content-type", "text;charset=UTF-8");
             //From
             msg.setFrom(from);
@@ -89,41 +172,6 @@ public class EmailService {
         return -1;
     }
 
-    public static void sendWelcomMail(String obj, String courseURL) {
-        String welcome = "<div>\n"
-                + "        <p><b>Dear Dylanruan1210,</b></p>\n"
-                + "        <p>I would like to express my gratitude for your participation in the course. Thank you for enrolling and\n"
-                + "            showing interest in furthering your studies.</p>\n"
-                + "        <p>I am eagerly anticipating the opportunity to collaborate with you and assist you in preparing for your\n"
-                + "            academic pursuits. Together, we will strive towards achieving your goals.</p>\n"
-                + "        <p>If you happen to know anyone who shares an interest in the subject matter of this course, I kindly request\n"
-                + "            that you forward this email to them. It would be greatly appreciated if you could help spread the word and\n"
-                + "            extend this valuable learning opportunity to others.</p>\n"
-                + "        <p>Once again, I extend a warm welcome to you as your instructor in the course. I am confident that our\n"
-                + "            collaboration will be productive and mutually beneficial. I eagerly anticipate working harmoniously with you\n"
-                + "            in the near future.</p>\n"
-                + "        <p>Thank you once again for your commitment and dedication.</p>\n"
-                + "        <p><b>Best regards,</b></p>\n"
-                + "    </div>\n"
-                + "\n"
-                + "    <div>\n"
-                + "        <p><b>Dear Dylanruan1210,</b></p>\n"
-                + "        <p>Congratulations! You’ve successfully completed <b>Java Basic</b>.</p>\n"
-                + "        <p><b>Best regards,</b></p>\n"
-                + "    </div>\n"
-                + "    <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a style=\"color:#fff;\" href=\"" + courseURL + "\">View course</a></button></p>";
-
-        mailTo(obj, "[Yojihan] Welcome to Java Basic!", "html", welcome);
-
-    }
-
-    public static void sendChangePassword(String obj, String url) {
-        String changePassContent = "<p>Dear <b>Dylann11233</b></p><br><p>We noticed that you are trying to update your password. If that's really you, please <a href=\"" + url + "\">click here</a> to change your password.</p><p><b>Best regards,</b> </p>";
-
-        mailTo(obj, "[Yojihan] Change your password!", "html", changePassContent);
-
-    }
-
     public static void sendCompletecourse(Learner learner, Course course, String cerURL) {
         System.out.println(cerURL);
         String complete = "<div>\n"
@@ -138,14 +186,9 @@ public class EmailService {
     }
 
     public static void main(String[] args) {
-//        mailTo("thanhduongjnguyen@gmail.com", "You have ...", "html", "<a href=\"https://www.facebook.com\">View </a>)");
+        sendEmail(1,1,"certification");
+//        mailTo("diemhuongnt.vl@gmail.com", "Certificate", "html", complete);
 
-//        mailTo("thanhduongjnguyen@gmail.com", "You have ...", "html", welcome);
-//        mailTo("thanhduongjnguyen@gmail.com", "You have ...", "html", complete);
-//        mailTo("thanhduongjnguyen@gmail.com", "You have ...", "html", changePassContent);
-//        sendWelcomMail("thanhduongjnguyen@gmail.com", "http://127.0.0.1:5500/courseInfo.html");
-//            sendChangePassword("thanhduongjnguyen@gmail.com", "http://127.0.0.1:5500/changPassword.html");
-//        sendCompletecourse("nhan12341184@gmail.com", "http://localhost:8080/public/media/certificate/certificate_2_1.pdf");
     }
 
 }
