@@ -50,7 +50,7 @@
                     <%
                         if (courses.size() <= 1 ) {
                             out.print(courses.size() + " course in Cart");
-                        } else if ((courses.size() > 1)) {
+                        } else {
                             out.print(courses.size() + " courses in Cart");
                         }
                     %>
