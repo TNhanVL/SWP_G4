@@ -4,6 +4,7 @@ import com.swp_project_g4.Database.*;
 import com.swp_project_g4.Model.*;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
+import com.swp_project_g4.Service.LessonProgressService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/learn")
@@ -22,6 +25,8 @@ public class LearnController {
 
     @Autowired
     private Repo repo;
+    @Autowired
+    private LessonProgressService lessonProgressService;
 
     @RequestMapping(value = "/{courseID}", method = RequestMethod.GET)
     public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID) {
@@ -52,7 +57,7 @@ public class LearnController {
             request.getSession().setAttribute("error", "You need to purchased this course first!");
             return "redirect:/";
         }
-        if(!courseProgress.isEnrolled()){
+        if (!courseProgress.isEnrolled()) {
             courseProgress.setEnrolled(true);
             repo.getCourseProgressRepository().save(courseProgress);
         }
@@ -112,7 +117,7 @@ public class LearnController {
             request.getSession().setAttribute("error", "You need to purchased this course first!");
             return "redirect:/";
         }
-        if(!courseProgress.isEnrolled()){
+        if (!courseProgress.isEnrolled()) {
             courseProgress.setEnrolled(true);
             repo.getCourseProgressRepository().save(courseProgress);
         }
@@ -147,12 +152,22 @@ public class LearnController {
             lessonProgress = repo.getLessonProgressRepository().save(lessonProgress);
         }
 
+        Set<Integer> completedLessonIDs = new HashSet<>();
+        for(var chapterProgress1: courseProgress.getChapterProgresses()){
+            for(var lessonProgress1: chapterProgress1.getLessonProgresses()){
+                if(lessonProgress1.isCompleted()){
+                    completedLessonIDs.add(lessonProgress1.getLessonID());
+                }
+            }
+        }
+
         model.addAttribute("learner", learner);
         model.addAttribute("course", course);
         model.addAttribute("chapter", chapter);
         model.addAttribute("lesson", lesson);
         model.addAttribute("courseID", courseID);
         model.addAttribute("lessonID", lessonID);
+        model.addAttribute("completedLessonIDs", completedLessonIDs);
         return "user/lesson";
     }
 
@@ -162,7 +177,8 @@ public class LearnController {
         //check logged in
         if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
-            LessonDAO.insertLessonCompleted(learner.getID(), lessonID, request);
+//            LessonDAO.insertLessonCompleted(learner.getID(), lessonID, request);
+            lessonProgressService.markLessonCompleted(learner.getID(), lessonID);
         }
 
         Lesson lesson = LessonDAO.getLesson(lessonID);
@@ -177,7 +193,8 @@ public class LearnController {
         //check logged in
         if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
-            LessonDAO.insertLessonCompleted(learner.getID(), lessonID, request);
+//            LessonDAO.insertLessonCompleted(learner.getID(), lessonID, request);
+            lessonProgressService.markLessonCompleted(learner.getID(), lessonID);
         }
 
         return "ok";
@@ -270,7 +287,8 @@ public class LearnController {
         int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
         int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lesson.getID());
         if (numberOfCorrectQuestion * 100 >= numberOfQuestion * 80) {
-            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getID(), request);
+//            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getID(), request);
+            lessonProgressService.markLessonCompleted(learner.getID(), lesson.getID());
         }
 
         return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getID();

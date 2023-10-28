@@ -629,26 +629,7 @@ public class CourseDAO extends DBConnection {
     }
 
     public static void main(String[] args) {
-//        System.out.println(existCourse(1));
-//
-//        Course c = new Course(11, "Java basic", "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/17/6b66f0a7ea11e7a885e33e8374f520/software_development_lifecycle_logo_pexels_CC0.jpg?auto=format&dpr=1&w=100&h=100&fit=clamp", "ezsy", 1, 1, 1000, 500, 4.5);
-//        insertCourse(c);
 
-//        System.out.println(checkCartProduct(1, 1));
-//
-//        System.out.println(getCourse(11));
-        System.out.println(getSumTimeCompletedOfAllCourses(1));
-//
-//        c.setDescription("Normal");
-//
-//        updateCourse(c);
-//
-//        System.out.println(getCourse(11));
-
-//        deleteCourse(13);
-//        deleteCourse(12);
-//        deleteCourse(11);
-//        System.out.println(existCourse(1));
     }
 
 }

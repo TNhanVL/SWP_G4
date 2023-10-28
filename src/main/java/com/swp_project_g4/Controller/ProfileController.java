@@ -24,17 +24,15 @@ public class ProfileController {
     @Autowired
     private Repo repo;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String selfProfile(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         //check logged in
         if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
-            return "redirect:./";
+            return "redirect:/";
         }
 
-        Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
-
-        model.addAttribute("username", learner.getUsername());
-        return "user/profile/profile";
+        Learner learner = repo.getLearnerRepository().findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+        return "redirect:/profile/" + learner.getUsername();
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
@@ -54,15 +52,24 @@ public class ProfileController {
             guest = false;
         }
 
+        //get purchased courses
         var courseProgresses = repo.getCourseProgressRepository().findByLearnerID(learner.getID());
         var purchasedCourses = new ArrayList<Course>();
         for (var courseProgress : courseProgresses) {
             purchasedCourses.add(courseProgress.getCourse());
         }
 
+        //sum time learning
+        int totalLearningTime = 0;
+        for (var courseProgress : courseProgresses) {
+            totalLearningTime += courseProgress.getProgressPercent() * courseProgress.getCourse().getTotalTime();
+        }
+
         model.addAttribute("guest", guest);
         model.addAttribute("learner", learner);
+        model.addAttribute("totalLearningTime", totalLearningTime);
         model.addAttribute("numberOfPurchasedCourses", purchasedCourses.size());
+        model.addAttribute("courseProgresses", courseProgresses);
         model.addAttribute("purchasedCourses", purchasedCourses);
         return "user/profile/profile";
     }

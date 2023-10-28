@@ -1,4 +1,4 @@
-<%-- 
+<%@ page import="com.swp_project_g4.Model.CourseProgress" %><%--
     Document   : allCourses
     Created on : Oct 16, 2023, 1:28:52 AM
     Author     : TTNhan
@@ -17,8 +17,11 @@
         %></h3>
 
         <%
+            var courseProgresses = (ArrayList<CourseProgress>) request.getAttribute("courseProgresses");
             var courses = (ArrayList<Course>) request.getAttribute("purchasedCourses");
+            int index = -1;
             for (Course course : courses) {
+                index++;
         %>
 
         <!-- a course -->
@@ -42,12 +45,7 @@
                 </a>
                 <%
                     if (!guest) {
-                        int sumTimeOfCourse = CourseDAO.getSumTimeOfCourse(course.getID());
-                        int sumOfCompletedTime = CourseDAO.getSumTimeCompletedOfCourse(learner.getID(), course.getID());
-                        int percent = 100;
-                        if (sumTimeOfCourse != 0) {
-                            percent = (int) 100f * sumOfCompletedTime / sumTimeOfCourse;
-                        }
+                        int percent = courseProgresses.get(index).getProgressPercent();
                 %>
                 <div class="ProgressviewMode">
 

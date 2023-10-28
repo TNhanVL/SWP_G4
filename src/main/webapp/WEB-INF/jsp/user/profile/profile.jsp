@@ -101,7 +101,7 @@
                     <h4>Experience</h4>
                     <p class="element"><i class="fa-sharp fa-regular fa-clock"></i>Total learning hours
                         <span><%
-                            int sumTimeCompletedInMinute = CourseDAO.getSumTimeCompletedOfAllCourses(learner.getID());
+                            int sumTimeCompletedInMinute = (int) request.getAttribute("totalLearningTime");
                             out.print(Math.round(sumTimeCompletedInMinute / 6.0) / 10.0);
                         %></span>
                     </p>

@@ -4,8 +4,10 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Database.LessonDAO"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.swp_project_g4.Database.LessonDAO" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashSet" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <div class="rightSide">
     <h4><%out.print(course.getName());%></h4>
 
@@ -21,7 +23,9 @@
         <div class="partHeader">
             <div>
                 <h5>Part <%out.print(chapter1.getIndex() + ": " + chapter1.getName());%></h5>
-                <p class="progressLesson"><%out.print(LessonDAO.getNumberLessonsCompleted(learner.getID(), chapter1.getID()) + "/" + lessons.size());%> Complete</p>
+                <p class="progressLesson"><%
+                    out.print(LessonDAO.getNumberLessonsCompleted(learner.getID(), chapter1.getID()) + "/" + lessons.size());%>
+                    Complete</p>
             </div>
             <i class="fa-solid fa-chevron-down"></i>
 
@@ -31,6 +35,7 @@
             <!-- each lesson is a div -->
 
             <%
+                Set<Integer> completedLessonIDs = (Set<Integer>) request.getAttribute("completedLessonIDs");
                 for (Lesson lesson1 : lessons) {
             %>
 
@@ -41,7 +46,7 @@
                     }%>">
                     <span class="lesson-status">
                         <!-- checked -->
-                        <i class="<%if (LessonDAO.checkLessonCompleted(learner.getID(), lesson1.getID(), request)) {
+                        <i class="<%if (completedLessonIDs.contains(lesson1.getID())) {
                                 out.print("fa-solid fa-square-check");
                             } else {
                                 out.print("fa-regular fa-square");
