@@ -23,7 +23,11 @@ public class LessonProgress {
     private int lessonID;
     private int chapterProgressID;
     private int progressPercent;
-    private boolean completed;
+    private Boolean completed;
     private Date startAt;
 
+    public LessonProgress(int lessonID, int chapterProgressID) {
+        this.lessonID = lessonID;
+        this.chapterProgressID = chapterProgressID;
+    }
 }

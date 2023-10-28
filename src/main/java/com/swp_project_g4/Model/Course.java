@@ -26,7 +26,7 @@ public class Course {
     private String name;
     private String picture;
     private String description;
-    private boolean verify = false;
+    private Boolean verify = false;
     private int totalTime;
     private double price;
     private double rate;

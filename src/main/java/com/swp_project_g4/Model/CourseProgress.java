@@ -22,11 +22,11 @@ public class CourseProgress {
     private int ID;
     private int learnerID;
     private int courseID;
-    private boolean enrolled = false;
+    private Boolean enrolled = false;
     private int progressPercent;
-    private boolean completed;
+    private Boolean completed;
     private Date startAt;
-    private boolean rated = false;
+    private Boolean rated = false;
     private int rate;
 
     public CourseProgress(int learnerID, int courseID) {

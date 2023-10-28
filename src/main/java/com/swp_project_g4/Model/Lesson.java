@@ -4,8 +4,10 @@
  */
 package com.swp_project_g4.Model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
+import net.bytebuddy.utility.nullability.NeverNull;
 
 /**
  *
@@ -25,9 +27,10 @@ public class Lesson {
     private String name;
     private String description;
     private int percentToPassed;
-    private boolean mustBeCompleted = false;
+    private Boolean mustBeCompleted = false;
     private String content;
     private int type;
+    @Column(name = "[index]")
     private int index;
     private int time;
 
