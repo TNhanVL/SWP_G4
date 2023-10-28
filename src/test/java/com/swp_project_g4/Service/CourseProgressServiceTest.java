@@ -15,7 +15,7 @@ class CourseProgressServiceTest {
 
     @Test
     void getAllCourseProgresses() {
-        var b = repo.getLearnerRepository().findUserByUsernameAndPassword("ttnhan", "0cc175b9c0f1b6a831c399e269772661");
+        var b = repo.getLearnerRepository().findByUsernameAndPassword("ttnhan", "0cc175b9c0f1b6a831c399e269772661");
         System.out.println(b);
     }
 }
