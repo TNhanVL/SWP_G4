@@ -13,16 +13,13 @@ public class CourseDAOTest {
     @Test
     void searchCoursesWithEmptyName() {
         CourseDAO courseDAO = new CourseDAO();
-
         ArrayList<Course> courses = courseDAO.searchCourses("");
-
         assertEquals(12, courses.size());
     }
 
     @Test
     void searchCoursesWithCorrectName() {
         CourseDAO courseDAO = new CourseDAO();
-
         String correctName = "Dekiru Nihongo";
         ArrayList<Course> courses = courseDAO.searchCourses(correctName);
         assertEquals(1, courses.size());
