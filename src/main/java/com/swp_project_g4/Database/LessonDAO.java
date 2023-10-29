@@ -174,7 +174,7 @@ public class LessonDAO extends DBConnection {
                 
                 Learner learner = LearnerDAO.getUser(userID);
                 Course course = CourseDAO.getCourse(chapter.getCourseID());
-                EmailService.sendCompletecourse(learner, course, "http://localhost:8080/public/media/certificate/" + certificateName);
+                EmailService.sendCompleteCourseEmail(learner, course);
             }
 
             return true;

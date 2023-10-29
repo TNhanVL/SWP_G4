@@ -50,29 +50,6 @@ public class EmailService {
         mailTo(learner.getEmail(), "Reset password for " + learner.getUsername(), "html", emailContent);
     }
 
-    public static void sendEmail(int learnerID, int courseID, String type) {
-        Learner learner = LearnerDAO.getUser(learnerID);
-        Course course = CourseDAO.getCourse(courseID);
-
-        // Generate email content
-        String emailContent = "";
-        switch (type) {
-            case "enroll":
-                emailContent = generateEnrollEmailContent(learner, course);
-                break;
-            case "change_password":
-                emailContent = generateChangePasswordEmailContent(learner);
-                break;
-            case "certification":
-                emailContent = generateCompleteCourseEmailContent(learner, course);
-                break;
-
-        }
-
-        // Send email
-        mailTo(learner.getEmail(), generateEmailSubject(type, course.getName()), "html", emailContent);
-    }
-
     private static String generateEnrollEmailContent(Learner learner, Course course) {
         return "<div>\n"
                 + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
@@ -108,45 +85,56 @@ public class EmailService {
                 + "</div>";
     }
 
-    private static String generateEmailSubject(String type, String courseName) {
-        String subject = "";
-        switch (type) {
-            case "enroll":
-                subject = "[Yojihan] Successfully enrolled in the course " + courseName;
-                break;
-            case "change_password":
-                subject = "[Yojihan] Successfully changed your password!";
-                break;
-            case "certification":
-                subject = "[Yojihan] Congratulations, Your Certificate is Ready!";
-                break;
-            default:
-                subject = "Notification from Yojihan!";
-                break;
-        }
-        return subject;
+    public static void sendEnrollEmail(Learner learner, Course course) {
+        var emailContent = generateEnrollEmailContent(learner, course);
+        mailTo(learner.getEmail(), "[Yojihan] Successfully Enrolled in " + course.getName(), "html", emailContent);
     }
 
-    //CODE CŨ
+    public static void sendChangePasswordEmail(Learner learner) {
+        var emailContent = generateChangePasswordEmailContent(learner);
+        mailTo(learner.getEmail(), "[Yojihan] Password Changed Successfully!", "html", emailContent);
+    }
+
+    public static void sendCompleteCourseEmail(Learner learner, Course course) {
+        var emailContent = generateCompleteCourseEmailContent(learner, course);
+        mailTo(learner.getEmail(), "[Yojihan] Congratulations, Your Certificate is Ready!", "html", emailContent);
+    }
+
+    // Handle the event of successful course registration
+    public void handleEnrollCourseSuccess(Learner learner, Course course) {
+        sendEnrollEmail(learner, course);
+    }
+
+    // Handle the event of successful password change
+    public void handleChangePasswordSuccess(Learner learner) {
+        sendChangePasswordEmail(learner);
+    }
+
+    // Handle the event of completed course
+    public void handleCompleteCourse(Learner learner, Course course, String cerURL) {
+        sendCompleteCourseEmail(learner, course);
+    }
+
     public static int mailTo(String obj, String title, String type, String content) {
         try {
             final String to = obj;
             Properties props = new Properties();
+
             props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.port", "587");
-
 //        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP HOST
 //        props.put("mail.smtp.port", "587"); // TLS 587 SSL 465
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
 
-//             Create Authentcator
+            // Create Authentcator
             Authenticator auth = new Authenticator() {
                 @Override
                 protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
                     return new javax.mail.PasswordAuthentication(from, password); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
                 }
             };
+
             // Phien lam viec
             Session session = Session.getInstance(props, auth);
             MimeMessage msg = new MimeMessage(session);
@@ -160,36 +148,33 @@ public class EmailService {
             msg.setSubject(title, "UTF-8");
             //Time
             msg.setSentDate(new Date());
-
             //Set reply
             //msg.setReplyto(InternetAddress.parseHeader(from, false))
             msg.setText(content, "UTF-8", type);
 
             Transport.send(msg);
-
         } catch (Exception ex) {
             Logger.getLogger(EmailService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
     }
 
-    //CODE CŨ
-    public static void sendCompletecourse(Learner learner, Course course, String cerURL) {
-        System.out.println(cerURL);
-        String complete = "<div>\n"
-                + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
-                + "        <p>Congratulations! You’ve successfully completed <b>" + course.getName() + "</b>.</p>\n"
-                + "        <p><b>Best regards,</b></p>\n"
-                + "    </div>"
-                + "    <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a style=\"color:#fff;\" href=\"" + cerURL + "\">View Certificate</a></button></p>";
-
-        mailTo(learner.getEmail(), "[Yojihan] Congratulations, Your Certificate is Ready!", "html", complete);
-    }
-
     public static void main(String[] args) {
-        sendEmail(3, 5, "enroll");
+        //Test thử
+//        // Khởi tạo đối tượng EmailService
+//        EmailService emailService = new EmailService();
+//        // Tìm kiếm learner có ID = 1
+//        Learner learner = LearnerDAO.getUser(1);
+//        // Tìm kiếm khóa học mà learner đã đăng ký
+//        Course course = CourseDAO.getCourse(2);
+//        // Gửi email đăng ký thành công khóa học
+//        emailService.sendEnrollEmail(learner, course);
+//        // Gửi email đổi mật khẩu thành công
+//        emailService.sendChangePasswordEmail(learner);
+//        //Gửi email hoàn thành khóa học được cấp chứng chỉ
+//        emailService.sendCompleteCourseEmail(learner, course);
+//        sendEmail(3, 5, "enroll");
 //        mailTo("diemhuongnt.vl@gmail.com", "Certificate", "html", complete);
 
     }
-
 }
