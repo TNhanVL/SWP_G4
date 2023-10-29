@@ -29,6 +29,7 @@ public class QuizResult {
     private int numberOfCorrectAnswer;
     private int numberOfQuestion;
     private int mark;
+    private boolean finished;
     private Date startAt = new Date();
     private Date endAt;
 

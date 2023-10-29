@@ -174,7 +174,7 @@ CREATE TABLE chapter
     [index]       INT                NOT NULL,
     name          NVARCHAR(50),
     [description] NVARCHAR(50),
-    total_time    INT DEFAULT 0      NOT NULL,
+    total_time    INT DEFAULT 0 NOT NULL,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -215,6 +215,7 @@ CREATE TABLE course_progress
     completed         BIT      DEFAULT 0                 NOT NULL,
     rated             BIT      DEFAULT 0                 NOT NULL,
     rate              INT      DEFAULT 0                 NOT NULL,
+    total_time        INT      DEFAULT 0                 NOT NULL,
     start_at          DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
@@ -229,6 +230,7 @@ CREATE TABLE chapter_progress
     course_progressID  INT                                NOT NULL,
     progress_percent   INT      DEFAULT 0                 NOT NULL,
     completed          BIT      DEFAULT 0                 NOT NULL,
+    total_time         INT      DEFAULT 0                 NOT NULL,
     start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
     FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID),
@@ -290,6 +292,7 @@ CREATE TABLE quiz_result
     number_of_correct_answer INT,
     number_of_question       INT,
     mark                     INT,
+    finished                 BIT DEFAULT 0      NOT NULL,
     start_at                 DATETIME,
     end_at                   DATETIME,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
