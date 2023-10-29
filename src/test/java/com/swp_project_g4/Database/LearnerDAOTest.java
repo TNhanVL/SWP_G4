@@ -1,6 +1,9 @@
 package com.swp_project_g4.Database;
 
+import com.swp_project_g4.Model.Learner;
 import org.junit.jupiter.api.Test;
+
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -89,4 +92,22 @@ class LearnerDAOTest {
         assertFalse(res);
     }
 
+    @Test
+    public void testUpdateUser() {
+        // Arrange
+        Learner learner = new Learner();
+        learner.setID(1);
+        learner.setPicture("picture.png");
+        learner.setUsername("username");
+        learner.setPassword("password");
+        learner.setEmail("email@example.com");
+        learner.setFirstName("First Name");
+        learner.setLastName("Last Name");
+        learner.setBirthday(new Date());
+        learner.setCountryID(1);
+        learner.setStatus(1);
+
+        boolean success = LearnerDAO.updateUser(learner);
+        assertEquals(true, success);
+    }
 }
