@@ -370,8 +370,9 @@ CREATE OR ALTER TRIGGER updateChapterProgressTrigger
     AS
 BEGIN
     update chapter_progress
-    set chapter_progress.total_time = cal.total_time,
-        chapter_progress.completed  = cal1.completed
+    set chapter_progress.total_time       = cal.total_time,
+        chapter_progress.completed        = cal1.completed,
+        chapter_progress.progress_percent = round(cal.total_time * 100.0 / cal1.sumTime, 0)
     from (select lp.chapter_progressID, sum(time) total_time
           from lesson_progress lp
                    full join lesson l on lp.lessonID = l.lessonID
@@ -379,8 +380,9 @@ BEGIN
           group by chapter_progressID) cal
              join
          (select chapter_progress_info_with_chapterID.chapter_progressID,
-                 IIF(sumCompleted = sumMustBeCompleted, 1, 0) completed
-          from (select chapterID, sum(cast(must_be_completed as INT)) sumMustBeCompleted
+                 IIF(sumCompleted = sumMustBeCompleted, 1, 0) completed,
+                 sumTime
+          from (select chapterID, sum(cast(must_be_completed as INT)) sumMustBeCompleted, sum(time) sumTime
                 from lesson
                 group by chapterID) chapter_info
                    join
