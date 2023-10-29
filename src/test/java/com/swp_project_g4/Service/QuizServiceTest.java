@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class CourseProgressServiceTest {
+class QuizServiceTest {
     @Autowired
     private Repo repo;
 
