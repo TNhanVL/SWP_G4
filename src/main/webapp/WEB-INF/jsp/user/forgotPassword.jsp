@@ -26,15 +26,18 @@
     <link rel="stylesheet" href="/public/assets/css/login.css">
     <link rel="stylesheet" href="/public/assets/css/toast.css">
     <title>Login page</title>
+
+
 </head>
 
 <body>
 <div id="main">
     <div class="box">
-        <form action="" method="post">
 
-            <c:choose>
-                <c:when test="${sessionScope.sentPasswordRecoveryEmail == 0}">
+        <c:choose>
+            <c:when test="${sessionScope.sentPasswordRecoveryEmail == 0}">
+                <form action="" method="post">
+
                     <h2>Forgot password</h2>
                     <div class="inputBox">
                         <input type="email" required="required" name="email">
@@ -43,25 +46,58 @@
                     <input type="submit" value="Login">
 
                     <p id="message"></p>
-                </c:when>
-                <c:when test="${sessionScope.sentPasswordRecoveryEmail == 1}">
-                    Recover email has been sent to your email
-                </c:when>
-                <c:when test="${sessionScope.sentPasswordRecoveryEmail == 2}">
-                    Email doesn't associate with any account
-                </c:when>
-                <c:when test="${sessionScope.sentPasswordRecoveryEmail == 3}">
-                    Redirect page
-                </c:when>
-                <c:when test="${sessionScope.sentPasswordRecoveryEmail == 4}">
-                    Request invalided
-                </c:when>
-                <c:otherwise>
+                </form>
+            </c:when>
+            <c:when test="${sessionScope.sentPasswordRecoveryEmail == 1}">
+                Recover email has been sent to your email
+            </c:when>
+            <c:when test="${sessionScope.sentPasswordRecoveryEmail == 2}">
+                Email doesn't associate with any account
+            </c:when>
+            <c:when test="${sessionScope.sentPasswordRecoveryEmail == 3}">
+                <form action="/resetPassword" method="post">
 
-                </c:otherwise>
-            </c:choose>
-        </form>
+                    <h1>Reset Password</h1>
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" id="newPassword" name="newPassword" required><br><br>
 
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required
+                           onkeyup="validatePassword()"><br><br>
+
+                    <span id="message"></span><br><br>
+
+                    <input type="submit" id="resetButton" value="Reset Password" disabled>
+                </form>
+            </c:when>
+            <c:when test="${sessionScope.sentPasswordRecoveryEmail == 4}">
+                Request invalided
+            </c:when>
+            <c:when test="${sessionScope.sentPasswordRecoveryEmail == 5}">
+                Password changed
+            </c:when>
+            <c:otherwise>
+
+            </c:otherwise>
+        </c:choose>
+        <script>
+            function validatePassword() {
+                var newPassword = document.getElementById("newPassword").value;
+                var confirmPassword = document.getElementById("confirmPassword").value;
+                var message = document.getElementById("message");
+                var resetButton = document.getElementById("resetButton");
+
+                if (newPassword === confirmPassword) {
+                    message.innerHTML = "Password Match!";
+                    message.style.color = "green";
+                    resetButton.disabled = false;
+                } else {
+                    message.innerHTML = "Password does not match!";
+                    message.style.color = "red";
+                    resetButton.disabled = true;
+                }
+            }
+        </script>
 
         <script>
             // Đợi 10 giây trước khi xóa div

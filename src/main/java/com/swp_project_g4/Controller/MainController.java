@@ -57,15 +57,16 @@ public class MainController {
             var resetToken = JwtUtil.generateJwt(account.getUsername(), "");
 
             var cookie = new Cookie("ResetToken", resetToken);
+            var cookie2 = new Cookie("ResetID", account.getID() + "");
 
-            var resetString = resetToken.hashCode() + "";
 
-            cookie.setValue(resetString);
-            cookie.setMaxAge(60 * 5);
+            cookie.setMaxAge(60 * 5 * 60);
+            cookie2.setMaxAge(60 * 5 * 60);
 
-            EmailService.sendResetPasswordEmail(account.getID(), resetString);
+            EmailService.sendResetPasswordEmail(account.getID(), resetToken);
 
             response.addCookie(cookie);
+            response.addCookie(cookie2);
 
             request.getSession().setAttribute("recoveryAccount", account);
             request.getSession().setAttribute("sentPasswordRecoveryEmail", 1);
@@ -77,14 +78,42 @@ public class MainController {
 
     @RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
 
-    public String resetForgotPassword(HttpServletRequest request, @RequestParam String token) {
+    public String resetForgotPassword(HttpServletResponse response, HttpServletRequest request, @RequestParam String token) {
         var resetCookie = CookieServices.getResetCookie(request.getCookies());
         try {
-            if (resetCookie.getValue().equals(token)) {
-                request.getSession().setAttribute("sentPasswordRecoveryEmail", 3);
-            } else {
+            if (!resetCookie[0].getValue().equals(token))
                 throw new Exception();
+
+            request.getSession().setAttribute("sentPasswordRecoveryEmail", 3);
+
+        } catch (Exception e) {
+            request.getSession().setAttribute("sentPasswordRecoveryEmail", 4);
+        }
+
+        return "user/forgotPassword";
+
+    }
+
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+
+    public String resetForgotPasswordPost(HttpServletResponse response, HttpServletRequest request, @RequestParam String newPassword) {
+
+        try {
+            var resetCookie = CookieServices.getResetCookie(request.getCookies());
+            var account = repo.getLearnerRepository().findById(Integer.parseInt(resetCookie[1].getValue())).orElseThrow();
+
+            account.setPassword(MD5.getMd5(newPassword));
+
+            repo.getLearnerRepository().save(account);
+
+            for (var cookie : resetCookie) {
+                cookie.setValue(null);
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
             }
+
+            request.getSession().setAttribute("sentPasswordRecoveryEmail", 5);
+
         } catch (Exception e) {
             request.getSession().setAttribute("sentPasswordRecoveryEmail", 4);
         }

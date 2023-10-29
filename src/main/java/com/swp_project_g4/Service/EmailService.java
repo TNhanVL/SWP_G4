@@ -4,7 +4,6 @@
  */
 package com.swp_project_g4.Service;
 
-import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Learner;
@@ -39,7 +38,7 @@ public class EmailService {
                 + "        <p>We have received a request to reset your password for your account<b>" + "</b>.</p>\n"
                 + "        <p>To ensure the security of your account, please follow the instructions below to reset your password.</p>\n"
                 + "        <p>Click on the following link to access the password reset page</p>\n"
-                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/resetPassword?token=" + resetToken + "\" style=\"color: white; decoration: none;\">View course</a></p>\n"
+                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/resetPassword?token=" + resetToken + "\" style=\"color: white; decoration: none;\">Reset password</a></p>\n"
                 + "        <p>If you did not initiate this request or believe it to be in error, please contact our support team immediately</p>\n"
                 + "        <p>Please note that for security reasons, this link will expire within the next 5 minus"
                 + " and only possible to reset password on the same device made this request</p>\n"
@@ -47,7 +46,7 @@ public class EmailService {
                 + "        <p>The Yojihan Team</p>\n"
                 + "</div>";
 
-        mailTo(learner.getEmail(), "Reset password for " + learner.getUsername(), "html", emailContent);
+        mailTo(learner.getEmail(), "Reset password for  " + learner.getUsername(), "html", emailContent);
     }
 
     private static String generateEnrollEmailContent(Learner learner, Course course) {

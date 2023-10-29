@@ -54,14 +54,20 @@ public class CookieServices {
         return ok;
     }
 
-    public static Cookie getResetCookie(Cookie[] cookies) {
-        Cookie resetCookie = null;
+    public static Cookie[] getResetCookie(Cookie[] cookies) {
+        Cookie[] resetCookie = new Cookie[2];
 
         try {
 
             for (var cookie : cookies) {
-                if (cookie.getName().equals("ResetToken"))
-                    return cookie;
+                if (cookie.getName().equals("ResetToken")) {
+                    resetCookie[0] = cookie;
+                    continue;
+                }
+
+                if (cookie.getName().equals("ResetID")) {
+                    resetCookie[1] = cookie;
+                }
             }
 
         } catch (Exception e) {
