@@ -21,6 +21,7 @@
             var courses = (ArrayList<Course>) request.getAttribute("purchasedCourses");
             int index = -1;
             for (Course course : courses) {
+                request.getSession().setAttribute("courseID", course.getID());
                 index++;
         %>
 
@@ -57,10 +58,9 @@
                     <div class="completed">
                         <p>Completed</p>
                         <%
-                            if (CourseDAO.checkCertificate(learner.getID(), course.getID())) {
-                                String certificateName = CourseDAO.getCertificateName(learner.getID(), course.getID());
+                            if (courseProgresses.get(index).isCompleted()) {
                         %>
-                        <a href="/public/media/certificate/<%out.print(certificateName);%>" target="_blank">View
+                        <a href="/certificate/${learner.ID}/${courseID}" target="_blank">View
                             certificate</a>
                         <%
                             }

@@ -7,6 +7,7 @@
 <%@page import="com.swp_project_g4.Model.Organization" %>
 <%@page import="com.swp_project_g4.Model.Course" %>
 <%@ page import="com.swp_project_g4.Database.*" %>
+<%@ page import="com.swp_project_g4.Model.CourseProgress" %>
 <%-- 
     Document   : allCourse
     Created on : Oct 4, 2023, 9:20:17 PM
@@ -38,6 +39,8 @@
     if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
         learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
+
+    CourseProgress courseProgress = (CourseProgress) request.getAttribute("courseProgress");
 %>
 
 <!DOCTYPE html>
@@ -98,10 +101,9 @@
                 <!--<a href="#">Add to cart</a>-->
             </div>
             <% if (learner != null) {
-                if (CourseDAO.checkCertificate(learner.getID(), course.getID())) {
-                    String certificateName = CourseDAO.getCertificateName(learner.getID(), course.getID());
+                if (courseProgress.isCompleted()) {
             %>
-            <a href="/public/media/certificate/<%out.print(certificateName);%>" class="viewCer">View Certificate</a>
+            <a href="/certificate/${learner.ID}/${courseID}" class="viewCer">View Certificate</a>
             <%
                     }
                 }

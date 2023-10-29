@@ -106,17 +106,6 @@ CREATE TABLE sale
 );
 GO
 
-CREATE TABLE [certificate]
-(
-    userID           INT NOT NULL,
-    courseID         INT NOT NULL,
-    certificate_name text,
-    PRIMARY KEY (userID, courseID),
-    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
-    FOREIGN KEY (courseID) REFERENCES course (courseID)
-);
-GO
-
 CREATE TABLE [transaction]
 (
     transactionID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,

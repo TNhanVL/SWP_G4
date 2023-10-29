@@ -78,7 +78,7 @@ public class EmailService {
                 + "        <p>Congratulations! You have successfully completed the course <b>" + course.getName() + "</b>.</p>\n"
                 + "        <p>We hope you enjoyed the course and learned a lot. Thank you for being a part of the Yojihan community.</p>\n"
                 + "        <p>To access your certificate, please click on the following link:</p>\n"
-                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/public/media/certificate/certificate_" + course.getID() + "_" + learner.getID() + ".pdf" + "\" style=\"color: white; decoration: none;\">View Certification</a></p>\n"
+                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/certificate/" + learner.getID() + "/" + course.getID() + "\" style=\"color: white; decoration: none;\">View Certification</a></p>\n"
                 + "        <p>Best regards,</p>\n"
                 + "        <p>The Yojihan Team</p>\n"
                 + "</div>";

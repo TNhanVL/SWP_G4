@@ -49,9 +49,12 @@ public class CourseController {
         var learnerOptional = repo.getLearnerRepository().findByUsername(username);
         if (learnerOptional.isPresent()) {
             var learner = learnerOptional.get();
+            request.getSession().setAttribute("learner", learner);
             var courseProgressOptional = repo.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learner.getID());
             if(courseProgressOptional.isPresent()){
                 model.addAttribute("coursePurchased", courseID);
+                model.addAttribute("courseProgress", courseProgressOptional.get());
+                request.getSession().setAttribute("courseProgress", courseProgressOptional.get());
             }
         }
 
@@ -59,6 +62,7 @@ public class CourseController {
 
         model.addAttribute("numberOfPurchased", courseProgresses.size());
         model.addAttribute("courseID", courseID);
+        request.getSession().setAttribute("courseID", courseID);
         return "user/course";
     }
 
