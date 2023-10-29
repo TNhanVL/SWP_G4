@@ -11,6 +11,8 @@
 <%@page import="com.swp_project_g4.Model.Organization" %>
 <%@ page import="com.swp_project_g4.Database.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <%
     Learner learner = (Learner) request.getAttribute("learner");
@@ -143,9 +145,10 @@
                                placeholder="Enter your last name" required>
                     </div>
                     <div>
-                        <label for="birthday">Birthday:</label>
-                        <input value="${learner.birthday}" type="date" id="birthday" name="birthday"
-                               placeholder="dd/mm/yyyy" required>
+                        <label for="birthday">Birthday: </label>
+                        <input value=
+                                       '<fmt:formatDate pattern="yyyy-MM-dd" value="${learner.birthday}"/>'
+                               type=" date" id="birthday" name="birthday" placeholder="dd/mm/yyyy" required>
                     </div>
 
                     <% ArrayList<Country> countries = CountryDAO.getAllCountry();
