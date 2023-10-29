@@ -16,14 +16,24 @@ public class ScheduledTasks {
     private Repo repo;
     @Autowired
     private QuizService quizService;
+    @Autowired
+    private CourseProgressService courseProgressService;
 
     @Scheduled(fixedRate = 5000)
-    public void endQuizSchedule(){
+    public void endQuizSchedule() {
         var notEndQuizs = repo.getQuizResultRepository().findByFinished(false);
-        for(var quizResult: notEndQuizs){
-            if(quizResult.getEndAt().before(new Date())){
+        for (var quizResult : notEndQuizs) {
+            if (quizResult.getEndAt().before(new Date())) {
                 quizService.endAQuiz(quizResult);
             }
+        }
+    }
+
+    @Scheduled(fixedRate = 5000)
+    public void actionAfterCompletedCourseSchedule() {
+        var notActionCourseProgresses = repo.getCourseProgressRepository().findByActionAfterCompletedAndCompleted(false, true);
+        for (var courseProgress : notActionCourseProgresses) {
+            courseProgressService.afterCompleted(courseProgress);
         }
     }
 }

@@ -24,7 +24,8 @@ public class CourseProgress {
     private int courseID;
     private boolean enrolled = false;
     private int progressPercent;
-    private boolean completed;
+    private boolean completed = false;
+    private boolean actionAfterCompleted = false;
     private int totalTime;
     private Date startAt = new Date();
     private boolean rated = false;
@@ -37,13 +38,13 @@ public class CourseProgress {
     }
 
     @ManyToOne
-    @JoinColumn(name = "learnerID", insertable=false, updatable=false)
+    @JoinColumn(name = "learnerID", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Learner learner;
 
     @ManyToOne
-    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @JoinColumn(name = "courseID", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Course course;

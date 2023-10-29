@@ -207,16 +207,17 @@ GO
 
 CREATE TABLE course_progress
 (
-    course_progressID INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    learnerID         INT                                NOT NULL,
-    courseID          INT                                NOT NULL,
-    enrolled          BIT      DEFAULT 0                 NOT NULL,
-    progress_percent  INT      DEFAULT 0                 NOT NULL,
-    completed         BIT      DEFAULT 0                 NOT NULL,
-    rated             BIT      DEFAULT 0                 NOT NULL,
-    rate              INT      DEFAULT 0                 NOT NULL,
-    total_time        INT      DEFAULT 0                 NOT NULL,
-    start_at          DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    course_progressID      INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    learnerID              INT                                NOT NULL,
+    courseID               INT                                NOT NULL,
+    enrolled               BIT      DEFAULT 0                 NOT NULL,
+    progress_percent       INT      DEFAULT 0                 NOT NULL,
+    completed              BIT      DEFAULT 0                 NOT NULL,
+    action_after_completed BIT      DEFAULT 0                 NOT NULL,
+    rated                  BIT      DEFAULT 0                 NOT NULL,
+    rate                   INT      DEFAULT 0                 NOT NULL,
+    total_time             INT      DEFAULT 0                 NOT NULL,
+    start_at               DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (learnerID, courseID)

@@ -12,7 +12,8 @@ public class CourseProgressService {
 
     public void afterCompleted(CourseProgress courseProgress) {
         if (!courseProgress.isCompleted()) return;
-        System.out.println("course completed");
+        courseProgress.setActionAfterCompleted(true);
+        repo.getCourseProgressRepository().save(courseProgress);
     }
 
 }
