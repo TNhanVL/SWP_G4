@@ -4,8 +4,10 @@
  */
 package com.swp_project_g4.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -41,5 +43,6 @@ public class Question {
     @JoinColumn(name = "lessonID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Lesson lesson;
 }

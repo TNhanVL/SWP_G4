@@ -4,8 +4,10 @@
  */
 package com.swp_project_g4.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +49,13 @@ public class Organization {
     @JoinColumn(name = "organizationID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private List<Instructor> instructors = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "organizationID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private List<Course> courses = new ArrayList<>();
 }

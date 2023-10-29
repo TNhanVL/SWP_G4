@@ -1,7 +1,9 @@
 package com.swp_project_g4.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author TTNhan
@@ -45,6 +47,7 @@ public class User {
     @JoinColumn(name = "countryID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Country country;
 
 }

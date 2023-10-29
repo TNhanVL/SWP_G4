@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
@@ -55,17 +57,20 @@ public class Learner extends User {
     @JoinColumn(name = "learnerID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "learnerID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "learnerID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private List<CourseProgress> courseProgresses = new ArrayList<>();
 }

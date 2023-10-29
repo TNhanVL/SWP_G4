@@ -4,9 +4,11 @@
  */
 package com.swp_project_g4.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import net.bytebuddy.build.ToStringPlugin;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,17 +46,20 @@ public class Chapter {
     @JoinColumn(name = "courseID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Course course;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "chapterID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private List<Lesson> lessons = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "chapterID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private List<ChapterProgress> chapterProgresses = new ArrayList<>();
 }

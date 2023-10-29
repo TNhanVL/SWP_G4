@@ -1,7 +1,9 @@
 package com.swp_project_g4.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 @Entity
@@ -23,5 +25,6 @@ public class Sale {
     @JoinColumn(name = "courseID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Course course;
 }

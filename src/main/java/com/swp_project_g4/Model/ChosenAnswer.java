@@ -4,8 +4,10 @@
  */
 package com.swp_project_g4.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -30,18 +32,21 @@ public class ChosenAnswer {
     @JoinColumn(name = "quizResultID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private QuizResult quizResult;
 
     @ManyToOne
     @JoinColumn(name = "questionID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Question question;
 
     @ManyToOne
     @JoinColumn(name = "answerID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Answer answer;
 
 }

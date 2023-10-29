@@ -1,7 +1,9 @@
 package com.swp_project_g4.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "[transaction]")
@@ -25,11 +27,13 @@ public class Transaction {
     @JoinColumn(name = "learnerID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Learner learner;
 
     @ManyToOne
     @JoinColumn(name = "courseID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Course course;
 }

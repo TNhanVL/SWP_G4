@@ -1,7 +1,9 @@
 package com.swp_project_g4.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,23 +38,27 @@ public class ChapterProgress {
     @JoinColumn(name = "chapterID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Chapter chapter;
 
     @ManyToOne
     @JoinColumn(name = "courseProgressID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private CourseProgress courseProgress;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "chapterProgressID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private List<LessonProgress> lessonProgresses = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "chapterProgressID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private List<Chapter> chapters = new ArrayList<>();
 }
