@@ -174,7 +174,7 @@ CREATE TABLE chapter
     [index]       INT                NOT NULL,
     name          NVARCHAR(50),
     [description] NVARCHAR(50),
-    total_time    INT DEFAULT 0 NOT NULL,
+    total_time    INT DEFAULT 0      NOT NULL,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -361,6 +361,44 @@ BEGIN
                               select distinct courseID
                               from deleted)
       and course.courseID = cal.courseID
+END
+GO
+
+CREATE OR ALTER TRIGGER updateChapterProgressTrigger
+    ON lesson_progress
+    AFTER INSERT, UPDATE, DELETE
+    AS
+BEGIN
+    update chapter_progress
+    set chapter_progress.total_time = cal.total_time,
+        chapter_progress.completed  = cal1.completed
+    from (select lp.chapter_progressID, sum(time) total_time
+          from lesson_progress lp
+                   full join lesson l on lp.lessonID = l.lessonID
+          where lp.completed = 1
+          group by chapter_progressID) cal
+             join
+         (select chapter_progress_info_with_chapterID.chapter_progressID,
+                 IIF(sumCompleted = sumMustBeCompleted, 1, 0) completed
+          from (select chapterID, sum(cast(must_be_completed as INT)) sumMustBeCompleted
+                from lesson
+                group by chapterID) chapter_info
+                   join
+               (select chapter_progress.chapter_progressID, sumCompleted, chapterID
+                from (select lesson_progress.chapter_progressID, sum(cast(completed as INT)) sumCompleted
+                      from lesson_progress
+                      group by lesson_progress.chapter_progressID) chapter_progress_info
+                         join chapter_progress
+                              on chapter_progress.chapter_progressID =
+                                 chapter_progress_info.chapter_progressID) chapter_progress_info_with_chapterID
+               on chapter_info.chapterID = chapter_progress_info_with_chapterID.chapterID) cal1
+         on cal.chapter_progressID = cal1.chapter_progressID
+    where chapter_progress.chapter_progressID in (select distinct chapter_progressID
+                                                  from inserted
+                                                  union
+                                                  select distinct chapter_progressID
+                                                  from deleted)
+      and chapter_progress.chapter_progressID = cal.chapter_progressID
 END
 GO
 
