@@ -365,6 +365,36 @@ BEGIN
 END
 GO
 
+CREATE OR ALTER TRIGGER updateCourseProgressTrigger
+    ON chapter_progress
+    AFTER INSERT, UPDATE, DELETE
+    AS
+BEGIN
+    update course_progress
+    set course_progress.total_time       = chapter_progress_info.total_time,
+        course_progress.completed        = IIF(sumCompleted = numberOfChapter, 1, 0),
+        course_progress.progress_percent = round(chapter_progress_info.total_time * 100.0 / chapter_info.sumTime, 0)
+    from (select chapter_progress.course_progressID,
+                 courseID,
+                 sum(chapter_progress.total_time)             total_time,
+                 sum(cast(chapter_progress.completed as INT)) sumCompleted
+          from chapter_progress
+                   join course_progress cp on chapter_progress.course_progressID = cp.course_progressID
+          group by chapter_progress.course_progressID, courseID) chapter_progress_info
+             join (select course.courseID, count(*) numberOfChapter, sum(course.total_time) sumTime
+                   from course
+                            join chapter c on course.courseID = c.courseID
+                   group by course.courseID) chapter_info
+                  on chapter_progress_info.courseID = chapter_info.courseID
+    where course_progress.course_progressID in (select distinct course_progressID
+                                                from inserted
+                                                union
+                                                select distinct course_progressID
+                                                from deleted)
+      and course_progress.course_progressID = chapter_progress_info.course_progressID
+END
+GO
+
 CREATE OR ALTER TRIGGER updateChapterProgressTrigger
     ON lesson_progress
     AFTER INSERT, UPDATE, DELETE
@@ -442,7 +472,7 @@ VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gma
         '1990-01-01', 16, 0),
        ('a.jpg', 'dylan12', 'e10adc3949ba59abbe56e057f20f883e', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem',
         '2003-10-12', 16, 0),
-	   ('a.jpg', 'sussy', '80b87ad4e28b6e6c6b0efc1cb797c649', 'giangltce170378@fpt.edu.vn', 'Huong', 'Nguyen Thi Diem',
+       ('a.jpg', 'sussy', '80b87ad4e28b6e6c6b0efc1cb797c649', 'giangltce170378@fpt.edu.vn', 'Huong', 'Nguyen Thi Diem',
         '2003-10-12', 16, 0),
        ('a.jpg', 'diemhuong1210', '12345678', 'dh1210@example.com', 'Duong', 'Thanh', '2003-10-10', 16, 0)
 GO
