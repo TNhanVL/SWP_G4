@@ -1,0 +1,195 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html {
+    font-family: 'Roboto';
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+a:hover {
+    text-decoration: none;
+    color: unset;
+}
+#header{
+    padding: 0 20px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   position: fixed;
+   top: 0;
+   right: 0;
+   left: 0;
+   z-index: 100;
+   background:#ffffff;
+   border-bottom: 1px solid #ccc;
+   height: 60px;
+}
+
+#header .left-side {
+    width: 70%;
+    display: flex;
+   align-items: center;
+
+}
+
+#header .logo {
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 10px;
+}
+
+#header .search-course {
+    display: block;
+    border: 3px solid seagreen;
+    border-radius: 18px;
+    padding:0 10px;
+    margin-right: 40px;
+    background: #fff;
+    color: seagreen ;
+    height: 40px;
+}
+
+#header .course-opption, #header .quesAndAns {
+    margin-right: 40px;
+    font-weight: bold;
+} 
+
+#header .right-side {
+    display: flex;
+    justify-content: right;
+   align-items: center;
+   color: #000;
+   width:30% ;
+
+   
+}
+#header .right-side .cart {
+    color: #000;
+    font-size: 18px;
+    position: relative;
+}
+
+#header .right-side .user a {
+    display: flex;
+    color: #000;
+    position: relative;
+    align-items: center;
+}
+
+#header .right-side .user a img {
+    height: 40px;
+    width:  40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-left: 20px;
+    object-fit: contain;
+}
+
+#header .right-side .user a {
+    line-height: 60px;
+    font-weight: 500;
+
+}
+
+#header .right-side .notification {
+    color: #000;
+    line-height: 60px;
+    margin-left: 20px;
+    font-size: 18px;
+    position: relative;
+
+}
+
+.cart .quantity {
+    background-color: red;
+    color: #fff;
+    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: absolute;
+    z-index: 10;
+    top: -5px;
+    right: -10px;
+}
+
+.notification .quantity {
+    background-color: red;
+    color: #fff;
+    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: absolute;
+    z-index: 10;
+    top: 10px;
+    right: -10px;
+}
+
+#header .userMenu {
+    position: absolute;
+    background-color:#fff;
+    width: 270px;
+    text-align: left;
+    border: 1px solid #ccc;
+    box-shadow: -2px 2px 1px 1px #ccc;
+    border-radius: 12px;
+    top: 66px;
+    right: 4px;
+    overflow: hidden;
+    z-index: 200;
+}
+
+.mode-btn {
+    position: absolute;
+    left: -270px;
+}
+
+#header .userMenu a {
+    display: flex;
+    font-weight: 300;
+    align-items: center;
+    font-size: 14px;
+    padding:4px 20px;
+    transition: 0.5s;
+}
+
+#header .userMenu a span {
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+#header .userMenu a i {
+    padding: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+}
+
+#header .userMenu a:hover {
+   background-color: #b6f9af;
+}
+
+.userMenu.close {
+    display: none;
+}
+
+.mode-btn {
+    background-color:#fff;
+    text-align: left;
+    border: 1px solid #ccc;
+    box-shadow: -2px 2px 1px 1px #ccc;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 20;
+}

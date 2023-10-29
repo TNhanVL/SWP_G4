@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,7 +52,7 @@ public class CourseController {
             var learner = learnerOptional.get();
             request.getSession().setAttribute("learner", learner);
             var courseProgressOptional = repo.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learner.getID());
-            if(courseProgressOptional.isPresent()){
+            if (courseProgressOptional.isPresent()) {
                 model.addAttribute("coursePurchased", courseID);
                 model.addAttribute("courseProgress", courseProgressOptional.get());
                 request.getSession().setAttribute("courseProgress", courseProgressOptional.get());
@@ -69,5 +70,10 @@ public class CourseController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String allCourses(HttpServletRequest request, HttpServletResponse response) {
         return "user/allCourses";
+    }
+
+    @GetMapping("edit/{courseID}")
+    public String editCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
+        return "reactjs/index";
     }
 }

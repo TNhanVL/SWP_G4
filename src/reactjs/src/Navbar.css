@@ -1,0 +1,57 @@
+@font-face {
+    font-family: OpenSans-Bold;
+    src: url(../public/OpenSans-Bold.ttf);
+}
+
+.Navbar {
+    background-color: rgb(25, 135, 84);
+    height: 50px;
+    width: 100%;
+    box-shadow: 0px 0px 1px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Navbar .logout {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-right: 10px;
+}
+
+.Navbar .user {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-left: 10px;
+}
+
+.Navbar .user span {
+    font-family: OpenSans-Bold;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    max-height: 50px;
+    min-width: max-content;
+}
+
+.Navbar .user img {
+    height: 80%;
+    width: auto;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    box-shadow: 0px 0px 0px 2.5px white;
+}
+
+@media only screen and (max-width: 300px) {
+    .Navbar .user span {
+        display: none;
+    }
+
+    .Navbar .user {
+        justify-content: center;
+    }
+}

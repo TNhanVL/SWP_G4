@@ -1,0 +1,143 @@
+#body-editCourse {
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
+    padding: 10px 50px;
+    display: flex;
+    gap: 30px;
+    background-color: #e8f8e6;
+}
+
+#body-editCourse>.leftPane {
+    width: 20%;
+    min-width: 250px;
+}
+
+#body-editCourse>.leftPane>.accordion {
+    overflow-y: scroll;
+    max-height: calc(100vh - 60px);
+}
+
+#body-editCourse>.leftPane>.accordion::-webkit-scrollbar {
+    display: none;
+}
+
+#body-editCourse>.rightPane {
+    width: calc(80% - 10px);
+    max-width: calc(100% - 250px - 30px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.accordion-header {
+    position: relative;
+    /* display: flex;
+    align-items: center; */
+}
+
+.accordion-header>div {
+    position: absolute;
+    z-index: 5;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.accordion-header>div>i {
+    margin-left: 0px !important;
+    padding-left: 15px;
+    padding-right: 10px;
+}
+
+.accordion-header>button {
+    padding-left: 35px;
+}
+
+.drag-location {
+    border: 2px dashed #999;
+    background: #ede8e8;
+}
+
+.lessonTitles button {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+button.chosing{
+    background-color: darkgrey;
+}
+
+/* #editChapter {
+    display: none;
+} */
+
+
+/* .rightPane select {
+    outline: none;
+    border: none;
+    padding:7px 10px ;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+} */
+
+#lessonType_1,
+#lessonType_2,
+#lessonType_3,
+#lessonType_1-edit,
+#lessonType_2-edit,
+#lessonType_3-edit{
+    display: none;
+}
+
+#questionType_0,
+#questionType_1,
+#questionType_2,
+#questionType_0-edit,
+#questionType_1-edit,
+#questionType_2-edit
+{
+    display: none;
+}
+
+#answer_type_0,
+#answer_type_1,
+#answer_type_0_edit,
+#answer_type_1_edit 
+{
+    display: none;
+}
+
+/* #addRatio {
+    text-align: center;
+    width: 120px;
+    display: block;
+    padding: 5px;
+    background-color: blue;
+    color: #fff;
+    bo
+} */
+
+textarea {
+    border-radius: 4px;
+    width: 100%;
+    outline: none;
+    border: none;
+}
+
+textarea::-webkit-scrollbar {
+    display: none;
+}
+
+#question_create_area {
+    /* display: none; */
+}
+
+#addChapter,
+#editChapter,
+#addLesson,
+#editLesson {
+    display: none;
+}
