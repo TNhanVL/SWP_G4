@@ -28,6 +28,8 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.28'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'junit:junit:4.13.1'
+    // https://mvnrepository.com/artifact/org.awaitility/awaitility
+    testImplementation 'org.awaitility:awaitility:4.2.0'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'junit:junit:4.13.1'
