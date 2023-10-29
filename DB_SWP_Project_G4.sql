@@ -442,6 +442,8 @@ VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gma
         '1990-01-01', 16, 0),
        ('a.jpg', 'dylan12', 'e10adc3949ba59abbe56e057f20f883e', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem',
         '2003-10-12', 16, 0),
+	   ('a.jpg', 'sussy', '80b87ad4e28b6e6c6b0efc1cb797c649', 'giangltce170378@fpt.edu.vn', 'Huong', 'Nguyen Thi Diem',
+        '2003-10-12', 16, 0),
        ('a.jpg', 'diemhuong1210', '12345678', 'dh1210@example.com', 'Duong', 'Thanh', '2003-10-10', 16, 0)
 GO
 --password Fpt@123
