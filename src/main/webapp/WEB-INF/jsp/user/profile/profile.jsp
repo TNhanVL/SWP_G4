@@ -51,8 +51,6 @@
                 <div class="inforTag">
                     <div class="avatar">
                         <img src="<%
-                                    if (loggedInHeader) {
-
                                         boolean isUrl = false;
                                         try {
                                             new URL(learner.getPicture()).toURI();
@@ -65,9 +63,6 @@
                                         } else {
                                             out.print("/public/media/user/" + learner.getID() + "/" + learner.getPicture());
                                         }
-                                    } else {
-                                        out.print("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png");
-                                    }
                                      %>" alt="">
                     </div>
                     <div class="name">
