@@ -58,9 +58,12 @@ public class MainController {
 
             var cookie = new Cookie("ResetToken", resetToken);
 
+            var resetString = resetToken.hashCode() + "";
+
+            cookie.setValue(resetString);
             cookie.setMaxAge(60 * 5);
 
-            EmailService.sendResetPasswordEmail(account.getID());
+            EmailService.sendResetPasswordEmail(account.getID(), resetString);
 
             response.addCookie(cookie);
 
@@ -70,6 +73,24 @@ public class MainController {
             request.getSession().setAttribute("sentPasswordRecoveryEmail", 2);
         }
         return "user/forgotPassword";
+    }
+
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
+
+    public String resetForgotPassword(HttpServletRequest request, @RequestParam String token) {
+        var resetCookie = CookieServices.getResetCookie(request.getCookies());
+        try {
+            if (resetCookie.getValue().equals(token)) {
+                request.getSession().setAttribute("sentPasswordRecoveryEmail", 3);
+            } else {
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            request.getSession().setAttribute("sentPasswordRecoveryEmail", 4);
+        }
+
+        return "user/forgotPassword";
+
     }
 
     @RequestMapping(value = "/loginWithGG", method = RequestMethod.GET)

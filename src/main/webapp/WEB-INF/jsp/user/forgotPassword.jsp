@@ -45,10 +45,16 @@
                     <p id="message"></p>
                 </c:when>
                 <c:when test="${sessionScope.sentPasswordRecoveryEmail == 1}">
-                    yay
+                    Recover email has been sent to your email
                 </c:when>
                 <c:when test="${sessionScope.sentPasswordRecoveryEmail == 2}">
                     Email doesn't associate with any account
+                </c:when>
+                <c:when test="${sessionScope.sentPasswordRecoveryEmail == 3}">
+                    Redirect page
+                </c:when>
+                <c:when test="${sessionScope.sentPasswordRecoveryEmail == 4}">
+                    Request invalided
                 </c:when>
                 <c:otherwise>
 
