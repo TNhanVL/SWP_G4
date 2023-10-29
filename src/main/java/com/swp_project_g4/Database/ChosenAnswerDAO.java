@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author TTNhan
  */
 public class ChosenAnswerDAO extends DBConnection {
@@ -20,7 +19,7 @@ public class ChosenAnswerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select 1 from chosen_answer where quiz_resultID = ? and questionID = ? and selected_answer = ?");
+            statement = conn.prepareStatement("select 1 from chosen_answer where quiz_resultID = ? and questionID = ? and answerID = ?");
             statement.setInt(1, quizResultID);
             statement.setInt(2, questionID);
             statement.setInt(3, selected_answer);
@@ -45,7 +44,7 @@ public class ChosenAnswerDAO extends DBConnection {
             connect();
 
             statement = conn.prepareStatement("select 1 from\n"
-                    + "(select selected_answer as ID from chosen_answer where quiz_resultID = ? and questionID = ?) a\n"
+                    + "(select answerID as ID from chosen_answer where quiz_resultID = ? and questionID = ?) a\n"
                     + "full join\n"
                     + "(select answerID from answer where questionID = ? and correct = 1) b\n"
                     + "on a.ID = b.answerID\n"
@@ -73,10 +72,11 @@ public class ChosenAnswerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into chosen_answer(quiz_resultID,questionID,selected_answer) values(?,?,?)");
+            statement = conn.prepareStatement("insert into chosen_answer(quiz_resultID,questionID,answerID,correct) values(?,?,?,?)");
             statement.setInt(1, quizResultID);
             statement.setInt(2, questionID);
             statement.setInt(3, selected_answer);
+            statement.setBoolean(4, false);
             statement.execute();
 
             //disconnect to database

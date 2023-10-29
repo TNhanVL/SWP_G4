@@ -7,8 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    //if have finished quiz
-    quizFinished = true;
     ArrayList<Question> questions = QuestionDAO.getQuestionByLessonID(lesson.getID());
 %>
 
@@ -122,7 +120,7 @@
             </div>
 
             <div class="finishBtn">
-                <a href="/learn/startAQuiz/<%out.print(lesson.getID());%>">
+                <a href="/learn/startAQuiz/${lessonID}/${lessonProgressID}">
                     <p>Retake</p>
                 </a>
             </div>

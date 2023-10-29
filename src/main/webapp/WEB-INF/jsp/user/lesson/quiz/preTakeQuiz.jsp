@@ -49,7 +49,7 @@
                 <h5><%out.print(QuestionDAO.getNumberQuestionByLessonID(lesson.getID()));%> questions</h5>
             </div>
 
-            <div class="finishBtn"><a href="/learn/startAQuiz/<%out.print(lesson.getID());%>"><p>Take Quiz</p></a></div>
+            <div class="finishBtn"><a href="/learn/startAQuiz/${lessonID}/${lessonProgressID}"><p>Take Quiz</p></a></div>
         </div>
     </form>
 </div>

@@ -14,14 +14,14 @@
 <%
 //    Question question = null;
     ArrayList<Answer> answers = AnswerDAO.getAnswersByQuestionID(question.getID());
-    if (!quizFinished) {
+    if (!quizResult.isFinished()) {
         Collections.shuffle(answers);
     }
     for (Answer answer : answers) {
         String answerName = "answer" + answer.getID();
         boolean checked = ChosenAnswerDAO.CheckChosenAnswer(quizResult.getID(), question.getID(), answer.getID());
         String correctClass = "";
-        if (quizFinished && checked) {
+        if (quizResult.isFinished() && checked) {
             correctClass = AnswerDAO.getAnswer(answer.getID()).isCorrect() ? "correct" : "incorrect";
         }
 %>
@@ -32,7 +32,7 @@
         <%if (checked) {
                 out.print(" checked");
             }
-            if (quizFinished) {
+            if (quizResult.isFinished()) {
                 out.print(" disabled");
             }
         %>

@@ -13,8 +13,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    QuizResult quizResult = QuizResultDAO.getLastQuizResult(learner.getID(), lesson.getID());
-    boolean quizFinished = false;
+    QuizResult quizResult = (QuizResult) request.getAttribute("quizResult");
     if (quizResult == null) {
         //If not take quiz yet
 %>

@@ -153,11 +153,19 @@ public class LearnController {
         }
 
         Set<Integer> completedLessonIDs = new HashSet<>();
-        for(var chapterProgress1: courseProgress.getChapterProgresses()){
-            for(var lessonProgress1: chapterProgress1.getLessonProgresses()){
-                if(lessonProgress1.isCompleted()){
+        for (var chapterProgress1 : courseProgress.getChapterProgresses()) {
+            for (var lessonProgress1 : chapterProgress1.getLessonProgresses()) {
+                if (lessonProgress1.isCompleted()) {
                     completedLessonIDs.add(lessonProgress1.getLessonID());
                 }
+            }
+        }
+
+        //if lesson type == 2 (quiz)
+        if (lesson.getType() == 2) {
+            var quizResults = repo.getQuizResultRepository().findByLessonIDAndLessonProgressID(lesson.getID(), lessonProgress.getID());
+            if (!quizResults.isEmpty()) {
+                model.addAttribute("quizResult", quizResults.get(quizResults.size() - 1));
             }
         }
 
@@ -167,6 +175,7 @@ public class LearnController {
         model.addAttribute("lesson", lesson);
         model.addAttribute("courseID", courseID);
         model.addAttribute("lessonID", lessonID);
+        model.addAttribute("lessonProgressID", lessonProgress.getID());
         model.addAttribute("completedLessonIDs", completedLessonIDs);
         return "user/lesson";
     }
@@ -200,19 +209,33 @@ public class LearnController {
         return "ok";
     }
 
-    @RequestMapping(value = "/startAQuiz/{lessonID}", method = RequestMethod.GET)
-    public String startAQuiz(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID) {
+    @RequestMapping(value = "/startAQuiz/{lessonID}/{lessonProgressID}", method = RequestMethod.GET)
+    public String startAQuiz(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int lessonID, @PathVariable int lessonProgressID) {
         //check logged in
         if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
 
-        Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
-        Lesson lesson = LessonDAO.getLesson(lessonID);
-//        QuizResultDAO.insertQuizResult(new QuizResult(0, lessonID, user.getID(), new Date(), new Date((new Date()).getTime() + lesson.getTime() * 60000)));
+        //check exist lesson
+        var lessonOptional = repo.getLessonRepository().findById(lessonID);
+        if (!lessonOptional.isPresent()) {
+            request.getSession().setAttribute("error", "Not exist this lesson!");
+            return "redirect:/";
+        }
+        var lesson = lessonOptional.get();
 
-        return "redirect:/learn/" + ChapterDAO.getChapter(lesson.getChapterID()).getCourseID() + "/" + lessonID;
+        //check lessonProgress
+        var lessonProgressOptional = repo.getLessonProgressRepository().findById(lessonProgressID);
+        if (!lessonProgressOptional.isPresent()) {
+            request.getSession().setAttribute("error", "Not exist this lesson progress!");
+            return "redirect:/";
+        }
+
+
+        QuizResult quizResult = new QuizResult(lessonID, lessonProgressID, lesson);
+        repo.getQuizResultRepository().save(quizResult);
+        return "redirect:/learn/" + lesson.getChapter().getCourseID() + "/" + lessonID;
     }
 
     @RequestMapping(value = "/updateChosenAnswer/{quizResultID}/{questionID}/{data}", method = RequestMethod.POST)

@@ -36,7 +36,7 @@ public class QuizResult {
     public QuizResult(int lessonID, int lessonProgressID, Lesson lesson) {
         this.lessonID = lessonID;
         this.lessonProgressID = lessonProgressID;
-//        endAt = new Date(startAt.getTime() + lesson.getTime() * 1000000);
+        endAt = new Date(startAt.getTime() + lesson.getTime() * 1000000);
     }
 
     public QuizResult(int ID, int lessonID, int lessonProgressID, int numberOfCorrectAnswer, int numberOfQuestion, int mark, Date startAt, Date endAt) {

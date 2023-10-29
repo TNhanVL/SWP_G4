@@ -306,6 +306,7 @@ CREATE TABLE chosen_answer
     quiz_resultID   INT                NOT NULL,
     questionID      INT                NOT NULL,
     answerID        INT                NOT NULL,
+    correct         BIT DEFAULT 0      NOT NULL,
     FOREIGN KEY (quiz_resultID) REFERENCES quiz_result (quiz_resultID),
     FOREIGN KEY (questionID) REFERENCES question (questionID),
     FOREIGN KEY (answerID) REFERENCES answer (answerID),
