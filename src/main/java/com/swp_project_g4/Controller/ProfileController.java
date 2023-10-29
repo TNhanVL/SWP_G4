@@ -69,6 +69,7 @@ public class ProfileController {
         model.addAttribute("learner", learner);
         model.addAttribute("totalLearningTime", totalLearningTime);
         model.addAttribute("numberOfPurchasedCourses", purchasedCourses.size());
+        model.addAttribute("numberOfCompletedCourse", repo.getCourseProgressRepository().findByLearnerIDAndCompleted(learner.getID(), true).size());
         model.addAttribute("courseProgresses", courseProgresses);
         model.addAttribute("purchasedCourses", purchasedCourses);
         return "user/profile/profile";

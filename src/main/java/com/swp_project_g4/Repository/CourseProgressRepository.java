@@ -17,4 +17,6 @@ public interface CourseProgressRepository extends JpaRepository<CourseProgress, 
     List<CourseProgress> findByCourseID(int courseID);
 
     List<CourseProgress> findByActionAfterCompletedAndCompleted(boolean actionAfterCompleted, boolean completed);
+
+    List<CourseProgress> findByLearnerIDAndCompleted(int learnerID, boolean completed);
 }

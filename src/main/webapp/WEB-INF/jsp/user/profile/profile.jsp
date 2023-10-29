@@ -103,7 +103,7 @@
                     <p class="element"><i class="fa-solid fa-cart-shopping"></i>Courses
                         purchased<span>${numberOfPurchasedCourses}</span></p>
                     <p class="element"><i class="fa-regular fa-circle-check"></i>Courses completed
-                        <span><%out.print(CourseDAO.getNumberCompletedCourse(learner.getID()));%></span>
+                        <span>${numberOfCompletedCourse}</span>
                     </p>
                     <p class="element"><i class="fa-sharp fa-solid fa-certificate"></i>Courses created
                         <span><%out.print(CourseDAO.getNumberCreatedCourse(learner.getID()));%></span>
