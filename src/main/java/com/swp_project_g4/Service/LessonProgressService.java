@@ -13,6 +13,8 @@ import java.util.List;
 public class LessonProgressService {
     @Autowired
     private Repo repo;
+    @Autowired
+    private CourseProgressService courseProgressService;
 
     public boolean markLessonCompleted(int learnerID, int lessonID) {
         try {

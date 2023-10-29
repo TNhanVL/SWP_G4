@@ -36,7 +36,7 @@ public class QuizResult {
     public QuizResult(int lessonID, int lessonProgressID, Lesson lesson) {
         this.lessonID = lessonID;
         this.lessonProgressID = lessonProgressID;
-        endAt = new Date(startAt.getTime() + lesson.getTime() * 1000000);
+        endAt = new Date(startAt.getTime() + lesson.getTime() * 60 * 1000);
     }
 
     public QuizResult(int ID, int lessonID, int lessonProgressID, int numberOfCorrectAnswer, int numberOfQuestion, int mark, Date startAt, Date endAt) {
@@ -51,13 +51,13 @@ public class QuizResult {
     }
 
     @ManyToOne
-    @JoinColumn(name = "lessonID", insertable=false, updatable=false)
+    @JoinColumn(name = "lessonID", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Lesson lesson;
 
     @ManyToOne
-    @JoinColumn(name = "lessonProgressID", insertable=false, updatable=false)
+    @JoinColumn(name = "lessonProgressID", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private LessonProgress lessonProgress;

@@ -285,15 +285,10 @@ public class LearnController {
         Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //check quizResult exist
-        QuizResult quizResult = QuizResultDAO.getQuizResult(quizResultID);
+        QuizResult quizResult = repo.getQuizResultRepository().findById(quizResultID).get();
         if (quizResult == null) {
             return "redirect:/";
         }
-
-        //check owner
-//        if (quizResult.getUserID() != user.getID()) {
-//            return "redirect:/";
-//        }
 
         Lesson lesson = LessonDAO.getLesson(quizResult.getLessonID());
         Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
@@ -304,12 +299,13 @@ public class LearnController {
         }
 
         //set end_at to current
-        quizResult.setEndAt(new Date());
-        QuizResultDAO.updateQuizResult(quizResult);
+        if (quizResult.getEndAt().after(new Date())) quizResult.setEndAt(new Date());
+        quizResult.setFinished(true);
+        repo.getQuizResultRepository().save(quizResult);
 
         int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
         int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lesson.getID());
-        if (numberOfCorrectQuestion * 100 >= numberOfQuestion * 80) {
+        if (numberOfCorrectQuestion * 100 >= numberOfQuestion * lesson.getPercentToPassed()) {
 //            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getID(), request);
             lessonProgressService.markLessonCompleted(learner.getID(), lesson.getID());
         }
