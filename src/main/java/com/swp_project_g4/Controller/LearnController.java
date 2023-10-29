@@ -299,7 +299,7 @@ public class LearnController {
         }
 
         //set end_at to current
-        quizResult.setEndAt(new Date());
+        if (quizResult.getEndAt().after(new Date())) quizResult.setEndAt(new Date());
         quizResult.setFinished(true);
         repo.getQuizResultRepository().save(quizResult);
 
