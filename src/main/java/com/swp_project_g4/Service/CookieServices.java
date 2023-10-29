@@ -54,6 +54,23 @@ public class CookieServices {
         return ok;
     }
 
+    public static Cookie getResetCookie(Cookie[] cookies) {
+        Cookie resetCookie = null;
+
+        try {
+
+            for (var cookie : cookies) {
+                if (cookie.getName().equals("ResetToken"))
+                    return cookie;
+            }
+
+        } catch (Exception e) {
+
+        }
+
+        return resetCookie;
+    }
+
     public static boolean checkLearnerLoggedIn(Cookie[] cookies) {
         boolean ok = false;
 

@@ -31,12 +31,23 @@ public class EmailService {
     final static String from = "yojihangroup@gmail.com";
     final static String password = "drmoubkcmogfmrlu";
 
-    public static void sendResetPasswordEmail(int learnerID) {
+    public static void sendResetPasswordEmail(int learnerID, String resetToken) {
         Learner learner = LearnerDAO.getUser(learnerID);
 
-        var emailContent = "Legalize nuclear bombing";
+        var emailContent = "<div>\n"
+                + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
+                + "        <p>We have received a request to reset your password for your account<b>" + "</b>.</p>\n"
+                + "        <p>To ensure the security of your account, please follow the instructions below to reset your password.</p>\n"
+                + "        <p>Click on the following link to access the password reset page</p>\n"
+                + "        <p><button style=\"padding: 10px;color:#fff;background-color: #048eff;\"><a href=\"http://localhost:8080/resetPassword?token=" + resetToken + "\" style=\"color: white; decoration: none;\">View course</a></p>\n"
+                + "        <p>If you did not initiate this request or believe it to be in error, please contact our support team immediately</p>\n"
+                + "        <p>Please note that for security reasons, this link will expire within the next 5 minus"
+                + " and only possible to reset password on the same device made this request</p>\n"
+                + "        <p>Best regards,</p>\n"
+                + "        <p>The Yojihan Team</p>\n"
+                + "</div>";
 
-        mailTo(learner.getEmail(), "Test reset password", "html", emailContent);
+        mailTo(learner.getEmail(), "Reset password for " + learner.getUsername(), "html", emailContent);
     }
 
     public static void sendEmail(int learnerID, int courseID, String type) {
@@ -63,7 +74,7 @@ public class EmailService {
     }
 
     private static String generateEnrollEmailContent(Learner learner, Course course) {
-        String content = "<div>\n"
+        return "<div>\n"
                 + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
                 + "        <p>Congratulations! You have successfully enrolled in the course <b>" + course.getName() + "</b>.</p>\n"
                 + "        <p>We hope you enjoy the course and learn a lot. If you have any questions, please do not hesitate to contact us.</p>\n"
@@ -72,22 +83,21 @@ public class EmailService {
                 + "        <p>Best regards,</p>\n"
                 + "        <p>The Yojihan Team</p>\n"
                 + "</div>";
-        return content;
     }
 
     private static String generateChangePasswordEmailContent(Learner learner) {
-        String content = "<div>\n"
+        return "<div>\n"
                 + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
                 + "        <p>You have successfully changed your password. Please keep your password safe and confidential.</p>\n"
                 + "        <p>If you have any questions, please do not hesitate to contact us.</p>\n"
                 + "        <p>Best regards,</p>\n"
                 + "        <p>The Yojihan Team</p>\n"
                 + "</div>";
-        return content;
+
     }
 
     private static String generateCompleteCourseEmailContent(Learner learner, Course course) {
-        String content = "<div>\n"
+        return "<div>\n"
                 + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
                 + "        <p>Congratulations! You have successfully completed the course <b>" + course.getName() + "</b>.</p>\n"
                 + "        <p>We hope you enjoyed the course and learned a lot. Thank you for being a part of the Yojihan community.</p>\n"
@@ -96,7 +106,6 @@ public class EmailService {
                 + "        <p>Best regards,</p>\n"
                 + "        <p>The Yojihan Team</p>\n"
                 + "</div>";
-        return content;
     }
 
     private static String generateEmailSubject(String type, String courseName) {
@@ -178,7 +187,7 @@ public class EmailService {
     }
 
     public static void main(String[] args) {
-        sendEmail(3,5,"enroll");
+        sendEmail(3, 5, "enroll");
 //        mailTo("diemhuongnt.vl@gmail.com", "Certificate", "html", complete);
 
     }
