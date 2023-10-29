@@ -14,6 +14,8 @@ public class CourseProgressService {
         if (!courseProgress.isCompleted()) return;
         courseProgress.setActionAfterCompleted(true);
         repo.getCourseProgressRepository().save(courseProgress);
+
+        EmailService.sendCompleteCourseEmail(courseProgress.getLearner(), courseProgress.getCourse());
     }
 
 }
