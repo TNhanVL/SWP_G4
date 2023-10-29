@@ -108,7 +108,7 @@
                     <p class="element"><i class="fa-sharp fa-solid fa-certificate"></i>Courses created
                         <span><%out.print(CourseDAO.getNumberCreatedCourse(learner.getID()));%></span>
                     </p>
-                    <p class="element">Learn since 2020</p>
+                    <p class="element">Learn since ${firstYearOfLearning}</p>
                 </div>
             </div>
 

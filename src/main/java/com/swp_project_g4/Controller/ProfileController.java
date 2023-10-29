@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Controller
 @Service
@@ -65,11 +66,18 @@ public class ProfileController {
             totalLearningTime += courseProgress.getProgressPercent() * courseProgress.getCourse().getTotalTime();
         }
 
+        int firstYearOfLearning = (new Date()).getYear();
+        //first Year of learning
+        if (courseProgresses.size() > 0) {
+            firstYearOfLearning = courseProgresses.get(0).getStartAt().getYear();
+        }
+
         model.addAttribute("guest", guest);
         model.addAttribute("learner", learner);
         model.addAttribute("totalLearningTime", totalLearningTime);
         model.addAttribute("numberOfPurchasedCourses", purchasedCourses.size());
         model.addAttribute("numberOfCompletedCourse", repo.getCourseProgressRepository().findByLearnerIDAndCompleted(learner.getID(), true).size());
+        model.addAttribute("firstYearOfLearning", firstYearOfLearning + 1900);
         model.addAttribute("courseProgresses", courseProgresses);
         model.addAttribute("purchasedCourses", purchasedCourses);
         return "user/profile/profile";
