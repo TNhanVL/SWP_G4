@@ -5,6 +5,7 @@ import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
+import com.swp_project_g4.Service.CourseService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CourseController {
     @Autowired
     private Repo repo;
+    @Autowired
+    private CourseService courseService;
 
     @RequestMapping(value = "/deleteOrder/{courseID}", method = RequestMethod.GET)
     public String deleteOrderFromCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
@@ -60,7 +63,9 @@ public class CourseController {
         }
 
         var courseProgresses = repo.getCourseProgressRepository().findByCourseID(courseID);
+        var instructors = courseService.getAllInstructors(courseID);
 
+        model.addAttribute("instructors", instructors);
         model.addAttribute("numberOfPurchased", courseProgresses.size());
         model.addAttribute("courseID", courseID);
         request.getSession().setAttribute("courseID", courseID);

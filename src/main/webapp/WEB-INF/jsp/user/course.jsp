@@ -4,10 +4,9 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Model.Organization" %>
-<%@page import="com.swp_project_g4.Model.Course" %>
 <%@ page import="com.swp_project_g4.Database.*" %>
-<%@ page import="com.swp_project_g4.Model.CourseProgress" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.swp_project_g4.Model.*" %>
 <%-- 
     Document   : allCourse
     Created on : Oct 4, 2023, 9:20:17 PM
@@ -30,8 +29,6 @@
         response.sendRedirect("/");
         return;
     }
-
-    Learner instructor = LearnerDAO.getUser(course.getInstructorID());
 
     Organization organization = OrganizationDAO.getOrganization(course.getOrganizationID());
 
@@ -70,12 +67,18 @@
                 <h1><%out.print(course.getName());%></h1>
             </div>
             <div class="instructorInfor">
-                <img src=<%out.print(request.getContextPath() + "/public/media/user/" + instructor.getID() + "/" + instructor.getPicture());%> alt=""
-                     class="instructorImg">
                 <p class="instructorName">
-                    Instructor: <a
-                        href="/profile/<%out.print(instructor.getUsername());%>"><%out.print(instructor.getFirstName() + " " + instructor.getLastName());%></a>
+                    Instructor:
                 </p>
+                <c:forEach var="instructor" items="${instructors}">
+
+                    <img src="/public/media/instructor/${instructor.ID}/${instructor.picture}" alt=""
+                         class="instructorImg">
+                    <p class="instructorName">
+                        <a
+                                href="/profile/instructor/${instructor.username}">${instructor.firstName} ${instructor.lastName}</a>
+                    </p>
+                </c:forEach>
             </div>
             <div class="price">
                 Price: <span><%out.print(course.getPrice());%>$</span>

@@ -95,9 +95,9 @@ GO
 
 CREATE TABLE sale
 (
-    saleID     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    courseID   INT                NOT NULL,
-    price      NUMERIC(10, 2)     NOT NULL,
+    saleID   INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    courseID INT                NOT NULL,
+    price    NUMERIC(10, 2)     NOT NULL,
     start_at DATETIME,
     end_at   DATETIME,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
@@ -478,9 +478,11 @@ GO
 --        (2, 2, 'instructor_2', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_2@example.com', '', 'Jane', 'Doe', 1);
 INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [first_name], [last_name],
                         [status])
-VALUES (1, 1, 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@example.com', NULL, 'John', 'Doe', 1),
-       (1, 1, 'instructor_2', '202cb962ac59075b964b07152d234b70', 'instructor_2@example.com', NULL, 'Jane', 'Doe', 1),
-       (1, 1, 'instructor_3', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_3@example.com', NULL, 'Peter', 'Parker',
+VALUES (1, 1, 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@example.com', 'a.jpg', 'John', 'Doe', 1),
+       (1, 1, 'instructor_2', '202cb962ac59075b964b07152d234b70', 'instructor_2@example.com', 'a.jpg', 'Jane', 'Doe',
+        1),
+       (1, 1, 'instructor_3', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_3@example.com', 'a.jpg', 'Peter',
+        'Parker',
         1);
 
 
@@ -512,7 +514,15 @@ VALUES (1, 1),
        (1, 3),
        (2, 1),
        (3, 2),
-       (4, 3)
+       (4, 3),
+       (5, 2),
+       (6, 3),
+       (7, 1),
+       (8, 2),
+       (9, 3),
+       (10, 1),
+       (11, 2),
+       (12, 3)
 GO
 INSERT INTO cart_product
     (userID, courseID)
