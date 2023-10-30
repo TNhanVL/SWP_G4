@@ -32,7 +32,7 @@ function Navbar({learner}) {
     return (
         <div id="header">
             <div className="left-side">
-                <a href="index.html">
+                <a href="/">
                     <img src="/public/assets/imgs/logo.png" alt="logo" className="logo"></img>
                 </a>
                 <form action="">
