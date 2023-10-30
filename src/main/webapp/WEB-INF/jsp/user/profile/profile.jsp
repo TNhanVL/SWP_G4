@@ -41,10 +41,10 @@
 <div id="main">
 
     <c:if test="${!guest}">
-        <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'info')">Profile</button>
-            <button class="tablinks" onclick="openTab(event, 'personal')">Personal Information</button>
-        </div>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'info')">Profile</button>
+        <button class="tablinks" onclick="openTab(event, 'personal')">Personal Information</button>
+    </div>
     </c:if>
 
     <div id="info" class="tabcontent active">
@@ -121,82 +121,145 @@
 
 
     <c:if test="${!guest}">
-        <div id="personal" class="tabcontent">
+    <div id="personal" class="tabcontent">
 
-            <div class="personal">
+        <div class="personal">
 
-                <div class="header">
-                    <h3>Edit my profile</h3>
-                    <button onclick="window.location.href = '#changePassword'">Change password</button>
-                </div>
-
-                <p>Let the Yojihan community of other learners and instructors know more about you!</p>
-
-                <form action="/updateUser?userID=${learner.ID}" method="post">
-                    <div>
-                        <label for="firstName">First name:</label>
-                        <input value="${learner.firstName}" type="text" id="firstName" name="firstName"
-                               placeholder="Enter your first name" required>
-                    </div>
-
-                    <div>
-                        <label for="lastName">Last name:</label>
-                        <input value="${learner.lastName}" type="text" id="lastName" name="lastName"
-                               placeholder="Enter your last name" required>
-                    </div>
-                    <div>
-                        <label for="birthday">Birthday: </label>
-                        <input value=
-                                       '<fmt:formatDate pattern="yyyy-MM-dd" value="${learner.birthday}"/>'
-                               type=" date" id="birthday" name="birthday" placeholder="dd/mm/yyyy" required>
-                    </div>
-
-                    <% ArrayList<Country> countries = CountryDAO.getAllCountry();
-                        request.getSession().setAttribute("countries", countries);
-                    %>
-
-                    <div>
-                        <label for="country">Country:</label>
-                        <select name="countryID" id="country">
-                            <c:forEach items="${countries}" var="country">
-                                <option value="${country.ID}" class="form-control" placeholder="Enter your country"
-                                        required
-                                        <c:if test="${country.ID == learner.countryID}">selected</c:if>>${country.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="email">Email address:</label>
-                        <input value="${learner.email}" type="email" id="email" name="email"
-                               placeholder="Enter your email address" required>
-                    </div>
-
-                    <hr>
-
-                    <div class="saveInfor">
-                        <button type="submit">Update</button>
-                    </div>
-                </form>
-
+            <div class="header">
+                <h3>Edit my profile</h3>
+                <button type="button"
+                        class="btn btn-secondary float-right"
+                        id="changePasswordButton">
+                    Change Password
+                </button>
             </div>
 
+            <p>Let the Yojihan community of other learners and instructors know more about you!</p>
+
+            <form action="/updateUser?userID=${learner.ID}" method="post">
+                <div>
+                    <label for="firstName">First name:</label>
+                    <input value="${learner.firstName}" type="text" id="firstName" name="firstName"
+                           placeholder="Enter your first name" required>
+                </div>
+
+                <div>
+                    <label for="lastName">Last name:</label>
+                    <input value="${learner.lastName}" type="text" id="lastName" name="lastName"
+                           placeholder="Enter your last name" required>
+                </div>
+                <div>
+                    <label for="birthday">Birthday: </label>
+                    <input value=
+                                   '<fmt:formatDate pattern="yyyy-MM-dd" value="${learner.birthday}"/>'
+                           type=" date" id="birthday" name="birthday" placeholder="dd/mm/yyyy" required>
+                </div>
+
+                <% ArrayList<Country> countries = CountryDAO.getAllCountry();
+                    request.getSession().setAttribute("countries", countries);
+                %>
+
+                <div>
+                    <label for="country">Country:</label>
+                    <select name="countryID" id="country">
+                        <c:forEach items="${countries}" var="country">
+                            <option value="${country.ID}" class="form-control" placeholder="Enter your country"
+                                    required
+                                    <c:if test="${country.ID == learner.countryID}">selected</c:if>>${country.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="email">Email address:</label>
+                    <input value="${learner.email}" type="email" id="email" name="email"
+                           placeholder="Enter your email address" required>
+                </div>
+
+                <hr>
+
+                <div class="saveInfor">
+                    <button type="submit">Update</button>
+                </div>
+            </form>
+
         </div>
+
+    </div>
     </c:if>
+    <div id="overlay"></div>
 
+    <div>
+        <form id="passwordForm"
+              action="/changePassword"
+              method="POST"
+              style="display: none">
+            <input
+                    type="hidden"
+                    name="username"
+                    value="${learner.username}"
+            />
 
-</div>
+            <h3>Change Password</h3>
+            <div class="form-group">
+                <label for="oldPassword">Old Password:</label>
+                <input
+                        type="password"
+                        class="form-control"
+                        id="oldPassword"
+                        name="oldPassword"
+                />
+            </div>
+            <div class="form-group">
+                <label for="password">New Password:</label>
+                <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                />
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input
+                        type="password"
+                        class="form-control"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                />
+            </div>
+            <div id="passwordMatchError" style="display: none; color: red">
+                Passwords do not match.
+            </div>
+            <div id="passwordError" style="display: none; color: red">
+                Password cannot be empty.
+            </div>
+            <button type="submit"
+                    class="btn btn-primary"
+                    name="submit"
+                    value="password">
+                Save
+            </button>
+            <button type="button"
+                    class="btn btn-secondary"
+                    id="cancelPasswordChange">
+                Cancel
+            </button>
+        </form>
 
-<!-- END BODY -->
+    </div>
 
-<%@include file="../footer.jsp" %>
+    <!-- END BODY -->
 
-<%@include file="../foot.jsp" %>
+    <%@include file="../footer.jsp" %>
 
-<script src="/public/assets/js/lesson.js"></script>
-<script src="/public/assets/js/option.js"></script>
+    <%@include file="../foot.jsp" %>
 
-<%@include file="../popUpMessage.jsp" %>
+    <script src="/public/assets/js/lesson.js"></script>
+    <script src="/public/assets/js/option.js"></script>
+    <script src="/public/assets/js/change_password.js"></script>
+
+    <%@include file="../popUpMessage.jsp" %>
 
 </body>
 

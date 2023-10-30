@@ -60,8 +60,8 @@ public class MainController {
             var cookie2 = new Cookie("ResetID", account.getID() + "");
 
 
-            cookie.setMaxAge(60 * 5 * 60);
-            cookie2.setMaxAge(60 * 5 * 60);
+            cookie.setMaxAge(60 * 5);
+            cookie2.setMaxAge(60 * 5);
 
             EmailService.sendResetPasswordEmail(account.getID(), resetToken);
 
@@ -92,6 +92,25 @@ public class MainController {
 
         return "user/forgotPassword";
 
+    }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+
+    public String changePassword(HttpServletResponse response, HttpServletRequest request, @RequestParam String password, @RequestParam String oldPassword, @RequestParam String username) {
+        try {
+            var user = repo.getLearnerRepository().findByUsernameAndPassword(username, MD5.getMd5(oldPassword)).orElseThrow();
+
+            CookieServices.logoutLearner(request, response);
+
+            user.setPassword(MD5.getMd5(password));
+            repo.getLearnerRepository().save(user);
+
+            request.getSession().setAttribute("success", "Your password has been changed, please login again");
+            return "redirect:/";
+        } catch (Exception e) {
+            request.getSession().setAttribute("error", "Your password cannot be change in the moment");
+        }
+        return "redirect:/profile/" + username;
     }
 
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
