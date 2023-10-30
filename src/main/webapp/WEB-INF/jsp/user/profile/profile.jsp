@@ -54,23 +54,26 @@
                 <div class="inforTag">
                     <div class="avatar">
                         <img src="<%
-                                        boolean isUrl = false;
-                                        try {
-                                            new URL(user.getPicture()).toURI();
-                                            isUrl = true;
-                                        } catch (Exception e) {
-                                        }
+                            String pictureUrl = "";
+                            if(learner != null) pictureUrl = learner.getPicture();
+                            if(instructor != null) pictureUrl = instructor.getPicture();
+                            boolean isUrl = false;
+                            try {
+                                new URL(pictureUrl).toURI();
+                                isUrl = true;
+                            } catch (Exception e) {
+                            }
 
-                                        if (isUrl) {
-                                            out.print(user.getPicture());
-                                        } else {
-                                            if(learner != null){
-                                                out.print("/public/media/user/" + learner.getID() + "/" + user.getPicture());
-                                            }else{
-                                                out.print("/public/media/user/" + instructor.getID() + "/" + user.getPicture());
-                                            }
-                                        }
-                                     %>" alt="">
+                            if (isUrl) {
+                                out.print(pictureUrl);
+                            } else {
+                                if(learner != null){
+                                    out.print("/public/media/user/" + learner.getID() + "/" + pictureUrl);
+                                }else{
+                                    out.print("/public/media/user/" + instructor.getID() + "/" + pictureUrl);
+                                }
+                            }
+                        %>" alt="">
                     </div>
                     <div class="name">
                         <h4>${user.firstName} ${user.lastName}</h4>
@@ -100,22 +103,26 @@
                 </div> -->
                 </div>
                 <div class="expTag">
-                    <h4>Experience</h4>
-                    <p class="element"><i class="fa-sharp fa-regular fa-clock"></i>Total learning hours
-                        <span><%
-                            int sumTimeCompletedInMinute = (int) request.getAttribute("totalLearningTime");
-                            out.print(Math.round(sumTimeCompletedInMinute / 6.0) / 10.0);
-                        %></span>
-                    </p>
-                    <p class="element"><i class="fa-solid fa-cart-shopping"></i>Courses
-                        purchased<span>${numberOfPurchasedCourses}</span></p>
-                    <p class="element"><i class="fa-regular fa-circle-check"></i>Courses completed
-                        <span>${numberOfCompletedCourse}</span>
-                    </p>
-                    <p class="element"><i class="fa-sharp fa-solid fa-certificate"></i>Courses created
-                        <span>${numberOfCreatedCourse}</span>
-                    </p>
-                    <p class="element">Learn since ${firstYearOfLearning}</p>
+                    <h4 class="mb-3">Experience</h4>
+                    <c:if test="${learner != null}">
+                        <p class="element"><i class="fa-sharp fa-regular fa-clock"></i>Total learning hours
+                            <span><%
+                                int sumTimeCompletedInMinute = (int) request.getAttribute("totalLearningTime");
+                                out.print(Math.round(sumTimeCompletedInMinute / 6.0) / 10.0);
+                            %></span>
+                        </p>
+                        <p class="element"><i class="fa-solid fa-cart-shopping"></i>Courses
+                            purchased<span>${numberOfPurchasedCourses}</span></p>
+                        <p class="element"><i class="fa-regular fa-circle-check"></i>Courses completed
+                            <span>${numberOfCompletedCourse}</span>
+                        </p>
+                        <p class="element">Learn since ${firstYearOfLearning}</p>
+                    </c:if>
+                    <c:if test="${instructor != null}">
+                        <p class="element"><i class="fa-sharp fa-solid fa-certificate"></i>Courses created
+                            <span>${createdCourses.size()}</span>
+                        </p>
+                    </c:if>
                 </div>
             </div>
 

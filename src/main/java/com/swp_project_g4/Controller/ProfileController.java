@@ -45,7 +45,6 @@ public class ProfileController {
         var usernameInCookie = CookieServices.getUserNameOfLearner(request.getCookies());
         boolean guest = true;
 
-        System.out.println(username);
         var learnerOptional = repo.getLearnerRepository().findByUsername(username);
         if (!learnerOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this username!");
@@ -78,8 +77,8 @@ public class ProfileController {
         }
 
 
-
         model.addAttribute("guest", guest);
+        model.addAttribute("user", (User) learner);
         model.addAttribute("learner", learner);
         model.addAttribute("totalLearningTime", totalLearningTime);
         model.addAttribute("numberOfPurchasedCourses", purchasedCourses.size());
@@ -124,7 +123,6 @@ public class ProfileController {
         model.addAttribute("totalLearningTime", totalLearningTime);
         model.addAttribute("numberOfPurchasedCourses", purchasedCourses.size());
         model.addAttribute("numberOfCompletedCourse", 0);
-        model.addAttribute("numberOfCreatedCourse", 0);
         model.addAttribute("firstYearOfLearning", firstYearOfLearning + 1900);
         model.addAttribute("courseProgresses", courseProgresses);
         model.addAttribute("purchasedCourses", purchasedCourses);
