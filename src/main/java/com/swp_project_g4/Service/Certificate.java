@@ -30,13 +30,24 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.swp_project_g4.Repository.Repo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author TTNhan
  */
+@Service
 public class Certificate {
+
+    private static Repo repo;
+
+    @Autowired
+    public Certificate(Repo repo) {
+        this.repo = repo;
+    }
 
     private static String srcPath = "src/main/webapp/public";
 
@@ -115,58 +126,9 @@ public class Certificate {
         addText(OrganizationName, fontName, baseColor, size, px, py, contentByte, document);
     }
 
-    public static void createCertificate(String certificateName, int userID, int courseID, HttpServletRequest request) {
-
-        srcPath = request.getSession().getServletContext().getRealPath("/") + "../../main/webapp/public";
-
-        Learner learner = LearnerDAO.getUser(userID);
-        Course course = CourseDAO.getCourse(courseID);
-        String imagePath = srcPath + "/assets/imgs/certificate/Yojihan_Certificate.png"; // Provide the path to your image file
-
-        String outputFilename = srcPath + "/media/certificate/" + certificateName;
-
-        try {
-            // Initialize the document and writer
-            Document document = new Document(PageSize.A4.rotate());
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(outputFilename));
-            document.open();
-
-            // Load the background image
-            Image backgroundImage = Image.getInstance(imagePath);
-
-            // Set the size and position of the image to cover the whole page
-            backgroundImage.scaleAbsolute(document.getPageSize());
-            backgroundImage.setAbsolutePosition(0, 0);
-
-            // Add the image to the document
-            PdfContentByte contentByte = writer.getDirectContentUnder();
-            contentByte.addImage(backgroundImage);
-
-            // Add Info into the certificate
-            addUserName(learner.getFirstName() + " " + learner.getLastName(), contentByte, document);
-            addCourseName(course.getName(), contentByte, document);
-            Instructor instructor = InstructorDAO.getInstructor(course.getInstructorID());
-            if (instructor != null) {
-                addInstructorName(instructor.getFirstName() + " " + instructor.getLastName(), contentByte, document);
-            }
-
-            addDate(contentByte, document);
-
-            Organization organization = OrganizationDAO.getOrganization(course.getOrganizationID());
-            addOrganizationName(organization.getName(), contentByte, document);
-
-            document.close();
-
-//            System.out.println("Certificate generated successfully!");
-
-        } catch (DocumentException | IOException e) {
-            System.out.println(e);
-        }
-    }
-
     public static void createCertificate(String certificateName, int userID, int courseID) {
         Learner learner = LearnerDAO.getUser(userID);
-        Course course = CourseDAO.getCourse(courseID);
+        Course course = repo.getCourseRepository().findById(courseID).get();
         String imagePath = "public/certificate/Yojihan_Certificate.png"; // Provide the path to your image file
 
         try {
@@ -189,7 +151,8 @@ public class Certificate {
             // Add Info into the certificate
             addUserName(learner.getFirstName() + " " + learner.getLastName(), contentByte, document);
             addCourseName(course.getName(), contentByte, document);
-            Instructor instructor = InstructorDAO.getInstructor(course.getInstructorID());
+
+            Instructor instructor = course.getInstructs().get(0).getInstructor();
             if (instructor != null) {
                 addInstructorName(instructor.getFirstName() + " " + instructor.getLastName(), contentByte, document);
             }

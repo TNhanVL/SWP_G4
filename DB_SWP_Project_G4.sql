@@ -82,7 +82,6 @@ CREATE TABLE course
 (
     courseID       INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     organizationID INT                NOT NULL,
-    instructorID   INT                NOT NULL,
     name           NVARCHAR(50)       NOT NULL,
     [picture]      TEXT,
     [description]  NVARCHAR(50),
@@ -90,8 +89,7 @@ CREATE TABLE course
     total_time     INT DEFAULT 0,
     price          NUMERIC(10, 2)     NOT NULL,
     rate           NUMERIC(2, 1),
-    FOREIGN KEY (organizationID) REFERENCES organization (organizationID),
-    FOREIGN KEY (instructorID) REFERENCES [learner] (learnerID)
+    FOREIGN KEY (organizationID) REFERENCES organization (organizationID)
 );
 GO
 
@@ -100,8 +98,8 @@ CREATE TABLE sale
     saleID     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     courseID   INT                NOT NULL,
     price      NUMERIC(10, 2)     NOT NULL,
-    start_date DATETIME,
-    end_date   DATETIME,
+    start_at DATETIME,
+    end_at   DATETIME,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -123,9 +121,9 @@ GO
 
 CREATE TABLE instruct
 (
-    instructID   INT NOT NULL,
-    courseID     INT NOT NULL,
-    instructorID INT NOT NULL,
+    instructID   INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    courseID     INT                NOT NULL,
+    instructorID INT                NOT NULL,
     FOREIGN KEY (instructorID) REFERENCES [instructor] (instructorID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
     UNIQUE (instructorID, courseID)
@@ -480,7 +478,7 @@ GO
 --        (2, 2, 'instructor_2', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_2@example.com', '', 'Jane', 'Doe', 1);
 INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [first_name], [last_name],
                         [status])
-VALUES (1, 1, 'instructor_1', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@example.com', NULL, 'John', 'Doe', 1),
+VALUES (1, 1, 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@example.com', NULL, 'John', 'Doe', 1),
        (1, 1, 'instructor_2', '202cb962ac59075b964b07152d234b70', 'instructor_2@example.com', NULL, 'Jane', 'Doe', 1),
        (1, 1, 'instructor_3', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_3@example.com', NULL, 'Peter', 'Parker',
         1);
@@ -488,19 +486,33 @@ VALUES (1, 1, 'instructor_1', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@
 
 GO
 INSERT INTO course
-(name, [picture], [description], organizationID, instructorID, price, rate, verified, total_time)
-VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 1, 4.2, 1, 0),
-       ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5, 1, 0),
-       ('C++', 'a.png', 'hard', 1, 3, 1.2, 4.7, 1, 0),
-       ('PYTHON FOR BEGINNER', 'a.png', 'easy', 1, 1, 1.4, 4.2, 1, 0),
-       ('Java advance', 'a.png', 'medium', 1, 2, 2.5, 4.5, 1, 0),
-       ('C++', 'a.png', 'hard', 1, 3, 600, 4.7, 1, 0),
-       ('Java basic', 'a.png', 'easy', 1, 1, 200, 4.2, 1, 0),
-       ('Java advance', 'a.png', 'medium', 1, 2, 0.4, 4.5, 1, 0),
-       ('C++', 'a.png', 'hard', 1, 3, 5, 4.7, 1, 0),
-       ('Java basic', 'a.png', 'easy', 1, 1, 3, 4.2, 1, 0),
-       ('Java advance', 'a.png', 'medium', 1, 2, 2, 4.5, 1, 0),
-       ('C++', 'a.png', 'hard', 1, 3, 5, 4.7, 1, 0)
+(name, [picture], [description], organizationID, price, rate, verified, total_time)
+VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 4.2, 1, 0),
+       ('Java advance', 'a.png', 'medium', 1, 2, 4.5, 1, 0),
+       ('C++', 'a.png', 'hard', 1, 1.2, 4.7, 1, 0),
+       ('PYTHON FOR BEGINNER', 'a.png', 'easy', 1, 1.4, 4.2, 1, 0),
+       ('Java advance', 'a.png', 'medium', 1, 2.5, 4.5, 1, 0),
+       ('C++', 'a.png', 'hard', 1, 600, 4.7, 1, 0),
+       ('Java basic', 'a.png', 'easy', 1, 200, 4.2, 1, 0),
+       ('Java advance', 'a.png', 'medium', 1, 0.4, 4.5, 1, 0),
+       ('C++', 'a.png', 'hard', 1, 5, 4.7, 1, 0),
+       ('Java basic', 'a.png', 'easy', 1, 1, 4.2, 1, 0),
+       ('Java advance', 'a.png', 'medium', 1, 2, 4.5, 1, 0),
+       ('C++', 'a.png', 'hard', 1, 5, 4.7, 1, 0)
+GO
+INSERT INTO instruct(courseID, instructorID)
+VALUES (1, 1),
+       (2, 2),
+       (3, 3),
+       (4, 1),
+       (1, 2),
+       (2, 3),
+       (3, 1),
+       (4, 2),
+       (1, 3),
+       (2, 1),
+       (3, 2),
+       (4, 3)
 GO
 INSERT INTO cart_product
     (userID, courseID)

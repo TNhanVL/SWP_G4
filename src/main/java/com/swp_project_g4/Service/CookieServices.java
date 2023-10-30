@@ -21,11 +21,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class CookieServices {
 
+    private static Repo repo;
     @Autowired
-    private Repo repo;
+    public CookieServices(Repo repo){
+        this.repo = repo;
+    }
 
     static final String learnerTokenName = "learnerJwtToken";
     static final String adminTokenName = "adminJwtToken";
+    static final String organizationTokenName = "organizationJwtToken";
+    static final String instructorTokenName = "instructorJwtToken";
 
     public static boolean checkAdminLoggedIn(Cookie[] cookies) {
         boolean ok = false;
@@ -54,29 +59,6 @@ public class CookieServices {
         return ok;
     }
 
-    public static Cookie[] getResetCookie(Cookie[] cookies) {
-        Cookie[] resetCookie = new Cookie[2];
-
-        try {
-
-            for (var cookie : cookies) {
-                if (cookie.getName().equals("ResetToken")) {
-                    resetCookie[0] = cookie;
-                    continue;
-                }
-
-                if (cookie.getName().equals("ResetID")) {
-                    resetCookie[1] = cookie;
-                }
-            }
-
-        } catch (Exception e) {
-
-        }
-
-        return resetCookie;
-    }
-
     public static boolean checkLearnerLoggedIn(Cookie[] cookies) {
         boolean ok = false;
 
@@ -103,6 +85,58 @@ public class CookieServices {
         }
 
         return ok;
+    }
+
+    public static boolean checkInstructorLoggedIn(Cookie[] cookies) {
+        boolean ok = false;
+
+        try {
+            String jwtToken = null;
+
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(instructorTokenName)) {
+                    jwtToken = cookie.getValue();
+                    break;
+                }
+            }
+
+            Claims claims = JwtUtil.parseJwt(jwtToken);
+            if (claims != null) {
+                String username = (String) claims.get("username");
+                String password = (String) claims.get("password");
+                var instructorOptional = repo.getInstructorRepository().findByUsername(username);
+                if(instructorOptional.isPresent() && instructorOptional.get().getPassword().equals(password)) return true;
+            }
+            return false;
+
+        } catch (Exception e) {
+
+        }
+
+        return ok;
+    }
+
+    public static Cookie[] getResetCookie(Cookie[] cookies) {
+        Cookie[] resetCookie = new Cookie[2];
+
+        try {
+
+            for (var cookie : cookies) {
+                if (cookie.getName().equals("ResetToken")) {
+                    resetCookie[0] = cookie;
+                    continue;
+                }
+
+                if (cookie.getName().equals("ResetID")) {
+                    resetCookie[1] = cookie;
+                }
+            }
+
+        } catch (Exception e) {
+
+        }
+
+        return resetCookie;
     }
 
     public static boolean loginLearner(HttpServletResponse response, Learner learner) {
@@ -171,6 +205,28 @@ public class CookieServices {
 
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(learnerTokenName)) {
+                    jwtToken = cookie.getValue();
+                    break;
+                }
+            }
+
+            Claims claims = JwtUtil.parseJwt(jwtToken);
+            ans = (String) claims.get("username");
+
+        } catch (Exception e) {
+        }
+
+        return ans;
+    }
+
+    public static String getUserNameOfInstructor(Cookie[] cookies) {
+        String ans = "";
+
+        try {
+            String jwtToken = null;
+
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(instructorTokenName)) {
                     jwtToken = cookie.getValue();
                     break;
                 }

@@ -4,20 +4,21 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Model.Country" %>
-<%@page import="com.swp_project_g4.Model.Instructor" %>
-<%@page import="com.swp_project_g4.Model.Course" %>
 <%@page import="java.util.ArrayList" %>
-<%@page import="com.swp_project_g4.Model.Organization" %>
 <%@ page import="com.swp_project_g4.Database.*" %>
+<%@ page import="com.swp_project_g4.Model.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <%
-    Learner learner = (Learner) request.getAttribute("learner");
     boolean guest = (boolean) request.getAttribute("guest");
-    Instructor instructor = InstructorDAO.getInstructor(learner.getID());
+    User user = (User) request.getAttribute("user");
+    Learner learner = (Learner) request.getAttribute("learner");
+    Instructor instructor = (Instructor) request.getAttribute("instructor");
+    request.getSession().setAttribute("user", user);
+    request.getSession().setAttribute("learner", learner);
+    request.getSession().setAttribute("instructor", instructor);
 %>
 
 <!DOCTYPE html>
@@ -55,24 +56,28 @@
                         <img src="<%
                                         boolean isUrl = false;
                                         try {
-                                            new URL(learner.getPicture()).toURI();
+                                            new URL(user.getPicture()).toURI();
                                             isUrl = true;
                                         } catch (Exception e) {
                                         }
 
                                         if (isUrl) {
-                                            out.print(learner.getPicture());
+                                            out.print(user.getPicture());
                                         } else {
-                                            out.print("/public/media/user/" + learner.getID() + "/" + learner.getPicture());
+                                            if(learner != null){
+                                                out.print("/public/media/user/" + learner.getID() + "/" + user.getPicture());
+                                            }else{
+                                                out.print("/public/media/user/" + instructor.getID() + "/" + user.getPicture());
+                                            }
                                         }
                                      %>" alt="">
                     </div>
                     <div class="name">
-                        <h4>${learner.firstName} ${learner.lastName}</h4>
+                        <h4>${user.firstName} ${user.lastName}</h4>
                     </div>
 
                     <div class="orgranization">
-                        <p><%out.print(CountryDAO.getCountry(learner.getCountryID()).getName());%></p>
+                        <p><%out.print(CountryDAO.getCountry(user.getCountryID()).getName());%></p>
                         <%
                             if (instructor != null) {
                                 Organization organization = OrganizationDAO.getOrganization(instructor.getOrganizationID());
@@ -108,13 +113,14 @@
                         <span>${numberOfCompletedCourse}</span>
                     </p>
                     <p class="element"><i class="fa-sharp fa-solid fa-certificate"></i>Courses created
-                        <span><%out.print(CourseDAO.getNumberCreatedCourse(learner.getID()));%></span>
+                        <span>${numberOfCreatedCourse}</span>
                     </p>
                     <p class="element">Learn since ${firstYearOfLearning}</p>
                 </div>
             </div>
 
             <%@include file="allCourses.jsp" %>
+            <%--            <jsp:include page="allCourses.jsp"/>--%>
 
         </div>
     </div>
@@ -136,16 +142,16 @@
 
             <p>Let the Yojihan community of other learners and instructors know more about you!</p>
 
-            <form action="/updateUser?userID=${learner.ID}" method="post">
+            <form action="/updateUser?userID=${learner != null ? learner.ID: instructor.ID}" method="post">
                 <div>
                     <label for="firstName">First name:</label>
-                    <input value="${learner.firstName}" type="text" id="firstName" name="firstName"
+                    <input value="${user.firstName}" type="text" id="firstName" name="firstName"
                            placeholder="Enter your first name" required>
                 </div>
 
                 <div>
                     <label for="lastName">Last name:</label>
-                    <input value="${learner.lastName}" type="text" id="lastName" name="lastName"
+                    <input value="${user.lastName}" type="text" id="lastName" name="lastName"
                            placeholder="Enter your last name" required>
                 </div>
                 <div>
@@ -172,7 +178,7 @@
 
                 <div>
                     <label for="email">Email address:</label>
-                    <input value="${learner.email}" type="email" id="email" name="email"
+                    <input value="${user.email}" type="email" id="email" name="email"
                            placeholder="Enter your email address" required>
                 </div>
 
@@ -197,7 +203,7 @@
             <input
                     type="hidden"
                     name="username"
-                    value="${learner.username}"
+                    value="${user.username}"
             />
 
             <h3>Change Password</h3>

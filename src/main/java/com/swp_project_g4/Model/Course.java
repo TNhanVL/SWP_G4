@@ -28,7 +28,6 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int organizationID;
-    private int instructorID;
     private String name;
     private String picture;
     private String description;
@@ -37,10 +36,9 @@ public class Course {
     private double price;
     private double rate;
 
-    public Course(int ID, int organizationID, int instructorID, String name, String picture, String description, boolean verified, int totalTime, double price, double rate) {
+    public Course(int ID, int organizationID, String name, String picture, String description, boolean verified, int totalTime, double price, double rate) {
         this.ID = ID;
         this.organizationID = organizationID;
-        this.instructorID = instructorID;
         this.name = name;
         this.picture = picture;
         this.description = description;
@@ -77,6 +75,13 @@ public class Course {
     @ToString.Exclude
     @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "courseID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Instruct> instructs = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "courseID")

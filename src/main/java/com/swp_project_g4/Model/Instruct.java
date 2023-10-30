@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Instruct {
-    @Column(name = "intructID")
+    @Column(name = "instructID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
@@ -26,7 +26,7 @@ public class Instruct {
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @JoinColumn(name = "instructorID", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

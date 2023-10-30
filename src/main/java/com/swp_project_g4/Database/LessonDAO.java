@@ -169,7 +169,7 @@ public class LessonDAO extends DBConnection {
             if (CourseDAO.markCourseCompleted(userID, chapter.getCourseID())) {
                 // if completed course
                 String certificateName = "certificate_" + chapter.getCourseID() + "_" + userID + ".pdf";
-                Certificate.createCertificate(certificateName, userID, chapter.getCourseID(), request);
+//                Certificate.createCertificate(certificateName, userID, chapter.getCourseID(), request);
                 
                 Learner learner = LearnerDAO.getUser(userID);
                 Course course = CourseDAO.getCourse(chapter.getCourseID());
