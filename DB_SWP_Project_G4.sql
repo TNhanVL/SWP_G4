@@ -818,7 +818,17 @@ values (16, N'<h3>Lý thuyết</h3>
 GO
 
 INSERT INTO notification (learnerID, type, description, [read], receive_at)
-VALUES (1, 1, 'You have a new message.', 0, CURRENT_TIMESTAMP),
-       (3, 3, 'Your course enrollment has been approved.', 0, CURRENT_TIMESTAMP),
-       (1, 1, 'The website is down for maintenance. We will be back up soon.', 0, CURRENT_TIMESTAMP),
-       (2, 2, 'Your course certificate is now available.', 0, CURRENT_TIMESTAMP);
+VALUES (1, 0, 'Course registration successful: [Course name]', 0, CURRENT_TIMESTAMP),
+       (1, 0, 'Course registration successful: [Course name]', 0, CURRENT_TIMESTAMP);
+
+
+INSERT INTO [transaction] (learnerID, courseID, origin_price, price, type, description, status)
+VALUES (1, 1, 1.00, 1.00, 0, 'Course registration', 0),
+       (1, 2, 2.00, 2.00, 0, 'Course registration', 0);
+
+-- SELECT course.name
+-- FROM [transaction]
+--          JOIN course
+--               ON [transaction].courseID = course.courseID
+-- WHERE [transaction].learnerID = 1;
+
