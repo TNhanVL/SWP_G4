@@ -4,6 +4,7 @@ import com.swp_project_g4.Database.*;
 import com.swp_project_g4.Model.*;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
+import com.swp_project_g4.Service.CourseProgressService;
 import com.swp_project_g4.Service.LessonProgressService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,6 +28,8 @@ public class LearnController {
     private Repo repo;
     @Autowired
     private LessonProgressService lessonProgressService;
+    @Autowired
+    private CourseProgressService courseProgressService;
 
     @RequestMapping(value = "/{courseID}", method = RequestMethod.GET)
     public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID) {
@@ -52,14 +55,13 @@ public class LearnController {
 
         //check courseProgress
         var courseProgressOptional = repo.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learnerID);
-        var courseProgress = courseProgressOptional.orElse(new CourseProgress(learnerID, courseID));
         if (!courseProgressOptional.isPresent()) {
             request.getSession().setAttribute("error", "You need to purchased this course first!");
             return "redirect:/";
         }
+        var courseProgress = courseProgressOptional.get();
         if (!courseProgress.isEnrolled()) {
-            courseProgress.setEnrolled(true);
-            repo.getCourseProgressRepository().save(courseProgress);
+            courseProgressService.enroll(courseProgress);
         }
 
         //Get last uncompleted lesson
@@ -112,14 +114,13 @@ public class LearnController {
 
         //check courseProgress
         var courseProgressOptional = repo.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learnerID);
-        var courseProgress = courseProgressOptional.orElse(new CourseProgress(learnerID, courseID));
         if (!courseProgressOptional.isPresent()) {
             request.getSession().setAttribute("error", "You need to purchased this course first!");
             return "redirect:/";
         }
+        var courseProgress = courseProgressOptional.get();
         if (!courseProgress.isEnrolled()) {
-            courseProgress.setEnrolled(true);
-            repo.getCourseProgressRepository().save(courseProgress);
+            courseProgressService.enroll(courseProgress);
         }
 
         //check exist lesson

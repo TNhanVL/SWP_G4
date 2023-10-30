@@ -18,4 +18,11 @@ public class CourseProgressService {
         EmailService.sendCompleteCourseEmail(courseProgress.getLearner(), courseProgress.getCourse());
     }
 
+    public void enroll(CourseProgress courseProgress) {
+        if (courseProgress.isEnrolled()) return;
+        courseProgress.setEnrolled(true);
+        repo.getCourseProgressRepository().save(courseProgress);
+
+        EmailService.sendEnrollEmail(courseProgress.getLearner(), courseProgress.getCourse());
+    }
 }
