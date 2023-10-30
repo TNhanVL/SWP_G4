@@ -1,5 +1,5 @@
 import './Navbar.css'
-import { useNavigate } from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import Cookies from 'js-cookie'
 
 var usertmp = {
@@ -7,7 +7,20 @@ var usertmp = {
     picture: "https://icons.veryicon.com/png/o/miscellaneous/youyinzhibo/guest.png"
 }
 
-function Navbar({ user }) {
+function openMenu() {
+
+    var b = document.getElementById("userMenu")
+
+    if (b.classList.contains("close")) {
+        b.classList.remove("close")
+        // console.log("Show")
+    } else {
+        b.classList.add("close")
+        // console.log("Remove")
+    }
+}
+
+function Navbar({learner}) {
 
     const navigate = useNavigate();
 
@@ -18,49 +31,48 @@ function Navbar({ user }) {
 
     return (
         <div id="header">
-            <div class="left-side">
+            <div className="left-side">
                 <a href="index.html">
-                    <img src="./assets/imgs/logo.png" alt="logo" class="logo"></img>
+                    <img src="/public/assets/imgs/logo.png" alt="logo" className="logo"></img>
                 </a>
                 <form action="">
-                    <input type="text" class="search-course" name="headerSearch" placeholder="Searching"></input>
+                    <input type="text" className="search-course" name="headerSearch" placeholder="Searching"></input>
                 </form>
-                <div class="course-opption">
-                    <a href="courseShopping.html">Courses</a>
+                <div className="course-opption">
+                    <a href="/">Courses</a>
                 </div>
-                <div class="quesAndAns">
+                <div className="quesAndAns">
                     <a href="#">Expert Q&A</a>
                 </div>
             </div>
 
-            <div class="right-side">
-                <a href="paysite.html" class="cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <div class="quantity">3</div>
+            <div className="right-side">
+                <a href="paysite.html" className="cart">
+                    <i className="fa-solid fa-cart-shopping"></i>
+                    <div className="quantity">3</div>
                 </a>
-                <a href="" class="notification">
-                    <i class="fa-sharp fa-solid fa-bell"></i>
-                    <div class="quantity">3</div>
+                <a href="" className="notification">
+                    <i className="fa-sharp fa-solid fa-bell"></i>
+                    <div className="quantity">3</div>
                 </a>
-                <div onclick="openMenu()" id="user" class="user">
+                <div onClick={openMenu} id="user" className="user">
                     <a href="#">
-                        <img src="./assets/imgs/D1.jpg" alt="avatar"></img>
-                            <span class="userInfor">
-                                Thanh Duong
-                            </span>
+                        <img src={"/public/media/user/" + learner.id + "/" + learner.picture} alt="avatar"></img>
+                        <span
+                            className="userInfor">{learner ? learner.firstName + ' ' + learner.lastName : usertmp.usertmp}</span>
                     </a>
 
-                    <div id="userMenu" class="userMenu close">
+                    <div id="userMenu" className="userMenu close">
                         <a href="profile.html">
-                            <i class="fa-solid fa-user"></i>
+                            <i className="fa-solid fa-user"></i>
                             <span>Profile</span>
                         </a>
                         <a href="#">
-                            <i class="fa-solid fa-gear"></i>
+                            <i className="fa-solid fa-gear"></i>
                             <span>Setting</span>
                         </a>
                         <a href="#">
-                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <i className="fa-solid fa-right-from-bracket"></i>
                             <span>Logout</span>
                         </a>
                     </div>
