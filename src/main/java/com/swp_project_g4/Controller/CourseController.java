@@ -48,6 +48,7 @@ public class CourseController {
             request.getSession().setAttribute("error", "Not exist this course!");
             return "redirect:/course/all";
         }
+        var course = courseOptional.get();
 
         var username = CookieServices.getUserNameOfLearner(request.getCookies());
         var learnerOptional = repo.getLearnerRepository().findByUsername(username);
@@ -68,6 +69,7 @@ public class CourseController {
         model.addAttribute("instructors", instructors);
         model.addAttribute("numberOfPurchased", courseProgresses.size());
         model.addAttribute("courseID", courseID);
+        request.getSession().setAttribute("course", course);
         request.getSession().setAttribute("courseID", courseID);
         return "user/course";
     }

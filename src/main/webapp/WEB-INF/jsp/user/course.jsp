@@ -85,21 +85,29 @@
 
             </div>
             <div class="addCartBnt">
-                <%
-                    if (learner != null) {
-                        if (request.getAttribute("coursePurchased") != null) {
-                            out.print("<a href=\"/learn/" + course.getID() + "\">Learn now</a>");
-                        } else if (CourseDAO.checkCartProduct(learner.getID(), course.getID())) {
-                            out.print("<a href=\"/course/deleteOrder/" + course.getID() + "\">Delete from cart</a>");
-                        } else {
-                            out.print("<a href=\"/cart/add/" + course.getID() + "\">Add to cart</a>");
-                        }
-                    } else {
-                        //if not logged in
-                        out.print("<a href=\"/login\">Add to cart</a>");
-                    }
+                <c:choose>
+                    <c:when test="${learner != null}">
+                        <c:choose>
+                            <c:when test="${coursePurchased != null}">
+                                <a href="/learn/${course.ID}">${(courseProgress.enrolled) ? "Learn now": "Enroll now"}</a>
+                            </c:when>
+                            <c:otherwise>
+                                <%
+                                    if (CourseDAO.checkCartProduct(learner.getID(), course.getID())) {
+                                        out.print("<a href=\"/course/deleteOrder/" + course.getID() + "\">Delete from cart</a>");
+                                    } else {
+                                        out.print("<a href=\"/cart/add/" + course.getID() + "\">Add to cart</a>");
+                                    }
 
-                %>
+                                %>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="/login">Add to cart</a>
+                    </c:otherwise>
+                </c:choose>
+
 
                 <!--<a href="#">Add to cart</a>-->
             </div>
