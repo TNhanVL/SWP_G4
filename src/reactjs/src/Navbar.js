@@ -57,7 +57,9 @@ function Navbar({learner}) {
                 </a>
                 <div onClick={openMenu} id="user" className="user">
                     <a href="#">
-                        <img src={"/public/media/user/" + learner.id + "/" + learner.picture} alt="avatar"></img>
+                        <img
+                            src={learner ? "/public/media/user/" + learner.id + "/" + learner.picture : usertmp.picture}
+                            alt="avatar"></img>
                         <span
                             className="userInfor">{learner ? learner.firstName + ' ' + learner.lastName : usertmp.usertmp}</span>
                     </a>
