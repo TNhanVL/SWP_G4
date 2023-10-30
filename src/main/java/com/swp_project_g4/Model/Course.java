@@ -35,6 +35,7 @@ public class Course {
     private int totalTime;
     private double price;
     private double rate;
+    private int numberOfRated;
 
     public Course(int ID, int organizationID, String name, String picture, String description, boolean verified, int totalTime, double price, double rate) {
         this.ID = ID;
@@ -49,7 +50,7 @@ public class Course {
     }
 
     @ManyToOne
-    @JoinColumn(name = "organizationID", insertable=false, updatable=false)
+    @JoinColumn(name = "organizationID", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

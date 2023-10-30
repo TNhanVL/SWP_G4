@@ -80,15 +80,16 @@ GO
 
 CREATE TABLE course
 (
-    courseID       INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    organizationID INT                NOT NULL,
-    name           NVARCHAR(50)       NOT NULL,
-    [picture]      TEXT,
-    [description]  NVARCHAR(50),
-    verified       BIT DEFAULT 0,
-    total_time     INT DEFAULT 0,
-    price          NUMERIC(10, 2)     NOT NULL,
-    rate           NUMERIC(2, 1),
+    courseID        INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    organizationID  INT                NOT NULL,
+    name            NVARCHAR(50)       NOT NULL,
+    [picture]       TEXT,
+    [description]   NVARCHAR(50),
+    verified        BIT DEFAULT 0,
+    total_time      INT DEFAULT 0,
+    price           NUMERIC(10, 2)     NOT NULL,
+    rate            NUMERIC(2, 1),
+    number_of_rated INT DEFAULT 0,
     FOREIGN KEY (organizationID) REFERENCES organization (organizationID)
 );
 GO
