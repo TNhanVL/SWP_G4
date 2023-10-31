@@ -80,37 +80,40 @@
 
             </c:otherwise>
         </c:choose>
-        <script>
-            function validatePassword() {
-                var newPassword = document.getElementById("newPassword").value;
-                var confirmPassword = document.getElementById("confirmPassword").value;
-                var message = document.getElementById("message");
-                var resetButton = document.getElementById("resetButton");
-
-                if (newPassword === confirmPassword) {
-                    message.innerHTML = "Password Match!";
-                    message.style.color = "green";
-                    resetButton.disabled = false;
-                } else {
-                    message.innerHTML = "Password does not match!";
-                    message.style.color = "red";
-                    resetButton.disabled = true;
-                }
-            }
-        </script>
-
-        <script>
-            // Đợi 10 giây trước khi xóa div
-            setTimeout(function () {
-                let messageDiv = document.getElementById('message');
-                messageDiv.parentNode.removeChild(messageDiv);
-            }, 5000);
-        </script>
     </div>
+
+
 </div>
 <%@include file="foot.jsp" %>
 
 <%@include file="popUpMessage.jsp" %>
+
+<script>
+    function validatePassword() {
+        var newPassword = document.getElementById("newPassword").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        var message = document.getElementById("message");
+        var resetButton = document.getElementById("resetButton");
+
+        if (newPassword === confirmPassword) {
+            message.innerHTML = "Password Match!";
+            message.style.color = "green";
+            resetButton.disabled = false;
+        } else {
+            message.innerHTML = "Password does not match!";
+            message.style.color = "red";
+            resetButton.disabled = true;
+        }
+    }
+</script>
+
+<script>
+    // Đợi 10 giây trước khi xóa div
+    setTimeout(function () {
+        let messageDiv = document.getElementById('message');
+        messageDiv.parentNode.removeChild(messageDiv);
+    }, 5000);
+</script>
 </body>
 
 </html>
