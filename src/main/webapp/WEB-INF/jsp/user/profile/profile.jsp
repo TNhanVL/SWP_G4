@@ -30,6 +30,7 @@
     </jsp:include>
     <link rel="stylesheet" href="/public/assets/css/profile.css">
     <link rel="stylesheet" href="/public/assets/css/responsive.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 </head>
 
 <body>

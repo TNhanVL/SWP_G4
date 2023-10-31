@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="/public/assets/css/login.css">
     <link rel="stylesheet" href="/public/assets/css/toast.css">
-    <title>Login page</title>
+    <title>Login</title>
 </head>
 
 <body>
@@ -31,8 +31,8 @@
         <h1>Sign in</h1>
         <div class="usertype">
             <select name="account_type" id="account_type">
-                <option value="admin">Admin</option>
                 <option value="learner">Learner</option>
+                <option value="admin">Admin</option>
                 <option value="instructor">Instructor</option>
                 <option value="organization">Organization</option>
             </select>

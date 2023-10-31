@@ -10,7 +10,7 @@ body {
 }
 
 .box {
-  background-color: #dfffc1;
+  background-color: #e4ffb7;
   padding: 14px;
   border: #000000 3px solid;
   flex-direction: column;
@@ -59,11 +59,12 @@ $hover-color: #faffb8;
       ~ {
         span {
           transform: translateY(-34px);
+          left: 0;
         }
 
         i {
           height: 44px;
-          background-color: white
+          background-color: white;
         }
       }
     }
@@ -72,7 +73,7 @@ $hover-color: #faffb8;
 
   span {
     position: absolute;
-    left: 0;
+    left: 10px;
     padding: 20px 0 10px;
     pointer-events: none;
     transform: 0.5s;
