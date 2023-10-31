@@ -36,16 +36,18 @@
 
         <c:choose>
             <c:when test="${sessionScope.sentPasswordRecoveryEmail == 0}">
-                <form action="" method="post">
+                <form action="" method="post" class="login_form">
 
-                    <h2>Forgot password</h2>
-                    <div class="inputBox">
-                        <input type="email" required="required" name="email">
-                        <i></i>
+                    <h1>Forgot password</h1>
+                    <div class="input_div">
+                        <div class="input_box">
+                            <input type="email" required="required" name="email">
+                            <span>Email</span>
+                            <i></i>
+                        </div>
                     </div>
-                    <input type="submit" value="Login">
 
-                    <p id="message"></p>
+                    <input type="submit" value="Reset password">
                 </form>
             </c:when>
             <c:when test="${sessionScope.sentPasswordRecoveryEmail == 1}">
@@ -55,19 +57,30 @@
                 Email doesn't associate with any account
             </c:when>
             <c:when test="${sessionScope.sentPasswordRecoveryEmail == 3}">
-                <form action="/resetPassword" method="post">
+                <form action="/resetPassword" method="post" class="login_form" id="passwordForm">
 
                     <h1>Reset Password</h1>
-                    <label for="newPassword">New Password:</label>
-                    <input type="password" id="newPassword" name="newPassword" required><br><br>
+                    <div class="input_div">
+                        <div class="input_box">
+                            <input type="password"
+                                   id="password"
+                                   name="password"
+                                   required>
+                            <span>New password</span>
+                            <i></i>
+                        </div>
 
-                    <label for="confirmPassword">Confirm Password:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required
-                           onkeyup="validatePassword()"><br><br>
+                        <div class="input_box">
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                            <span>Confirm new password</span>
+                            <i></i>
+                        </div>
+                    </div>
+                    <div id="passwordMatchError" style="display: none; color: red">
+                        Passwords do not match.
+                    </div>
 
-                    <span id="message"></span><br><br>
-
-                    <input type="submit" id="resetButton" value="Reset Password" disabled>
+                    <input type="submit" value="Reset password">
                 </form>
             </c:when>
             <c:when test="${sessionScope.sentPasswordRecoveryEmail == 4}">
@@ -77,7 +90,7 @@
                 Password changed
             </c:when>
             <c:otherwise>
-
+                Oppise woossy this should not happend
             </c:otherwise>
         </c:choose>
     </div>
@@ -88,24 +101,7 @@
 
 <%@include file="popUpMessage.jsp" %>
 
-<script>
-    function validatePassword() {
-        var newPassword = document.getElementById("newPassword").value;
-        var confirmPassword = document.getElementById("confirmPassword").value;
-        var message = document.getElementById("message");
-        var resetButton = document.getElementById("resetButton");
-
-        if (newPassword === confirmPassword) {
-            message.innerHTML = "Password Match!";
-            message.style.color = "green";
-            resetButton.disabled = false;
-        } else {
-            message.innerHTML = "Password does not match!";
-            message.style.color = "red";
-            resetButton.disabled = true;
-        }
-    }
-</script>
+<script src="/public/assets/js/change_password.js"></script>
 
 <script>
     // Đợi 10 giây trước khi xóa div

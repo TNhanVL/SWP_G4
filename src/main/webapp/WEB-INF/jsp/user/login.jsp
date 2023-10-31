@@ -40,7 +40,7 @@
         <div class="input_div">
             <div class="input_box">
                 <input type="text" required="required" name="username">
-                <span>Userame</span>
+                <span>Username</span>
                 <i></i>
             </div>
             <div class="input_box">

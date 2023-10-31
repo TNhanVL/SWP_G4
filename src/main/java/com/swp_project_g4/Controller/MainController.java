@@ -115,13 +115,13 @@ public class MainController {
 
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 
-    public String resetForgotPasswordPost(HttpServletResponse response, HttpServletRequest request, @RequestParam String newPassword) {
+    public String resetForgotPasswordPost(HttpServletResponse response, HttpServletRequest request, @RequestParam String password) {
 
         try {
             var resetCookie = CookieServices.getResetCookie(request.getCookies());
             var account = repo.getLearnerRepository().findById(Integer.parseInt(resetCookie[1].getValue())).orElseThrow();
 
-            account.setPassword(MD5.getMd5(newPassword));
+            account.setPassword(MD5.getMd5(password));
 
             repo.getLearnerRepository().save(account);
 

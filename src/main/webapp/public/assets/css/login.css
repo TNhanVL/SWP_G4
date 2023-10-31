@@ -83,7 +83,7 @@ input[type=submit] {
   background-color: #ffffff;
   cursor: pointer;
   border-radius: 4px;
-  width: 100px;
+  width: auto;
   margin-top: 40px;
   box-shadow: 4px 4px #767272;
   transition: box-shadow, background-color;
