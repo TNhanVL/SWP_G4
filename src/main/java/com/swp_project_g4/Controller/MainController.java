@@ -312,7 +312,7 @@ public class MainController {
             return "redirect:/login";
         }
 
-        CookieServices.loginAccount(response, login_password, login_username, token_type);
+        CookieServices.loginAccount(response, login_username, login_password, token_type);
         request.getSession().setAttribute("success", "Login succeed!");
 
         return redirect_url;

@@ -5,6 +5,7 @@
 package com.swp_project_g4.Service;
 
 import com.swp_project_g4.Database.AdminDAO;
+import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Repository.Repo;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
@@ -83,8 +84,9 @@ public class CookieServices {
             if (claims != null) {
                 String username = (String) claims.get("username");
                 String password = (String) claims.get("password");
-                var instructorOptional = repo.getLearnerRepository().findByUsername(username);
-                return instructorOptional.isPresent() && instructorOptional.get().getPassword().equals(password);
+                return LearnerDAO.checkUser(username, password, true) == 0;
+//                var instructorOptional = repo.getLearnerRepository().findByUsername(username);
+//                return instructorOptional.isPresent() && instructorOptional.get().getPassword().equals(password);
             }
             return false;
 
