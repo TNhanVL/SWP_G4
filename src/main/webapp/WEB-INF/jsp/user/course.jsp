@@ -111,7 +111,7 @@
 
                 <!--<a href="#">Add to cart</a>-->
             </div>
-            <% if (learner != null) {
+            <% if (learner != null && courseProgress != null) {
                 if (courseProgress.isCompleted()) {
             %>
             <a href="/certificate/${learner.ID}/${courseID}" class="viewCer">View Certificate</a>

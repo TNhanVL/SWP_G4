@@ -33,11 +33,13 @@ public class CertificateController {
     private Repo repo;
     @Autowired
     private StorageService storageService;
+    @Autowired
+    private Certificate certificate;
 
     @RequestMapping(value = "/{learnerID}/{courseID}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Resource> lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int learnerID, @PathVariable int courseID) {
-        Certificate.createCertificate("certificate.pdf", learnerID, courseID);
+        certificate.createCertificate("certificate.pdf", learnerID, courseID);
         Resource file = storageService.loadAsResource("certificate/certificate.pdf");
 
         if (file == null)
