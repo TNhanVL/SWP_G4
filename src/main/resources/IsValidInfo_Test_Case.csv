@@ -1,0 +1,19 @@
+name,phone_number,email,birthday,expected_result
+"","","","",false
+"Trần Thanh Nhân","0908360809","nhan12341184@gmail.com","1990-01-01",true
+"Dylan Ruan","0908360809","nhan12341184@gmail.com","1990-01-01",true
+"Giang@123","0908360809","nhan12341184@gmail.com","1990-01-01",false
+"abababababababababababababababababababababababababababababab","0908360809","nhan12341184@gmail.com","1990-01-01",true
+"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghi","0908360809","nhan12341184@gmail.com","1990-01-01",false
+"Trần Thanh Nhân","84908360809","nhan12341184@gmail.com","1990-01-01",true
+"Trần Thanh Nhân","+84908360809","nhan12341184@gmail.com","1990-01-01",true
+"Trần Thanh Nhân","abc1234xyz","nhan12341184@gmail.com","1990-01-01",false
+"Trần Thanh Nhân","027035","nhan12341184@gmail.com","1990-01-01",false
+"Trần Thanh Nhân","0939782563858","nhan12341184@gmail.com","1990-01-01",false
+"Dylan Ruan","84908360809","@example.com","1990-01-01",false
+"Dylan Ruan","84908360809","abc123@xyz","1990-01-01",false
+"Dylan Ruan","84908360809","nhan12341184@gmail.com","210-10-03",false
+"Dylan Ruan","84908360809","nhan12341184@gmail.com","2023-13-32",false
+"Dylan Ruan","+84908360809","nhan12341184@gmail.com","11-05-1987",false
+"Dylan Ruan","+84908360809","nhan12341184@gmail.com","2015/03/20",true
+"Dylan Ruan","+84908360809","nhan12341184@gmail.com","20x3-02-11",false

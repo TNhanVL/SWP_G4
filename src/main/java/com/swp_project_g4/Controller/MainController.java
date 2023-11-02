@@ -233,6 +233,13 @@ public class MainController {
             return "redirect:./signup";
         }
 
+        boolean isValidInfo = UserServices.isValidInformation(learner.getFirstName() + " " + learner.getLastName(), "0939006143", learner.getEmail(), learner.getBirthday().toString());
+
+        if(!isValidInfo){
+            request.getSession().setAttribute("error", "Invalid information!");
+            return "redirect:/";
+        }
+
         LearnerDAO.insertUser(learner);
         request.getSession().setAttribute("success", "Signup successful!");
         return "redirect:/login";
