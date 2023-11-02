@@ -527,8 +527,7 @@ VALUES (1, 1),
 GO
 INSERT INTO cart_product
     (userID, courseID)
-VALUES (1, 2),
-       (1, 3)
+VALUES (1, 3)
 GO
 INSERT INTO course_progress(learnerID, courseID)
 VALUES (1, 1),
