@@ -78,9 +78,8 @@ $hover-color: #faffb8;
     left: 10px;
     padding: 20px 0 10px;
     pointer-events: none;
-    transform: 0.5s;
     transition: all;
-    transition: 400ms;
+    transition: 200ms;
     transition-timing-function: ease-in-out;
   }
 
@@ -93,7 +92,7 @@ $hover-color: #faffb8;
     border: solid 2px black;
     border-radius: 4px;
     overflow: hidden;
-    transition: 0.5s;
+    transition: 0.2s;
     pointer-events: none;
   }
 }

@@ -65,7 +65,7 @@ public class AdminController {
         learner.setUsername(username);
         learner.setPassword(MD5.getMd5(password));
 
-        CookieServices.loginAdmin(response, learner);
+//        CookieServices.loginAdmin(response, learner);
         request.getSession().setAttribute("success", "Login succeed!");
         return "redirect:./dashboard";
     }
@@ -73,7 +73,7 @@ public class AdminController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 //        model.addAttribute("title", "Index!");
-        CookieServices.logoutAdmin(request, response);
+        CookieServices.logout(request, response, CookieServices.TokenName.ADMIN);
         request.getSession().setAttribute("success", "Logout succeed!");
         return "redirect:./login";
     }

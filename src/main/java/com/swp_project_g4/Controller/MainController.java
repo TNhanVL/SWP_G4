@@ -39,7 +39,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(ModelMap model) {
+    public String login() {
         return "user/login";
     }
 
@@ -100,7 +100,7 @@ public class MainController {
         try {
             var user = repo.getLearnerRepository().findByUsernameAndPassword(username, MD5.getMd5(oldPassword)).orElseThrow();
 
-            CookieServices.logoutLearner(request, response);
+            CookieServices.logout(request, response, CookieServices.TokenName.LEARNER);
 
             user.setPassword(MD5.getMd5(password));
             repo.getLearnerRepository().save(user);
@@ -155,7 +155,7 @@ public class MainController {
                 Learner learner = LearnerDAO.getUserByEmail(googlePojo.getEmail());
 
 //                System.out.println(googlePojo);
-                if (learner != null && CookieServices.loginLearner(response, learner)) {
+                if (learner != null && CookieServices.loginAccount(response, learner.getUsername(), learner.getPassword(), CookieServices.TokenName.LEARNER)) {
                     request.getSession().setAttribute("success", "Login succeed!");
                     return "redirect:./";
                 }
@@ -217,7 +217,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signupPost(ModelMap model, HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") Learner learner) {
+    public String signupPost(HttpServletRequest request, @ModelAttribute("user") Learner learner) {
         if (learner.getCountryID() == 0) {
             learner.setCountryID(16);
         }
@@ -267,36 +267,68 @@ public class MainController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String username, @RequestParam String password) {
-        int status = LearnerDAO.checkUser(username, password, false);
+    public String loginPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String username, @RequestParam String password, @RequestParam String account_type) {
 
-        if (status < 0) {
-            request.getSession().setAttribute("error", "Some error with database!");
+        CookieServices.TokenName token_type = null;
+
+        String hashed_password = MD5.getMd5(password);
+
+        String login_password = "";
+        String login_username = "";
+
+        String redirect_url = "redirect:./";
+
+        try {
+            switch (account_type) {
+                case "admin" -> {
+                    var admin = repo.getAdminRepository().findByUsername(username).orElseThrow();
+                    login_password = admin.getPassword();
+                    login_username = admin.getUsername();
+                    redirect_url = "redirect:admin/dashboard";
+                    token_type = CookieServices.TokenName.ADMIN;
+                }
+                case "learner" -> {
+                    var learner = repo.getLearnerRepository().findByUsername(username).orElseThrow();
+                    login_password = learner.getPassword();
+                    login_username = learner.getUsername();
+                    token_type = CookieServices.TokenName.LEARNER;
+
+                }
+                case "instructor" -> {
+                    var instructor = repo.getInstructorRepository().findByUsername(username).orElseThrow();
+                    login_password = instructor.getPassword();
+                    login_username = instructor.getUsername();
+                    token_type = CookieServices.TokenName.INSTRUCTOR;
+
+                }
+                case "organization" -> {
+                    var organization = repo.getOrganizationRepository().findByUsername(username).orElseThrow();
+                    login_password = organization.getPassword();
+                    login_username = organization.getUsername();
+                    token_type = CookieServices.TokenName.ORGANIZATION;
+
+                }
+            }
+        } catch (Exception e) {
+            request.getSession().setAttribute("error", "Account does not exist");
             return "redirect:/login";
         }
 
-        if (status == 1) {
-            request.getSession().setAttribute("error", "Username not exist!");
+        if (!login_password.equals(hashed_password)) {
+            request.getSession().setAttribute("error", "Wrong password");
             return "redirect:/login";
         }
 
-        if (status == 2) {
-            request.getSession().setAttribute("error", "Incorrect password!");
-            return "redirect:/login";
-        }
-
-        Learner learner = new Learner();
-        learner.setUsername(username);
-        learner.setPassword(MD5.getMd5(password));
-
-        CookieServices.loginLearner(response, learner);
+        CookieServices.loginAccount(response, login_username, login_password, token_type);
         request.getSession().setAttribute("success", "Login succeed!");
-        return "redirect:./";
+
+        return redirect_url;
     }
+
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        if (CookieServices.logoutLearner(request, response)) {
+        if (CookieServices.logout(request, response, CookieServices.TokenName.LEARNER)) {
             request.getSession().setAttribute("success", "Logout succeed!");
             return "redirect:/login";
         } else {
