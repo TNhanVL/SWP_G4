@@ -119,5 +119,5 @@
 </div>
 
 <%if (loggedInHeader) {%>
-<script src="/public/assets/js/option.js"></script>                    
+<script src="/public/assets/js/option.js"></script>
 <%}%>

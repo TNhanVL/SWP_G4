@@ -5,8 +5,6 @@
 package com.swp_project_g4.Service;
 
 import com.swp_project_g4.Database.AdminDAO;
-import com.swp_project_g4.Database.LearnerDAO;
-import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
@@ -22,28 +20,44 @@ import org.springframework.stereotype.Service;
 public class CookieServices {
 
     private static Repo repo;
+
     @Autowired
-    public CookieServices(Repo repo){
-        this.repo = repo;
+    public CookieServices(Repo repo) {
+        CookieServices.repo = repo;
     }
 
-    static final String learnerTokenName = "learnerJwtToken";
-    static final String adminTokenName = "adminJwtToken";
-    static final String organizationTokenName = "organizationJwtToken";
-    static final String instructorTokenName = "instructorJwtToken";
+    public enum TokenName {
+        LEARNER("learnerJwtToken"),
+        ADMIN("adminJwtToken"),
+        ORGANIZATION("organizationJwtToken"),
+        INSTRUCTOR("instructorJwtToken");
+
+        private final String text;
+
+        TokenName(final String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
+    }
+
+    public static String searchCookie(Cookie[] cookies, TokenName token) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(token.toString()))
+                return cookie.getValue();
+        }
+        return null;
+    }
+
 
     public static boolean checkAdminLoggedIn(Cookie[] cookies) {
         boolean ok = false;
 
         try {
-            String jwtToken = null;
-
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(adminTokenName)) {
-                    jwtToken = cookie.getValue();
-                    break;
-                }
-            }
+            String jwtToken = searchCookie(cookies, TokenName.ADMIN);
 
             Claims claims = JwtUtil.parseJwt(jwtToken);
             if (claims != null) {
@@ -63,20 +77,14 @@ public class CookieServices {
         boolean ok = false;
 
         try {
-            String jwtToken = null;
-
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(learnerTokenName)) {
-                    jwtToken = cookie.getValue();
-                    break;
-                }
-            }
+            String jwtToken = searchCookie(cookies, TokenName.LEARNER);
 
             Claims claims = JwtUtil.parseJwt(jwtToken);
             if (claims != null) {
                 String username = (String) claims.get("username");
                 String password = (String) claims.get("password");
-                return LearnerDAO.checkUser(username, password, true) == 0;
+                var instructorOptional = repo.getLearnerRepository().findByUsername(username);
+                return instructorOptional.isPresent() && instructorOptional.get().getPassword().equals(password);
             }
             return false;
 
@@ -91,21 +99,14 @@ public class CookieServices {
         boolean ok = false;
 
         try {
-            String jwtToken = null;
-
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(instructorTokenName)) {
-                    jwtToken = cookie.getValue();
-                    break;
-                }
-            }
+            String jwtToken = searchCookie(cookies, TokenName.INSTRUCTOR);
 
             Claims claims = JwtUtil.parseJwt(jwtToken);
             if (claims != null) {
                 String username = (String) claims.get("username");
                 String password = (String) claims.get("password");
                 var instructorOptional = repo.getInstructorRepository().findByUsername(username);
-                if(instructorOptional.isPresent() && instructorOptional.get().getPassword().equals(password)) return true;
+                return instructorOptional.isPresent() && instructorOptional.get().getPassword().equals(password);
             }
             return false;
 
@@ -139,10 +140,10 @@ public class CookieServices {
         return resetCookie;
     }
 
-    public static boolean loginLearner(HttpServletResponse response, Learner learner) {
+    public static boolean loginAccount(HttpServletResponse response, String username, String password, TokenName token) {
         try {
-            String TokenBody = JwtUtil.generateJwt(learner.getUsername(), learner.getPassword());
-            Cookie cookie = new Cookie(learnerTokenName, TokenBody);
+            String TokenBody = JwtUtil.generateJwt(username, password);
+            Cookie cookie = new Cookie(token.toString(), TokenBody);
             cookie.setMaxAge(60 * 60 * 6);
             response.addCookie(cookie);
             return true;
@@ -152,10 +153,10 @@ public class CookieServices {
         return false;
     }
 
-    public static boolean logoutLearner(HttpServletRequest request, HttpServletResponse response) {
+    public static boolean logout(HttpServletRequest request, HttpServletResponse response, TokenName token) {
         try {
             for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals(learnerTokenName)) {
+                if (cookie.getName().equals(token.toString())) {
                     cookie.setValue(null);
                     response.addCookie(cookie);
                     break;
@@ -168,47 +169,13 @@ public class CookieServices {
         return false;
     }
 
-    public static boolean loginAdmin(HttpServletResponse response, Learner learner) {
-        try {
-            String TokenBody = JwtUtil.generateJwt(learner.getUsername(), learner.getPassword());
-            Cookie cookie = new Cookie(adminTokenName, TokenBody);
-            cookie.setMaxAge(60 * 60 * 6);
-            response.addCookie(cookie);
-            return true;
-        } catch (Exception e) {
-
-        }
-        return false;
-    }
-
-    public static boolean logoutAdmin(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals(adminTokenName)) {
-                    cookie.setValue(null);
-                    response.addCookie(cookie);
-                    break;
-                }
-            }
-            return true;
-        } catch (Exception e) {
-
-        }
-        return false;
-    }
 
     public static String getUserNameOfLearner(Cookie[] cookies) {
         String ans = "";
 
         try {
-            String jwtToken = null;
+            String jwtToken = searchCookie(cookies, TokenName.LEARNER);
 
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(learnerTokenName)) {
-                    jwtToken = cookie.getValue();
-                    break;
-                }
-            }
 
             Claims claims = JwtUtil.parseJwt(jwtToken);
             ans = (String) claims.get("username");
@@ -223,14 +190,7 @@ public class CookieServices {
         String ans = "";
 
         try {
-            String jwtToken = null;
-
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(instructorTokenName)) {
-                    jwtToken = cookie.getValue();
-                    break;
-                }
-            }
+            String jwtToken = searchCookie(cookies, TokenName.INSTRUCTOR);
 
             Claims claims = JwtUtil.parseJwt(jwtToken);
             ans = (String) claims.get("username");
@@ -245,14 +205,7 @@ public class CookieServices {
         String ans = "";
 
         try {
-            String jwtToken = null;
-
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(adminTokenName)) {
-                    jwtToken = cookie.getValue();
-                    break;
-                }
-            }
+            String jwtToken = searchCookie(cookies, TokenName.ADMIN);
 
             Claims claims = JwtUtil.parseJwt(jwtToken);
             ans = (String) claims.get("username");

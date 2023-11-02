@@ -1,9 +1,10 @@
 package com.swp_project_g4.Model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
-import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
+import lombok.*;
 
 /**
  * @author TTNhan
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+    
     private String picture;
     private String username;
     private String password;
@@ -44,7 +46,7 @@ public class User {
     }
 
     @ManyToOne
-    @JoinColumn(name = "countryID", insertable=false, updatable=false)
+    @JoinColumn(name = "countryID", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
