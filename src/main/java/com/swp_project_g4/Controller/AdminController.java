@@ -7,10 +7,8 @@ import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
-import com.swp_project_g4.Service.CookiesToken;
 import com.swp_project_g4.Service.MD5;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -37,13 +35,6 @@ public class AdminController {
         }
 
         return "redirect:admin/dashboard";
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        CookieServices.logout(request, response, CookiesToken.ADMIN);
-        request.getSession().setAttribute("success", "Logout succeed!");
-        return "redirect:/login";
     }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)

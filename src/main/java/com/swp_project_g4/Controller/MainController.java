@@ -41,7 +41,16 @@ public class MainController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
+    public String login(HttpServletRequest request) {
+//        try {
+//            var loggedIn = CookieServices.checkLoggedIn(request);
+//            if (loggedIn) {
+//                request.getSession().setAttribute("error", "Please logout before login into another account");
+//                return "redirect:/";
+//            }
+//        } catch (Exception e) {
+//
+//        }
         return "user/login";
     }
 
@@ -141,7 +150,8 @@ public class MainController {
                 Learner learner = LearnerDAO.getUserByEmail(googlePojo.getEmail());
 
 //                System.out.println(googlePojo);
-                if (learner != null && CookieServices.loginAccount(response, learner.getUsername(), learner.getPassword(), CookiesToken.LEARNER)) {
+                if (learner != null
+                        && CookieServices.loginAccount(response, learner.getUsername(), learner.getPassword(), CookiesToken.LEARNER)) {
                     request.getSession().setAttribute("success", "Login succeed!");
                     return "redirect:./";
                 }
@@ -262,15 +272,12 @@ public class MainController {
         String login_password = "";
         String login_username = "";
 
-        String redirect_url = "redirect:./";
-
         try {
             switch (account_type) {
                 case "admin" -> {
                     var admin = repo.getAdminRepository().findByUsername(username).orElseThrow();
                     login_password = admin.getPassword();
                     login_username = admin.getUsername();
-                    redirect_url = "redirect:admin/dashboard";
                     token_type = CookiesToken.ADMIN;
                 }
                 case "learner" -> {
@@ -308,19 +315,18 @@ public class MainController {
         CookieServices.loginAccount(response, login_username, login_password, token_type);
         request.getSession().setAttribute("success", "Login succeed!");
 
-        return redirect_url;
+        return "redirect:/";
     }
 
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        if (CookieServices.logout(request, response, CookiesToken.LEARNER)) {
+    public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam String token) {
+        if (CookieServices.logout(request, response, token)) {
             request.getSession().setAttribute("success", "Logout succeed!");
         } else {
             request.getSession().setAttribute("error", "Logout failed!");
         }
         return "redirect:/";
-
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

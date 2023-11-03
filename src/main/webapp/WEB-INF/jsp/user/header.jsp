@@ -84,7 +84,7 @@
                     <i class="fa-solid fa-gear"></i>
                     <span>Setting</span>
                 </a>
-                <a href="/logout">
+                <a href="/logout?token=learner">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span>
                 </a>

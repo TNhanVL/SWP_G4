@@ -177,11 +177,12 @@ public class CookieServices {
         return false;
     }
 
-    public static boolean logout(HttpServletRequest request, HttpServletResponse response, CookiesToken token) {
+    public static boolean logout(HttpServletRequest request, HttpServletResponse response, String token) {
         try {
             for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals(token.toString())) {
+                if (cookie.getName().equals(token + "JwtToken")) {
                     cookie.setMaxAge(0);
+                    cookie.setValue(null);
                     response.addCookie(cookie);
                 }
             }
@@ -189,6 +190,15 @@ public class CookieServices {
         } catch (Exception e) {
 
         }
+        return false;
+    }
+
+    public static boolean checkLoggedIn(HttpServletRequest request) {
+        for (var cookie : request.getCookies()) {
+            if (!cookie.getName().equals("JSESSIONID") && !cookie.getName().equals(CookiesToken.RESET.toString()))
+                return true;
+        }
+
         return false;
     }
 

@@ -137,7 +137,7 @@ public class ProfileController {
         try {
             var user = repo.getLearnerRepository().findByUsernameAndPassword(username, MD5.getMd5(oldPassword)).orElseThrow();
 
-            CookieServices.logout(request, response, CookiesToken.LEARNER);
+            CookieServices.logout(request, response, CookiesToken.LEARNER.toString());
 
             user.setPassword(MD5.getMd5(password));
             repo.getLearnerRepository().save(user);
