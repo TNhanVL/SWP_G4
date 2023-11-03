@@ -22,16 +22,27 @@ public class InstructorDAO extends DBConnection {
 
     public static Instructor getInstructor(int instructorID) {
         Instructor instructor = null;
-
         try {
             //connect to database
             connect();
-
             statement = conn.prepareStatement("select * from instructor where instructorID = ?");
             statement.setInt(1, instructorID);
             ResultSet resultSet = statement.executeQuery();
 
-
+            if (resultSet.next()){
+                instructor  = new Instructor(
+                        resultSet.getInt("instructorID"),
+                        resultSet.getInt("organizationID"),
+                        resultSet.getString("picture"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
+                        resultSet.getInt("countryID"),
+                        resultSet.getInt("status")
+                );
+            }
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
