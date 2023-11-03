@@ -15,7 +15,7 @@
 
 <%
     if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
-        response.sendRedirect("/admin/login");
+        response.sendRedirect("/login");
     }
 %>
 

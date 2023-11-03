@@ -181,9 +181,8 @@ public class CookieServices {
         try {
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals(token.toString())) {
-                    cookie.setValue(null);
+                    cookie.setMaxAge(0);
                     response.addCookie(cookie);
-                    break;
                 }
             }
             return true;

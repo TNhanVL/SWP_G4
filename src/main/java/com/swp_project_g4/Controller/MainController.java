@@ -221,7 +221,7 @@ public class MainController {
 
         boolean isValidInfo = UserServices.isValidInformation(learner.getFirstName() + " " + learner.getLastName(), "0939006143", learner.getEmail(), learner.getBirthday().toString());
 
-        if(!isValidInfo){
+        if (!isValidInfo) {
             request.getSession().setAttribute("error", "Invalid information!");
             return "redirect:/";
         }
@@ -316,15 +316,21 @@ public class MainController {
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         if (CookieServices.logout(request, response, CookiesToken.LEARNER)) {
             request.getSession().setAttribute("success", "Logout succeed!");
-            return "redirect:/login";
         } else {
             request.getSession().setAttribute("error", "Logout failed!");
-            return "redirect:/";
         }
+        return "redirect:/";
+
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String mainPage() {
+    public String mainPage(HttpServletRequest request) {
+        try {
+            var type = CookieServices.searchCookie(request.getCookies(), CookiesToken.ADMIN).get("usertype");
+            if (type.equals(CookiesToken.ADMIN.toString()))
+                return "redirect:admin/dashboard";
+        } catch (Exception e) {
+        }
         return "user/main";
     }
 
