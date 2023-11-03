@@ -7,6 +7,9 @@ package com.swp_project_g4.Service;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Learner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -26,11 +29,13 @@ import java.util.logging.Logger;
 /**
  * @author Ko^ phai? dim~ huong?
  */
+@Service
 public class EmailService {
     final static String from = "yojihangroup@gmail.com";
     final static String password = "drmoubkcmogfmrlu";
 
-    public static void sendResetPasswordEmail(int learnerID, String resetToken) {
+    @Async
+    public void sendResetPasswordEmail(int learnerID, String resetToken) {
         Learner learner = LearnerDAO.getUser(learnerID);
 
         var emailContent = "<div>\n"
@@ -49,7 +54,7 @@ public class EmailService {
         mailTo(learner.getEmail(), "Reset password for  " + learner.getUsername(), "html", emailContent);
     }
 
-    private static String generateEnrollEmailContent(Learner learner, Course course) {
+    private String generateEnrollEmailContent(Learner learner, Course course) {
         return "<div>\n"
                 + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
                 + "        <p>Congratulations! You have successfully enrolled in the course <b>" + course.getName() + "</b>.</p>\n"
@@ -61,7 +66,7 @@ public class EmailService {
                 + "</div>";
     }
 
-    private static String generateChangePasswordEmailContent(Learner learner) {
+    private String generateChangePasswordEmailContent(Learner learner) {
         return "<div>\n"
                 + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
                 + "        <p>You have successfully changed your password. Please keep your password safe and confidential.</p>\n"
@@ -72,7 +77,7 @@ public class EmailService {
 
     }
 
-    private static String generateCompleteCourseEmailContent(Learner learner, Course course) {
+    private String generateCompleteCourseEmailContent(Learner learner, Course course) {
         return "<div>\n"
                 + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"
                 + "        <p>Congratulations! You have successfully completed the course <b>" + course.getName() + "</b>.</p>\n"
@@ -84,37 +89,43 @@ public class EmailService {
                 + "</div>";
     }
 
-    public static void sendEnrollEmail(Learner learner, Course course) {
+    @Async
+    public void sendEnrollEmail(Learner learner, Course course) {
         var emailContent = generateEnrollEmailContent(learner, course);
         mailTo(learner.getEmail(), "[Yojihan] Successfully Enrolled in " + course.getName(), "html", emailContent);
     }
 
-    public static void sendChangePasswordEmail(Learner learner) {
+    @Async
+    public void sendChangePasswordEmail(Learner learner) {
         var emailContent = generateChangePasswordEmailContent(learner);
         mailTo(learner.getEmail(), "[Yojihan] Password Changed Successfully!", "html", emailContent);
     }
 
-    public static void sendCompleteCourseEmail(Learner learner, Course course) {
+    @Async
+    public void sendCompleteCourseEmail(Learner learner, Course course) {
         var emailContent = generateCompleteCourseEmailContent(learner, course);
         mailTo(learner.getEmail(), "[Yojihan] Congratulations, Your Certificate is Ready!", "html", emailContent);
     }
 
     // Handle the event of successful course registration
+    @Async
     public void handleEnrollCourseSuccess(Learner learner, Course course) {
         sendEnrollEmail(learner, course);
     }
 
     // Handle the event of successful password change
+    @Async
     public void handleChangePasswordSuccess(Learner learner) {
         sendChangePasswordEmail(learner);
     }
 
     // Handle the event of completed course
+    @Async
     public void handleCompleteCourse(Learner learner, Course course, String cerURL) {
         sendCompleteCourseEmail(learner, course);
     }
 
-    public static int mailTo(String obj, String title, String type, String content) {
+    public int mailTo(String obj, String title, String type, String content) {
         try {
             final String to = obj;
             Properties props = new Properties();
@@ -170,7 +181,7 @@ public class EmailService {
 //        //Gửi email hoàn thành khóa học được cấp chứng chỉ
 //        emailService.sendCompleteCourseEmail(learner, course);
 //        sendEmail(3, 5, "enroll");
-//        mailTo("diemhuongnt.vl@gmail.com", "Certificate", "html", complete);
+//        emailService.mailTo("diemhuongnt.vl@gmail.com", "Certificate", "html", complete);
 
     }
 }

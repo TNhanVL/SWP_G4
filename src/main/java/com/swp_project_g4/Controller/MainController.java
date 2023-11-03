@@ -29,6 +29,8 @@ public class MainController {
 
     @Autowired
     private Repo repo;
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     @ResponseBody
@@ -62,7 +64,7 @@ public class MainController {
             cookie.setMaxAge(60 * 5);
 
 
-            EmailService.sendResetPasswordEmail(account.getID(), resetToken);
+            emailService.sendResetPasswordEmail(account.getID(), resetToken);
 
             response.addCookie(cookie);
 

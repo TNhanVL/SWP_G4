@@ -9,13 +9,15 @@ import org.springframework.stereotype.Service;
 public class CourseProgressService {
     @Autowired
     private Repo repo;
+    @Autowired
+    private EmailService emailService;
 
     public void afterCompleted(CourseProgress courseProgress) {
         if (!courseProgress.isCompleted()) return;
         courseProgress.setActionAfterCompleted(true);
         repo.getCourseProgressRepository().save(courseProgress);
 
-        EmailService.sendCompleteCourseEmail(courseProgress.getLearner(), courseProgress.getCourse());
+        emailService.sendCompleteCourseEmail(courseProgress.getLearner(), courseProgress.getCourse());
     }
 
     public void enroll(CourseProgress courseProgress) {
@@ -23,6 +25,6 @@ public class CourseProgressService {
         courseProgress.setEnrolled(true);
         repo.getCourseProgressRepository().save(courseProgress);
 
-        EmailService.sendEnrollEmail(courseProgress.getLearner(), courseProgress.getCourse());
+        emailService.sendEnrollEmail(courseProgress.getLearner(), courseProgress.getCourse());
     }
 }

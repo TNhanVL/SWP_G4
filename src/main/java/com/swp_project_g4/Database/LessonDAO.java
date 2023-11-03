@@ -173,7 +173,7 @@ public class LessonDAO extends DBConnection {
                 
                 Learner learner = LearnerDAO.getUser(userID);
                 Course course = CourseDAO.getCourse(chapter.getCourseID());
-                EmailService.sendCompleteCourseEmail(learner, course);
+//                EmailService.sendCompleteCourseEmail(learner, course);
             }
 
             return true;
