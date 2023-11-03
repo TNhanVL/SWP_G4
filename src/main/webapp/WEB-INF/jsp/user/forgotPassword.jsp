@@ -36,7 +36,7 @@
                 <h1>Forgot password</h1>
                 <div class="input_div">
                     <div class="input_box">
-                        <input type="text" required="required" name="username">
+                        <input type="text" required="required" name="email">
                         <span>Email</span>
                         <i></i>
                     </div>

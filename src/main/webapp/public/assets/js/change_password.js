@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+
     $("#changePasswordButton").click(function () {
         $("#passwordForm").addClass("fade-in").show();
         $("#overlay").addClass("fade-in").show();
@@ -37,4 +38,5 @@ $(document).ready(function () {
         }
     });
 });
+
 
