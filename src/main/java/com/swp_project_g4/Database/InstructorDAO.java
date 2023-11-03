@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class InstructorDAO extends DBConnection {
 
-    public static Instructor getInstructor(int userID) {
+    public static Instructor getInstructor(int instructorID) {
         Instructor instructor = null;
 
         try {
@@ -25,14 +25,10 @@ public class InstructorDAO extends DBConnection {
             connect();
 
             statement = conn.prepareStatement("select * from instructor where instructorID = ?");
-            statement.setInt(1, userID);
+            statement.setInt(1, instructorID);
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next()) {
-                Learner learner = LearnerDAO.getUser(userID);
-                instructor = new Instructor(learner);
-                instructor.setOrganizationID(resultSet.getInt("organizationID"));
-            }
+
 
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
