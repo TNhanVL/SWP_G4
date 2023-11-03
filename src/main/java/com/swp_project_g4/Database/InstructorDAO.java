@@ -6,9 +6,12 @@ package com.swp_project_g4.Database;
 
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
+import org.junit.platform.commons.function.Try;
 
+import javax.servlet.jsp.tagext.TryCatchFinally;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +32,6 @@ public class InstructorDAO extends DBConnection {
             ResultSet resultSet = statement.executeQuery();
 
 
-
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
@@ -37,7 +39,31 @@ public class InstructorDAO extends DBConnection {
 
         return instructor;
     }
+     public static ArrayList<Instructor> getAllInstructor(){
+        ArrayList<Instructor> list = new ArrayList<>();
+        try {
+             statement = conn.prepareStatement("select * from instructor");
+             ResultSet resultSet = statement.executeQuery();
 
+             while (resultSet.next()){
+                 Instructor instructor = new Instructor(
+                         resultSet.getInt("instructorID"),
+                         resultSet.getInt("organizationID"),
+                         resultSet.getString("picture"),
+                         resultSet.getString("username"),
+                         resultSet.getString("password"),
+                         resultSet.getString("email"),
+                         resultSet.getString("first_name"),
+                         resultSet.getString("last_name"),
+                         resultSet.getInt("countryID"),
+                         resultSet.getInt("status")
+                 );
+             }
+        }catch (SQLException ex){
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE,  null,ex);
+        }
+         return list ;
+     }
     public static void main(String[] args) {
     }
 }
