@@ -1,6 +1,7 @@
 import './Navbar.css'
 import {useNavigate} from 'react-router-dom'
 import Cookies from 'js-cookie'
+import {useEffect} from "react";
 
 var usertmp = {
     name: "Guest",
@@ -61,7 +62,7 @@ function Navbar({learner}) {
                             src={learner ? "/public/media/user/" + learner.id + "/" + learner.picture : usertmp.picture}
                             alt="avatar"></img>
                         <span
-                            className="userInfor">{learner ? learner.firstName + ' ' + learner.lastName : usertmp.usertmp}</span>
+                            className="userInfor">{learner ? learner.username : usertmp.name}</span>
                     </a>
 
                     <div id="userMenu" className="userMenu close">

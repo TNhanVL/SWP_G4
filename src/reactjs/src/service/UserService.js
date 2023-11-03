@@ -13,6 +13,18 @@ async function learnerLoggedIn() {
     }
 }
 
-const exportObject = { learnerLoggedIn }
+async function instructorLoggedIn() {
+    try {
+        let accessToken = Cookies.get('instructorJwtToken');
+        if (!accessToken) return false;
+
+        return await Backend.post('auth/instructor')
+
+    } catch (e) {
+        return false;
+    }
+}
+
+const exportObject = { learnerLoggedIn, instructorLoggedIn }
 
 export default exportObject

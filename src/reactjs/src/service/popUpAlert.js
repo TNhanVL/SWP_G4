@@ -63,3 +63,5 @@ function warning(message) {
         duration: 3000
     });
 }
+
+export default {success, danger, warning}

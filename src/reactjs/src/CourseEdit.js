@@ -1,614 +1,338 @@
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import Navbar from './Navbar';
 import {useEffect, useState} from "react";
 import UserService from "./service/UserService";
 import Footer from "./Footer";
+import $ from "jquery"
+import 'jquery-ui-dist/jquery-ui'
+import backend from "./service/Backend";
+import popUpAlert from "./service/popUpAlert";
+
+function EditCourse({course, afterEditCourse}) {
+
+    const [editCourse, setEditCourse] = useState(null)
+
+    useEffect(() => {
+        if(!course) return
+        //Get course
+        backend.post('course/getByCourseID', {
+            courseID: course.id
+        }).then(res => {
+            if (res) {
+                setEditCourse(res)
+            }
+        })
+    }, [course]);
+
+    function tryToSave() {
+        backend.post('course/update', {
+            ...editCourse
+        }).then(res => {
+            if (!res) {
+                popUpAlert.warning("Save Course failed")
+            } else {
+                popUpAlert.success("Save Successful!")
+                afterEditCourse()
+            }
+        })
+    }
+
+    return (
+        editCourse &&
+        <div className="rightPane p-4 bg-white" style={{height: "max-content"}}>
+            <div className="addMooc" id="addMooc">
+                <div>
+                    <h1 className="text-center">Edit course</h1>
+                    <div className="mt-4">
+                        <form className="row g-3">
+                            <div className="col-12">
+                                <label htmlFor="CourseName" className="form-label">Course Name</label>
+                                <input type="text" className="form-control" id="CourseName" value={editCourse.name}
+                                       onChange={e => {
+                                           setEditCourse({
+                                               ...editCourse,
+                                               name: e.target.value
+                                           })
+                                       }}
+                                       placeholder="Ex: Java Introduction" required/>
+                            </div>
+
+                            <div className="col-12">
+                                <label htmlFor="CourseDescription" className="form-label">Course Description</label>
+                                <input type="text" className="form-control" id="CourseDescription"
+                                       value={editCourse.description}
+                                       onChange={e => {
+                                           setEditCourse({
+                                               ...editCourse,
+                                               description: e.target.value
+                                           })
+                                       }}
+                                       placeholder="Ex: This course help for newbie practice with Java code" required/>
+                            </div>
+
+                            <div className="col-6">
+                                <label htmlFor="CoursePrice" className="form-label">Course Price</label>
+                                <input type="number" className="form-control" id="CoursePrice"
+                                       value={editCourse.price}
+                                       onChange={e => {
+                                           setEditCourse({
+                                               ...editCourse,
+                                               price: e.target.value
+                                           })
+                                       }}
+                                       required/>
+                            </div>
+
+                            <div className="col-12">
+                                <div className="btn btn-primary" onClick={tryToSave}>Save</div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function EditChapter({chapter, afterEditChapter}) {
+
+    const [editChapter, setEditChapter] = useState(null)
+
+    useEffect(() => {
+        if(!chapter) return
+        //Get course
+        backend.post('chapter/getByChapterID', {
+            chapterID: chapter.id
+        }).then(res => {
+            if (res) {
+                setEditChapter(res)
+            }
+        })
+    }, [chapter]);
+
+    function tryToSave() {
+        backend.post('chapter/update', {
+            ...editChapter
+        }).then(res => {
+            if (!res) {
+                popUpAlert.warning("Save Chapter failed")
+            } else {
+                popUpAlert.success("Save Successful!")
+                afterEditChapter()
+            }
+        })
+    }
+
+    function tryToDelete() {
+        backend.post('chapter/delete', {
+            chapterID: chapter.id
+        }).then(res => {
+            if (!res) {
+                popUpAlert.warning("Delete Chapter failed")
+            } else {
+                popUpAlert.success("Delete Successful!")
+                afterEditChapter()
+            }
+        })
+    }
+
+    return (
+        editChapter &&
+        <div className="rightPane p-4 bg-white" style={{height: "max-content"}}>
+            <div className="addMooc" id="addMooc">
+                <div>
+                    <h1 className="text-center">Edit chapter</h1>
+                    <div className="mt-4">
+                        <form className="row g-3">
+                            <div className="col-12">
+                                <label htmlFor="CourseName" className="form-label">Chapter Name</label>
+                                <input type="text" className="form-control" id="CourseName"
+                                       value={editChapter && editChapter.name}
+                                       onChange={e => {
+                                           setEditChapter({
+                                               ...editChapter,
+                                               name: e.target.value
+                                           })
+                                       }}
+                                       placeholder="Ex: If condition" required/>
+                            </div>
+
+                            <div className="col-12">
+                                <label htmlFor="CourseDescription" className="form-label">Chapter Description</label>
+                                <input type="text" className="form-control" id="CourseDescription"
+                                       value={editChapter.description}
+                                       onChange={e => {
+                                           setEditChapter({
+                                               ...editChapter,
+                                               description: e.target.value
+                                           })
+                                       }}
+                                       placeholder="Ex: This chapter help for newbie practice with Java code" required/>
+                            </div>
+
+                            <div className="col-12">
+                                <div className="btn btn-primary" onClick={tryToSave}>Save</div>
+                                <div className="btn btn-danger ms-2" onClick={tryToDelete}>Delete</div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 function CourseEdit() {
 
     const {courseID} = useParams()
-    const [learner, setLearner] = useState(null)
+    const [instructor, setInstructor] = useState(null)
+    const [course, setCourse] = useState(null);
+    const [chapters, setChapters] = useState([])
+    const [mode, setMode] = useState(0)
+    const [editChapter, setEditChapter] = useState(null)
+
+    let navigate = useNavigate();
+
+    function getCourse(courseID) {
+        backend.post('course/getByCourseID', {
+            courseID: courseID
+        }).then(res => {
+            if (!res) {
+                navigate('/')
+            }
+            setCourse(res)
+        })
+    }
+
+    function getChapters(courseID, getIndex) {
+        backend.post('chapter/getByCourseID', {
+            courseID: courseID
+        }).then(res => {
+            if (res) {
+                setChapters(res)
+                if (getIndex) {
+                    let oldIndex = editChapter ? editChapter.index : 0
+                    if (res.length >= oldIndex) {
+                        setEditChapter(res[oldIndex - 1])
+                    } else {
+                        if (res.length) {
+                            setEditChapter(res[res.length - 1])
+                        }
+                    }
+                }
+            } else {
+                if (mode == 2) setMode(0)
+            }
+        })
+    }
 
     useEffect(() => {
-        let learner = UserService.learnerLoggedIn()
-        learner.then(res => {
-            setLearner(res)
+        //Get instructor infomation
+        let instructor = UserService.instructorLoggedIn()
+        instructor.then(res => {
+            if (!res) {
+                navigate('/')
+            }
+            setInstructor(instructor)
         })
+
+        //Get course
+        getCourse(courseID)
+
+        //Get all chapters
+        getChapters(courseID, false)
+
+        $(function () {
+            $(".moocTitles").sortable({
+                placeholder: "drag-location",
+                handle: ".mooc-handle",
+                start: function (e, ui) {
+                    ui.placeholder.height(ui.helper.outerHeight());
+                }
+            });
+        });
     }, []);
+
+    function showEditMoocByID(event) {
+
+    }
+
+    function afterEditCourse() {
+        getCourse(courseID)
+    }
+
+    function showEditCourse() {
+        setMode(1)
+    }
+
+    function showEditChapter(chapter) {
+        setEditChapter(chapter)
+        setMode(2)
+    }
+
+    function afterEditChapter() {
+        getChapters(courseID, true);
+    }
+
+    function tryAddNewChapter() {
+        backend.post('chapter/create', {
+            courseID: courseID
+        }).then(res => {
+            if (res) {
+                popUpAlert.success("Add new chapter successful")
+                getChapters(courseID, false)
+                setEditChapter(res)
+                setMode(2)
+            } else {
+                popUpAlert.warning("Add new chapter failed")
+            }
+        })
+    }
 
     return (
         <div className='CourseEdit'>
-            <Navbar learner={learner}/>
+            <Navbar learner={instructor}/>
 
             <div id="body-editCourse">
 
                 <div className="leftPane">
 
-                    <div className="accordion moocTitles" id="accordionExample">
+                    <h3>{course && course.name} <i className="text-info fa-solid fa-pen-to-square"
+                                                   onClick={showEditCourse} style={{cursor: "pointer"}}></i></h3>
 
-                        <div className="accordion-item" onClick="showEditMoocByID(this)">
-                            <h4 className="accordion-header">
-                                <div><a href=""><i className="mooc-handle fas fa-ellipsis-v ms-3"
-                                                   style={{cursor: "all-scroll"}}></i></a></div>
-                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapseOne">
-                                    Mooc #1
-                                </button>
+                    {chapters.map((chapter, chapterIndex) => (
+                        <div key={courseID + "_" + chapter.id} className="accordion moocTitles" id="accordionExample">
 
-                            </h4>
-                            <div id="collapse_1" className="accordion-collapse collapse"
-                                 data-bs-parent="#accordionExample"
-                            >
-
-                                <div className="accordion-body lessonTitles">
-
-                                    <div className="accordion-item" onClick="showEditLessonByID(this)">
-                                        <h4 className="accordion-header">
-                                            <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
-                                                    style={{cursor: "all-scroll"}}></i>
-                                            </div>
-                                            <button className="btn chosing" type="button">
-                                                Lesson #1
-                                            </button>
-                                        </h4>
+                            <div className="accordion-item" style={{cursor: "all-scroll"}}
+                                 onClick={() => showEditChapter(chapter)}>
+                                <h4 className="accordion-header">
+                                    <div className="mooc-handle">
+                                        <i className="fas fa-ellipsis-v"></i>
                                     </div>
-
-                                    <div className="accordion-item" onClick="showEditLessonByID(this)">
-                                        <h4 className="accordion-header">
-                                            <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
-                                                    style={{cursor: "all-scroll"}}></i>
-                                            </div>
-                                            <button className="btn" type="button">
-                                                Lesson #2
-                                            </button>
-                                        </h4>
-                                    </div>
-
-                                    <div className="accordion-item" onClick="showEditLessonByID(this)">
-                                        <h4 className="accordion-header">
-                                            <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
-                                                    style={{cursor: "all-scroll"}}></i>
-                                            </div>
-                                            <button className="btn" type="button">
-                                                Lesson #3
-                                            </button>
-                                        </h4>
-                                    </div>
-
-                                    <div className="accordion-btn">
-                                <span onClick="showAddLessonArea()" className="btn btn-primary w-100 p-2 text-center">
-                                    Add new lesson</span>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div className="accordion-item" onClick="showEditMoocByID(this)">
-                            <h4 className="accordion-header">
-                                <div><a href=""><i className="mooc-handle fas fa-ellipsis-v ms-3"
-                                                   style={{cursor: "all-scroll"}}></i></a></div>
-                                <button className="accordion-button collapsed chosing" type="button"
+                                    <button
+                                        className={"accordion-button collapsed" + ((mode == 2 && editChapter && chapter.id == editChapter.id) ? " chosing" : "")}
+                                        type="button"
                                         data-bs-toggle="collapse"
-                                        data-bs-target="#collapse_2" aria-expanded="false" aria-controls="collapse_2">
-                                    Mooc #2
-                                </button>
-                            </h4>
-                            <div id="collapse_2" className="accordion-collapse collapse"
-                                 data-bs-parent="#accordionExample"
-                            >
-                                <div className="accordion-body">
-                                </div>
+                                        data-bs-target="#collapse_1" aria-expanded="false"
+                                        aria-controls="collapseOne">
+                                        <strong>#{chapterIndex + 1}</strong><span className="ms-1">{chapter.name}</span>
+                                    </button>
+                                </h4>
                             </div>
                         </div>
+                    ))}
 
-                        <div className="accordion-item" onClick="showEditMoocByID(this)">
-                            <h4 className="accordion-header">
-                                <div><a href=""><i className="mooc-handle fas fa-ellipsis-v ms-3"
-                                                   style={{cursor: "all-scroll"}}></i></a></div>
-                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse_3" aria-expanded="false" aria-controls="collapse_3">
-                                    Mooc #3
-                                </button>
-                            </h4>
-                            <div id="collapse_3" className="accordion-collapse collapse"
-                                 data-bs-parent="#accordionExample">
-                                <div className="accordion-body">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="accordion-btn">
-                            <button onClick="showAddMoocArea()" className="btn btn-primary w-100 p-2">Add new mooc
-                            </button>
-                        </div>
+                    <div className="accordion-btn">
+                        <button onClick={tryAddNewChapter} className="btn btn-primary w-100 p-2">Add new chapter
+                        </button>
                     </div>
 
                 </div>
 
-                <div className="rightPane p-4 ">
-
-                    <div className="addMooc" id="addMooc">
-                        <div>
-                            <h1 className="text-center">Add new mooc</h1>
-                            <div className="mt-4">
-
-
-                                <form method="POST" action="" className="row g-3">
-
-                                    <div className="col-md-4 col-sm-6">
-                                        <label htmlFor="MoocID" className="form-label">Mooc ID</label>
-                                        <input type="text" className="form-control" id="MoocID"
-                                               value="Auto increasing ID"
-                                               disabled=""/>
-                                    </div>
-
-                                    <div className="col-md-8 col-sm-6">
-                                    </div>
-
-                                    <div className="col-6">
-                                        <label htmlFor="MoocTitle" className="form-label">Mooc Title</label>
-                                        <input type="text" className="form-control" id="MoocTitle" value=""
-                                               name="MoocTitle"
-                                               placeholder="Ex: Java Introduction" required=""/>
-                                    </div>
-
-                                    <div className="col-6">
-                                        <label htmlFor="MoocDescription" className="form-label">Mooc Description</label>
-                                        <input type="text" className="form-control" id="MoocDescription" value=""
-                                               name="MoocDescription"
-                                               placeholder="Ex: This mooc help for newbie practice with Java code"
-                                               required=""/>
-                                    </div>
-
-                                    <div className="col-12">
-                                        <button className="btn btn-primary" type="submit">Add mooc</button>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="editMooc" id="editMooc">
-                        <div>
-                            <div className="mt-4">
-                                <h1 className="text-center">Edit mooc</h1>
-
-                                <form method="POST" action="" className="row g-3">
-
-                                    <div className="col-md-4 col-sm-6">
-                                        <label htmlFor="MoocID" className="form-label">Mooc ID</label>
-                                        <input type="text" className="form-control" id="MoocID" value="" disabled=""/>
-                                    </div>
-
-                                    <div className="col-md-8 col-sm-6">
-                                    </div>
-
-                                    <div className="col-6">
-                                        <label htmlFor="MoocTitle" className="form-label">Mooc Title</label>
-                                        <input type="text" className="form-control" id="MoocTitle" value=""
-                                               name="MoocTitle"
-                                               placeholder="Ex: " required=""/>
-                                    </div>
-
-                                    <div className="col-6">
-                                        <label htmlFor="MoocDescription" className="form-label">Mooc Description</label>
-                                        <input type="text" className="form-control" id="MoocDescription" value=""
-                                               name="MoocDescription" placeholder="Ex: " required=""/>
-                                    </div>
-
-
-                                    <div className="col-12">
-                                        <button className="btn btn-primary" type="submit">Update mooc</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="addLesson" id="addLesson">
-                        <div className="head">
-                            <h1 className="text-center">Add new lesson</h1>
-
-                            <form method="POST" action="" className="row g-3">
-
-
-                                <div className="col-6">
-                                    <label htmlFor="lessonTitle" className="form-label">Lesson ID</label>
-                                    <input type="text" className="form-control" id="LessonID" value="Auto Increasing ID"
-                                           name="LessonTitle" required="" readOnly/>
-                                </div>
-                                <div className="col-6"></div>
-
-                                <div className="col-6">
-                                    <label htmlFor="lessonTitle" className="form-label">Lesson name</label>
-                                    <input type="text" className="form-control" id="LessonTitle" value=""
-                                           name="LessonTitle"
-                                           placeholder="Ex: How to declare a variable in Java program" required=""/>
-                                </div>
-
-
-                                <div className="col-6">
-                                    <label htmlFor="lessonTime" className="form-label">Lesson Time learning</label>
-                                    <input type="text" className="form-control" id="LessonDescription" value=""
-                                           name="LessonDescription" placeholder="Time need to complete this lesson"
-                                           required=""/>
-                                </div>
-
-
-                                <div className="col-6">
-                                    <label htmlFor="lessonType" className="form-label col-12">Type of lesson</label>
-                                    <select value="1" required="required" onChange="showDiv()" name="typeOfLesson"
-                                            id="lessonType" className="col-12 form-control">
-                                        <option value=""></option>
-                                        <option value="0">Video</option>
-                                        <option value="1">Quiz</option>
-                                        <option value="2">Reading</option>
-                                    </select>
-                                </div>
-                            </form>
-
-                        </div>
-
-
-                        <div id="lessonType_1">
-                            <div className="col-6">
-                                <label htmlFor="videoURL" className="form-label">Provide video URL</label>
-                                <input type="file" className="form-control" id="videoURL" value="" name="videoURL"
-                                       placeholder="Browse" required=""/>
-                            </div>
-                        </div>
-                        <div id="lessonType_2" className="row col-12">
-                            <div className="row">
-
-                                <div className="accordion moocTitles col-3 mt-5" id="accordionExample_1">
-                                    <div className="accordion-item">
-                                        <h4 className="accordion-header">
-                                            <button className="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#collapse_1_1" aria-expanded="false"
-                                                    aria-controls="collapseOne">
-                                                Question List
-                                            </button>
-
-                                        </h4>
-                                        <div id="collapse_1_1" className="accordion-collapse collapse"
-                                             data-bs-parent="#accordionExample_1">
-
-                                            <div className="accordion-body lessonTitles">
-
-                                                <div className="accordion-item">
-                                                    <h4 className="accordion-header">
-                                                        <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
-                                                                style={{cursor: "all-scroll"}}></i>
-                                                        </div>
-                                                        <button className="btn chosing" type="button">
-                                                            Question 1
-                                                        </button>
-                                                    </h4>
-                                                </div>
-
-                                                <div className="accordion-item">
-                                                    <h4 className="accordion-header">
-                                                        <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
-                                                                style={{cursor: "all-scroll"}}></i>
-                                                        </div>
-                                                        <button className="btn" type="button">
-                                                            Question 2
-                                                        </button>
-                                                    </h4>
-                                                </div>
-
-                                                <div className="accordion-item">
-                                                    <h4 className="accordion-header">
-                                                        <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
-                                                                style={{cursor: "all-scroll"}}></i>
-                                                        </div>
-                                                        <button className="btn" type="button">
-                                                            Question 3
-                                                        </button>
-                                                    </h4>
-                                                </div>
-
-                                                <div className="accordion-btn">
-                                            <span onClick="showAddLessonArea()"
-                                                  className="btn btn-primary w-100 p-2 text-center">
-                                                Add new lesson</span>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="questionCreated" className="col-9">
-
-                                    <div id="question_create_area" className="col-12 mt-5">
-                                        <div className="question row col-12">
-                                            <h5>Question 1</h5>
-                                            <div className="col-6">
-                                                <label htmlFor="questionType" className="form-label col-12">Type of
-                                                    question</label>
-                                                <select onChange="showShowQuestionOfThisType()" value=""
-                                                        required="required"
-                                                        name="questionType" id="questionType"
-                                                        className="col-12 form-control">
-                                                    <option value=""></option>
-                                                    <option value="0">Câu hỏi hình ảnh (ảnh trong máy)</option>
-                                                    <option value="1">Câu hỏi hình ảnh (link ảnh)</option>
-                                                    <option value="2">Câu hỏi text</option>
-                                                </select>
-                                            </div>
-
-                                            <div className="question-types col-6">
-                                                <div id="questionType_0" className="col-12">
-                                                    <label htmlFor="questionType_0_content" className="form-label">Browser
-                                                        the
-                                                        question</label>
-                                                    <input type="file" className="form-control"
-                                                           id="questionType_0_content" value=""
-                                                           name="questionType_0_content" placeholder="Chose a question"
-                                                           required=""/>
-                                                </div>
-                                                <div id="questionType_1" className="col-12">
-                                                    <label htmlFor="questionType_1_content" className="form-label">Enter
-                                                        question
-                                                        URL</label>
-                                                    <input type="text" className="form-control"
-                                                           id="questionType_1_content" value=""
-                                                           name="questionType_1_content" placeholder="URL question"
-                                                           required=""/>
-                                                </div>
-                                                <div id="questionType_2" className="col-12">
-                                                    <label htmlFor="questionType_2_content" className="form-label">Enter
-                                                        the
-                                                        question</label>
-                                                    <textarea name="questionType_2_content" id="questionType_2_content"
-                                                              cols="30" rows="3"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="anwer row col-12 mt-3">
-                                            <div className="col-6">
-                                                <label htmlFor="answerType" className="form-label">Type of
-                                                    answer</label>
-                                                <select onChange="showShowAnswerOfThisType(this)" value="0"
-                                                        required="required"
-                                                        name="answerType" id="answerType"
-                                                        className="col-12 form-control">
-                                                    <option value=""></option>
-                                                    <option value="0">Multiple choice</option>
-                                                    <option value="1">Chose all correct</option>
-                                                </select>
-                                            </div>
-
-                                            <div className="col-6">
-
-                                                <div id="answer_type_0">
-                                                    <p>Answer content</p>
-
-
-                                                    <span onClick="addAnswerRatio()" className=" btn btn-primary mt-2"
-                                                          id="addRatio">Add
-                                                Answer</span>
-                                                </div>
-                                                <div id="answer_type_1">
-                                                    <p>Answer content</p>
-                                                    <span onClick="addAnswerCheckbox()"
-                                                          className=" btn btn-primary mt-2"
-                                                          id="addCheckbox">Add Answer</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span onClick="createQuestion()" className="btn btn-primary mt-3 col-3 ml-5">Create
-                                    question</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div id="lessonType_3" className="mt-3">
-                            <div id="editor">
-                                <p>This is some sample content.</p>
-                            </div>
-                        </div>
-                        <div className="col-12">
-                            <button className="btn btn-primary mt-5 col-12" type="submit">Add lesson</button>
-                        </div>
-                    </div>
-
-                    <div className="editLesson" id="editLesson">
-
-                        <div className="head">
-                            <h1 className="text-center">Edit lesson</h1>
-                            <form method="POST" action="" className="row g-3">
-
-                                <div className="col-6">
-                                    <label htmlFor="lessonTitle" className="form-label">Lesson ID</label>
-                                    <input type="text" className="form-control" id="LessonID-edit" value=""
-                                           name="LessonTitle"
-                                           required="" readOnly/>
-                                </div>
-                                <div className="col-6"></div>
-
-                                <div className="col-6">
-                                    <label htmlFor="lessonTitle" className="form-label">Lesson name</label>
-                                    <input type="text" className="form-control" id="LessonTitle-edit" value=""
-                                           name="LessonTitle"
-                                           placeholder="Ex: How to declare a variable in Java program" required=""/>
-                                </div>
-
-                                <div className="col-6">
-                                    <label htmlFor="lessonTime" className="form-label">Lesson Time learning</label>
-                                    <input type="text" className="form-control" id="LessonTime-edit" value=""
-                                           name="LessonDescription" placeholder="Time need to complete this lesson"
-                                           required=""/>
-                                </div>
-
-
-                                <div className="col-6">
-                                    <label htmlFor="lessonType" className="form-label col-12">Type of lesson</label>
-                                    <select value="1" required="required" onChange="showDivEdit()" name="typeOfLesson"
-                                            id="lessonType-edit" className="col-12 form-control">
-                                        <option value=""></option>
-                                        <option value="0">Video</option>
-                                        <option value="1">Quiz</option>
-                                        <option value="2">Reading</option>
-                                    </select>
-                                </div>
-                            </form>
-
-                        </div>
-
-
-                        <div id="lessonType_1-edit">
-                            <div className="col-6">
-                                <label htmlFor="videoURL-edit" className="form-label">Provide video URL</label>
-                                <input type="file" className="form-control" id="videoURL-edit" value="" name="videoURL"
-                                       placeholder="Browse" required=""/>
-                            </div>
-                        </div>
-                        <div id="lessonType_2-edit" className="row col-12">
-                            <div className="row">
-
-                                <div className="accordion moocTitles col-3 mt-5" id="accordionExample_2">
-                                    <div className="accordion-item">
-                                        <h4 className="accordion-header">
-                                            <button className="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#collapse_1_2" aria-expanded="false"
-                                                    aria-controls="collapseOne">
-                                                Question List
-                                            </button>
-
-                                        </h4>
-                                        <div id="collapse_1_2" className="accordion-collapse collapse"
-                                             data-bs-parent="#accordionExample_2">
-
-                                            <div className="accordion-body lessonTitles">
-
-                                                <div className="accordion-item">
-                                                    <h4 className="accordion-header">
-                                                        <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
-                                                                style={{cursor: "all-scroll"}}></i>
-                                                        </div>
-                                                        <button className="btn chosing" type="button">
-                                                            Question 1
-                                                        </button>
-                                                    </h4>
-                                                </div>
-
-
-                                                <div className="accordion-btn">
-                                            <span onClick="showAddLessonArea()"
-                                                  className="btn btn-primary w-100 p-2 text-center">
-                                                Add new lesson</span>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="questionCreated" className="col-9">
-
-                                    <div id="question_create_area_edit" className="col-12 mt-5">
-                                        <div className="question row col-12">
-                                            <h5>Question 1</h5>
-                                            <div className="col-6">
-                                                <label htmlFor="questionType-edit" className="form-label col-12">Type of
-                                                    question</label>
-                                                <select onChange="showShowQuestionOfThisType()" value=""
-                                                        required="required"
-                                                        name="questionType" id="questionType-edit"
-                                                        className="col-12 form-control">
-                                                    <option value=""></option>
-                                                    <option value="0">Câu hỏi hình ảnh (ảnh trong máy)</option>
-                                                    <option value="1">Câu hỏi hình ảnh (link ảnh)</option>
-                                                    <option value="2">Câu hỏi text</option>
-                                                </select>
-                                            </div>
-
-                                            <div className="question-types col-6">
-                                                <div id="questionType_0-edit" className="col-12">
-                                                    <label htmlFor="questionType_0_content_edit" className="form-label">Browser
-                                                        the
-                                                        question</label>
-                                                    <input type="file" className="form-control"
-                                                           id="questionType_0_content_edit" value=""
-                                                           name="questionType_0_content_edit"
-                                                           placeholder="Chose a question"
-                                                           required=""/>
-                                                </div>
-                                                <div id="questionType_1-edit" className="col-12">
-                                                    <label for="lessonTime-edit" className="form-label">Enter question
-                                                        URL</label>
-                                                    <input type="text" className="form-control"
-                                                           id="questionType_1_content-edit" value=""
-                                                           name="questionType_1_content-edit" placeholder="URL question"
-                                                           required=""/>
-                                                </div>
-                                                <div id="questionType_2-edit" className="col-12">
-                                                    <label for="questionType_2_content-edit" className="form-label">Enter
-                                                        the question</label>
-                                                    <textarea name="" id="questionType_2_content-edit" cols="30"
-                                                              rows="3"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="anwer row col-12 mt-3">
-                                            <div className="col-6">
-                                                <label for="answerType-edit" className="form-label">Type of
-                                                    answer</label>
-                                                <select onchange="showShowAnswerOfThisType(this)" value=""
-                                                        required="required"
-                                                        name="answer_0_0_type" id="answerType-edit"
-                                                        className="col-12 form-control">
-                                                    <option value=""></option>
-                                                    <option value="0">Multiple choice</option>
-                                                    <option value="1">Chose all correct</option>
-                                                </select>
-                                            </div>
-
-                                            <div className="col-6">
-
-                                                <div id="answer_type_0_edit">
-                                                    <p>Answer content</p>
-                                                    <span onclick="addAnswerRatio()" className=" btn btn-primary mt-2"
-                                                          id="addRatio">Add
-                                                Answer</span>
-                                                </div>
-                                                <div id="answer_type_1_edit">
-                                                    <p>Answer content</p>
-                                                    <span onclick="addAnswerCheckbox()"
-                                                          className=" btn btn-primary mt-2"
-                                                          id="addCheckbox">Add Answer</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span className="btn btn-primary mt-3 col-3 ml-5">Update question</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div id="lessonType_3-edit" className="mt-3">
-                            <div id="editor-edit">
-                                <p>This is some sample content.</p>
-                            </div>
-                        </div>
-                        <div className="col-12">
-                            <button className="btn btn-primary mt-5 col-12" type="submit">Update Lesson</button>
-                        </div>
-
-                    </div>
-                </div>
+                {mode == 1 && course && <EditCourse course={course} afterEditCourse={afterEditCourse}/>}
+                {mode == 2 && course && <EditChapter chapter={editChapter} afterEditChapter={afterEditChapter}/>}
 
             </div>
 
