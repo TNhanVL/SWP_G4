@@ -29,8 +29,8 @@ public class Chapter {
     private int courseID;
     @Column(name = "[index]")
     private int index;
-    private String name;
-    private String description;
+    private String name = "";
+    private String description = "";
     private int totalTime;
 
     public Chapter(int ID, int courseID, int index, String name, String description, int totalTime) {

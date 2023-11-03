@@ -1,5 +1,6 @@
 package com.swp_project_g4.Service;
 
+import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Repository.Repo;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +22,8 @@ class QuizServiceTest {
 
     @Test
     void getInstructorByID() {
-        var b = repo.getLearnerRepository().findByUsername("ttnhan").get();
-        System.out.println(b);
-
+        Course course = repo.getCourseRepository().findById(1).get();
+        course = repo.getCourseRepository().save(course);
+        System.out.println(course);
     }
 }

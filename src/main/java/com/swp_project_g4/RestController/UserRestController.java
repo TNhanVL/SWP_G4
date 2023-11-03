@@ -1,5 +1,6 @@
 package com.swp_project_g4.RestController;
 
+import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
@@ -19,5 +20,12 @@ public class UserRestController {
         String username = CookieServices.getUserNameOfLearner(request.getCookies());
         var learner = repo.getLearnerRepository().findByUsername(username).orElse(null);
         return learner;
+    }
+
+    @PostMapping("auth/instructor")
+    public Instructor authInstructor(HttpServletRequest request) {
+        String username = CookieServices.getUserNameOfInstructor(request.getCookies());
+        var instructor = repo.getInstructorRepository().findByUsername(username).orElse(null);
+        return instructor;
     }
 }
