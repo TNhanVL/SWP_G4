@@ -427,7 +427,7 @@ GO
 -- insert data
 
 INSERT INTO country
-    (countryID, [name])
+(countryID, [name])
 VALUES (1, 'United States'),
        (2, 'Canada'),
        (3, 'Mexico'),
@@ -450,7 +450,7 @@ VALUES (1, 'United States'),
        (20, 'Singapore')
 GO
 INSERT INTO [admin]
-    (username, [password])
+(username, [password])
 VALUES ('admin', '0e7517141fb53f21ee439b355b5a1d0a'),
        ('quantri', '0e7517141fb53f21ee439b355b5a1d0a'),
        ('sussy', '80b87ad4e28b6e6c6b0efc1cb797c649'),
@@ -469,7 +469,7 @@ VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gma
 GO
 --password Fpt@123
 INSERT INTO organization
-    (countryID, [name], username, password, email, picture, [description])
+(countryID, [name], username, password, email, picture, [description])
 VALUES (16, 'FPT University', 'fptuni', '5e7c74592ea8dffbfdc20c84de15afea', 'NhanTTCE171358@fpt.edu.vn', 'FPT.png',
         N'Trường đại học top 1 Việt Nam');
 GO
@@ -528,7 +528,7 @@ VALUES (1, 1),
        (12, 3)
 GO
 INSERT INTO cart_product
-    (userID, courseID)
+(userID, courseID)
 VALUES (1, 3)
 GO
 INSERT INTO course_progress(learnerID, courseID)
@@ -536,13 +536,15 @@ VALUES (1, 1),
        (1, 2)
 GO
 INSERT INTO chapter
-    (courseID, [index], name, [description])
+(courseID, [index], name, [description])
 VALUES (1, 1, N'Hiragana 。ひらがな', ''),
        (1, 2, N'Katakana 。かたがな', ''),
-       (2, 1, N'Test chapter', '')
+       (2, 1, N'Test chapter', ''),
+       (3, 1, N'Introduction', ''),
+       (3, 2, N'Basic statements', '')
 GO
 INSERT INTO lesson
-    (chapterID, name, [index], [type], [time], must_be_completed)
+(chapterID, name, [index], [type], [time], must_be_completed)
 VALUES (1, 'A, Ka Row', 1, 3, 3, 1),
        (1, 'Sa, Ta Row', 2, 3, 3, 1),
        (1, 'Practice 1: Choose the pronunciation', 3, 2, 5, 1),
@@ -559,10 +561,19 @@ VALUES (1, 'A, Ka Row', 1, 3, 3, 1),
        (2, 'Nihongo2', 1, 2, 5, 1),
        (2, 'Video', 2, 0, 5, 1),
        (2, 'Post', 3, 1, 5, 1),
-       (3, 'Youtube', 1, 3, 5, 1)
+       (3, 'Youtube', 1, 3, 5, 1),
+       (4, 'Object Oriented Programming', 1, 3, 19, 1),
+       (4, 'Features of Object Oriented Programming', 2, 3, 27, 1),
+       (4, 'History of C++', 3, 3, 20, 1),
+       (4, 'Practice 1: Review part 1', 4, 2, 5, 1),
+       (5, 'Cout in C++', 1, 3, 5, 1),
+       (5, 'Cin in C++', 2, 3, 22, 1),
+       (5, 'Array of Objects in C++', 3, 3, 17, 1),
+       (5, 'Using Array Inside Class', 4, 3, 17, 1),
+       (5, 'Multiple-choice test (5 questions)', 5, 2, 20, 1)
 GO
 INSERT INTO post
-    (content, lessonID)
+(content, lessonID)
 VALUES ('s4RXDEVFO_E', 1),
        ('J9MvqJnj5kQ', 2),
        ('rsL86uUTJpw', 4),
@@ -575,10 +586,17 @@ VALUES ('s4RXDEVFO_E', 1),
        ('Asy10OI-lFU', 11),
        ('V34OFinfTbU', 12),
        ('DoggieCorgi-4.mp4', 15),
-       ('V34OFinfTbU', 17)
+       ('V34OFinfTbU', 17),
+       ('7BVt6OGfVfQ', 18),
+       ('5Y74odV3IAI', 19),
+       ('_cbfR690u74', 20),
+       ('pci97hk17rM', 22),
+       ('HvhxbpJYNM0', 23),
+       ('Hu2tePjqcZ4', 24),
+       ('qvtEl-HCwXc', 25)
 GO
 INSERT INTO question
-    (lessonID, [index], content, [type], point)
+(lessonID, [index], content, [type], point)
 VALUES (3, 1, 'a.png', 0, 1),
        (3, 2, 'i.png', 0, 1),
        (3, 3, 'u.png', 1, 1),
@@ -603,7 +621,15 @@ VALUES (3, 1, 'a.png', 0, 1),
         0.5),--di
        (13, 9, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e327e7159e7be6a7d27ebbd.png', 10,
         0.5),--de
-       (13, 10, N'Which words contain letters in the Ka row?', 21, 0.5)
+       (13, 10, N'Which words contain letters in the Ka row?', 21, 0.5),
+       (21, 1, N'Which of the following is NOT a key feature of C++?', 21, 1),
+       (21, 2, N'Which of the following is the correct syntax to declare an integer variable in C++?', 21, 1),
+       (21, 3, N'Which of the following is the correct way to print the value of a variable in C++?', 21, 1),
+       (26, 1, N'Which of the following is a control statement in C++?', 21, 1),
+       (26, 2, N'Which of the following is a selection statement in C++?', 21, 1),
+       (26, 3, N'Which of the following is a looping statement in C++?', 21, 1),
+       (26, 4, N'Which of the following is an input statement in C++?', 21, 1),
+       (26, 5, N'Which of the following is an output statement in C++?', 21, 1)
 
 --(13, 11, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e327f4359e7be6c8434ba8f.png', 10, 0.5),--pu
 --(13, 12, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e33cdfc59e7be091357234a.png', 10, 0.5),--kitte
@@ -618,7 +644,7 @@ VALUES (3, 1, 'a.png', 0, 1),
 
 GO
 INSERT INTO answer
-    (questionID, content, correct)
+(questionID, content, correct)
 VALUES (1, 'a', 1),
        (1, 'u', 0),
        (1, 'e', 0),
@@ -682,7 +708,31 @@ VALUES (1, 'a', 1),
        (16, N'かっさい', 1),
        (16, N'きゅうけい', 1),
        (16, N'おっと', 0),
-       (16, N'にんぎょう', 0)
+       (16, N'にんぎょう', 0),
+       (17, 'Object-oriented programming', 0),
+       (17, 'Generic programming', 0),
+       (17, 'Functional programming', 1),
+       (18, 'int x;', 1),
+       (18, 'int x = 0;', 0),
+       (18, 'x = int;', 0),
+       (19, 'cout << x;', 1),
+       (19, 'printf("%d", x);', 0),
+       (19, 'print(x);', 0),
+       (20, 'Declaration statement', 0),
+       (20, 'Expression statement', 0),
+       (20, 'Selection statement', 1),
+       (21, 'if statement', 1),
+       (21, 'else statement', 0),
+       (21, 'else if statement', 0),
+       (22, 'for loop', 1),
+       (22, 'while loop', 0),
+       (22, 'do while loop', 0),
+       (23, 'scanf() function', 0),
+       (23, 'cin object', 0),
+       (23, 'cin >> x; statement', 1),
+       (24, 'cout << x; statement', 1),
+       (24, 'printf() function', 0),
+       (24, 'print(x) function', 0)
 
 --(17, 'pa', 0), (17, 'pu', 1), (17, 'pe', 0), (17, 'pi', 0),
 --(18, 'kitte', 1), (18, 'kiite', 0), (18, 'kitde', 0), (18, 'kite', 0),
@@ -760,7 +810,7 @@ GO
 --order by chapterIndex, lessonIndex;
 
 insert into post
-    (lessonID, content)
+(lessonID, content)
 values (16, N'<h3>Lý thuyết</h3>
     <p>Khái niệm biến trong lập trình cũng giống khái niệm biến trong toán học, biến được dùng để đại diện cho một giá trị nào đó.</p>
     <p>Để khai báo biến kiểu số nguyên trong Java bạn sử dụng từ khóa <code>int</code> (<code>int</code> và viết tắt của <code>integer</code>) giống như sau:</p>
