@@ -91,6 +91,7 @@
                             <c:when test="${coursePurchased != null}">
                                 <a href="/learn/${course.ID}">${(courseProgress.enrolled) ? "Learn now": "Enroll now"}</a>
                             </c:when>
+
                             <c:otherwise>
                                 <%
                                     if (CourseDAO.checkCartProduct(learner.getID(), course.getID())) {
@@ -103,6 +104,7 @@
                             </c:otherwise>
                         </c:choose>
                     </c:when>
+
                     <c:otherwise>
                         <a href="/login">Add to cart</a>
                     </c:otherwise>

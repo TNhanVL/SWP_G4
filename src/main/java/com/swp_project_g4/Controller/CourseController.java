@@ -52,9 +52,8 @@ public class CourseController {
 
         var username = CookieServices.getUserNameOfLearner(request.getCookies());
         var learnerOptional = repo.getLearnerRepository().findByUsername(username);
+        var learner = learnerOptional.orElse(null);
         if (learnerOptional.isPresent()) {
-            var learner = learnerOptional.get();
-            request.getSession().setAttribute("learner", learner);
             var courseProgressOptional = repo.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learner.getID());
             if (courseProgressOptional.isPresent()) {
                 model.addAttribute("coursePurchased", courseID);
@@ -69,6 +68,7 @@ public class CourseController {
         model.addAttribute("instructors", instructors);
         model.addAttribute("numberOfPurchased", courseProgresses.size());
         model.addAttribute("courseID", courseID);
+        request.getSession().setAttribute("learner", learner);
         request.getSession().setAttribute("course", course);
         request.getSession().setAttribute("courseID", courseID);
         return "user/course";
