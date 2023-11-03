@@ -200,7 +200,7 @@ function CourseEdit() {
             courseID: courseID
         }).then(res => {
             if (!res) {
-                navigate('/')
+                window.location.replace('/')
             }
             setCourse(res)
         })
@@ -236,7 +236,7 @@ function CourseEdit() {
         let instructor = UserService.instructorLoggedIn()
         instructor.then(res => {
             if (!res) {
-                navigate('/')
+                window.location.replace('/')
             }
             setInstructor(instructor)
         })
