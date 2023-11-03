@@ -746,6 +746,8 @@ VALUES (1, 'a', 1),
 --(26, 'josei', 1), (26, 'jiso', 0), (26, 'jose', 0), (26, 'jisei', 0)
 
 GO
+select * from instructor
+select * from learner
 -- select * from [transaction]
 -- insert into [transaction](userID, courseID, originPrice, price, type, description, status)
 -- values('2','7','20.00000000','40.00000000','2','dung roi','0')
