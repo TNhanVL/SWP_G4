@@ -78,7 +78,7 @@ public class LearnController {
                 //check lessonProgress
                 var lessonProgressOptional = repo.getLessonProgressRepository().findByLessonIDAndChapterProgressID(lessonID, chapterProgress.getID());
                 var lessonProgress = lessonProgressOptional.orElse(new LessonProgress(lessonID, chapterProgress.getID()));
-                if (!lessonProgressOptional.isPresent() || lessonProgress.isCompleted() == false) {
+                if (!lessonProgressOptional.isPresent() || !lessonProgress.isCompleted()) {
                     if (!lessonProgressOptional.isPresent()) {
                         lessonProgress = repo.getLessonProgressRepository().save(lessonProgress);
                     }
@@ -310,7 +310,6 @@ public class LearnController {
 //            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getID(), request);
             lessonProgressService.markLessonCompleted(learner.getID(), lesson.getID());
         }
-
         return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getID();
     }
 

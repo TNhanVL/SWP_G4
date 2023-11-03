@@ -21,11 +21,17 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white " onclick="location.href = './logout';">
+                <a class="nav-link text-white" onclick="location.href = './logout';">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">login</i>
                     </div>
                     <span class="nav-link-text ms-1">Logout</span>
+                </a>
+                <a class="nav-link text-white" href="/admin/dashboard">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">table_view</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
 
@@ -34,14 +40,40 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white active bg-gradient-primary" href="/admin/dashboard">
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" id="sidebar_learner_div" onclick="showTable('learner_div')">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
-                    <span class="nav-link-text ms-1">Dashboard</span>
+                    <span class="nav-link-text ms-1">Learners</span>
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link text-white" id="sidebar_organization_div" onclick="showTable('organization_div')">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">table_view</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Organizations</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" id="sidebar_instructor_div" onclick="showTable('instructor_div')">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">table_view</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Instructors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" id="sidebar_courses_div" onclick="showTable('courses_div')">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">table_view</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Courses</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

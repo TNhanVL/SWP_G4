@@ -453,7 +453,9 @@ INSERT INTO [admin]
     (username, [password])
 VALUES ('admin', '0e7517141fb53f21ee439b355b5a1d0a'),
        ('quantri', '0e7517141fb53f21ee439b355b5a1d0a'),
-       ('sussy', '80b87ad4e28b6e6c6b0efc1cb797c649')
+       ('sussy', '80b87ad4e28b6e6c6b0efc1cb797c649'),
+       ('dylan12', 'e10adc3949ba59abbe56e057f20f883e')
+
 GO
 INSERT INTO [learner]
 (picture, username, [password], email, first_name, last_name, birthday, countryID, [status])

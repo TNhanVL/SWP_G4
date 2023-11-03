@@ -32,10 +32,19 @@
 
     <div class="container-fluid py-4">
         <div class="row">
-            <%@include file="tables/learner.jsp" %>
-            <%@include file="tables/instructor.jsp" %>
-            <%@include file="tables/organization.jsp" %>
-            <%@include file="tables/courses.jsp" %>
+            <div id="default"></div>
+            <div id="learner_div" style="display: none">
+                <%@include file="tables/learner.jsp" %>
+            </div>
+            <div id="instructor_div" style="display: none">
+                <%@include file="tables/instructor.jsp" %>
+            </div>
+            <div id="organization_div" style="display: none">
+                <%@include file="tables/organization.jsp" %>
+            </div>
+            <div id="courses_div" style="display: none">
+                <%@include file="tables/courses.jsp" %>
+            </div>
         </div>
     </div>
 </main>
@@ -49,6 +58,20 @@
     new DataTable('#instructor');
     new DataTable('#organization');
     new DataTable('#courses');
-
+</script>
+<script>
+    function showTable(table) {
+        const tables = ["default", "learner_div", "instructor_div", "organization_div", "courses_div"];
+        tables.forEach((x) => {
+                if (x == table) {
+                    $("#" + table).show()
+                    $("#sidebar_" + x).addClass("bg-info")
+                } else {
+                    $("#" + x).hide()
+                    $("#sidebar_" + x).removeClass("bg-info")
+                }
+            }
+        )
+    }
 </script>
 </body>

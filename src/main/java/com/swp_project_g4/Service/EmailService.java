@@ -121,8 +121,6 @@ public class EmailService {
 
             props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.port", "587");
-//        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP HOST
-//        props.put("mail.smtp.port", "587"); // TLS 587 SSL 465
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
 
@@ -148,7 +146,6 @@ public class EmailService {
             //Time
             msg.setSentDate(new Date());
             //Set reply
-            //msg.setReplyto(InternetAddress.parseHeader(from, false))
             msg.setText(content, "UTF-8", type);
 
             Transport.send(msg);

@@ -1,6 +1,5 @@
 package com.swp_project_g4.Controller;
 
-import com.swp_project_g4.Database.AdminDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Model.Instructor;
@@ -40,40 +39,8 @@ public class AdminController {
         return "redirect:admin/dashboard";
     }
 
-    @GetMapping("/login")
-//    @ResponseBody
-    public String login(ModelMap model) {
-//        model.addAttribute("title", "Index!");
-        return "admin/login";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    @ResponseBody
-    public String loginPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String username, @RequestParam String password) {
-//        model.addAttribute("title", "Index!");
-        int status = AdminDAO.checkAdmin(username, password, false);
-        if (status == 1) {
-            request.getSession().setAttribute("error", "Username not exist!");
-            return "redirect:./login";
-        }
-
-        if (status == 2) {
-            request.getSession().setAttribute("error", "Incorrect password!");
-            return "redirect:./login";
-        }
-
-        Learner learner = new Learner();
-        learner.setUsername(username);
-        learner.setPassword(MD5.getMd5(password));
-
-//        CookieServices.loginAdmin(response, learner);
-        request.getSession().setAttribute("success", "Login succeed!");
-        return "redirect:./dashboard";
-    }
-
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-//        model.addAttribute("title", "Index!");
         CookieServices.logout(request, response, CookiesToken.ADMIN);
         request.getSession().setAttribute("success", "Logout succeed!");
         return "redirect:./login";
