@@ -33,7 +33,7 @@ public class AdminController {
     public String redirect(HttpServletRequest request) {
         if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
-            return "redirect:admin/login";
+            return "redirect:/login";
         }
 
         return "redirect:admin/dashboard";
@@ -43,7 +43,7 @@ public class AdminController {
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         CookieServices.logout(request, response, CookiesToken.ADMIN);
         request.getSession().setAttribute("success", "Logout succeed!");
-        return "redirect:./login";
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
