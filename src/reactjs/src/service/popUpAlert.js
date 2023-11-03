@@ -1,4 +1,4 @@
-function toast( { title = '', message = '', type = "success", duration = 3000 }) {
+function toast({title = '', message = '', type = "success", duration = 3000}) {
     const main = document.getElementById("toast");
     if (main) {
         const toast = document.createElement('div');
@@ -33,7 +33,7 @@ function toast( { title = '', message = '', type = "success", duration = 3000 })
         main.appendChild(toast);
         setTimeout(function () {
             main.removeChild(toast);
-        }, duration + 1000);
+        }, duration);
     }
 }
 

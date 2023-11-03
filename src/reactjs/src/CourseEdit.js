@@ -13,7 +13,7 @@ function EditCourse({course, afterEditCourse}) {
     const [editCourse, setEditCourse] = useState(null)
 
     useEffect(() => {
-        if(!course) return
+        if (!course) return
         //Get course
         backend.post('course/getByCourseID', {
             courseID: course.id
@@ -100,7 +100,7 @@ function EditChapter({chapter, afterEditChapter}) {
     const [editChapter, setEditChapter] = useState(null)
 
     useEffect(() => {
-        if(!chapter) return
+        if (!chapter) return
         //Get course
         backend.post('chapter/getByChapterID', {
             chapterID: chapter.id
@@ -131,7 +131,7 @@ function EditChapter({chapter, afterEditChapter}) {
             if (!res) {
                 popUpAlert.warning("Delete Chapter failed")
             } else {
-                popUpAlert.success("Delete Successful!")
+                // popUpAlert.success("Delete Successful!")
                 afterEditChapter()
             }
         })
@@ -211,6 +211,9 @@ function CourseEdit() {
             courseID: courseID
         }).then(res => {
             if (res) {
+                res.sort(function (a, b) {
+                    return a.index - b.index
+                })
                 setChapters(res)
                 if (getIndex) {
                     let oldIndex = editChapter ? editChapter.index : 0
@@ -243,17 +246,18 @@ function CourseEdit() {
 
         //Get all chapters
         getChapters(courseID, false)
-
-        $(function () {
-            $(".moocTitles").sortable({
-                placeholder: "drag-location",
-                handle: ".mooc-handle",
-                start: function (e, ui) {
-                    ui.placeholder.height(ui.helper.outerHeight());
-                }
-            });
-        });
     }, []);
+
+    useEffect(() => {
+        $(".chapterTitles").sortable({
+            placeholder: "drag-location",
+            handle: ".mooc-handle",
+            start: function (e, ui) {
+                ui.placeholder.height(ui.helper.outerHeight());
+            },
+            stop: tryReIndexChapters
+        });
+    }, [chapters]);
 
     function showEditMoocByID(event) {
 
@@ -281,7 +285,7 @@ function CourseEdit() {
             courseID: courseID
         }).then(res => {
             if (res) {
-                popUpAlert.success("Add new chapter successful")
+                // popUpAlert.success("Add new chapter successful")
                 getChapters(courseID, false)
                 setEditChapter(res)
                 setMode(2)
@@ -289,6 +293,45 @@ function CourseEdit() {
                 popUpAlert.warning("Add new chapter failed")
             }
         })
+    }
+
+    function tryReIndexChapters(e, ui) {
+        //map question to new index
+        let tmpChapters = []
+        let index = 1
+        var sorted = $(".chapterTitles").sortable("serialize", {key: "chapter"}).split('&');
+        for (let str of sorted) {
+            let oldIndex = str.split('=')[1]
+            tmpChapters.push({
+                id: chapters[oldIndex].id,
+                index: index++
+            })
+        }
+        let sendChapters = []
+        for (let i = 0; i < chapters.length; i++) {
+            if (tmpChapters[i].id !== chapters[i].id || tmpChapters[i].index !== chapters[i].index) {
+                sendChapters.push(tmpChapters[i])
+            }
+        }
+        //send to server
+        let data = {
+            size: sendChapters.length,
+            courseID
+        }
+        for (let i = 0; i < sendChapters.length; i++) {
+            data['id_' + i] = sendChapters[i].id
+            data['index_' + i] = sendChapters[i].index
+        }
+        if (sendChapters.length !== 0) {
+            backend.post('chapter/reIndexs', data).then(res => {
+                if (!res) {
+                    popUpAlert.warning("Reindex chapters failed")
+                }else{
+                    getChapters(courseID)
+                    $(".chapterTitles").sortable("cancel")
+                }
+            })
+        }
     }
 
     return (
@@ -301,11 +344,12 @@ function CourseEdit() {
 
                     <h3>{course && course.name} <i className="text-info fa-solid fa-pen-to-square"
                                                    onClick={showEditCourse} style={{cursor: "pointer"}}></i></h3>
+                    <div className="accordion chapterTitles" id="accordionExample">
 
-                    {chapters.map((chapter, chapterIndex) => (
-                        <div key={courseID + "_" + chapter.id} className="accordion moocTitles" id="accordionExample">
-
-                            <div className="accordion-item" style={{cursor: "all-scroll"}}
+                        {chapters.map((chapter, chapterIndex) => (
+                            <div key={chapter.id} id={"chapter_" + chapterIndex}
+                                 className="accordion-item"
+                                 style={{cursor: "all-scroll"}}
                                  onClick={() => showEditChapter(chapter)}>
                                 <h4 className="accordion-header">
                                     <div className="mooc-handle">
@@ -320,9 +364,11 @@ function CourseEdit() {
                                         <strong>#{chapterIndex + 1}</strong><span className="ms-1">{chapter.name}</span>
                                     </button>
                                 </h4>
+
                             </div>
-                        </div>
-                    ))}
+                        ))}
+
+                    </div>
 
                     <div className="accordion-btn">
                         <button onClick={tryAddNewChapter} className="btn btn-primary w-100 p-2">Add new chapter
