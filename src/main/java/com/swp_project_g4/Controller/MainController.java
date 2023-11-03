@@ -54,19 +54,17 @@ public class MainController {
         try {
             var account = repo.getLearnerRepository().findByEmail(email).orElseThrow();
 
-            var resetToken = JwtUtil.generateJwt(account.getUsername(), "");
+            var resetToken = JwtUtil.generateJwt(account.getUsername(), account.getID() + "", CookiesToken.RESET);
 
-            var cookie = new Cookie("ResetToken", resetToken);
-            var cookie2 = new Cookie("ResetID", account.getID() + "");
+            var cookie = new Cookie(CookiesToken.RESET.toString(), resetToken);
 
 
             cookie.setMaxAge(60 * 5);
-            cookie2.setMaxAge(60 * 5);
+
 
             EmailService.sendResetPasswordEmail(account.getID(), resetToken);
 
             response.addCookie(cookie);
-            response.addCookie(cookie2);
 
             request.getSession().setAttribute("recoveryAccount", account);
             request.getSession().setAttribute("sentPasswordRecoveryEmail", 1);
@@ -79,9 +77,10 @@ public class MainController {
     @RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
 
     public String resetForgotPassword(HttpServletResponse response, HttpServletRequest request, @RequestParam String token) {
-        var resetCookie = CookieServices.getResetCookie(request.getCookies());
+        var resetCookie = CookieServices.searchCookie(request.getCookies(), CookiesToken.RESET);
+        var resetClaim = JwtUtil.parseJwt(token);
         try {
-            if (!resetCookie[0].getValue().equals(token))
+            if (resetCookie.hashCode() != resetClaim.hashCode())
                 throw new Exception();
 
             request.getSession().setAttribute("sentPasswordRecoveryEmail", 3);
@@ -94,41 +93,26 @@ public class MainController {
 
     }
 
-    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-
-    public String changePassword(HttpServletResponse response, HttpServletRequest request, @RequestParam String password, @RequestParam String oldPassword, @RequestParam String username) {
-        try {
-            var user = repo.getLearnerRepository().findByUsernameAndPassword(username, MD5.getMd5(oldPassword)).orElseThrow();
-
-            CookieServices.logout(request, response, CookieServices.TokenName.LEARNER);
-
-            user.setPassword(MD5.getMd5(password));
-            repo.getLearnerRepository().save(user);
-
-            request.getSession().setAttribute("success", "Your password has been changed, please login again");
-            return "redirect:/";
-        } catch (Exception e) {
-            request.getSession().setAttribute("error", "Your password cannot be change in the moment");
-        }
-        return "redirect:/profile/" + username;
-    }
-
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 
     public String resetForgotPasswordPost(HttpServletResponse response, HttpServletRequest request, @RequestParam String password) {
 
         try {
-            var resetCookie = CookieServices.getResetCookie(request.getCookies());
-            var account = repo.getLearnerRepository().findById(Integer.parseInt(resetCookie[1].getValue())).orElseThrow();
+            var resetCookie = CookieServices.searchCookie(request.getCookies(), CookiesToken.RESET);
+            var id = Integer.parseInt(resetCookie.get("password").toString());
+            var account = repo.getLearnerRepository().findById(id).orElseThrow();
 
             account.setPassword(MD5.getMd5(password));
 
             repo.getLearnerRepository().save(account);
 
-            for (var cookie : resetCookie) {
-                cookie.setValue(null);
-                cookie.setMaxAge(0);
-                response.addCookie(cookie);
+            for (var cookie : request.getCookies()) {
+                if (cookie.getName().equals(CookiesToken.RESET.toString())) {
+                    cookie.setValue(null);
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                    break;
+                }
             }
 
             request.getSession().setAttribute("sentPasswordRecoveryEmail", 5);
@@ -155,7 +139,7 @@ public class MainController {
                 Learner learner = LearnerDAO.getUserByEmail(googlePojo.getEmail());
 
 //                System.out.println(googlePojo);
-                if (learner != null && CookieServices.loginAccount(response, learner.getUsername(), learner.getPassword(), CookieServices.TokenName.LEARNER)) {
+                if (learner != null && CookieServices.loginAccount(response, learner.getUsername(), learner.getPassword(), CookiesToken.LEARNER)) {
                     request.getSession().setAttribute("success", "Login succeed!");
                     return "redirect:./";
                 }
@@ -269,7 +253,7 @@ public class MainController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String username, @RequestParam String password, @RequestParam String account_type) {
 
-        CookieServices.TokenName token_type = null;
+        CookiesToken token_type = null;
 
         String hashed_password = MD5.getMd5(password);
 
@@ -285,27 +269,27 @@ public class MainController {
                     login_password = admin.getPassword();
                     login_username = admin.getUsername();
                     redirect_url = "redirect:admin/dashboard";
-                    token_type = CookieServices.TokenName.ADMIN;
+                    token_type = CookiesToken.ADMIN;
                 }
                 case "learner" -> {
                     var learner = repo.getLearnerRepository().findByUsername(username).orElseThrow();
                     login_password = learner.getPassword();
                     login_username = learner.getUsername();
-                    token_type = CookieServices.TokenName.LEARNER;
+                    token_type = CookiesToken.LEARNER;
 
                 }
                 case "instructor" -> {
                     var instructor = repo.getInstructorRepository().findByUsername(username).orElseThrow();
                     login_password = instructor.getPassword();
                     login_username = instructor.getUsername();
-                    token_type = CookieServices.TokenName.INSTRUCTOR;
+                    token_type = CookiesToken.INSTRUCTOR;
 
                 }
                 case "organization" -> {
                     var organization = repo.getOrganizationRepository().findByUsername(username).orElseThrow();
                     login_password = organization.getPassword();
                     login_username = organization.getUsername();
-                    token_type = CookieServices.TokenName.ORGANIZATION;
+                    token_type = CookiesToken.ORGANIZATION;
 
                 }
             }
@@ -328,7 +312,7 @@ public class MainController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        if (CookieServices.logout(request, response, CookieServices.TokenName.LEARNER)) {
+        if (CookieServices.logout(request, response, CookiesToken.LEARNER)) {
             request.getSession().setAttribute("success", "Logout succeed!");
             return "redirect:/login";
         } else {
@@ -338,7 +322,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String mainPage(ModelMap model) {
+    public String mainPage() {
         return "user/main";
     }
 

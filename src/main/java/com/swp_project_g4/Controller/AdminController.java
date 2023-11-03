@@ -8,6 +8,7 @@ import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
+import com.swp_project_g4.Service.CookiesToken;
 import com.swp_project_g4.Service.MD5;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -73,7 +74,7 @@ public class AdminController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 //        model.addAttribute("title", "Index!");
-        CookieServices.logout(request, response, CookieServices.TokenName.ADMIN);
+        CookieServices.logout(request, response, CookiesToken.ADMIN);
         request.getSession().setAttribute("success", "Logout succeed!");
         return "redirect:./login";
     }

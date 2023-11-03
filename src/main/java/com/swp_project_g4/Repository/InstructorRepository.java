@@ -12,4 +12,7 @@ public interface InstructorRepository extends JpaRepository<Instructor, Integer>
     Optional<Instructor> findByEmail(String email);
 
     Optional<Instructor> findByUsername(String username);
+
+    Optional<Instructor> findByUsernameAndPassword(String username, String password);
+
 }

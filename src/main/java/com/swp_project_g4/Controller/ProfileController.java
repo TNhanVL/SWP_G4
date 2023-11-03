@@ -1,12 +1,12 @@
 package com.swp_project_g4.Controller;
 
-import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Learner;
-import com.swp_project_g4.Model.User;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
+import com.swp_project_g4.Service.CookiesToken;
 import com.swp_project_g4.Service.CourseService;
+import com.swp_project_g4.Service.MD5;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,7 +79,7 @@ public class ProfileController {
 
 
         model.addAttribute("guest", guest);
-        model.addAttribute("user", (User) learner);
+        model.addAttribute("user", learner);
         model.addAttribute("learner", learner);
         model.addAttribute("totalLearningTime", totalLearningTime);
         model.addAttribute("numberOfPurchasedCourses", purchasedCourses.size());
@@ -117,7 +118,7 @@ public class ProfileController {
 
 
         model.addAttribute("guest", guest);
-        model.addAttribute("user", (User) instructor);
+        model.addAttribute("user", instructor);
         model.addAttribute("learner", null);
         model.addAttribute("instructor", instructor);
         model.addAttribute("totalLearningTime", totalLearningTime);
@@ -128,5 +129,24 @@ public class ProfileController {
         model.addAttribute("purchasedCourses", purchasedCourses);
         model.addAttribute("createdCourses", createdCourses);
         return "user/profile/profile";
+    }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+
+    public void changePassword(HttpServletResponse response, HttpServletRequest request, @RequestParam String password, @RequestParam String oldPassword, @RequestParam String username) {
+        try {
+            var user = repo.getLearnerRepository().findByUsernameAndPassword(username, MD5.getMd5(oldPassword)).orElseThrow();
+
+            CookieServices.logout(request, response, CookiesToken.LEARNER);
+
+            user.setPassword(MD5.getMd5(password));
+            repo.getLearnerRepository().save(user);
+
+            request.getSession().setAttribute("success", "Your password has been changed, please login again");
+//            return "redirect:/";
+        } catch (Exception e) {
+            request.getSession().setAttribute("error", "Your password cannot be change in the moment");
+        }
+//        return "redirect:/profile/" + username;
     }
 }

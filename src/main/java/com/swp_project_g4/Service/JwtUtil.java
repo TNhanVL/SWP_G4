@@ -8,18 +8,20 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
 import java.util.Date;
 
 public class JwtUtil {
 
     private static final String SECRET_KEY = "ttnhan";
 
-    public static String generateJwt(String username, String password) {
+    public static String generateJwt(String username, String password, CookiesToken type) {
         long expirationTimeMillis = System.currentTimeMillis() + 3600000 * 6; // 1 hour
         try {
             return Jwts.builder()
                     .claim("username", username)
                     .claim("password", password)
+                    .claim("usertype", type.toString())
                     .setExpiration(new Date(expirationTimeMillis))
                     .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                     .compact();
