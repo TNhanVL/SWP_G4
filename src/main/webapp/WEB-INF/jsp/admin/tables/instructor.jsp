@@ -63,10 +63,10 @@
                     <td class="align-middle text-center text-sm">
                         <c:choose>
                             <c:when test="${instructor.status == 0}">
-                                <span class="badge badge-sm bg-gradient-danger">Locked</span>
+                                <span class="badge badge-sm bg-success">Active</span>
                             </c:when>
                             <c:when test="${instructor.status == 1}">
-                                <span class="badge badge-sm bg-gradient-success">Active</span>
+                                <span class="badge badge-sm bg-danger">Locked</span>
                             </c:when>
                         </c:choose>
                     </td>

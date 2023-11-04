@@ -203,11 +203,11 @@
                                                 <select id="status" class="form-control" name="status" required>
                                                     <option value="0"
                                                     ${user.status == 0 ? "selected" : ""}>
-                                                        Locked
+                                                        Active
                                                     </option>
                                                     <option value="1"
                                                     ${user.status == 1 ? "selected" : ""}>
-                                                        Legal
+                                                        Locked
                                                     </option>
                                                 </select>
                                             </div>

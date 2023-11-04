@@ -99,7 +99,15 @@ public class AdminController {
             var user = repo.getLearnerRepository().findById(learner.getID()).orElseThrow();
 
             if (!user.getPassword().equals(learner.getPassword()))
-                learner.setPassword(MD5.getMd5(learner.getPassword()));
+                user.setPassword(MD5.getMd5(learner.getPassword()));
+
+            user.setUsername(learner.getUsername());
+            user.setFirstName(learner.getFirstName());
+            user.setLastName(learner.getLastName());
+            user.setEmail(learner.getEmail());
+            user.setBirthday(learner.getBirthday());
+            user.setCountryID(learner.getCountryID());
+            user.setStatus(learner.getStatus());
 
             repo.getLearnerRepository().save(user);
 
