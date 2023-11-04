@@ -465,7 +465,7 @@ VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gma
         '2003-10-12', 16, 0),
        ('a.jpg', 'sussy', '80b87ad4e28b6e6c6b0efc1cb797c649', 'giangltce170378@fpt.edu.vn', 'Huong', 'Nguyen Thi Diem',
         '2003-10-12', 16, 0),
-       ('a.jpg', 'diemhuong1210', '12345678', 'dh1210@example.com', 'Duong', 'Thanh', '2003-10-10', 16, 0)
+       ('a.jpg', 'anho1210', '12345678', 'anhvlce171612@fpt.edu.vn', 'An', 'Loc', '2003-10-10', 16, 0)
 GO
 --password Fpt@123
 INSERT INTO organization
@@ -746,8 +746,8 @@ VALUES (1, 'a', 1),
 --(26, 'josei', 1), (26, 'jiso', 0), (26, 'jose', 0), (26, 'jisei', 0)
 
 GO
-select * from instructor where countryID ='1'
-select * from learner
+-- select * from instructor where countryID ='1'
+-- select * from learner
 -- select * from [transaction]
 -- insert into [transaction](userID, courseID, originPrice, price, type, description, status)
 -- values('2','7','20.00000000','40.00000000','2','dung roi','0')
