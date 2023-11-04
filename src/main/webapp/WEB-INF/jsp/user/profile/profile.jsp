@@ -205,13 +205,11 @@
     <div id="overlay"></div>
 
     <div>
-        <form id="passwordForm"
-              action="/changePassword"
-              method="POST"
-              style="display: none">
+        <form id="passwordForm" style="display: none">
             <input
                     type="hidden"
                     name="username"
+                    id="username"
                     value="${user.username}"
             />
 
@@ -249,6 +247,9 @@
             <div id="passwordError" style="display: none; color: red">
                 Password cannot be empty.
             </div>
+            <div id="mismatchOldPassword" style="display: none; color: red">
+                Old password is not correct.
+            </div>
             <button type="submit"
                     class="btn btn-primary"
                     name="submit"
@@ -274,11 +275,6 @@
     <script src="/public/assets/js/lesson.js"></script>
     <script src="/public/assets/js/option.js"></script>
     <script src="/public/assets/js/change_password.js"></script>
-    <script>
-        $(document).ready(function () {
-
-        })
-    </script>
 
     <%@include file="../popUpMessage.jsp" %>
 

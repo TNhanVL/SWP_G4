@@ -25,7 +25,7 @@ $(document).ready(function () {
         var newPassword = $("#password").val();
         var confirmPassword = $("#confirmPassword").val();
 
-        if (oldPassword.trim() === "" || newPassword.trim() === "" || confirmPassword.trim() === "" || check_old_password(oldPassword)) {
+        if (oldPassword.trim() === "" || newPassword.trim() === "" || confirmPassword.trim() === "") {
             $("#passwordError").show();
             event.preventDefault(); // Prevent form submission
         } else if (newPassword !== confirmPassword) {
@@ -34,22 +34,48 @@ $(document).ready(function () {
         } else {
             $("#passwordError").hide();
             $("#passwordMatchError").hide();
+            $("#mismatchOldPassword").hide();
+            change_password();
+            event.preventDefault(); // Prevent form submission
         }
     });
-    var formData = {
-        password: $("#oldPassword").val()
-    }
 
-    function check_old_password(password) {
+    function change_password() {
         $.ajax({
             type: "POST",
             url: "/learner_request/change_password",
-            data: jQuery.param({password: $("#oldPassword").val()}),
-            success: function () {
-                console.log("iu truong 3 chu")
+            data: jQuery.param({
+                old_password: $("#oldPassword").val(),
+                new_password: $("#password").val(),
+                username: $("#username").val(),
+            }),
+            success: function (data, xhr, status) {
+                if (data === 1) {
+                    $("#mismatchOldPassword").show();
+                }
+
+                if (data === 0) {
+                    window.location.replace("/");
+                }
+
+
             },
-            error: function () {
-                console.log("dit me truong 3 chu")
+            error: function (xhr, status) {
+                // check if xhr.status is defined in $.ajax.statusCode
+                // if true, return false to stop this function
+                if (typeof this.statusCode[xhr.status] != 'undefined') {
+                    return false;
+                }
+                // else continue
+                console.log('ajax.error');
+            },
+            statusCode: {
+                404: function (response) {
+                    console.log('ajax.statusCode: 404');
+                },
+                500: function (response) {
+                    console.log('ajax.statusCode: 500');
+                }
             }
         })
         return true
