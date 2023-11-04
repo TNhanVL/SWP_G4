@@ -1,6 +1,3 @@
-
-
-
 function openMenu() {
 
     var b = document.getElementById("userMenu")
@@ -44,7 +41,6 @@ for (var i = 0; i < courseTakenDivs.length; i++) {
 }
 
 
-
 // console.log(tabHidden, progressView);
 
 
@@ -62,8 +58,7 @@ function strangeMode(mode) {
         rateView.forEach(element => {
             element.classList.add("hidden")
         });
-    }
-    else {
+    } else {
         tabHidden.classList.remove("hidden")
         progressView.forEach(element => {
             element.classList.add("hidden")
@@ -105,3 +100,13 @@ if (input) {
         imgPreview.src = "./assets/imgs/logoooooo.png";
     }
 }
+
+
+function get_notification() {
+    $.get("/learner_request/notification", function (data) {
+        alert(data)
+    })
+}
+
+
+get_notification()

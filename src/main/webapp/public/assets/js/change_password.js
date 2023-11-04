@@ -57,8 +57,6 @@ $(document).ready(function () {
                 if (data === 0) {
                     window.location.replace("/");
                 }
-
-
             },
             error: function (xhr, status) {
                 // check if xhr.status is defined in $.ajax.statusCode
@@ -68,14 +66,6 @@ $(document).ready(function () {
                 }
                 // else continue
                 console.log('ajax.error');
-            },
-            statusCode: {
-                404: function (response) {
-                    console.log('ajax.statusCode: 404');
-                },
-                500: function (response) {
-                    console.log('ajax.statusCode: 500');
-                }
             }
         })
         return true

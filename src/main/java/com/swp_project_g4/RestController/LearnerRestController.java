@@ -6,10 +6,7 @@ import com.swp_project_g4.Service.MD5;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("learner_request")
@@ -40,5 +37,10 @@ public class LearnerRestController {
         } catch (Exception e) {
             return 500;
         }
+    }
+
+    @GetMapping("notification")
+    public String getNotification() {
+        return "sus";
     }
 }

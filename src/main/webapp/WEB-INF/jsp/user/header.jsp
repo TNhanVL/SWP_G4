@@ -12,7 +12,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="repo" class="com.swp_project_g4.Repository.Repo"/>
 <%
@@ -80,10 +79,6 @@
                     <i class="fa-solid fa-user"></i>
                     <span>Profile</span>
                 </a>
-                <a href="#">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Setting</span>
-                </a>
                 <a href="/logout?token=learner">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span>
@@ -96,7 +91,7 @@
 
     </div>
 </div>
-
 <% if (loggedInHeader) {%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/public/assets/js/option.js"></script>
 <%}%>

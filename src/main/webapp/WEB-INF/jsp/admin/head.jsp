@@ -26,6 +26,5 @@
     <link id="pagestyle" href="/public/admin/assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet"/>
 
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet"/>
-
-
+    
 </head>
