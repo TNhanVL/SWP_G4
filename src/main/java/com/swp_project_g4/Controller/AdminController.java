@@ -2,6 +2,7 @@ package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Database.OrganizationDAO;
+import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Model.Organization;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
@@ -62,8 +64,19 @@ public class AdminController {
         try {
             var user_id = Integer.parseInt(id);
             var user = repo.getLearnerRepository().findById(user_id).orElseThrow();
+            var course_progress = repo.getCourseProgressRepository().findByLearnerID(user_id);
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
+            request.getSession().setAttribute("courseProgress", course_progress);
+
+            ArrayList<Course> courseList = new ArrayList<>();
+            for (var course : course_progress) {
+                courseList.add(repo.getCourseRepository().findById(course.getCourseID()).orElseThrow());
+            }
+
+            request.getSession().setAttribute("courseList", courseList);
+
+
         } catch (NoSuchElementException ex) {
             request.getSession().setAttribute("error", "No such user information!");
             return "redirect:./dashboard";
@@ -77,20 +90,21 @@ public class AdminController {
     @RequestMapping(value = "/editUser", method = RequestMethod.POST)
     public String editUserPost(ModelMap model, HttpServletRequest request, @RequestParam String id, @ModelAttribute("user") Learner learner) {
 
-        learner.setPassword(MD5.getMd5(learner.getPassword()));
-        //check logged in
         if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:./login";
         }
 
         try {
-            boolean ok = LearnerDAO.updateUser(learner);
-            if (ok) {
-                request.getSession().setAttribute("success", "Update User information succeed!");
-            } else {
-                request.getSession().setAttribute("error", "Update User information failed!");
-            }
+            var user = repo.getLearnerRepository().findById(learner.getID()).orElseThrow();
+
+            if (!user.getPassword().equals(learner.getPassword()))
+                learner.setPassword(MD5.getMd5(learner.getPassword()));
+
+            repo.getLearnerRepository().save(user);
+
+            request.getSession().setAttribute("success", "Update learner information succeed!");
+
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("error", "There are some error when update User information!");
             return "redirect:./dashboard";
@@ -127,6 +141,9 @@ public class AdminController {
             var organization = repo.getOrganizationRepository().findById(organization_id).orElseThrow();
             request.getSession().setAttribute("currentOrg", organization);
             request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
+            var courseList = repo.getCourseRepository().findByOrganizationID(organization_id).orElseThrow();
+            request.getSession().setAttribute("courseList", courseList);
+
 
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Failed to load organization");
@@ -137,8 +154,6 @@ public class AdminController {
 
     @RequestMapping(value = "/editOrganization", method = RequestMethod.POST)
     public String editOrganizationPost(HttpServletRequest request, @ModelAttribute("organization") Organization organization) {
-
-        organization.setPassword(MD5.getMd5(organization.getPassword()));
         //check logged in
         if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
@@ -146,6 +161,13 @@ public class AdminController {
         }
 
         try {
+
+            var user = repo.getOrganizationRepository().findById(organization.getID()).orElseThrow();
+
+
+            if (!user.getPassword().equals(organization.getPassword()))
+                organization.setPassword(MD5.getMd5(organization.getPassword()));
+
             boolean ok = OrganizationDAO.updateOrganization(organization);
             if (ok) {
                 request.getSession().setAttribute("success", "Update organization information succeed!");
@@ -167,6 +189,15 @@ public class AdminController {
             var user = repo.getInstructorRepository().findById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
+            var instructed_course = repo.getInstructRepository().findByInstructorID(user_id).orElseThrow();
+
+            ArrayList<Course> courseList = new ArrayList<>();
+            for (var course : instructed_course) {
+                courseList.add(repo.getCourseRepository().findById(course.getCourseID()).orElseThrow());
+            }
+
+            request.getSession().setAttribute("courseList", courseList);
+
         } catch (Exception ex) {
             request.getSession().setAttribute("error", "Failed to load instructor information!");
             return "redirect:./dashboard";
@@ -175,9 +206,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/editInstructor", method = RequestMethod.POST)
-    public String editInstructor(HttpServletRequest request, @ModelAttribute("user") Instructor learner) {
-
-        learner.setPassword(MD5.getMd5(learner.getPassword()));
+    public String editInstructor(HttpServletRequest request, @ModelAttribute("user") Instructor instructor) {
         //check logged in
         if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
@@ -185,14 +214,26 @@ public class AdminController {
         }
 
         try {
-            repo.getInstructorRepository().save(learner);
-            request.getSession().setAttribute("success", "Update User information succeed!");
+            var user = repo.getInstructorRepository().findById(instructor.getID()).orElseThrow();
+
+            if (!user.getPassword().equals(instructor.getPassword()))
+                user.setPassword(MD5.getMd5(instructor.getPassword()));
+
+            user.setUsername(instructor.getUsername());
+            user.setCountryID(instructor.getCountryID());
+            user.setFirstName(instructor.getFirstName());
+            user.setLastName(instructor.getLastName());
+            user.setStatus(instructor.getStatus());
+            user.setEmail(instructor.getEmail());
+
+            repo.getInstructorRepository().save(user);
+            request.getSession().setAttribute("success", "Update instructor information succeed!");
 
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("error", "There are some error when update User information!");
             return "redirect:./dashboard";
         }
-        return "redirect:./editInstructor?id=" + learner.getID();
+        return "redirect:./editInstructor?id=" + instructor.getID();
     }
 
 }

@@ -202,6 +202,7 @@
                     </div>
                 </div>
             </div>
+            <%@include file="tables/courses.jsp" %>
         </div>
     </div>
 </main>

@@ -88,7 +88,7 @@
         <c:set var="picture" scope="session" value="/public/assets/imgs/logo.png"/>
     </c:when>
     <c:otherwise>
-        <c:set var="picture" scope="session" value="/public/media/organization/${user.ID}/${user.picture}"/>
+        <c:set var="picture" scope="session" value="/public/media/instructor/${user.ID}/${user.picture}"/>
     </c:otherwise>
 </c:choose>
 
@@ -108,12 +108,15 @@
                                 <img class="card-img-top" src=${picture}>
                                 <div class="card-body">
                                     <div class="card-title">
-                                        <h5 class="">
+                                        <h4 class="">
                                             ${sessionScope.currentUser.username}
-                                        </h5>
-                                        ID
-                                        <h6 class="text-dark font-weight-bold ">
-                                            ${sessionScope.currentUser.ID}
+                                        </h4>
+
+                                        <h6 class="text-dark ">
+                                            ID : ${sessionScope.currentUser.ID}
+                                        </h6>
+                                        <h6 class="text-dark ">
+                                            Organization : ${sessionScope.currentUser.organization.name}
                                         </h6>
                                     </div>
                                 </div>
@@ -215,9 +218,16 @@
                     </div>
                 </div>
             </div>
+            <%@include file="tables/courses.jsp" %>
         </div>
     </div>
 </main>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>
+    new DataTable('#courses');
+</script>
 </body>
 
 <%@ include file="popUpMessage.jsp" %>

@@ -104,7 +104,7 @@ if (input) {
 
 function get_notification() {
     $.get("/learner_request/notification", function (data) {
-        alert(data)
+        // alert(data)
     })
 }
 

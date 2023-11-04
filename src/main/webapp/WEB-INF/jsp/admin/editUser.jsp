@@ -16,6 +16,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <%
     if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
         response.sendRedirect("/login");
@@ -34,9 +35,12 @@
     }
 %>
 
-<jsp:include page="head.jsp">
-    <jsp:param name="title" value="Edit user"/>
-</jsp:include>
+<head>
+    <title>
+        Admin dashboard
+    </title>
+    <c:import url="head.jsp"></c:import>
+</head>
 
 <body class="g-sidenav-show  bg-gray-200">
 
@@ -88,7 +92,7 @@
         <c:set var="picture" scope="session" value="/public/assets/imgs/logo.png"/>
     </c:when>
     <c:otherwise>
-        <c:set var="picture" scope="session" value="/public/media/organization/${user.ID}/${user.picture}"/>
+        <c:set var="picture" scope="session" value="/public/media/user/${user.ID}/${user.picture}"/>
     </c:otherwise>
 </c:choose>
 
@@ -227,9 +231,109 @@
                     </div>
                 </div>
             </div>
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3">Bought courses</h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <table id="example" class="table align-items-center mb-0">
+                        <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Course
+                            </th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Status
+                            </th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Progress
+                            </th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Rated
+                            </th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Total time
+                            </th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Start when
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="course_progress" items="${sessionScope.courseProgress}" varStatus="s">
+                            <c:set var="course" scope="page" value="${sessionScope.courseList[s.index]}"/>
+
+                            <c:choose>
+                                <c:when test='${course.picture == "null"}'>
+                                    <c:set var="picture" scope="page" value="/public/assets/imgs/logo.png"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var="picture" scope="page"
+                                           value="/public/media/course/${course.ID}/${course.picture}"/>
+                                </c:otherwise>
+                            </c:choose>
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img class="avatar avatar-sm me-3 border-radius-lg" alt="user1"
+                                                 src=${picture}>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <a href="./editUser?id=${course.ID}"
+                                               class="text-secondary font-weight-bold text-xs">
+                                                <h6 class="mb-0 text-sm">${course.name}</h6>
+                                            </a>
+                                            <p class="text-xs text-secondary mb-0">${course.description}</</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class=" text-sm">
+                                    <c:choose>
+                                        <c:when test="${course_progress.enrolled}">
+                                            <span class="badge badge-sm bg-success">Enrolled</span>
+                                        </c:when>
+                                        <c:when test="${course_progress.completed}">
+                                            <span class="badge badge-sm bg-warning">Complete</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="badge badge-sm bg-danger">Not Enrolled</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <p class="text-xs text-secondary mb-0">${course_progress.progressPercent} %</p>
+                                    <input type="range" min="0" max="100"
+                                           value="${course_progress.progressPercent}" disabled>
+                                </td>
+                                <td>
+                                    <p class="text-xs text-secondary mb-0">${course_progress.rate} %</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs text-secondary mb-0">
+                                            ${course_progress.totalTime}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="text-xs text-secondary mb-0">
+                                        <fmt:formatDate pattern="yyyy-MM-dd" value="${course_progress.startAt}"/>
+                                    </p>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </main>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>new DataTable('#example');</script>
 </body>
 
 <%@ include file="popUpMessage.jsp" %>

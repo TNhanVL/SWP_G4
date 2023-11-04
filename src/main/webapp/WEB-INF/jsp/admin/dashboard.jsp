@@ -33,7 +33,7 @@
     <div class="container-fluid py-4">
         <div class="row">
             <div id="default"></div>
-            <div id="learner_div" style="display: none">
+            <div id="learner_div">
                 <%@include file="tables/learner.jsp" %>
             </div>
             <div id="instructor_div" style="display: none">

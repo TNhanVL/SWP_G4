@@ -28,6 +28,7 @@
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                     Rate
                 </th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -54,7 +55,7 @@
                             <div class="d-flex flex-column justify-content-center">
                                 <h6 class="mb-0 text-sm">${course.name}</h6>
                                 <p class="text-xs text-secondary mb-0">
-                                    <c:out value="${sessionScope.orgList[course.organizationID-1].name}"/>
+                                        ${course.organization.name}
                                 </p>
 
                             </div>
@@ -74,6 +75,12 @@
                         <p class="text-xs font-weight-bold mb-0">
                                 ${course.rate}
                         </p>
+                    </td>
+                    <td class="align-middle">
+                        <a href="/course/edit/${course.ID}"
+                           class="text-secondary font-weight-bold text-xs">
+                            <i class="fas fa-solid fa-pen"></i>
+                        </a>
                     </td>
                 </tr>
             </c:forEach>
