@@ -1,12 +1,18 @@
 package com.swp_project_g4.RestController;
 
+import com.swp_project_g4.Model.Notification;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.MD5;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("learner_request")
@@ -39,8 +45,15 @@ public class LearnerRestController {
         }
     }
 
-    @GetMapping("notification")
-    public String getNotification() {
-        return "sus";
+    @PostMapping("notification")
+    public List<Notification> getNotification(@RequestParam String id_string) {
+        List<Notification> returnList = null;
+        try {
+            var id = Integer.parseInt(id_string);
+            returnList = repo.getNotificationRepository().findByLearnerID(id).orElseThrow();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return returnList;
     }
 }

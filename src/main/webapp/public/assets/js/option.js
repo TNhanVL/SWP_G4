@@ -103,9 +103,18 @@ if (input) {
 
 
 function get_notification() {
-    $.get("/learner_request/notification", function (data) {
-        // alert(data)
-    })
+    $.post("/learner_request/notification", jQuery.param({
+            id_string: $("#id_string").val()
+        }), function (data) {
+            let unread_notification = 0;
+            data.forEach((noti) => {
+                unread_notification += noti["read"] ? 0 : 1;
+            })
+            if (unread_notification !== 0) {
+                $("#notification_quantity").text(unread_notification).show()
+            }
+        }
+    )
 }
 
 

@@ -24,7 +24,6 @@
         numberOfOrderHeader = CourseDAO.countCartProduct(learnerHeader.getID());
     }
 %>
-
 <div id="header">
     <div class="left-side">
         <a href="/">
@@ -50,7 +49,7 @@
         </a>
         <a href="" class="notification">
             <i class="fa-sharp fa-solid fa-bell"></i>
-            <div class="quantity"></div>
+            <p class="quantity" id="notification_quantity" style="display: none"></p>
         </a>
         <%}%>
 
@@ -92,6 +91,7 @@
     </div>
 </div>
 <% if (loggedInHeader) {%>
+<input type="hidden" name="id_string" class="id_string" id="id_string" value="<%=learnerHeader.getID()%>"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/public/assets/js/option.js"></script>
 <%}%>
