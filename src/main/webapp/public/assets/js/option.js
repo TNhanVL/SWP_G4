@@ -101,20 +101,40 @@ if (input) {
     }
 }
 
+const notification_background_color = ["bg-light", "bg-secondary"];
 
 function get_notification() {
     $.post("/learner_request/notification", jQuery.param({
             id_string: $("#id_string").val()
         }), function (data) {
+            console.log(data)
             let unread_notification = 0;
             data.forEach((noti) => {
                 unread_notification += noti["read"] ? 0 : 1;
+                var date = new Date(noti["receiveAt"]);
+                let date_string = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
+                document.getElementById("notification_list").innerHTML += `                
+                <li>
+                    <div id="notification_instance" class=${notification_background_color[noti.read ? 0 : 1]}
+                    style="border-right: #a7c080 solid 5px;">
+                        <p class=" text text-end" style="font-size: larger">
+                            ${noti.description}
+                        </p>
+                        <p class=" text text-end">
+                            ${date_string}
+                        </p>
+                    </div>
+                </li>`
             })
             if (unread_notification !== 0) {
                 $("#notification_quantity").text(unread_notification).show()
             }
         }
     )
+}
+
+function toggle_notification() {
+    $("#notification_list").toggle()
 }
 
 

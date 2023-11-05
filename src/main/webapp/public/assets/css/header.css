@@ -3,6 +3,7 @@
     margin: 0;
     box-sizing: border-box;
 }
+
 html {
     font-family: 'Roboto';
 }
@@ -16,25 +17,26 @@ a:hover {
     text-decoration: none;
     color: unset;
 }
-#header{
+
+#header {
     padding: 0 20px;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   position: fixed;
-   top: 0;
-   right: 0;
-   left: 0;
-   z-index: 100;
-   background:#ffffff;
-   border-bottom: 1px solid #ccc;
-   height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 1px solid #ccc;
+    height: 60px;
 }
 
 #header .left-side {
     width: 70%;
     display: flex;
-   align-items: center;
+    align-items: center;
 
 }
 
@@ -48,27 +50,28 @@ a:hover {
     display: block;
     border: 3px solid seagreen;
     border-radius: 18px;
-    padding:0 10px;
+    padding: 0 10px;
     margin-right: 40px;
     background: #fff;
-    color: seagreen ;
+    color: seagreen;
     height: 40px;
 }
 
 #header .course-opption, #header .quesAndAns {
     margin-right: 40px;
     font-weight: bold;
-} 
+}
 
 #header .right-side {
     display: flex;
     justify-content: right;
-   align-items: center;
-   color: #000;
-   width:30% ;
+    align-items: center;
+    color: #000;
+    width: 30%;
 
-   
+
 }
+
 #header .right-side .cart {
     color: #000;
     font-size: 18px;
@@ -84,7 +87,7 @@ a:hover {
 
 #header .right-side .user a img {
     height: 40px;
-    width:  40px;
+    width: 40px;
     border-radius: 50%;
     margin-right: 10px;
     margin-left: 20px;
@@ -138,7 +141,7 @@ a:hover {
 
 #header .userMenu {
     position: absolute;
-    background-color:#fff;
+    background-color: #fff;
     width: 270px;
     text-align: left;
     border: 1px solid #ccc;
@@ -160,7 +163,7 @@ a:hover {
     font-weight: 300;
     align-items: center;
     font-size: 14px;
-    padding:4px 20px;
+    padding: 4px 20px;
     transition: 0.5s;
 }
 
@@ -177,7 +180,7 @@ a:hover {
 }
 
 #header .userMenu a:hover {
-   background-color: #b6f9af;
+    background-color: #b6f9af;
 }
 
 .userMenu.close {
@@ -185,11 +188,21 @@ a:hover {
 }
 
 .mode-btn {
-    background-color:#fff;
+    background-color: #fff;
     text-align: left;
     border: 1px solid #ccc;
     box-shadow: -2px 2px 1px 1px #ccc;
     border-radius: 12px;
     overflow: hidden;
     z-index: 20;
+}
+
+#notification_instance {
+    transform: translate(-100%, 0);
+    width: 400px;
+    border: 1px black solid;
+}
+
+#notification_instance p {
+    margin: 0;
 }

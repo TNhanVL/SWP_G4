@@ -13,7 +13,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="repo" class="com.swp_project_g4.Repository.Repo"/>
 <%
     boolean loggedInHeader = false;
     Learner learnerHeader = null;
@@ -47,10 +46,15 @@
             <div class="quantity"><%=numberOfOrderHeader%>
             </div>
         </a>
-        <a href="" class="notification">
+        <a onclick="toggle_notification()" class="notification">
             <i class="fa-sharp fa-solid fa-bell"></i>
-            <p class="quantity" id="notification_quantity" style="display: none"></p>
+            <p class="quantity" id="notification_quantity" style="display: none;position: absolute"></p>
         </a>
+        <div style="position: relative;right: 40px;top: 30px ;">
+            <ul style="position: absolute;list-style-type: none;display: none" id="notification_list">
+            </ul>
+        </div>
+
         <%}%>
 
         <div onclick="openMenu()" id="user" class="user">
@@ -65,7 +69,7 @@
                         }
 
                     } else {
-                        out.print("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png");
+                        out.print("https://upload.wikimedia./org/wikipedia/commons/9/99/Sample_User_Icon.png");
                     }
 %>"
                      alt="avatar">
