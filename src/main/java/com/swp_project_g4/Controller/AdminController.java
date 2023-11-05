@@ -68,6 +68,8 @@ public class AdminController {
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
             request.getSession().setAttribute("courseProgress", course_progress);
+            request.getSession().setAttribute("addUser", false);
+
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : course_progress) {
@@ -242,6 +244,38 @@ public class AdminController {
             return "redirect:./dashboard";
         }
         return "redirect:./editInstructor?id=" + instructor.getID();
+    }
+
+
+    @PostMapping("addLearner")
+    public String addLearner(
+            @ModelAttribute("organization") Learner learner, HttpServletRequest request) {
+        try {
+            learner.setPassword(MD5.getMd5(learner.getPassword()));
+            learner.setCountry(repo.getCountryRepository().findById(learner.getCountryID()).orElseThrow());
+            repo.getLearnerRepository().save(learner);
+        } catch (Exception e) {
+            request.getSession().setAttribute("error", "There are some error when add new learner!");
+        }
+        return "redirect:./dashboard";
+    }
+
+    @RequestMapping(value = "/addLearner", method = RequestMethod.GET)
+    public String addLearnerGET(HttpServletRequest request) {
+        try {
+            var user = new Learner();
+            request.getSession().setAttribute("currentUser", user);
+            request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
+            request.getSession().setAttribute("addUser", true);
+
+        } catch (NoSuchElementException ex) {
+            request.getSession().setAttribute("error", "No such user information!");
+            return "redirect:./dashboard";
+        } catch (NumberFormatException ex) {
+            request.getSession().setAttribute("error", "Failed to load user information!");
+            return "redirect:./dashboard";
+        }
+        return "admin/editUser";
     }
 
 }

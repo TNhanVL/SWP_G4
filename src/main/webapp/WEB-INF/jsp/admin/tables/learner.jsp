@@ -8,8 +8,17 @@
 <html>
 <div class="card my-4">
     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-            <h6 class="text-white text-capitalize ps-3">Learner table</h6>
+        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
+            <div class="col">
+                <h6 class="text-white text-capitalize ps-3">Learner table</h6>
+                <a href="./addLearner">
+                    <button class="btn-warning" style="border: none; border-radius: 7px">
+                        Add learner
+                    </button>
+                </a>
+
+            </div>
+
         </div>
     </div>
     <div class="card-body px-0 pb-2">
@@ -42,7 +51,7 @@
                                 <img class="avatar avatar-sm me-3 border-radius-lg" alt="user1"
                                      src=
                                      <c:choose>
-                                     <c:when test='${instructor.picture == "null"}'>
+                                     <c:when test='${instructor.picture == "null" || empty instructor.picture}'>
                                              "/public/assets/imgs/logo.png"
                                 </c:when>
                                 <c:otherwise>
