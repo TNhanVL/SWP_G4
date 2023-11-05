@@ -71,9 +71,14 @@
                         </c:choose>
                     </td>
                     <td class="align-middle">
-                        <a href="./editUser?id=${instructor.ID}"
+                        <a style="margin: 0 10px" href="./editUser?id=${instructor.ID}"
                            class="text-secondary font-weight-bold text-xs">
                             <i class="fas fa-solid fa-pen"></i>
+                        </a>
+                        <a style="margin: 0 10px" href="./deleteUser?id=${instructor.ID}"
+                           onclick="return confirm('Do you want to delete this learner?')"
+                           class="text-secondary font-weight-bold text-xs">
+                            <i class="fas fa-solid fa-trash"></i>
                         </a>
                     </td>
                 </tr>

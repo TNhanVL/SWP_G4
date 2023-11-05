@@ -220,12 +220,13 @@
                                             <a href="./dashboard">
                                                 <div class="btn btn-primary">Back</div>
                                             </a>
+                                            <a href="./deleteUser?id=${user.ID}"
+                                               onclick="return confirm('Do you want to delete this learner?')">
+                                                <div class="btn btn-primary">Delete</div>
+                                            </a>
                                         </div>
                                     </form>
-
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
