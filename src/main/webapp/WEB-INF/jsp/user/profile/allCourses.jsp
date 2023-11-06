@@ -51,25 +51,31 @@
                     <%
                         if (!guest) {
                             int percent = courseProgresses.get(index).getProgressPercent();
+                            request.getSession().setAttribute("courseProgress", courseProgresses.get(index));
                     %>
                     <div class="ProgressviewMode">
 
                         <progress class="courseProgress" value="<%out.print(percent);%>" max="100"></progress>
+                        <c:if test="${!courseProgress.completed}">
                         <div class="notCompleted ">
                             <p>In progress <span><%out.print(percent);%></span>%</p>
                         </div>
+                        </c:if>
 
-                        <div class="completed">
-                            <p>Completed</p>
-                            <%
-                                if (learner != null && courseProgresses.get(index).isCompleted()) {
-                            %>
-                            <a href="/certificate/${learner.ID}/${courseID}" target="_blank">View
-                                certificate</a>
-                            <%
-                                }
-                            %>
-                        </div>
+                        <c:if test="${courseProgress.completed}">
+                            <div class="completed">
+                                <p>Completed</p>
+                                <%
+                                    if (learner != null && courseProgresses.get(index).isCompleted()) {
+                                %>
+                                <a href="/certificate/${learner.ID}/${courseID}" target="_blank">View
+                                    certificate</a>
+                                <%
+                                    }
+                                %>
+                            </div>
+                        </c:if>
+
 
                     </div>
 
