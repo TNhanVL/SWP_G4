@@ -185,6 +185,96 @@ function EditChapter({chapter, afterEditChapter}) {
     )
 }
 
+function EditLesson({lesson, afterEditLesson}) {
+
+    const [editLesson, setEditLesson] = useState(null)
+
+    useEffect(() => {
+        if (!lesson) return
+        //Get course
+        backend.post('lesson/getByLessonID', {
+            lessonID: lesson.id
+        }).then(res => {
+            if (res) {
+                setEditLesson(res)
+            }
+        })
+    }, [lesson]);
+
+    function tryToSave() {
+        backend.post('lesson/update', {
+            ...editLesson
+        }).then(res => {
+            if (!res) {
+                popUpAlert.warning("Save Lesson failed")
+            } else {
+                popUpAlert.success("Save Successful!")
+                afterEditLesson()
+            }
+        })
+    }
+
+    function tryToDelete() {
+        backend.post('lesson/delete', {
+            lessonID: lesson.id
+        }).then(res => {
+            if (!res) {
+                popUpAlert.warning("Delete Lesson failed")
+            } else {
+                // popUpAlert.success("Delete Successful!")
+                afterEditLesson()
+            }
+        })
+    }
+
+    return (
+        editLesson &&
+        <div className="rightPane p-4 bg-white" style={{height: "max-content"}}>
+            <div className="addMooc" id="addMooc">
+                <div>
+                    <h1 className="text-center">Edit lesson</h1>
+                    <div className="mt-4">
+                        <form className="row g-3">
+                            <div className="col-12">
+                                <label htmlFor="CourseName" className="form-label">Lesson Name</label>
+                                <input type="text" className="form-control" id="CourseName"
+                                       value={editLesson.name ?? ""}
+                                       onChange={e => {
+                                           setEditLesson({
+                                               ...editLesson,
+                                               name: e.target.value
+                                           })
+                                       }}
+                                       placeholder="Ex: If condition" required/>
+                            </div>
+
+                            <div className="col-12">
+                                <label htmlFor="CourseDescription" className="form-label">Lesson Description</label>
+                                <input type="text" className="form-control" id="CourseDescription"
+                                       value={editLesson.description ?? ""}
+                                       onChange={e => {
+                                           setEditLesson({
+                                               ...editLesson,
+                                               description: e.target.value
+                                           })
+                                       }}
+                                       placeholder="Ex: This lesson help for newbie practice with Java code" required/>
+                            </div>
+
+                            <div className="col-12">
+                                <div className="btn btn-primary" onClick={tryToSave}>Save</div>
+                                <div className="btn btn-danger ms-2" onClick={tryToDelete}>Delete</div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
 function CourseEdit() {
 
     const {courseID} = useParams()
@@ -194,6 +284,7 @@ function CourseEdit() {
     const [mode, setMode] = useState(0)
     const [editChapter, setEditChapter] = useState(null)
     const [editLesson, setEditLesson] = useState(null)
+    const [lessonChanged, setLessonChanged] = useState(false)
 
     let navigate = useNavigate();
 
@@ -278,9 +369,14 @@ function CourseEdit() {
         setMode(2)
     }
 
-    function showEditLesson(lesson) {
+    function showEditLesson(lesson, chapter) {
         setEditLesson(lesson)
+        setEditChapter(chapter)
         setMode(3)
+    }
+
+    function afterEditLesson() {
+        setLessonChanged(true)
     }
 
     function afterEditChapter() {
@@ -351,7 +447,8 @@ function CourseEdit() {
 
                     <h3>{course && course.name} <i className="text-info fa-solid fa-pen-to-square"
                                                    onClick={showEditCourse} style={{cursor: "pointer"}}></i></h3>
-                    <div className="accordion chapterTitles" id="accordionExample" style={{maxHeight: "calc(100% - 150px)"}}>
+                    <div className="accordion chapterTitles" id="accordionExample"
+                         style={{maxHeight: "calc(100% - 150px)"}}>
 
                         {chapters.map((chapter, chapterIndex) => (
                             <div key={chapter.id} id={"chapter_" + chapterIndex}
@@ -371,11 +468,13 @@ function CourseEdit() {
                                     </button>
                                 </h4>
 
-                                <ListLessonEdit chapterID={chapter.id} mode={mode} setMode={setMode} showEditLesson={showEditLesson} editLesson={editLesson} setEditLesson={setEditLesson}/>
+                                <ListLessonEdit chapter={chapter} mode={mode} setMode={setMode}
+                                                showEditLesson={showEditLesson} editLesson={editLesson}
+                                                setEditLesson={setEditLesson} lessonChanged={lessonChanged}
+                                                setLessonChanged={setLessonChanged} editChapter={editChapter}/>
 
                             </div>
                         ))}
-
                     </div>
 
                     <div className="accordion-btn">
@@ -387,6 +486,7 @@ function CourseEdit() {
 
                 {mode == 1 && course && <EditCourse course={course} afterEditCourse={afterEditCourse}/>}
                 {mode == 2 && course && <EditChapter chapter={editChapter} afterEditChapter={afterEditChapter}/>}
+                {mode == 3 && course && <EditLesson lesson={editLesson} afterEditLesson={afterEditLesson}/>}
 
             </div>
 
