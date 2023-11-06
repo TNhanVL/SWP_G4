@@ -35,10 +35,7 @@
         <div style="position: relative" id="search_div">
             <input type="text" class="search-course" id="search-course" name="headerSearch" placeholder="Searching">
             <div style="position: relative;right: 40px;top: 30px ;">
-                <ul style="position: absolute;list-style-type: none;" id="search_list">
-                    <li>
-            
-                    </li>
+                <ul style="position: absolute;list-style-type: none; " id="search_list">
                 </ul>
             </div>
         </div>
@@ -58,6 +55,10 @@
             <i class="fa-sharp fa-solid fa-bell"></i>
             <p class="quantity" id="notification_quantity" style="display: none;position: absolute"></p>
         </a>
+        <div style="position: relative;right: 40px;top: 30px ;">
+            <ul style="position: absolute;list-style-type: none;display: none" id="notification_list">
+            </ul>
+        </div>
         <%}%>
 
         <div onclick="openMenu()" id="user" class="user">
