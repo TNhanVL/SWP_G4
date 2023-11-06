@@ -28,7 +28,7 @@ public class Question {
     private int lessonID;
     @Column(name = "[index]")
     private int index;
-    private String content;
+    private String content = "";
     private int type;
     private int point;
 

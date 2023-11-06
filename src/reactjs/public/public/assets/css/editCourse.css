@@ -18,9 +18,9 @@
     display: none;
 }
 
-#body-editCourse>.rightPane {
-    width: calc(80% - 10px);
-    max-width: calc(100% - 250px - 30px);
+#body-editCourse .rightPane {
+    /*width: calc(80% - 10px);*/
+    /*max-width: calc(100% - 250px - 30px);*/
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;

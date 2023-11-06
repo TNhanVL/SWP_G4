@@ -12,6 +12,7 @@ import {confirmAlert} from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import {CKEditor} from '@ckeditor/ckeditor5-react';
+import QuestionsEdit from "./QuestionsEdit";
 
 function BlankEdit() {
 
@@ -626,10 +627,15 @@ function CourseEdit() {
 
                 </div>
 
-                {mode == 0 && <BlankEdit/>}
-                {mode == 1 && course && <EditCourse course={course} afterEditCourse={afterEditCourse}/>}
-                {mode == 2 && course && <EditChapter chapter={editChapter} afterEditChapter={afterEditChapter}/>}
-                {mode == 3 && course && <EditLesson lesson={editLesson} afterEditLesson={afterEditLesson}/>}
+                <div>
+                    {mode == 0 && <BlankEdit/>}
+                    {mode == 1 && course && <EditCourse course={course} afterEditCourse={afterEditCourse}/>}
+                    {mode == 2 && course && <EditChapter chapter={editChapter} afterEditChapter={afterEditChapter}/>}
+                    {mode == 3 && course && <EditLesson lesson={editLesson} afterEditLesson={afterEditLesson}/>}
+                    {mode == 3 && course && editLesson && editLesson.type == 2 &&
+                        <QuestionsEdit lessonID={editLesson.id}/>}
+                </div>
+
 
             </div>
 

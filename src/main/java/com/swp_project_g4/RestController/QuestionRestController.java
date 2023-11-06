@@ -1,54 +1,46 @@
 package com.swp_project_g4.RestController;
 
+import com.swp_project_g4.Model.Lesson;
 import com.swp_project_g4.Model.Question;
 import com.swp_project_g4.Repository.Repo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = {"http://localhost:8080/", "http://localhost:3000/"}, allowCredentials = "true")
 @RestController
 @RequestMapping("api/question")
 public class QuestionRestController {
     @Autowired
     private Repo repo;
 
-    @PostMapping("/getByLessonID")
-    public List<Question> getByLessonID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByQuestionID")
+    public Question getByQuestionID(@RequestBody Map<String, Integer> data) {
         try {
-            return repo.getQuestionRepository().findByLessonID(data.get("lessonID")).get();
+            return repo.getQuestionRepository().findById(data.get("questionID")).get();
         } catch (Exception e) {
 
         }
         return null;
     }
 
-    // uhhh ko dung' toi'
-    @PostMapping("/getByChapterID")
-    public ArrayList<Question> getByChapterID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByLessonID")
+    public List<Question> getByLessonID(@RequestBody Map<String, Integer> data) {
         try {
-            var questions = new ArrayList<Question>();
-            var lesson = repo.getChapterRepository().findById(data.get("chapterID")).get().getLessons();
-            lesson.forEach(l -> {
-                questions.addAll(repo.getQuestionRepository().findByLessonID(l.getID()).get());
-            });
-
-            return questions;
+            return repo.getQuestionRepository().findByLessonID(data.get("lessonID"));
         } catch (Exception e) {
 
         }
-        return new ArrayList<>();
+        return null;
     }
 
     @PostMapping("/create")
     public Question create(@RequestBody Map<String, Integer> data) {
         try {
-            int questionSize = repo.getChapterRepository().findById(data.get("chapterID")).get().getLessons().size();
+            int questionSize = repo.getLessonRepository().findById(data.get("lessonID")).get().getQuestions().size();
             Question question = new Question();
             question.setLessonID(data.get("lessonID"));
             question.setIndex(questionSize + 1);
@@ -75,7 +67,6 @@ public class QuestionRestController {
     public Question update(@RequestBody Question ques) {
         try {
             Question question = repo.getQuestionRepository().findById(ques.getID()).get();
-            question.setLesson(ques.getLesson());
             question.setContent(ques.getContent());
             question.setIndex(ques.getIndex());
             question.setType(ques.getType());
