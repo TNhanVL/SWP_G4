@@ -49,14 +49,14 @@ public class Chapter {
     @JsonIgnore
     private Course course;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "chapterID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Lesson> lessons = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "chapterID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

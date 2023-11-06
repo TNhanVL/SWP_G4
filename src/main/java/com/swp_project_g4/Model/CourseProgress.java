@@ -53,7 +53,7 @@ public class CourseProgress {
     @JsonIgnore
     private Course course;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "courseProgressID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

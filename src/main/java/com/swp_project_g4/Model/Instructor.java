@@ -59,14 +59,14 @@ public class Instructor extends User {
     @JsonIgnore
     private Organization organization;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "instructorID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Instruct> instructs = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "instructorID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

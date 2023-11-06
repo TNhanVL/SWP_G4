@@ -133,15 +133,15 @@ GO
 
 CREATE TABLE review
 (
-    reviewID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    userID   INT                NOT NULL,
-    courseID INT                NOT NULL,
-    reviewed BIT DEFAULT 0      NOT NULL,
-    verified BIT DEFAULT 0      NOT NULL,
-    note     NTEXT,
-    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
+    reviewID     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    instructorID INT,
+    courseID     INT,
+    reviewed     BIT DEFAULT 0      NOT NULL,
+    verified     BIT DEFAULT 0      NOT NULL,
+    note         NTEXT,
+    FOREIGN KEY (instructorID) REFERENCES [instructor] (instructorID),
     FOREIGN KEY (courseID) REFERENCES course (courseID),
-    UNIQUE (userID, courseID)
+    UNIQUE (instructorID, courseID)
 );
 GO
 
@@ -158,7 +158,7 @@ GO
 CREATE TABLE chapter
 (
     chapterID     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    courseID      INT                ,
+    courseID      INT,
     [index]       INT                NOT NULL,
     name          NVARCHAR(50),
     [description] NVARCHAR(50),
@@ -170,7 +170,7 @@ GO
 CREATE TABLE lesson
 (
     lessonID          INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    chapterID         INT                ,
+    chapterID         INT,
     name              NVARCHAR(50),
     description       NTEXT,
     percent_to_passed INT DEFAULT 80     NOT NULL,
@@ -186,8 +186,8 @@ GO
 CREATE TABLE course_progress
 (
     course_progressID      INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    learnerID              INT                                ,
-    courseID               INT                                ,
+    learnerID              INT,
+    courseID               INT,
     enrolled               BIT      DEFAULT 0                 NOT NULL,
     progress_percent       INT      DEFAULT 0                 NOT NULL,
     completed              BIT      DEFAULT 0                 NOT NULL,
@@ -197,23 +197,21 @@ CREATE TABLE course_progress
     total_time             INT      DEFAULT 0                 NOT NULL,
     start_at               DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
-    FOREIGN KEY (courseID) REFERENCES course (courseID),
-    UNIQUE (learnerID, courseID)
+    FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
 
 CREATE TABLE chapter_progress
 (
     chapter_progressID INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    chapterID          INT                                ,
-    course_progressID  INT                                ,
+    chapterID          INT,
+    course_progressID  INT,
     progress_percent   INT      DEFAULT 0,
     completed          BIT      DEFAULT 0                 NOT NULL,
     total_time         INT      DEFAULT 0,
     start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
-    FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID),
-    UNIQUE (chapterID, course_progressID)
+    FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID)
 );
 GO
 
@@ -221,20 +219,19 @@ CREATE TABLE lesson_progress
 (
     lesson_progressID  INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
     lessonID           INT,
-    chapter_progressID INT                                ,
+    chapter_progressID INT,
     progress_percent   INT      DEFAULT 0                 NOT NULL,
     completed          BIT      DEFAULT 0                 NOT NULL,
     start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
-    FOREIGN KEY (chapter_progressID) REFERENCES chapter_progress (chapter_progressID),
-    UNIQUE (lessonID, chapter_progressID)
+    FOREIGN KEY (chapter_progressID) REFERENCES chapter_progress (chapter_progressID)
 );
 GO
 
 CREATE TABLE question
 (
     [questionID] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonID     INT                ,
+    lessonID     INT,
     [index]      INT                NOT NULL,
     content      NTEXT              NOT NULL,
     [type]       INT                NOT NULL,
@@ -246,7 +243,7 @@ GO
 CREATE TABLE answer
 (
     [answerID] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    questionID INT                NOT NULL,
+    questionID INT,
     content    NTEXT,
     correct    BIT DEFAULT 0      NOT NULL,
     --True: 1, False: 0
@@ -257,8 +254,8 @@ GO
 CREATE TABLE quiz_result
 (
     quiz_resultID            INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonID                 INT                NOT NULL,
-    lesson_progressID        INT                NOT NULL,
+    lessonID                 INT,
+    lesson_progressID        INT,
     number_of_correct_answer INT,
     number_of_question       INT,
     mark                     INT,
@@ -273,14 +270,13 @@ GO
 CREATE TABLE chosen_answer
 (
     chosen_answerID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    quiz_resultID   INT                NOT NULL,
-    questionID      INT                NOT NULL,
-    answerID        INT                NOT NULL,
+    quiz_resultID   INT,
+    questionID      INT,
+    answerID        INT,
     correct         BIT DEFAULT 0      NOT NULL,
     FOREIGN KEY (quiz_resultID) REFERENCES quiz_result (quiz_resultID),
     FOREIGN KEY (questionID) REFERENCES question (questionID),
-    FOREIGN KEY (answerID) REFERENCES answer (answerID),
-    UNIQUE (quiz_resultID, questionID, answerID)
+    FOREIGN KEY (answerID) REFERENCES answer (answerID)
 );
 GO
 
@@ -344,7 +340,8 @@ BEGIN
     set course_progress.total_time       = IIF(chapter_progress_info.total_time IS NULL, 0,
                                                chapter_progress_info.total_time),
         course_progress.completed        = IIF(sumCompleted = numberOfChapter, 1, 0),
-        course_progress.progress_percent = IIF(chapter_info.sumTime IS NULL OR chapter_info.sumTime = 0 OR chapter_progress_info.total_time IS NULL, 0,
+        course_progress.progress_percent = IIF(chapter_info.sumTime IS NULL OR chapter_info.sumTime = 0 OR
+                                               chapter_progress_info.total_time IS NULL, 0,
                                                ROUND(chapter_progress_info.total_time * 100.0 / chapter_info.sumTime,
                                                      0))
     from (select chapter_progress.course_progressID,

@@ -44,7 +44,7 @@ public class Answer {
     @JsonIgnore
     private Question question;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "answerID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

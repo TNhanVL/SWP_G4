@@ -9,8 +9,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- *
  * @author TTNhan
  */
 @Entity
@@ -40,9 +42,16 @@ public class Question {
     }
 
     @ManyToOne
-    @JoinColumn(name = "lessonID", insertable=false, updatable=false)
+    @JoinColumn(name = "lessonID", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Lesson lesson;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "questionID")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Answer> answers = new ArrayList<>();
 }

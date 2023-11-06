@@ -66,7 +66,7 @@ public class QuizResult {
     @JsonIgnore
     private LessonProgress lessonProgress;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "quizResultID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

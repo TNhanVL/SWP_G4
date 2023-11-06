@@ -48,17 +48,10 @@ public class ChapterProgress {
     @JsonIgnore
     private CourseProgress courseProgress;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "chapterProgressID")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<LessonProgress> lessonProgresses = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "chapterProgressID")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JsonIgnore
-    private List<Chapter> chapters = new ArrayList<>();
 }
