@@ -40,29 +40,18 @@ function Navbar({learner}) {
                     <input type="text" className="search-course" name="headerSearch" placeholder="Searching"></input>
                 </form>
                 <div className="course-opption">
-                    <a href="/">Courses</a>
-                </div>
-                <div className="quesAndAns">
-                    <a href="#">Expert Q&A</a>
+                    <a href="/course/all">Courses</a>
                 </div>
             </div>
 
             <div className="right-side">
-                <a href="paysite.html" className="cart">
-                    <i className="fa-solid fa-cart-shopping"></i>
-                    <div className="quantity">3</div>
-                </a>
-                <a href="" className="notification">
-                    <i className="fa-sharp fa-solid fa-bell"></i>
-                    <div className="quantity">3</div>
-                </a>
                 <div onClick={openMenu} id="user" className="user">
                     <a href="#">
                         <img
-                            src={learner ? "/public/media/user/" + learner.id + "/" + learner.picture : usertmp.picture}
+                            src={learner ? "/public/media/instructor/" + learner.id + "/" + learner.picture : usertmp.picture}
                             alt="avatar"></img>
                         <span
-                            className="userInfor">{learner ? learner.username : usertmp.name}</span>
+                            className="userInfor">{(learner ? learner.username : usertmp.name) + "(instructor)"}</span>
                     </a>
 
                     <div id="userMenu" className="userMenu close">
@@ -70,11 +59,7 @@ function Navbar({learner}) {
                             <i className="fa-solid fa-user"></i>
                             <span>Profile</span>
                         </a>
-                        <a href="#">
-                            <i className="fa-solid fa-gear"></i>
-                            <span>Setting</span>
-                        </a>
-                        <a href="#">
+                        <a href="/logout?token=learner">
                             <i className="fa-solid fa-right-from-bracket"></i>
                             <span>Logout</span>
                         </a>

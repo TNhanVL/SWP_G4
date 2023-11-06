@@ -238,7 +238,7 @@ function CourseEdit() {
             if (!res) {
                 window.location.replace('/')
             }
-            setInstructor(instructor)
+            setInstructor(res)
         })
 
         //Get course
