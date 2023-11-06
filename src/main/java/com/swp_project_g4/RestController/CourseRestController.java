@@ -45,4 +45,9 @@ public class CourseRestController {
     public ArrayList<Course> searchCourse(@RequestParam String searchString) {
         return null;
     }
+
+    @GetMapping("fetchCourse")
+    public List<Course> fetchCourse() {
+        return repo.getCourseRepository().findAll();
+    }
 }

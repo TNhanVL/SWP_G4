@@ -32,9 +32,16 @@
         <a href="/">
             <img src="/public/assets/imgs/logo.png" alt="logo" class="logo">
         </a>
-        <form action="">
-            <input type="text" class="search-course" name="headerSearch" placeholder="Searching">
-        </form>
+        <div style="position: relative" id="search_div">
+            <input type="text" class="search-course" id="search-course" name="headerSearch" placeholder="Searching">
+            <div style="position: relative;right: 40px;top: 30px ;">
+                <ul style="position: absolute;list-style-type: none;" id="search_list">
+                    <li>
+            
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div class="course-opption">
             <a href="/course/all">Courses</a>
         </div>
@@ -51,11 +58,6 @@
             <i class="fa-sharp fa-solid fa-bell"></i>
             <p class="quantity" id="notification_quantity" style="display: none;position: absolute"></p>
         </a>
-        <div style="position: relative;right: 40px;top: 30px ;">
-            <ul style="position: absolute;list-style-type: none;display: none" id="notification_list">
-            </ul>
-        </div>
-
         <%}%>
 
         <div onclick="openMenu()" id="user" class="user">
@@ -120,3 +122,4 @@
 <%}%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/public/assets/js/option.js"></script>
+<script src="/public/assets/js/search_course.js"></script>

@@ -101,7 +101,7 @@ if (input) {
     }
 }
 
-const notification_background_color = ["bg-light", "bg-secondary"];
+const notification_background_color = ["bg-secondary", "bg-light"];
 
 function get_notification() {
     $.post("/learner_request/notification", jQuery.param({
