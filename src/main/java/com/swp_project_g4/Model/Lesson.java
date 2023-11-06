@@ -31,10 +31,10 @@ public class Lesson {
     private int chapterID;
     private String name = "";
     private String description;
-    private int percentToPassed;
-    private boolean mustBeCompleted = false;
+    private int percentToPassed = 80;
+    private boolean mustBeCompleted = true;
     private String content;
-    private int type;
+    private int type = 3;
     @Column(name = "[index]")
     private int index;
     private int time;

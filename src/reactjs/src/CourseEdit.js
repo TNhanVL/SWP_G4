@@ -47,7 +47,7 @@ function EditCourse({course, afterEditCourse}) {
                     <div className="mt-4">
                         <form className="row g-3">
                             <div className="col-12">
-                                <label htmlFor="CourseName" className="form-label">Course Name</label>
+                                <label htmlFor="CourseName" className="form-label fw-bold">Course Name</label>
                                 <input type="text" className="form-control" id="CourseName" value={editCourse.name}
                                        onChange={e => {
                                            setEditCourse({
@@ -59,7 +59,7 @@ function EditCourse({course, afterEditCourse}) {
                             </div>
 
                             <div className="col-12">
-                                <label htmlFor="CourseDescription" className="form-label">Course Description</label>
+                                <label htmlFor="CourseDescription" className="form-label fw-bold">Course Description</label>
                                 <input type="text" className="form-control" id="CourseDescription"
                                        value={editCourse.description}
                                        onChange={e => {
@@ -72,7 +72,7 @@ function EditCourse({course, afterEditCourse}) {
                             </div>
 
                             <div className="col-6">
-                                <label htmlFor="CoursePrice" className="form-label">Course Price</label>
+                                <label htmlFor="CoursePrice" className="form-label fw-bold">Course Price</label>
                                 <input type="number" className="form-control" id="CoursePrice"
                                        value={editCourse.price}
                                        onChange={e => {
@@ -147,7 +147,7 @@ function EditChapter({chapter, afterEditChapter}) {
                     <div className="mt-4">
                         <form className="row g-3">
                             <div className="col-12">
-                                <label htmlFor="CourseName" className="form-label">Chapter Name</label>
+                                <label htmlFor="CourseName" className="form-label fw-bold">Chapter Name</label>
                                 <input type="text" className="form-control" id="CourseName"
                                        value={editChapter && editChapter.name}
                                        onChange={e => {
@@ -160,7 +160,7 @@ function EditChapter({chapter, afterEditChapter}) {
                             </div>
 
                             <div className="col-12">
-                                <label htmlFor="CourseDescription" className="form-label">Chapter Description</label>
+                                <label htmlFor="CourseDescription" className="form-label fw-bold">Chapter Description</label>
                                 <input type="text" className="form-control" id="CourseDescription"
                                        value={editChapter.description}
                                        onChange={e => {
@@ -236,7 +236,7 @@ function EditLesson({lesson, afterEditLesson}) {
                     <div className="mt-4">
                         <form className="row g-3">
                             <div className="col-12">
-                                <label htmlFor="CourseName" className="form-label">Lesson Name</label>
+                                <label htmlFor="CourseName" className="form-label fw-bold">Lesson Name</label>
                                 <input type="text" className="form-control" id="CourseName"
                                        value={editLesson.name ?? ""}
                                        onChange={e => {
@@ -249,7 +249,7 @@ function EditLesson({lesson, afterEditLesson}) {
                             </div>
 
                             <div className="col-12">
-                                <label htmlFor="CourseDescription" className="form-label">Lesson Description</label>
+                                <label htmlFor="CourseDescription" className="form-label fw-bold">Lesson Description</label>
                                 <input type="text" className="form-control" id="CourseDescription"
                                        value={editLesson.description ?? ""}
                                        onChange={e => {
@@ -262,7 +262,7 @@ function EditLesson({lesson, afterEditLesson}) {
                             </div>
 
                             <div className="col-3">
-                                <label htmlFor="LessonPercentoPassed" className="form-label">Percent To Passed</label>
+                                <label htmlFor="LessonPercentoPassed" className="form-label fw-bold">Percent To Passed</label>
                                 <input type="number" className="form-control" id="LessonPercentoPassed"
                                        value={editLesson.percentToPassed}
                                        onChange={e => {
@@ -274,7 +274,7 @@ function EditLesson({lesson, afterEditLesson}) {
                             </div>
 
                             <div className="col-2 d-flex flex-column align-items-center justify-content-center">
-                                <label htmlFor="MustBeCompleted" className="form-check-label">Must Be Completed</label>
+                                <label htmlFor="MustBeCompleted" className="form-check-label fw-bold">Must Be Completed</label>
                                 <input type="checkbox" className="form-check-input" id="MustBeCompleted"
                                        checked={editLesson.mustBeCompleted ? true : false}
                                        onChange={e => {
@@ -286,7 +286,7 @@ function EditLesson({lesson, afterEditLesson}) {
                             </div>
 
                             <div className="col-4">
-                                <label htmlFor="Type" className="form-label">Type</label>
+                                <label htmlFor="Type" className="form-label fw-bold">Type</label>
                                 <select className="form-select" aria-label="Default select example"
                                         value={editLesson.type}
                                         onChange={e => {
