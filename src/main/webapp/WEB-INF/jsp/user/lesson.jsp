@@ -47,14 +47,12 @@
                     //type 3 -> Youtube ID
                     case 0:
                     case 3: {
-                        Post post = PostDAO.getPostByLessonID(lesson.getID());
             %>
             <%@include file="lesson/video.jsp" %>
             <%
                     break;
                 }
                 case 1: {
-                    Post post = PostDAO.getPostByLessonID(lesson.getID());
             %>
             <%@include file="lesson/post.jsp" %>
             <%

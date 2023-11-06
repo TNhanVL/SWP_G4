@@ -241,15 +241,6 @@ CREATE TABLE lesson_progress
 );
 GO
 
-CREATE TABLE post
-(
-    [ID]     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    content  NTEXT              NOT NULL,
-    lessonID INT,
-    FOREIGN KEY (lessonID) REFERENCES lesson (lessonID)
-);
-GO
-
 CREATE TABLE question
 (
     [questionID] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
@@ -427,7 +418,7 @@ GO
 -- insert data
 
 INSERT INTO country
-(countryID, [name])
+    (countryID, [name])
 VALUES (1, 'United States'),
        (2, 'Canada'),
        (3, 'Mexico'),
@@ -450,7 +441,7 @@ VALUES (1, 'United States'),
        (20, 'Singapore')
 GO
 INSERT INTO [admin]
-(username, [password])
+    (username, [password])
 VALUES ('admin', '0e7517141fb53f21ee439b355b5a1d0a'),
        ('quantri', '0e7517141fb53f21ee439b355b5a1d0a'),
        ('sussy', '80b87ad4e28b6e6c6b0efc1cb797c649'),
@@ -469,7 +460,7 @@ VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gma
 GO
 --password Fpt@123
 INSERT INTO organization
-(countryID, [name], username, password, email, picture, [description])
+    (countryID, [name], username, password, email, picture, [description])
 VALUES (16, 'FPT University', 'fptuni', '5e7c74592ea8dffbfdc20c84de15afea', 'NhanTTCE171358@fpt.edu.vn', 'FPT.png',
         N'Trường đại học top 1 Việt Nam');
 GO
@@ -528,7 +519,7 @@ VALUES (1, 1),
        (12, 3)
 GO
 INSERT INTO cart_product
-(userID, courseID)
+    (userID, courseID)
 VALUES (1, 3)
 GO
 INSERT INTO course_progress(learnerID, courseID)
@@ -536,7 +527,7 @@ VALUES (1, 1),
        (1, 2)
 GO
 INSERT INTO chapter
-(courseID, [index], name, [description])
+    (courseID, [index], name, [description])
 VALUES (1, 1, N'Hiragana 。ひらがな', ''),
        (1, 2, N'Katakana 。かたがな', ''),
        (2, 1, N'Test chapter', ''),
@@ -544,59 +535,37 @@ VALUES (1, 1, N'Hiragana 。ひらがな', ''),
        (3, 2, N'Basic statements', '')
 GO
 INSERT INTO lesson
-(chapterID, name, [index], [type], [time], must_be_completed)
-VALUES (1, 'A, Ka Row', 1, 3, 3, 1),
-       (1, 'Sa, Ta Row', 2, 3, 3, 1),
-       (1, 'Practice 1: Choose the pronunciation', 3, 2, 5, 1),
-       (1, 'Na, Ha Row', 4, 3, 3, 1),
-       (1, 'Ma, Ya Row', 5, 3, 3, 1),
-       (1, 'Ra, Wa, N Row', 6, 3, 3, 1),
-       (1, 'Dakuon - Ga, Za, Da, Ba', 7, 3, 3, 1),
-       (1, 'Handakuon - Pa', 8, 3, 3, 1),
-       (1, 'Sokuon - small つ', 9, 3, 3, 1),
-       (1, 'Chouon - Long vowels', 10, 3, 3, 1),
-       (1, 'Hiragana combination', 11, 3, 3, 1),
-       (1, 'Dakuon & Handakuon of Hiragana combination', 12, 3, 3, 1),
-       (1, 'Multiple-choice test (10 questions)', 13, 2, 30, 1),
-       (2, 'Nihongo2', 1, 2, 5, 1),
-       (2, 'Video', 2, 0, 5, 1),
-       (2, 'Post', 3, 1, 5, 1),
-       (3, 'Youtube', 1, 3, 5, 1),
-       (4, 'Object Oriented Programming', 1, 3, 19, 1),
-       (4, 'Features of Object Oriented Programming', 2, 3, 27, 1),
-       (4, 'History of C++', 3, 3, 20, 1),
-       (4, 'Practice 1: Review part 1', 4, 2, 5, 1),
-       (5, 'Cout in C++', 1, 3, 5, 1),
-       (5, 'Cin in C++', 2, 3, 22, 1),
-       (5, 'Array of Objects in C++', 3, 3, 17, 1),
-       (5, 'Using Array Inside Class', 4, 3, 17, 1),
-       (5, 'Multiple-choice test (5 questions)', 5, 2, 20, 1)
-GO
-INSERT INTO post
-(content, lessonID)
-VALUES ('s4RXDEVFO_E', 1),
-       ('J9MvqJnj5kQ', 2),
-       ('rsL86uUTJpw', 4),
-       ('_Hk2d4AO-Uk', 5),
-       ('AmQ9kmom1v8', 6),
-       ('lW8V5uMMM-4', 7),
-       ('EZb3fs4Ntgc', 8),
-       ('nGLciw6mZCo', 9),
-       ('5JGjT9Cy2ak', 10),
-       ('Asy10OI-lFU', 11),
-       ('V34OFinfTbU', 12),
-       ('DoggieCorgi-4.mp4', 15),
-       ('V34OFinfTbU', 17),
-       ('7BVt6OGfVfQ', 18),
-       ('5Y74odV3IAI', 19),
-       ('_cbfR690u74', 20),
-       ('pci97hk17rM', 22),
-       ('HvhxbpJYNM0', 23),
-       ('Hu2tePjqcZ4', 24),
-       ('qvtEl-HCwXc', 25)
+    (chapterID, name, [index], [type], [time], must_be_completed, content)
+VALUES (1, 'A, Ka Row', 1, 3, 3, 1, 's4RXDEVFO_E'),
+       (1, 'Sa, Ta Row', 2, 3, 3, 1, 'J9MvqJnj5kQ'),
+       (1, 'Practice 1: Choose the pronunciation', 3, 2, 5, 1, ''),
+       (1, 'Na, Ha Row', 4, 3, 3, 1, 'rsL86uUTJpw'),
+       (1, 'Ma, Ya Row', 5, 3, 3, 1, '_Hk2d4AO-Uk'),
+       (1, 'Ra, Wa, N Row', 6, 3, 3, 1, 'AmQ9kmom1v8'),
+       (1, 'Dakuon - Ga, Za, Da, Ba', 7, 3, 3, 1, 'lW8V5uMMM-4'),
+       (1, 'Handakuon - Pa', 8, 3, 3, 1, 'EZb3fs4Ntgc'),
+       (1, 'Sokuon - small つ', 9, 3, 3, 1, 'nGLciw6mZCo'),
+       (1, 'Chouon - Long vowels', 10, 3, 3, 1, '5JGjT9Cy2ak'),
+       (1, 'Hiragana combination', 11, 3, 3, 1, 'Asy10OI-lFU'),
+       (1, 'Dakuon & Handakuon of Hiragana combination', 12, 3, 3, 1, 'V34OFinfTbU'),
+       (1, 'Multiple-choice test (10 questions)', 13, 2, 30, 1, ''),
+       (2, 'Nihongo2', 1, 2, 5, 1, ''),
+       (2, 'Video', 2, 0, 5, 1, 'DoggieCorgi-4.mp4'),
+       (2, 'Post', 3, 1, 5, 1, ''),
+       (3, 'Youtube', 1, 3, 5, 1, 'V34OFinfTbU'),
+       (4, 'Object Oriented Programming', 1, 3, 19, 1, '7BVt6OGfVfQ'),
+       (4, 'Features of Object Oriented Programming', 2, 3, 27, 1, '5Y74odV3IAI'),
+       (4, 'History of C++', 3, 3, 20, 1, '_cbfR690u74'),
+       (4, 'Practice 1: Review part 1', 4, 2, 5, 1, ''),
+       (5, 'Cout in C++', 1, 3, 5, 1, 'pci97hk17rM'),
+       (5, 'Cin in C++', 2, 3, 22, 1, 'HvhxbpJYNM0'),
+       (5, 'Array of Objects in C++', 3, 3, 17, 1, 'Hu2tePjqcZ4'),
+       (5, 'Using Array Inside Class', 4, 3, 17, 1, 'qvtEl-HCwXc'),
+       (5, 'Multiple-choice test (5 questions)', 5, 2, 20, 1, '')
+
 GO
 INSERT INTO question
-(lessonID, [index], content, [type], point)
+    (lessonID, [index], content, [type], point)
 VALUES (3, 1, 'a.png', 0, 1),
        (3, 2, 'i.png', 0, 1),
        (3, 3, 'u.png', 1, 1),
@@ -644,7 +613,7 @@ VALUES (3, 1, 'a.png', 0, 1),
 
 GO
 INSERT INTO answer
-(questionID, content, correct)
+    (questionID, content, correct)
 VALUES (1, 'a', 1),
        (1, 'u', 0),
        (1, 'e', 0),
@@ -811,63 +780,64 @@ GO
 --(select lessonID from lesson_completed where userID = 1)
 --order by chapterIndex, lessonIndex;
 
-insert into post
-(lessonID, content)
-values (16, N'<h3>Lý thuyết</h3>
-    <p>Khái niệm biến trong lập trình cũng giống khái niệm biến trong toán học, biến được dùng để đại diện cho một giá trị nào đó.</p>
-    <p>Để khai báo biến kiểu số nguyên trong Java bạn sử dụng từ khóa <code>int</code> (<code>int</code> và viết tắt của <code>integer</code>) giống như sau:</p>
-    <pre class=" language-cpp"><code class=" language-cpp"><span class="token keyword">int</span> tên_biến<span class="token punctuation">;</span></code></pre>
-    <p>Ví dụ về chương trình tạo và sử dụng biến kiểu số nguyên:</p>
-    <pre class=" language-java"><code class=" language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Variable</span> <span class="token punctuation">{</span>
-        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token comment">// Khai báo biến a kiểu số nguyên</span>
-            <span class="token keyword">int</span> a<span class="token punctuation">;</span>
-            <span class="token comment">// Gán giá trị cho a = 5</span>
-            a <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
-            <span class="token comment">// Hiển thị ra màn hình giá trị của biến a</span>
-            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"a = "</span> <span class="token operator">+</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span></code></pre>
-    <p>Kết quả khi chạy chương trình:</p>
-    <pre class=" language-markup"><code class=" language-markup">a = 5</code></pre>
-    <p>Bạn còn có thể vừa khai báo vừa gán giá trị cho biến trong 1 câu lệnh giống như chương trình sau:</p>
-    <pre class=" language-java"><code class=" language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Variable</span> <span class="token punctuation">{</span>
-        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token comment">// Khai báo biến a kiểu số nguyên và gán giá trị cho a = 438</span>
-            <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">438</span><span class="token punctuation">;</span>
-            <span class="token comment">// Khai báo biến b kiểu số nguyên và gán giá trị cho b = 238</span>
-            <span class="token keyword">int</span> b <span class="token operator">=</span> <span class="token number">238</span><span class="token punctuation">;</span>
-            <span class="token comment">// Hiển thị ra màn hình hiệu của a và b</span>
-            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"a - b = "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>a <span class="token operator">-</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span></code></pre>
-    <p>Kết quả khi chạy chương trình:</p>
-    <pre class=" language-markup"><code class=" language-markup">a - b = 200</code></pre>
-    <p>Ngoài ra, bạn cũng có thể khai báo và gán giá trị cho nhiều biến trong 1 câu lệnh như giống như chương trình sau:</p>
-    <pre class=" language-java"><code class=" language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Variable</span> <span class="token punctuation">{</span>
-        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">438</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">238</span><span class="token punctuation">;</span>
-            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"a - b = "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>a <span class="token operator">-</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span></code></pre>
-    <p>Khi đặt tên cho biến bạn cần tuân theo 1 số nguyên tắc sau:</p>
-    <ul>
-    <li>Tên biến có thể có chữ cái, chữ số và dấu gạch dưới nhưng ký tự đầu tiên của tên biến bắt buộc phải là dấu gạch dưới hoặc chữ cái.
-    <ul></ul>
-    </li>
-    <li>Tên biến không được có khoảng trắng.</li>
-    <li>Tên biến không được trùng với các từ khóa như<span>&nbsp;</span><code>int, float, double, class, ...</code>&nbsp;(bạn có thể tham khảo thêm về các từ khóa trong Java <a href="https://codelearn.io/sharing/tong-hop-50-keyword-can-nho-trong-java">tại đây</a>)</li>
-    </ul>
-    <p>Một số tên biến hợp lệ:</p>
-    <pre class=" language-cpp"><code class=" language-cpp"><span class="token keyword">int</span> a<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> _a<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> a10_<span class="token punctuation">;</span></code></pre>
-    <p>Một số tên biến không hợp lệ:</p>
-    <pre class=" language-cpp"><code class=" language-cpp"><span class="token keyword">int</span> <span class="token number">10</span>a<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> a <span class="token number">10</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> <span class="token keyword">int</span><span class="token punctuation">;</span>
-    </code></pre>
-    ');
+update lesson
+set content =
+        N'<h3>Lý thuyết</h3>
+        <p>Khái niệm biến trong lập trình cũng giống khái niệm biến trong toán học, biến được dùng để đại diện cho một giá trị nào đó.</p>
+        <p>Để khai báo biến kiểu số nguyên trong Java bạn sử dụng từ khóa <code>int</code> (<code>int</code> và viết tắt của <code>integer</code>) giống như sau:</p>
+        <pre class=" language-cpp"><code class=" language-cpp"><span class="token keyword">int</span> tên_biến<span class="token punctuation">;</span></code></pre>
+        <p>Ví dụ về chương trình tạo và sử dụng biến kiểu số nguyên:</p>
+        <pre class=" language-java"><code class=" language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Variable</span> <span class="token punctuation">{</span>
+            <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// Khai báo biến a kiểu số nguyên</span>
+                <span class="token keyword">int</span> a<span class="token punctuation">;</span>
+                <span class="token comment">// Gán giá trị cho a = 5</span>
+                a <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+                <span class="token comment">// Hiển thị ra màn hình giá trị của biến a</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"a = "</span> <span class="token operator">+</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span></code></pre>
+        <p>Kết quả khi chạy chương trình:</p>
+        <pre class=" language-markup"><code class=" language-markup">a = 5</code></pre>
+        <p>Bạn còn có thể vừa khai báo vừa gán giá trị cho biến trong 1 câu lệnh giống như chương trình sau:</p>
+        <pre class=" language-java"><code class=" language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Variable</span> <span class="token punctuation">{</span>
+            <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// Khai báo biến a kiểu số nguyên và gán giá trị cho a = 438</span>
+                <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">438</span><span class="token punctuation">;</span>
+                <span class="token comment">// Khai báo biến b kiểu số nguyên và gán giá trị cho b = 238</span>
+                <span class="token keyword">int</span> b <span class="token operator">=</span> <span class="token number">238</span><span class="token punctuation">;</span>
+                <span class="token comment">// Hiển thị ra màn hình hiệu của a và b</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"a - b = "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>a <span class="token operator">-</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span></code></pre>
+        <p>Kết quả khi chạy chương trình:</p>
+        <pre class=" language-markup"><code class=" language-markup">a - b = 200</code></pre>
+        <p>Ngoài ra, bạn cũng có thể khai báo và gán giá trị cho nhiều biến trong 1 câu lệnh như giống như chương trình sau:</p>
+        <pre class=" language-java"><code class=" language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Variable</span> <span class="token punctuation">{</span>
+            <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">438</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">238</span><span class="token punctuation">;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"a - b = "</span> <span class="token operator">+</span> <span class="token punctuation">(</span>a <span class="token operator">-</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span></code></pre>
+        <p>Khi đặt tên cho biến bạn cần tuân theo 1 số nguyên tắc sau:</p>
+        <ul>
+        <li>Tên biến có thể có chữ cái, chữ số và dấu gạch dưới nhưng ký tự đầu tiên của tên biến bắt buộc phải là dấu gạch dưới hoặc chữ cái.
+        <ul></ul>
+        </li>
+        <li>Tên biến không được có khoảng trắng.</li>
+        <li>Tên biến không được trùng với các từ khóa như<span>&nbsp;</span><code>int, float, double, class, ...</code>&nbsp;(bạn có thể tham khảo thêm về các từ khóa trong Java <a href="https://codelearn.io/sharing/tong-hop-50-keyword-can-nho-trong-java">tại đây</a>)</li>
+        </ul>
+        <p>Một số tên biến hợp lệ:</p>
+        <pre class=" language-cpp"><code class=" language-cpp"><span class="token keyword">int</span> a<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> _a<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> a10_<span class="token punctuation">;</span></code></pre>
+        <p>Một số tên biến không hợp lệ:</p>
+        <pre class=" language-cpp"><code class=" language-cpp"><span class="token keyword">int</span> <span class="token number">10</span>a<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> a <span class="token number">10</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> <span class="token keyword">int</span><span class="token punctuation">;</span>
+        </code></pre>
+        '
+where lessonID = 16;
 GO
 
 INSERT INTO notification (learnerID, type, description, [read], receive_at)

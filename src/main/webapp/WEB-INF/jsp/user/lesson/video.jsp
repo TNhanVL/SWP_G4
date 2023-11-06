@@ -10,7 +10,7 @@
 <%
     if (lesson.getType() == 0) {
 %>
-<video id="my-video" src="/public/media/lesson/<%out.print(lesson.getID() + "/" + post.getContent());%>" controls>
+<video id="my-video" src="/public/media/lesson/<%out.print(lesson.getID() + "/" + lesson.getContent());%>" controls>
     Trình duyệt của bạn không hỗ trợ video.
 </video>
 <%
@@ -34,7 +34,7 @@
     function onYouTubeIframeAPIReady() {
         // Create a new instance of the player
         player = new YT.Player('player', {
-            videoId: '<%out.print(post.getContent());%>'
+            videoId: '<%out.print(lesson.getContent());%>'
         });
     }
 

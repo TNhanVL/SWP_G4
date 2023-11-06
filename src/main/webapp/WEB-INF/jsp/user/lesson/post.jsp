@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="m-4">
     <%
-        out.print(post.getContent());
+        out.print(lesson.getContent());
     %>
 </div>
 
