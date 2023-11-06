@@ -261,6 +261,62 @@ function EditLesson({lesson, afterEditLesson}) {
                                        placeholder="Ex: This lesson help for newbie practice with Java code" required/>
                             </div>
 
+                            <div className="col-3">
+                                <label htmlFor="LessonPercentoPassed" className="form-label">Percent To Passed</label>
+                                <input type="number" className="form-control" id="LessonPercentoPassed"
+                                       value={editLesson.percentToPassed}
+                                       onChange={e => {
+                                           setEditLesson({
+                                               ...editLesson,
+                                               percentToPassed: e.target.value
+                                           })
+                                       }} required/>
+                            </div>
+
+                            <div className="col-2 d-flex flex-column align-items-center justify-content-center">
+                                <label htmlFor="MustBeCompleted" className="form-check-label">Must Be Completed</label>
+                                <input type="checkbox" className="form-check-input" id="MustBeCompleted"
+                                       checked={editLesson.mustBeCompleted ? true : false}
+                                       onChange={e => {
+                                           setEditLesson({
+                                               ...editLesson,
+                                               mustBeCompleted: e.target.checked
+                                           })
+                                       }} required/>
+                            </div>
+
+                            <div className="col-4">
+                                <label htmlFor="Type" className="form-label">Type</label>
+                                <select className="form-select" aria-label="Default select example"
+                                        value={editLesson.type}
+                                        onChange={e => {
+                                            setEditLesson({
+                                                ...editLesson,
+                                                type: e.target.value
+                                            })
+                                        }} required>
+                                    <option value="0" selected={editLesson.type == 0 ? true : false}>Video
+                                    </option>
+                                    <option value="1" selected={editLesson.type == 1 ? true : false}>Post</option>
+                                    <option value="2" selected={editLesson.type == 2 ? true : false}>Quiz</option>
+                                    <option value="3" selected={editLesson.type == 3 ? true : false}>Youtube video
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div className='col-3'>
+                                <label className='form-label fw-bold'>Time</label>
+                                <div className='input-group'>
+                                    <input value={editLesson.time ?? ''} onChange={e => {
+                                        setEditLesson({
+                                            ...editLesson,
+                                            time: e.target.value
+                                        })
+                                    }} className='form-control' type='number'></input>
+                                    <span className="input-group-text">minutes</span>
+                                </div>
+                            </div>
+
                             <div className="col-12">
                                 <div className="btn btn-primary" onClick={tryToSave}>Save</div>
                                 <div className="btn btn-danger ms-2" onClick={tryToDelete}>Delete</div>
