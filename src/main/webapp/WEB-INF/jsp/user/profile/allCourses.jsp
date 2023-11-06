@@ -118,7 +118,11 @@
                             <span>(2423 reviewer)</span>
                         </div>
                     </a>
-
+                    <div class="ProgressviewMode">
+                            <div class="completed">
+                                <a href="/course/edit/<%=course.getID()%>" target="_blank">Edit course</a>
+                            </div>
+                    </div>
                 </div>
             </div>
             <!-- end course -->
