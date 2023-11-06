@@ -235,7 +235,7 @@ function EditLesson({lesson, afterEditLesson}) {
 
     return (
         editLesson &&
-        <div className="rightPane p-4 bg-white" style={{maxHeight: "100%"}}>
+        <div className="rightPane p-4 bg-white" style={{height: "max-content"}}>
             <div className="addMooc" id="addMooc">
                 <div>
                     <h1 className="text-center">Edit lesson</h1>
@@ -538,12 +538,11 @@ function CourseEdit() {
 
             <div id="body-editCourse" style={{minHeight: "calc(100vh - 60px)"}}>
 
-                <div className="leftPane" style={{maxHeight: "100%"}}>
+                <div className="leftPane">
 
                     <h3>{course && course.name} <i className="text-info fa-solid fa-pen-to-square"
                                                    onClick={showEditCourse} style={{cursor: "pointer"}}></i></h3>
-                    <div className="accordion chapterTitles" id="accordionExample"
-                         style={{maxHeight: "calc(100% - 150px)"}}>
+                    <div className="accordion chapterTitles" id="accordionExample">
 
                         {chapters.map((chapter, chapterIndex) => (
                             <div key={chapter.id} id={"chapter_" + chapterIndex}
