@@ -24,7 +24,7 @@ document.getElementById("search-course").onkeyup = function () {
     if (input) {
         result = dataArray.filter((course) => {
             return course.name.toLowerCase().includes(input.toLowerCase());
-        })
+        }).slice(0, 5)
     } else {
         result = [];
     }
@@ -36,16 +36,25 @@ document.getElementById("search-course").onkeyup = function () {
     result.forEach(function (x) {
         inner_html += `
         <a href="/course/${x.id}">        
-                    <div id="search_instance" style="border-right: #a7c080 solid 5px;background: white">
-                        <p class=" text text-end course-name" style="font-size: larger">
-                            ${x.name}
-                        </p>
-                        <p class=" text text-end">
-                            ${x.rate}
-                        </p>
-                    </div>
-                    </a>
+            <div id="search_instance" class="container row border border-success bg-white" 
+            style="width: 200%; padding: 5px">
+                    <img src="/public/media/course/${x.id}/${x.picture}" alt="" class="img-thumbnail" 
+                    style="height: 77px;width: 77px; object-fit: contain; ">
+                
+                <div class="col-9" style="display: flex; flex-direction: column">
+                    <p class="h5 text text-start course-name" style="margin: 1px">
+                        <strong>${x.name}</strong>
+                    </p>
+                    <p class="h6 text text-start course-name" style="margin: 1px">
+                        ${x.description.toUpperCase()}
+                    </p>
+                    <p class="h6 text text-start course-name" style="margin: 1px">
+                        <i class="fa-solid fa-star"></i>  ${x.rate}
+                    </p>
+                </div>
 
+            </div>
+        </a>
                     `
     })
 

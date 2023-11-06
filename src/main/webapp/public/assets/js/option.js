@@ -101,7 +101,7 @@ if (input) {
     }
 }
 
-const notification_background_color = ["bg-secondary", "bg-light"];
+const notification_background_color = ["#e6ffcf", "#deead2"];
 
 function get_notification() {
     $.post("/learner_request/notification", jQuery.param({
@@ -109,14 +109,26 @@ function get_notification() {
         }), function (data) {
             console.log(data)
             let unread_notification = 0;
-            data.forEach((noti) => {
-                unread_notification += noti["read"] ? 0 : 1;
-                var date = new Date(noti["receiveAt"]);
-                let date_string = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
+            if (data.length === 0) {
                 document.getElementById("notification_list").innerHTML += `                
                 <li>
-                    <div id="notification_instance" class=${notification_background_color[noti.read ? 0 : 1]}
-                    style="border-right: #a7c080 solid 5px;">
+                    <div id="notification_instance" 
+                    style="background: ${notification_background_color[0]}">
+                        <p class="h5 text text-center" >
+                            No notification
+                        </p>
+                    </div>
+                </li>`
+
+            } else {
+                data.forEach((noti) => {
+                    unread_notification += noti["read"] ? 0 : 1;
+                    var date = new Date(noti["receiveAt"]);
+                    let date_string = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+                    document.getElementById("notification_list").innerHTML += `                
+                <li>
+                    <div id="notification_instance" 
+                    style="border-right: #a7c080 solid 5px;background: ${notification_background_color[noti.read ? 1 : 0]}">
                         <p class=" text text-end" style="font-size: larger">
                             ${noti.description}
                         </p>
@@ -125,7 +137,8 @@ function get_notification() {
                         </p>
                     </div>
                 </li>`
-            })
+                })
+            }
             if (unread_notification !== 0) {
                 $("#notification_quantity").text(unread_notification).show()
             }
