@@ -62,8 +62,7 @@
         }
         if (video || player) {
 
-            //check if 90% video
-            if (currentTime >= duration * 0.9) {
+            if (currentTime >= duration * <%=lesson.getPercentToPassed()/100.0%>) {
                 fetch("/learn/markLessonComplete/<%out.print(lesson.getID());%>", {method: 'POST'})
                     .catch(error => console.error(error));
                 sendedCompletedVideo = true;
