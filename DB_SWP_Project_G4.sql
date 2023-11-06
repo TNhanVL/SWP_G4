@@ -481,12 +481,12 @@ GO
 --        (2, 2, 'instructor_2', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_2@example.com', '', 'Jane', 'Doe', 1);
 INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [first_name], [last_name],
                         [status])
-VALUES (1, 1, 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@example.com', 'a.jpg', 'John', 'Doe', 1),
+VALUES (1, 1, 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@example.com', 'a.jpg', 'John', 'Doe', 0),
        (1, 1, 'instructor_2', '202cb962ac59075b964b07152d234b70', 'instructor_2@example.com', 'a.jpg', 'Jane', 'Doe',
-        1),
+        0),
        (1, 1, 'instructor_3', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_3@example.com', 'a.jpg', 'Peter',
         'Parker',
-        1);
+        0);
 
 
 GO
