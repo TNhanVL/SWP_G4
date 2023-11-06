@@ -7,6 +7,7 @@ import $ from "jquery"
 import 'jquery-ui-dist/jquery-ui'
 import backend from "./service/Backend";
 import popUpAlert from "./service/popUpAlert";
+import ListLessonEdit from "./ListLessonEdit";
 
 function EditCourse({course, afterEditCourse}) {
 
@@ -192,6 +193,7 @@ function CourseEdit() {
     const [chapters, setChapters] = useState([])
     const [mode, setMode] = useState(0)
     const [editChapter, setEditChapter] = useState(null)
+    const [editLesson, setEditLesson] = useState(null)
 
     let navigate = useNavigate();
 
@@ -276,6 +278,11 @@ function CourseEdit() {
         setMode(2)
     }
 
+    function showEditLesson(lesson) {
+        setEditLesson(lesson)
+        setMode(3)
+    }
+
     function afterEditChapter() {
         getChapters(courseID, true);
     }
@@ -338,20 +345,19 @@ function CourseEdit() {
         <div className='CourseEdit'>
             <Navbar learner={instructor}/>
 
-            <div id="body-editCourse">
+            <div id="body-editCourse" style={{maxHeight: "calc(100vh - 60px)"}}>
 
-                <div className="leftPane">
+                <div className="leftPane" style={{maxHeight: "100%"}}>
 
                     <h3>{course && course.name} <i className="text-info fa-solid fa-pen-to-square"
                                                    onClick={showEditCourse} style={{cursor: "pointer"}}></i></h3>
-                    <div className="accordion chapterTitles" id="accordionExample">
+                    <div className="accordion chapterTitles" id="accordionExample" style={{maxHeight: "calc(100% - 150px)"}}>
 
                         {chapters.map((chapter, chapterIndex) => (
                             <div key={chapter.id} id={"chapter_" + chapterIndex}
                                  className="accordion-item"
-                                 style={{cursor: "all-scroll"}}
-                                 onClick={() => showEditChapter(chapter)}>
-                                <h4 className="accordion-header">
+                                 style={{cursor: "all-scroll"}}>
+                                <h4 className="accordion-header" onClick={() => showEditChapter(chapter)}>
                                     <div className="mooc-handle">
                                         <i className="fas fa-ellipsis-v"></i>
                                     </div>
@@ -365,52 +371,7 @@ function CourseEdit() {
                                     </button>
                                 </h4>
 
-                                <div id={"collapse_" + chapter.id} className="accordion-collapse collapse"
-                                     data-bs-parent="#accordionExample">
-
-                                    <div className="accordion-body lessonTitles">
-
-                                        <div className="accordion-item" onClick="showEditLessonByID(this)">
-                                            <h4 className="accordion-header">
-                                                <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
-                                                        style={{cursor: "all-scroll"}}></i>
-                                                </div>
-                                                <button className="btn chosing" type="button">
-                                                    Lesson #1
-                                                </button>
-                                            </h4>
-                                        </div>
-
-                                        <div className="accordion-item" onClick="showEditLessonByID(this)">
-                                            <h4 className="accordion-header">
-                                                <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
-                                                        style={{cursor: "all-scroll"}}></i>
-                                                </div>
-                                                <button className="btn" type="button">
-                                                    Lesson #2
-                                                </button>
-                                            </h4>
-                                        </div>
-
-                                        <div className="accordion-item" onClick="showEditLessonByID(this)">
-                                            <h4 className="accordion-header">
-                                                <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
-                                                        style={{cursor: "all-scroll"}}></i>
-                                                </div>
-                                                <button className="btn" type="button">
-                                                    Lesson #3
-                                                </button>
-                                            </h4>
-                                        </div>
-
-                                        <div class="accordion-btn">
-                                <span onclick="showAddLessonArea()" class="btn btn-primary w-100 p-2 text-center">
-                                    Add new lesson</span>
-                                        </div>
-
-                                    </div>
-
-                                </div>
+                                <ListLessonEdit chapterID={chapter.id} mode={mode} setMode={setMode} showEditLesson={showEditLesson} editLesson={editLesson} setEditLesson={setEditLesson}/>
 
                             </div>
                         ))}
