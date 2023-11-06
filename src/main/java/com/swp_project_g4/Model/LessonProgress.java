@@ -34,21 +34,20 @@ public class LessonProgress {
     }
 
     @ManyToOne
-    @JoinColumn(name = "lessonID", insertable=false, updatable=false)
+    @JoinColumn(name = "lessonID", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Lesson lesson;
 
     @ManyToOne
-    @JoinColumn(name = "chapterProgressID", insertable=false, updatable=false)
+    @JoinColumn(name = "chapterProgressID", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private ChapterProgress chapterProgress;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "lessonProgressID")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

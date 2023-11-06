@@ -1,7 +1,8 @@
-package com.swp_project_g4.Service;
+package com.swp_project_g4.Service.model;
 
 import com.swp_project_g4.Model.CourseProgress;
 import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

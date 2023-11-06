@@ -1,11 +1,8 @@
 package com.swp_project_g4.Controller;
 
-import com.swp_project_g4.Database.*;
 import com.swp_project_g4.Model.*;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.Certificate;
-import com.swp_project_g4.Service.CookieServices;
-import com.swp_project_g4.Service.LessonProgressService;
 import com.swp_project_g4.Service.storage.StorageFileNotFoundException;
 import com.swp_project_g4.Service.storage.StorageService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,11 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/certificate")

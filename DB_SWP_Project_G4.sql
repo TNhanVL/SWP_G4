@@ -158,7 +158,7 @@ GO
 CREATE TABLE chapter
 (
     chapterID     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    courseID      INT                NOT NULL,
+    courseID      INT                ,
     [index]       INT                NOT NULL,
     name          NVARCHAR(50),
     [description] NVARCHAR(50),
@@ -170,7 +170,7 @@ GO
 CREATE TABLE lesson
 (
     lessonID          INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    chapterID         INT                NOT NULL,
+    chapterID         INT                ,
     name              NVARCHAR(50),
     description       NTEXT,
     percent_to_passed INT DEFAULT 80     NOT NULL,
@@ -183,21 +183,11 @@ CREATE TABLE lesson
 );
 GO
 
-CREATE TABLE lesson_completed
-(
-    lessonID INT NOT NULL,
-    userID   INT NOT NULL,
-    FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
-    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
-    UNIQUE (lessonID, userID)
-);
-GO
-
 CREATE TABLE course_progress
 (
     course_progressID      INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    learnerID              INT                                NOT NULL,
-    courseID               INT                                NOT NULL,
+    learnerID              INT                                ,
+    courseID               INT                                ,
     enrolled               BIT      DEFAULT 0                 NOT NULL,
     progress_percent       INT      DEFAULT 0                 NOT NULL,
     completed              BIT      DEFAULT 0                 NOT NULL,
@@ -215,11 +205,11 @@ GO
 CREATE TABLE chapter_progress
 (
     chapter_progressID INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    chapterID          INT                                NOT NULL,
-    course_progressID  INT                                NOT NULL,
-    progress_percent   INT      DEFAULT 0                 NOT NULL,
+    chapterID          INT                                ,
+    course_progressID  INT                                ,
+    progress_percent   INT      DEFAULT 0,
     completed          BIT      DEFAULT 0                 NOT NULL,
-    total_time         INT      DEFAULT 0                 NOT NULL,
+    total_time         INT      DEFAULT 0,
     start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
     FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID),
@@ -230,8 +220,8 @@ GO
 CREATE TABLE lesson_progress
 (
     lesson_progressID  INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    lessonID           INT                                NOT NULL,
-    chapter_progressID INT                                NOT NULL,
+    lessonID           INT,
+    chapter_progressID INT                                ,
     progress_percent   INT      DEFAULT 0                 NOT NULL,
     completed          BIT      DEFAULT 0                 NOT NULL,
     start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -244,7 +234,7 @@ GO
 CREATE TABLE question
 (
     [questionID] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonID     INT                NOT NULL,
+    lessonID     INT                ,
     [index]      INT                NOT NULL,
     content      NTEXT              NOT NULL,
     [type]       INT                NOT NULL,
@@ -313,7 +303,7 @@ CREATE OR ALTER TRIGGER updateChapterTotalTimeTrigger
     AS
 BEGIN
     update chapter
-    set chapter.total_time = cal.total_time
+    set chapter.total_time = IIF(cal.total_time IS NULL, 0, cal.total_time)
     from (select chapterID, sum(time) total_time
           from lesson
           group by chapterID) cal
@@ -332,7 +322,7 @@ CREATE OR ALTER TRIGGER updateCourseTotalTimeTrigger
     AS
 BEGIN
     update course
-    set course.total_time = cal.total_time
+    set course.total_time = IIF(cal.total_time IS NULL, 0, cal.total_time)
     from (select courseID, sum(total_time) total_time
           from chapter
           group by courseID) cal
@@ -351,9 +341,12 @@ CREATE OR ALTER TRIGGER updateCourseProgressTrigger
     AS
 BEGIN
     update course_progress
-    set course_progress.total_time       = chapter_progress_info.total_time,
+    set course_progress.total_time       = IIF(chapter_progress_info.total_time IS NULL, 0,
+                                               chapter_progress_info.total_time),
         course_progress.completed        = IIF(sumCompleted = numberOfChapter, 1, 0),
-        course_progress.progress_percent = round(chapter_progress_info.total_time * 100.0 / chapter_info.sumTime, 0)
+        course_progress.progress_percent = IIF(chapter_info.sumTime IS NULL OR chapter_info.sumTime = 0 OR chapter_progress_info.total_time IS NULL, 0,
+                                               ROUND(chapter_progress_info.total_time * 100.0 / chapter_info.sumTime,
+                                                     0))
     from (select chapter_progress.course_progressID,
                  courseID,
                  sum(chapter_progress.total_time)             total_time,
@@ -381,9 +374,10 @@ CREATE OR ALTER TRIGGER updateChapterProgressTrigger
     AS
 BEGIN
     update chapter_progress
-    set chapter_progress.total_time       = cal.total_time,
-        chapter_progress.completed        = cal1.completed,
-        chapter_progress.progress_percent = round(cal.total_time * 100.0 / cal1.sumTime, 0)
+    set chapter_progress.total_time       = IIF(cal.total_time IS NULL, 0, cal.total_time),
+        chapter_progress.completed        = IIF(cal1.completed IS NULL, 0, cal1.completed),
+        chapter_progress.progress_percent = IIF(cal1.sumTime IS NULL OR cal1.sumTime = 0 OR cal.total_time IS NULL, 0,
+                                                round(cal.total_time * 100.0 / cal1.sumTime, 0))
     from (select lp.chapter_progressID, sum(time) total_time
           from lesson_progress lp
                    full join lesson l on lp.lessonID = l.lessonID

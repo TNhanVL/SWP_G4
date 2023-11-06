@@ -1,15 +1,12 @@
-package com.swp_project_g4.Service;
+package com.swp_project_g4.Service.model;
 
 import com.swp_project_g4.Database.*;
 import com.swp_project_g4.Model.*;
-import com.swp_project_g4.Repository.CourseProgressRepository;
 import com.swp_project_g4.Repository.Repo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class QuizService {

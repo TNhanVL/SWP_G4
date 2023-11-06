@@ -5,7 +5,7 @@ import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
-import com.swp_project_g4.Service.CourseService;
+import com.swp_project_g4.Service.model.CourseService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -13,9 +13,16 @@
 
     <%
         ArrayList<Chapter> chapters = ChapterDAO.getChaptersByCourseID(course.getID());
+        Set<Integer> completedLessonIDs = (Set<Integer>) request.getAttribute("completedLessonIDs");
         for (Chapter chapter1 : chapters) {
 
             ArrayList<Lesson> lessons = LessonDAO.getLessonsByChapterID(chapter1.getID());
+            int numberOfCompleted = 0;
+            for(var lesson1: lessons){
+                if(completedLessonIDs.contains(lesson1.getID())){
+                    numberOfCompleted++;
+                }
+            }
     %>
 
     <!-- part -->
@@ -24,7 +31,7 @@
             <div>
                 <h5>Part <%out.print(chapter1.getIndex() + ": " + chapter1.getName());%></h5>
                 <p class="progressLesson"><%
-                    out.print(LessonDAO.getNumberLessonsCompleted(learner.getID(), chapter1.getID()) + "/" + lessons.size());%>
+                    out.print(numberOfCompleted + "/" + lessons.size());%>
                     Complete</p>
             </div>
             <i class="fa-solid fa-chevron-down"></i>
@@ -35,7 +42,6 @@
             <!-- each lesson is a div -->
 
             <%
-                Set<Integer> completedLessonIDs = (Set<Integer>) request.getAttribute("completedLessonIDs");
                 for (Lesson lesson1 : lessons) {
             %>
 
