@@ -326,7 +326,7 @@ function CourseEdit() {
             backend.post('chapter/reIndexs', data).then(res => {
                 if (!res) {
                     popUpAlert.warning("Reindex chapters failed")
-                }else{
+                } else {
                     getChapters(courseID)
                     $(".chapterTitles").sortable("cancel")
                 }
@@ -359,11 +359,58 @@ function CourseEdit() {
                                         className={"accordion-button collapsed" + ((mode == 2 && editChapter && chapter.id == editChapter.id) ? " chosing" : "")}
                                         type="button"
                                         data-bs-toggle="collapse"
-                                        data-bs-target="#collapse_1" aria-expanded="false"
+                                        data-bs-target={"#collapse_" + chapter.id} aria-expanded="false"
                                         aria-controls="collapseOne">
                                         <strong>#{chapterIndex + 1}</strong><span className="ms-1">{chapter.name}</span>
                                     </button>
                                 </h4>
+
+                                <div id={"collapse_" + chapter.id} className="accordion-collapse collapse"
+                                     data-bs-parent="#accordionExample">
+
+                                    <div className="accordion-body lessonTitles">
+
+                                        <div className="accordion-item" onClick="showEditLessonByID(this)">
+                                            <h4 className="accordion-header">
+                                                <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
+                                                        style={{cursor: "all-scroll"}}></i>
+                                                </div>
+                                                <button className="btn chosing" type="button">
+                                                    Lesson #1
+                                                </button>
+                                            </h4>
+                                        </div>
+
+                                        <div className="accordion-item" onClick="showEditLessonByID(this)">
+                                            <h4 className="accordion-header">
+                                                <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
+                                                        style={{cursor: "all-scroll"}}></i>
+                                                </div>
+                                                <button className="btn" type="button">
+                                                    Lesson #2
+                                                </button>
+                                            </h4>
+                                        </div>
+
+                                        <div className="accordion-item" onClick="showEditLessonByID(this)">
+                                            <h4 className="accordion-header">
+                                                <div><i className="lesson-handle fas fa-ellipsis-v ms-3"
+                                                        style={{cursor: "all-scroll"}}></i>
+                                                </div>
+                                                <button className="btn" type="button">
+                                                    Lesson #3
+                                                </button>
+                                            </h4>
+                                        </div>
+
+                                        <div class="accordion-btn">
+                                <span onclick="showAddLessonArea()" class="btn btn-primary w-100 p-2 text-center">
+                                    Add new lesson</span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
 
                             </div>
                         ))}
