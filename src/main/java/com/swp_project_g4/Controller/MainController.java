@@ -1,7 +1,9 @@
 package com.swp_project_g4.Controller;
 
+import com.swp_project_g4.Database.InstructorDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.GooglePojo;
+import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.*;
@@ -259,7 +261,27 @@ public class MainController {
 
         LearnerDAO.updateUser(learner1);
         request.getSession().setAttribute("success", "Update user success!");
-        return "redirect:./profile";
+        return "redirect:/profile/" + learner1.getUsername();
+    }
+
+    @RequestMapping(value = "/updateInstructor", method = RequestMethod.POST)
+    public String updateInstructor(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int instructorID, @ModelAttribute("user") Learner learner) {
+
+        Instructor instructor1 = repo.getInstructorRepository().findById(instructorID).get();
+
+        if (instructor1 == null) {
+            request.getSession().setAttribute("error", "User not exist!");
+            return "redirect:./";
+        }
+
+        instructor1.setFirstName(learner.getFirstName());
+        instructor1.setLastName(learner.getLastName());
+        instructor1.setCountryID(learner.getCountryID());
+        instructor1.setEmail(learner.getEmail());
+
+        repo.getInstructorRepository().save(instructor1);
+        request.getSession().setAttribute("success", "Update user success!");
+        return "redirect:/profile/instructor/" + instructor1.getUsername();
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

@@ -151,7 +151,7 @@
 
             <p>Let the Yojihan community of other learners and instructors know more about you!</p>
 
-            <form action="/updateUser?userID=${learner != null ? learner.ID: instructor.ID}" method="post">
+            <form action="${learner != null ? "/updateUser?userID=": "/updateInstructor?instructorID="}${learner != null ? learner.ID: instructor.ID}" method="post">
                 <div>
                     <label for="firstName">First name:</label>
                     <input value="${user.firstName}" type="text" id="firstName" name="firstName"
@@ -163,12 +163,14 @@
                     <input value="${user.lastName}" type="text" id="lastName" name="lastName"
                            placeholder="Enter your last name" required>
                 </div>
+                <c:if test="${learner != null}">
                 <div>
                     <label for="birthday">Birthday: </label>
                     <input value=
                                    '<fmt:formatDate pattern="yyyy-MM-dd" value="${learner.birthday}"/>'
                            type=" date" id="birthday" name="birthday" placeholder="dd/mm/yyyy" required>
                 </div>
+                </c:if>
 
                 <% ArrayList<Country> countries = CountryDAO.getAllCountry();
                     request.getSession().setAttribute("countries", countries);
@@ -180,7 +182,7 @@
                         <c:forEach items="${countries}" var="country">
                             <option value="${country.ID}" class="form-control" placeholder="Enter your country"
                                     required
-                                    <c:if test="${country.ID == learner.countryID}">selected</c:if>>${country.name}</option>
+                                    <c:if test="${country.ID == user.countryID}">selected</c:if>>${country.name}</option>
                         </c:forEach>
                     </select>
                 </div>
