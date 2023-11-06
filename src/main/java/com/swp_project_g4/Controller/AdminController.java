@@ -264,10 +264,10 @@ public class AdminController {
     public String addLearnerGET(HttpServletRequest request) {
         try {
             var user = new Learner();
+            user.setID((int) repo.getLearnerRepository().count());
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
             request.getSession().setAttribute("addUser", true);
-
         } catch (NoSuchElementException ex) {
             request.getSession().setAttribute("error", "No such user information!");
             return "redirect:./dashboard";
