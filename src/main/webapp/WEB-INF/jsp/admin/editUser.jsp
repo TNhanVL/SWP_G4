@@ -128,6 +128,8 @@
                                             <div class="form-group" hidden="hidden">
                                                 <label>ID</label>
                                                 <input type="text" name="ID" value="${user.ID}">
+                                                <input type="text" name="learnerID" value="${user.ID}">
+
                                                 <input type="text" name="picture"
                                                        value="${user.picture}">
 

@@ -193,19 +193,23 @@
                                             </a>
                                         </div>
                                     </form>
-
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <%@include file="tables/courses.jsp" %>
+            <%@include file="tables/instructor.jsp" %>
         </div>
     </div>
 </main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>
+    new DataTable('#instructor');
+    new DataTable('#courses');
+</script>
 </body>
 
 <%@ include file="popUpMessage.jsp" %>
