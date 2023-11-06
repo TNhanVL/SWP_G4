@@ -3,6 +3,7 @@ package com.swp_project_g4.RestController;
 import com.swp_project_g4.Model.Chapter;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Service.model.ChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,8 @@ import java.util.Map;
 public class ChapterRestController {
     @Autowired
     private Repo repo;
+    @Autowired
+    private ChapterService chapterService;
 
     @PostMapping("/getByChapterID")
     public Chapter getByChapterID(@RequestBody Map<String, Integer> data) {
@@ -55,7 +58,9 @@ public class ChapterRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            repo.getChapterRepository().deleteById(data.get("chapterID"));
+            var chapter = repo.getChapterRepository().findById(data.get("chapterID")).get();
+            repo.getChapterRepository().deleteById(chapter.getID());
+            chapterService.reIndexAllChapterByCourseID(chapter.getCourseID());
             return true;
         } catch (Exception e) {
 
@@ -83,7 +88,7 @@ public class ChapterRestController {
         try {
             int size = data.get("size");
             int courseID = data.get("courseID");
-            for(int i = 0; i < size; i++){
+            for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);
                 var chapter = repo.getChapterRepository().findById(id).get();

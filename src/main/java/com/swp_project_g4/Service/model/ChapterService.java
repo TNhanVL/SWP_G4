@@ -1,7 +1,7 @@
 package com.swp_project_g4.Service.model;
 
-import com.swp_project_g4.Model.Lesson;
 import com.swp_project_g4.Model.Chapter;
+import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Repository.Repo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +12,18 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
-public class LessonService {
+public class ChapterService {
     @Autowired
     private Repo repo;
 
-    public boolean reIndexAllLessonByChapterID(int chapterID) {
+    public boolean reIndexAllChapterByCourseID(int courseID) {
         try {
-            var lessons = repo.getChapterRepository().findById(chapterID).get().getLessons();
-            lessons.sort(Comparator.comparingInt(Lesson::getIndex));
+            var chapters = repo.getCourseRepository().findById(courseID).get().getChapters();
+            chapters.sort(Comparator.comparingInt(Chapter::getIndex));
             int tmp = 0;
-            for (var lesson : lessons) {
-                lesson.setIndex(++tmp);
-                repo.getLessonRepository().save(lesson);
+            for (var chapter : chapters) {
+                chapter.setIndex(++tmp);
+                repo.getChapterRepository().save(chapter);
             }
             return true;
         } catch (Exception e) {

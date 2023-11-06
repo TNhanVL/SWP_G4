@@ -2,6 +2,7 @@ package com.swp_project_g4.RestController;
 
 import com.swp_project_g4.Model.Lesson;
 import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Service.model.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,8 @@ import java.util.Map;
 public class LessonRestController {
     @Autowired
     private Repo repo;
+    @Autowired
+    private LessonService lessonService;
 
     @PostMapping("/getByLessonID")
     public Lesson getByLessonID(@RequestBody Map<String, Integer> data) {
@@ -54,7 +57,9 @@ public class LessonRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            repo.getLessonRepository().deleteById(data.get("lessonID"));
+            var lesson = repo.getLessonRepository().findById(data.get("lessonID")).get();
+            repo.getLessonRepository().deleteById(lesson.getID());
+            lessonService.reIndexAllLessonByChapterID(lesson.getChapterID());
             return true;
         } catch (Exception e) {
 
@@ -84,7 +89,7 @@ public class LessonRestController {
         try {
             int size = data.get("size");
             int chapterID = data.get("chapterID");
-            for(int i = 0; i < size; i++){
+            for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);
                 var lesson = repo.getLessonRepository().findById(id).get();
