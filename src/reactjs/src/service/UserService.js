@@ -25,6 +25,18 @@ async function instructorLoggedIn() {
     }
 }
 
-const exportObject = { learnerLoggedIn, instructorLoggedIn }
+async function adminLoggedIn() {
+    try {
+        let accessToken = Cookies.get('adminJwtToken');
+        if (!accessToken) return false;
+
+        return await Backend.post('auth/admin')
+
+    } catch (e) {
+        return false;
+    }
+}
+
+const exportObject = { learnerLoggedIn, instructorLoggedIn, adminLoggedIn }
 
 export default exportObject

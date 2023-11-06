@@ -1,7 +1,9 @@
 package com.swp_project_g4.RestController;
 
+import com.swp_project_g4.Model.Admin;
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
+import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,5 +29,19 @@ public class UserRestController {
         String username = CookieServices.getUserNameOfInstructor(request.getCookies());
         var instructor = repo.getInstructorRepository().findByUsername(username).orElse(null);
         return instructor;
+    }
+
+    @PostMapping("auth/organization")
+    public Organization authOrganization(HttpServletRequest request) {
+        String username = CookieServices.getUserNameOfOrganization(request.getCookies());
+        var organization = repo.getOrganizationRepository().findByUsername(username).orElse(null);
+        return organization;
+    }
+
+    @PostMapping("auth/admin")
+    public Admin authAdmin(HttpServletRequest request) {
+        String username = CookieServices.getUserNameOfAdmin(request.getCookies());
+        var admin = repo.getAdminRepository().findByUsername(username).orElse(null);
+        return admin;
     }
 }

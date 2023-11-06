@@ -234,6 +234,20 @@ public class CookieServices {
         return ans;
     }
 
+    public static String getUserNameOfOrganization(Cookie[] cookies) {
+        String ans = "";
+
+        try {
+
+            Claims claims = searchCookie(cookies, CookiesToken.ORGANIZATION);
+            ans = (String) claims.get("username");
+
+        } catch (Exception e) {
+        }
+
+        return ans;
+    }
+
     public static String getUserNameOfAdmin(Cookie[] cookies) {
         String ans = "";
 

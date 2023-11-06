@@ -383,6 +383,7 @@ function CourseEdit() {
 
     const {courseID} = useParams()
     const [instructor, setInstructor] = useState(null)
+    const [admin, setAdmin] = useState(null)
     const [course, setCourse] = useState(null);
     const [chapters, setChapters] = useState([])
     const [mode, setMode] = useState(0)
@@ -429,13 +430,22 @@ function CourseEdit() {
     }
 
     useEffect(() => {
+
         //Get instructor infomation
         let instructor = UserService.instructorLoggedIn()
         instructor.then(res => {
-            if (!res) {
-                window.location.replace('/')
+            if (res) {
+                setInstructor(res)
+            } else {
+                let admin = UserService.adminLoggedIn()
+                admin.then(res => {
+                    if (res) {
+                        setAdmin(res)
+                    } else {
+                        window.location.replace('/')
+                    }
+                })
             }
-            setInstructor(res)
         })
 
         //Get course
@@ -543,7 +553,7 @@ function CourseEdit() {
 
     return (
         <div className='CourseEdit'>
-            <Navbar learner={instructor}/>
+            <Navbar learner={instructor} admin={admin}/>
 
             <div id="body-editCourse" style={{minHeight: "calc(100vh - 60px)"}}>
 

@@ -21,7 +21,7 @@ function openMenu() {
     }
 }
 
-function Navbar({learner}) {
+function Navbar({instructor, admin}) {
 
     const navigate = useNavigate();
 
@@ -48,10 +48,10 @@ function Navbar({learner}) {
                 <div onClick={openMenu} id="user" className="user">
                     <a href="#">
                         <img
-                            src={learner ? "/public/media/instructor/" + learner.id + "/" + learner.picture : usertmp.picture}
+                            src={instructor ? "/public/media/instructor/" + instructor.id + "/" + instructor.picture : usertmp.picture}
                             alt="avatar"></img>
                         <span
-                            className="userInfor">{(learner ? learner.username : usertmp.name) + "(instructor)"}</span>
+                            className="userInfor">{instructor ? instructor.username + "(instructor)" : admin ? 'admin' : usertmp.name}</span>
                     </a>
 
                     <div id="userMenu" className="userMenu close">
@@ -59,7 +59,7 @@ function Navbar({learner}) {
                             <i className="fa-solid fa-user"></i>
                             <span>Profile</span>
                         </a>
-                        <a href="/logout?token=learner">
+                        <a href="/logout?token=instructor">
                             <i className="fa-solid fa-right-from-bracket"></i>
                             <span>Logout</span>
                         </a>
