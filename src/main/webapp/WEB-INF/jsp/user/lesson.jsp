@@ -28,7 +28,6 @@
         <jsp:param name="title" value="Yojihan Study"/>
     </jsp:include>
     <link rel="stylesheet" href="/public/assets/css/lesson.css">
-    <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 
 <body>

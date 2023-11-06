@@ -4,8 +4,8 @@
     Author     : TTNhan
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
     if (lesson.getType() == 0) {
@@ -23,13 +23,22 @@
 
 
 <script>
+
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
     var video = document.getElementById('my-video');
 
-//    if (video) {
-//        video.addEventListener('ended', function () {
-//            console.log('End');
-//        });
-//    }
+    //    if (video) {
+    //        video.addEventListener('ended', function () {
+    //            console.log('End');
+    //        });
+    //    }
+
+    var player;
 
     function onYouTubeIframeAPIReady() {
         // Create a new instance of the player
@@ -56,20 +65,21 @@
             //check if 90% video
             if (currentTime >= duration * 0.9) {
                 fetch("/learn/markLessonComplete/<%out.print(lesson.getID());%>", {method: 'POST'})
-                                        .catch(error => console.error(error));
-                                sendedCompletedVideo = true;
-                                let checkLesson = $(".lesson.active i")[0];
-                                checkLesson.classList = [];
-                                checkLesson.classList.add("fa-solid");
-                                checkLesson.classList.add("fa-square-check");
+                    .catch(error => console.error(error));
+                sendedCompletedVideo = true;
+                let checkLesson = $(".lesson.active i")[0];
+                checkLesson.classList = [];
+                checkLesson.classList.add("fa-solid");
+                checkLesson.classList.add("fa-square-check");
 
 //Increase progress lesson
-                                let progressLesson = $(".progressLesson")[<%out.print(chapter.getIndex() - 1);%>];
-                                let progressLessonText = progressLesson.innerHTML;
-                                progressLesson.innerHTML = Number(progressLessonText.split("/")[0]) + 1 + "/" + progressLessonText.split("/")[1];
-                            }
-                        }
-                    }
-// Gọi hàm kiểm tra video theo một khoảng thời gian nhất định
-                    setInterval(checkVideoProgress, 1000); // Kiểm tra sau mỗi giây (1000 milliseconds)
+                let progressLesson = $(".progressLesson")[<%out.print(chapter.getIndex() - 1);%>];
+                let progressLessonText = progressLesson.innerHTML;
+                progressLesson.innerHTML = Number(progressLessonText.split("/")[0]) + 1 + "/" + progressLessonText.split("/")[1];
+            }
+        }
+    }
+
+    // Gọi hàm kiểm tra video theo một khoảng thời gian nhất định
+    setInterval(checkVideoProgress, 1000); // Kiểm tra sau mỗi giây (1000 milliseconds)
 </script>

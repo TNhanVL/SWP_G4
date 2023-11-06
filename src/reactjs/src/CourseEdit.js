@@ -8,6 +8,8 @@ import 'jquery-ui-dist/jquery-ui'
 import backend from "./service/Backend";
 import popUpAlert from "./service/popUpAlert";
 import ListLessonEdit from "./ListLessonEdit";
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 function EditCourse({course, afterEditCourse}) {
 
