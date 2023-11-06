@@ -8,8 +8,10 @@ import 'jquery-ui-dist/jquery-ui'
 import backend from "./service/Backend";
 import popUpAlert from "./service/popUpAlert";
 import ListLessonEdit from "./ListLessonEdit";
-import { confirmAlert } from 'react-confirm-alert'; // Import
+import {confirmAlert} from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import {CKEditor} from '@ckeditor/ckeditor5-react';
 
 function EditCourse({course, afterEditCourse}) {
 
@@ -61,7 +63,8 @@ function EditCourse({course, afterEditCourse}) {
                             </div>
 
                             <div className="col-12">
-                                <label htmlFor="CourseDescription" className="form-label fw-bold">Course Description</label>
+                                <label htmlFor="CourseDescription" className="form-label fw-bold">Course
+                                    Description</label>
                                 <input type="text" className="form-control" id="CourseDescription"
                                        value={editCourse.description}
                                        onChange={e => {
@@ -162,7 +165,8 @@ function EditChapter({chapter, afterEditChapter}) {
                             </div>
 
                             <div className="col-12">
-                                <label htmlFor="CourseDescription" className="form-label fw-bold">Chapter Description</label>
+                                <label htmlFor="CourseDescription" className="form-label fw-bold">Chapter
+                                    Description</label>
                                 <input type="text" className="form-control" id="CourseDescription"
                                        value={editChapter.description}
                                        onChange={e => {
@@ -231,7 +235,7 @@ function EditLesson({lesson, afterEditLesson}) {
 
     return (
         editLesson &&
-        <div className="rightPane p-4 bg-white" style={{height: "max-content"}}>
+        <div className="rightPane p-4 bg-white" style={{maxHeight: "100%"}}>
             <div className="addMooc" id="addMooc">
                 <div>
                     <h1 className="text-center">Edit lesson</h1>
@@ -251,7 +255,8 @@ function EditLesson({lesson, afterEditLesson}) {
                             </div>
 
                             <div className="col-12">
-                                <label htmlFor="CourseDescription" className="form-label fw-bold">Lesson Description</label>
+                                <label htmlFor="CourseDescription" className="form-label fw-bold">Lesson
+                                    Description</label>
                                 <input type="text" className="form-control" id="CourseDescription"
                                        value={editLesson.description ?? ""}
                                        onChange={e => {
@@ -264,7 +269,8 @@ function EditLesson({lesson, afterEditLesson}) {
                             </div>
 
                             <div className="col-3">
-                                <label htmlFor="LessonPercentoPassed" className="form-label fw-bold">Percent To Passed</label>
+                                <label htmlFor="LessonPercentoPassed" className="form-label fw-bold">Percent To
+                                    Passed</label>
                                 <input type="number" className="form-control" id="LessonPercentoPassed"
                                        value={editLesson.percentToPassed}
                                        onChange={e => {
@@ -276,7 +282,8 @@ function EditLesson({lesson, afterEditLesson}) {
                             </div>
 
                             <div className="col-2 d-flex flex-column align-items-center justify-content-center">
-                                <label htmlFor="MustBeCompleted" className="form-check-label fw-bold">Must Be Completed</label>
+                                <label htmlFor="MustBeCompleted" className="form-check-label fw-bold">Must Be
+                                    Completed</label>
                                 <input type="checkbox" className="form-check-input" id="MustBeCompleted"
                                        checked={editLesson.mustBeCompleted ? true : false}
                                        onChange={e => {
@@ -319,6 +326,36 @@ function EditLesson({lesson, afterEditLesson}) {
                                 </div>
                             </div>
 
+                            {editLesson.type == 3 &&
+                                <div className="col-3">
+                                    <label htmlFor="YoutubeVideoID" className="form-label fw-bold">Youtube Video
+                                        ID</label>
+                                    <input type="text" className="form-control" id="YoutubeVideoID"
+                                           value={editLesson.content}
+                                           onChange={e => {
+                                               setEditLesson({
+                                                   ...editLesson,
+                                                   content: e.target.value
+                                               })
+                                           }} placeholder={"dQw4w9WgXcQ"} required/>
+                                </div>
+                            }
+
+                            {editLesson.type == 1 &&
+                                <div>
+                                    <CKEditor
+                                        editor={Editor}
+                                        data={editLesson.content}
+                                        onChange={(event, editor) => {
+                                            const data = editor.getData();
+                                            setEditLesson({
+                                                ...editLesson,
+                                                content: data
+                                            })
+                                        }}
+                                    />
+                                </div>
+                            }
                             <div className="col-12">
                                 <div className="btn btn-primary" onClick={tryToSave}>Save</div>
                                 <div className="btn btn-danger ms-2" onClick={tryToDelete}>Delete</div>
@@ -499,7 +536,7 @@ function CourseEdit() {
         <div className='CourseEdit'>
             <Navbar learner={instructor}/>
 
-            <div id="body-editCourse" style={{maxHeight: "calc(100vh - 60px)"}}>
+            <div id="body-editCourse" style={{minHeight: "calc(100vh - 60px)"}}>
 
                 <div className="leftPane" style={{maxHeight: "100%"}}>
 

@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.0",
     "bootstrap": "^5.3.1",
+    "ckeditor5-custom-build": "file:./ckeditor5",
     "datatables.net-dt": "^1.13.6",
     "google-auth-library": "^9.0.0",
     "jquery": "^3.7.1",
@@ -30,7 +31,6 @@
     "build": "webpack --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-
     "delete_old_index": "rm ..\\main\\webapp\\WEB-INF\\jsp\\reactjs\\index.html || true",
     "copy_new_index": "cp build\\index.html ..\\main\\webapp\\WEB-INF\\jsp\\reactjs\\index.html",
     "delete_old_dir": "rmdir ..\\main\\webapp\\public\\reactjs /s /q",
