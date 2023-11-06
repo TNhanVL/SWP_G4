@@ -264,7 +264,7 @@ public class AdminController {
     public String addLearnerGET(HttpServletRequest request) {
         try {
             var user = new Learner();
-            user.setID((int) repo.getLearnerRepository().count());
+            user.setID((int) repo.getLearnerRepository().count() + 1);
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
             request.getSession().setAttribute("addUser", true);
