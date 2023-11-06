@@ -1,11 +1,11 @@
 package com.swp_project_g4.RestController;
 
-import com.swp_project_g4.Model.Chapter;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Repository.Repo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +39,10 @@ public class CourseRestController {
 
         }
         return null;
+    }
 
+    @PostMapping("searchCourse")
+    public ArrayList<Course> searchCourse(@RequestParam String searchString) {
+        return null;
     }
 }
