@@ -13,6 +13,15 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 
+function BlankEdit() {
+
+    return (
+        <div className="rightPane p-4 bg-white mt-5 ms-auto me-auto" style={{height: "max-content", width: "500px"}}>
+            <h2 className={"text-center"}>Click on some thing to edit</h2>
+        </div>
+    )
+}
+
 function EditCourse({course, afterEditCourse}) {
 
     const [editCourse, setEditCourse] = useState(null)
@@ -578,6 +587,7 @@ function CourseEdit() {
 
                 </div>
 
+                {mode == 0 && <BlankEdit/>}
                 {mode == 1 && course && <EditCourse course={course} afterEditCourse={afterEditCourse}/>}
                 {mode == 2 && course && <EditChapter chapter={editChapter} afterEditChapter={afterEditChapter}/>}
                 {mode == 3 && course && <EditLesson lesson={editLesson} afterEditLesson={afterEditLesson}/>}
