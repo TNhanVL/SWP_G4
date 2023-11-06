@@ -80,26 +80,24 @@
                         }
 
                     } else {
-                        out.print("https://upload.wikimedia./org/wikipedia/commons/9/99/Sample_User_Icon.png");
+                        out.print("/public/media/guest.png");
                     }
 %>"
                      alt="avatar">
                 <span class="userInfor"><%=learnerHeader != null ? learnerHeader.getUsername() : ""%>
                     <%=instructorHeader != null ? instructorHeader.getUsername() + "(instructor)" : ""%>
-                    <%=(learnerHeader == null && instructorHeader == null) ? "Guest!": ""%></span>
+                    <%=(learnerHeader == null && instructorHeader == null) ? "Guest!" : ""%></span>
             </a>
 
             <% if (learnerHeader != null || instructorHeader != null) {%>
             <div id="userMenu" class="userMenu close">
-                <%if (learnerHeader != null)
-                {%>
+                <%if (learnerHeader != null) {%>
                 <a href="/profile/<%=learnerHeader.getUsername()%>">
                     <i class="fa-solid fa-user"></i>
                     <span>Profile</span>
                 </a>
                 <%}%>
-                <%if (instructorHeader != null)
-                {%>
+                <%if (instructorHeader != null) {%>
                 <a href="/profile/instructor/<%=instructorHeader.getUsername()%>">
                     <i class="fa-solid fa-user"></i>
                     <span>Profile</span>

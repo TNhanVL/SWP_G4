@@ -153,7 +153,7 @@ public class AdminController {
             request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
             var courseList = repo.getCourseRepository().findByOrganizationID(organization_id).orElseThrow();
             request.getSession().setAttribute("courseList", courseList);
-
+            request.getSession().setAttribute("instructorsList", repo.getInstructorRepository().findByOrganizationID(organization_id).orElseThrow());
 
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Failed to load organization");
