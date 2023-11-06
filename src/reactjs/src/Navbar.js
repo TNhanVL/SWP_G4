@@ -51,14 +51,15 @@ function Navbar({instructor, admin}) {
                             src={instructor ? "/public/media/instructor/" + instructor.id + "/" + instructor.picture : usertmp.picture}
                             alt="avatar"></img>
                         <span
-                            className="userInfor">{instructor ? instructor.username + "(instructor)" : admin ? 'admin' : usertmp.name}</span>
+                            className="userInfor">{instructor ? instructor.username + "(instructor)" : (admin ? 'admin' : usertmp.name)}</span>
                     </a>
 
                     <div id="userMenu" className="userMenu close">
-                        <a href="profile.html">
-                            <i className="fa-solid fa-user"></i>
-                            <span>Profile</span>
-                        </a>
+                        {(instructor) &&
+                            <a href="profile.html">
+                                <i className="fa-solid fa-user"></i>
+                                <span>Profile</span>
+                            </a>}
                         <a href="/logout?token=instructor">
                             <i className="fa-solid fa-right-from-bracket"></i>
                             <span>Logout</span>

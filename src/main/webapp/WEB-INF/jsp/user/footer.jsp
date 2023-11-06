@@ -31,7 +31,7 @@
 
         </div>
         <div class="head pay col-md-2">PAYMENT METHODS
-            <p>Paypal</p>
+            <p>Momo</p>
             <p>Visa</p>
         </div>
         <div class="head info col-md-2">INFORMATION

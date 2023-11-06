@@ -140,16 +140,30 @@ function EditChapter({chapter, afterEditChapter}) {
     }
 
     function tryToDelete() {
-        backend.post('chapter/delete', {
-            chapterID: chapter.id
-        }).then(res => {
-            if (!res) {
-                popUpAlert.warning("Delete Chapter failed")
-            } else {
-                // popUpAlert.success("Delete Successful!")
-                afterEditChapter()
-            }
-        })
+        confirmAlert({
+            title: 'Confirm to Delete',
+            message: 'Are you sure to delete this chapter? It will delete all lesson in it!',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        backend.post('chapter/delete', {
+                            chapterID: chapter.id
+                        }).then(res => {
+                            if (!res) {
+                                popUpAlert.warning("Delete Chapter failed")
+                            } else {
+                                popUpAlert.success("Delete Successful!")
+                                afterEditChapter()
+                            }
+                        })
+                    }
+                },
+                {
+                    label: 'No'
+                }
+            ]
+        });
     }
 
     return (
@@ -230,16 +244,31 @@ function EditLesson({lesson, afterEditLesson}) {
     }
 
     function tryToDelete() {
-        backend.post('lesson/delete', {
-            lessonID: lesson.id
-        }).then(res => {
-            if (!res) {
-                popUpAlert.warning("Delete Lesson failed")
-            } else {
-                // popUpAlert.success("Delete Successful!")
-                afterEditLesson()
-            }
-        })
+        confirmAlert({
+            title: 'Confirm to Delete',
+            message: 'Are you sure to delete this lesson? It will delete all thing in it!',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        backend.post('lesson/delete', {
+                            lessonID: lesson.id
+                        }).then(res => {
+                            if (!res) {
+                                popUpAlert.warning("Delete lesson failed")
+                            } else {
+                                popUpAlert.success("Delete Successful!")
+                                afterEditLesson()
+                            }
+                        })
+                    }
+                },
+                {
+                    label: 'No'
+                }
+            ]
+        });
+
     }
 
     return (
@@ -553,7 +582,7 @@ function CourseEdit() {
 
     return (
         <div className='CourseEdit'>
-            <Navbar learner={instructor} admin={admin}/>
+            <Navbar instructor={instructor} admin={admin}/>
 
             <div id="body-editCourse" style={{minHeight: "calc(100vh - 60px)"}}>
 

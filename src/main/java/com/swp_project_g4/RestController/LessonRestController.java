@@ -76,6 +76,9 @@ public class LessonRestController {
             lesson.setIndex(lesson1.getIndex());
             lesson.setPercentToPassed(lesson1.getPercentToPassed());
             lesson.setMustBeCompleted(lesson1.isMustBeCompleted());
+            lesson.setType(lesson1.getType());
+            lesson.setTime(lesson1.getTime());
+            lesson.setContent(lesson1.getContent());
             lesson = repo.getLessonRepository().save(lesson);
             return lesson;
         } catch (Exception e) {

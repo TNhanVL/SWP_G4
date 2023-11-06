@@ -135,7 +135,7 @@
             <div class="rateAndLike">
                 <span><%out.print(course.getRate());%></span>
                 <i class="fa-solid fa-star"></i>
-                <span>(4.716 reviewer)</span>
+                <span>(<%=course.getNumberOfRated()%> reviewer)</span>
 
                 <!-- <span class="like-rate">
                 <i class="fa-solid fa-thumbs-up"></i> 96%</span> -->

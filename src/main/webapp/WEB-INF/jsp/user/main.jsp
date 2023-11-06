@@ -36,7 +36,7 @@
                 ₫199,000. Today only.</p>
         </div>
         <div class="teamWorkImg col-md-6">
-            <img src="/public/assets/imgs/bannerAds.png" alt="">
+            <img src="/public/assets/imgs/teamwork.png" alt="">
         </div>
     </div>
 
@@ -145,7 +145,7 @@
     </div>
 
     <div class="advantageAds row">
-        <img src="/public/assets/imgs/side.jpg" alt="" class="ads col-md-4">
+        <img src="/public/assets/imgs/banner%20advantages%20-%20homepage.png" alt="" class="ads col-md-4">
         <div class="content col-md-8">
             <h4>Outstanding advantages</h4>
             <ul>
@@ -175,15 +175,37 @@
                     <i class="fa-solid fa-quote-left"></i>
                 </div>
                 <div class="bodyItem">
-                    Thanks u guys for the website which delivered me an opportunity to enhance my
-                    English in a
-                    quite short period of time, because of you I succeeded in getting overall band
-                    8, with L-9
-                    and R-8
+                    Education is the key to unlocking your full potential. With knowledge, you can illuminate the path to your dreams and shape a brighter future. Join us on a journey of lifelong learning and discover the endless possibilities that await you.
                 </div>
                 <div class="footerItem">
                     <img src="/public/assets/imgs/logo.png" alt="" class="userImg">
-                    <span class="userInfor">Someone Else</span>
+                    <span class="userInfor">Thanh Nhan</span>
+                </div>
+            </li>
+
+            <li class="feedbackItem">
+                <div class="headerItem">
+                    <i class="fa-solid fa-quote-left"></i>
+                </div>
+                <div class="bodyItem">
+                    Learning is the bridge between who you are and who you want to become. Our courses are the stepping stones on that path, guiding you towards a future of infinite opportunities and personal growth.
+                </div>
+                <div class="footerItem">
+                    <img src="/public/assets/imgs/logo.png" alt="" class="userImg">
+                    <span class="userInfor">Nhan Tran</span>
+                </div>
+            </li>
+
+            <li class="feedbackItem">
+                <div class="headerItem">
+                    <i class="fa-solid fa-quote-left"></i>
+                </div>
+                <div class="bodyItem">
+                    Education is the compass that leads you on a journey of self-discovery and transformation. Enroll in our courses and let knowledge be your guiding star as you navigate the vast landscape of your potential.
+                </div>
+                <div class="footerItem">
+                    <img src="/public/assets/imgs/logo.png" alt="" class="userImg">
+                    <span class="userInfor">Tran Thanh Nhan</span>
                 </div>
             </li>
 
@@ -200,41 +222,7 @@
                 </div>
                 <div class="footerItem">
                     <img src="/public/assets/imgs/logo.png" alt="" class="userImg">
-                    <span class="userInfor">Someone Else</span>
-                </div>
-            </li>
-
-            <li class="feedbackItem">
-                <div class="headerItem">
-                    <i class="fa-solid fa-quote-left"></i>
-                </div>
-                <div class="bodyItem">
-                    Thanks u guys for the website which delivered me an opportunity to enhance my
-                    English in a
-                    quite short period of time, because of you I succeeded in getting overall band
-                    8, with L-9
-                    and R-8
-                </div>
-                <div class="footerItem">
-                    <img src="/public/assets/imgs/logo.png" alt="" class="userImg">
-                    <span class="userInfor">Someone Else</span>
-                </div>
-            </li>
-
-            <li class="feedbackItem">
-                <div class="headerItem">
-                    <i class="fa-solid fa-quote-left"></i>
-                </div>
-                <div class="bodyItem">
-                    Thanks u guys for the website which delivered me an opportunity to enhance my
-                    English in a
-                    quite short period of time, because of you I succeeded in getting overall band
-                    8, with L-9
-                    and R-8
-                </div>
-                <div class="footerItem">
-                    <img src="/public/assets/imgs/logo.png" alt="" class="userImg">
-                    <span class="userInfor">Someone Else</span>
+                    <span class="userInfor">Thanh Nhan Tran</span>
                 </div>
             </li>
         </ul>
@@ -254,14 +242,15 @@
 
     <div class="advertisement ads2 row">
         <div class="teamWorkImg col-md-6">
-            <img src="/public/assets/imgs/bannerAds.png" alt="">
+            <img src="/public/assets/imgs/teamwork.png" alt="">
         </div>
         <div class="contentBox ads2 col-md-6">
             <p>
-                <b>Sales end. Dreams go on.</b><br>
-                Get a second chance at the best prices
-                of the season. Courses start at just
-                ₫199,000. Today only.</p>
+                <b>Expand Your Horizons with Online Learning!</b><br>
+                Embark on a learning adventure today and unleash your potential with our diverse online courses.
+                From coding to creative writing, we provide the tools and resources to help you thrive in the
+                digital age. Don't let distance or time constraints hinder you - ignite your curiosity now!
+            </p>
         </div>
 
     </div>
