@@ -29,7 +29,7 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int chapterID;
-    private String name;
+    private String name = "";
     private String description;
     private int percentToPassed;
     private boolean mustBeCompleted = false;

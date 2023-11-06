@@ -56,10 +56,25 @@ function ListLessonEdit({
     useEffect(() => {
         if (!lessonChanged) return
         if (chapter.id == editChapter.id) {
-            getLessons(chapter, null)
+            getLessons(chapter, true)
         }
         setLessonChanged(false)
     }, [lessonChanged]);
+
+    function tryAddNewLesson() {
+        backend.post('lesson/create', {
+            chapterID: chapter.id
+        }).then(res => {
+            if (res) {
+                // popUpAlert.success("Add new chapter successful")
+                getLessons(chapter, null)
+                setEditLesson(res)
+                setMode(3)
+            } else {
+                popUpAlert.warning("Add new lesson failed")
+            }
+        })
+    }
 
     return (chapter && lessons && <div id={"collapse_" + chapter.id} className="accordion-collapse collapse"
                                        data-bs-parent="#accordionExample">
@@ -83,10 +98,8 @@ function ListLessonEdit({
                 </div>))}
 
 
-            <div className="accordion-btn">
-                    <span onclick="showAddLessonArea()"
-                          className="btn btn-primary w-100 p-2 text-center">
-                    Add new lesson</span>
+            <div className="accordion-btn" onClick={tryAddNewLesson}>
+                <span className="btn btn-primary w-100 p-2 text-center"> Add new lesson</span>
             </div>
 
         </div>
