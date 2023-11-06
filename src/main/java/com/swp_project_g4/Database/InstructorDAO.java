@@ -29,8 +29,8 @@ public class InstructorDAO extends DBConnection {
             statement.setInt(1, instructorID);
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next()){
-                instructor  = new Instructor(
+            if (resultSet.next()) {
+                instructor = new Instructor(
                         resultSet.getInt("instructorID"),
                         resultSet.getInt("organizationID"),
                         resultSet.getString("picture"),
@@ -50,31 +50,65 @@ public class InstructorDAO extends DBConnection {
 
         return instructor;
     }
-     public static ArrayList<Instructor> getAllInstructor(){
+
+    public static Instructor getInstructorByUsername(String username) {
+        Instructor instructor = null;
+        try {
+            //connect to database
+            connect();
+            statement = conn.prepareStatement("select * from instructor where username = ?");
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                instructor = new Instructor(
+                        resultSet.getInt("instructorID"),
+                        resultSet.getInt("organizationID"),
+                        resultSet.getString("picture"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
+                        resultSet.getInt("countryID"),
+                        resultSet.getInt("status")
+                );
+            }
+            disconnect();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return instructor;
+    }
+
+    public static ArrayList<Instructor> getAllInstructor() {
         ArrayList<Instructor> list = new ArrayList<>();
         try {
-             statement = conn.prepareStatement("select * from instructor");
-             ResultSet resultSet = statement.executeQuery();
+            statement = conn.prepareStatement("select * from instructor");
+            ResultSet resultSet = statement.executeQuery();
 
-             while (resultSet.next()){
-                 Instructor instructor = new Instructor(
-                         resultSet.getInt("instructorID"),
-                         resultSet.getInt("organizationID"),
-                         resultSet.getString("picture"),
-                         resultSet.getString("username"),
-                         resultSet.getString("password"),
-                         resultSet.getString("email"),
-                         resultSet.getString("first_name"),
-                         resultSet.getString("last_name"),
-                         resultSet.getInt("countryID"),
-                         resultSet.getInt("status")
-                 );
-             }
-        }catch (SQLException ex){
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE,  null,ex);
+            while (resultSet.next()) {
+                Instructor instructor = new Instructor(
+                        resultSet.getInt("instructorID"),
+                        resultSet.getInt("organizationID"),
+                        resultSet.getString("picture"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
+                        resultSet.getInt("countryID"),
+                        resultSet.getInt("status")
+                );
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return list ;
-     }
+        return list;
+    }
+
     public static void main(String[] args) {
+        System.out.println(getInstructorByUsername("ttnhan"));
     }
 }

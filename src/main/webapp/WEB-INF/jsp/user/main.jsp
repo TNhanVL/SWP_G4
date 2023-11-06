@@ -81,7 +81,8 @@
                         if (index % 4 == 0) {
                 %>
 
-                <div class="carousel-item<%if (index / 4 == 0) {
+                <div class="carousel-item
+                    <%if (index / 4 == 0) {
                                 out.print(" active");
                             }%>">
                     <ul class="courseList">

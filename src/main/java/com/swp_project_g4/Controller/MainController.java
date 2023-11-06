@@ -321,10 +321,20 @@ public class MainController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam String token) {
-        if (CookieServices.logout(request, response, token)) {
-            request.getSession().setAttribute("success", "Logout succeed!");
-        } else {
-            request.getSession().setAttribute("error", "Logout failed!");
+        if (token.equals("learner")) {
+            if (CookieServices.logout(request, response, "learner") &&
+                    CookieServices.logout(request, response, "instructor")) {
+                request.getSession().setAttribute("success", "Logout succeed!");
+            } else {
+                request.getSession().setAttribute("error", "Logout failed!");
+            }
+        }else{
+            if (CookieServices.logout(request, response, "admin") &&
+                    CookieServices.logout(request, response, "organization")) {
+                request.getSession().setAttribute("success", "Logout succeed!");
+            } else {
+                request.getSession().setAttribute("error", "Logout failed!");
+            }
         }
         return "redirect:/";
     }
