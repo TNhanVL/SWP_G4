@@ -142,16 +142,19 @@
 
             <div class="header">
                 <h3>Edit my profile</h3>
-                <button type="button"
-                        class="btn btn-secondary float-right"
-                        id="changePasswordButton">
-                    Change Password
-                </button>
+                <c:if test="${learner != null}">
+                    <button type="button"
+                            class="btn btn-secondary float-right"
+                            id="changePasswordButton">
+                        Change Password
+                    </button>
+                </c:if>
             </div>
 
             <p>Let the Yojihan community of other learners and instructors know more about you!</p>
 
-            <form action="${learner != null ? "/updateUser?userID=": "/updateInstructor?instructorID="}${learner != null ? learner.ID: instructor.ID}" method="post">
+            <form action="${learner != null ? "/updateUser?userID=": "/updateInstructor?instructorID="}${learner != null ? learner.ID: instructor.ID}"
+                  method="post">
                 <div>
                     <label for="firstName">First name:</label>
                     <input value="${user.firstName}" type="text" id="firstName" name="firstName"
@@ -164,12 +167,12 @@
                            placeholder="Enter your last name" required>
                 </div>
                 <c:if test="${learner != null}">
-                <div>
-                    <label for="birthday">Birthday: </label>
-                    <input value=
-                                   '<fmt:formatDate pattern="yyyy-MM-dd" value="${learner.birthday}"/>'
-                           type=" date" id="birthday" name="birthday" placeholder="dd/mm/yyyy" required>
-                </div>
+                    <div>
+                        <label for="birthday">Birthday: </label>
+                        <input value=
+                                       '<fmt:formatDate pattern="yyyy-MM-dd" value="${learner.birthday}"/>'
+                               type=" date" id="birthday" name="birthday" placeholder="dd/mm/yyyy" required>
+                    </div>
                 </c:if>
 
                 <% ArrayList<Country> countries = CountryDAO.getAllCountry();
