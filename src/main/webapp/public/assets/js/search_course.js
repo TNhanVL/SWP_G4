@@ -37,8 +37,8 @@ document.getElementById("search-course").onkeyup = function () {
         inner_html += `
         <a href="/course/${x.id}">        
             <div id="search_instance" class="container row border border-success bg-white" 
-            style="width: 200%; padding: 5px">
-                    <img src="/public/media/course/${x.id}/${x.picture}" alt="" class="img-thumbnail" 
+            style="width: 200%; padding: 5px; border-radius: 14px">
+                    <img src="/public/media/course/${x.id}/${x.picture}" alt="" class="img-thumbnail col-2" 
                     style="height: 77px;width: 77px; object-fit: contain; ">
                 
                 <div class="col-9" style="display: flex; flex-direction: column">
@@ -48,11 +48,16 @@ document.getElementById("search-course").onkeyup = function () {
                     <p class="h6 text text-start course-name" style="margin: 1px">
                         ${x.description.toUpperCase()}
                     </p>
-                    <p class="h6 text text-start course-name" style="margin: 1px">
-                        <i class="fa-solid fa-star"></i>  ${x.rate}
-                    </p>
+                    
+                    <div class="d-flex flex-row justify-content-between">
+                        <p class="h6 text text-start course-name" style="margin: 1px">
+                            <i class="fa-solid fa-star" style="color: yellow"></i>  ${x.rate}
+                        </p>
+                        <p class="h6 text text-start course-name" style="margin: 1px">
+                            <strong>${x.price} $</strong>
+                        </p>
+                    </div>
                 </div>
-
             </div>
         </a>
                     `
