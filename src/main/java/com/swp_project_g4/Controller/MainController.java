@@ -6,7 +6,6 @@ import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.*;
-import com.swp_project_g4.Service.UserServices;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -128,8 +127,8 @@ public class MainController {
                 }
             }
 
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 5);
-
+            request.getSession().setAttribute("success", "Password reset!");
+            return "redirect:/login";
         } catch (Exception e) {
             request.getSession().setAttribute("sentPasswordRecoveryEmail", 4);
         }
@@ -350,7 +349,7 @@ public class MainController {
             } else {
                 request.getSession().setAttribute("error", "Logout failed!");
             }
-        }else{
+        } else {
             if (CookieServices.logout(request, response, "admin") &&
                     CookieServices.logout(request, response, "organization")) {
                 request.getSession().setAttribute("success", "Logout succeed!");
