@@ -541,6 +541,7 @@ VALUES (1, 'A, Ka Row', 1, 3, 3, 1, 's4RXDEVFO_E'),
        (1, 'Dakuon & Handakuon of Hiragana combination', 12, 3, 3, 1, 'V34OFinfTbU'),
        (1, 'Multiple-choice test (10 questions)', 13, 2, 30, 1, ''),
        (2, 'Nihongo2', 1, 2, 5, 1, ''),
+       (2, 'You tube video', 2, 3, 3, 1, '5JGjT9Cy2ak'),
        (2, 'Post', 3, 1, 5, 1, ''),
        (3, 'Youtube', 1, 3, 5, 1, 'V34OFinfTbU'),
        (4, 'Object Oriented Programming', 1, 3, 19, 1, '7BVt6OGfVfQ'),
@@ -827,7 +828,7 @@ set content =
         <span class="token keyword">int</span> <span class="token keyword">int</span><span class="token punctuation">;</span>
         </code></pre>
         '
-where lessonID = 15;
+where lessonID = 16;
 GO
 
 INSERT INTO notification (learnerID, type, description, [read], receive_at)
