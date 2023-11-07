@@ -50,6 +50,7 @@
                         <div class="d-flex px-2 py-1">
                             <div>
                                 <img class="avatar avatar-sm me-3 border-radius-lg" alt="user1"
+                                     style="object-fit: contain"
                                      src=${picture}>
                             </div>
                             <div class="d-flex flex-column justify-content-center">
