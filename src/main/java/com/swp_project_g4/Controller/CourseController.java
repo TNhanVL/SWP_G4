@@ -2,6 +2,7 @@ package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.LearnerDAO;
+import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
@@ -82,5 +83,22 @@ public class CourseController {
     @GetMapping("edit/{courseID}")
     public String editCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
         return "reactjs/index";
+    }
+
+    @GetMapping("create")
+    public String createCourse(ModelMap model, HttpServletRequest request) {
+        try {
+            String username = CookieServices.getUserNameOfInstructor(request.getCookies());
+            var instructor = repo.getInstructorRepository().findByUsername(username).get();
+            var course = new Course();
+            course.setOrganizationID(instructor.getOrganizationID());
+            course.setName("New course");
+            course = repo.getCourseRepository().save(course);
+            return "redirect:/course/edit/" + course.getID();
+        } catch (Exception e) {
+
+        }
+        request.getSession().setAttribute("error", "Can not create new course!");
+        return "redirect:/";
     }
 }

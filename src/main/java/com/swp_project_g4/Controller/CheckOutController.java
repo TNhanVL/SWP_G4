@@ -103,9 +103,14 @@ public class CheckOutController {
     }
 
     @RequestMapping(value = "/finishedPayment", method = RequestMethod.GET)
-    public String finishedPayment(ModelMap model, HttpServletRequest request, @RequestParam String userID, @RequestParam int resultCode) {
+    public String finishedPayment(ModelMap model, HttpServletRequest request, @RequestParam String userID, @RequestParam int resultCode, @RequestParam String message) {
 
         Learner learner = null;
+
+        if(!message.equals("Successful.")){
+            request.getSession().setAttribute("error", "Failed when pay the course!");
+            return "redirect:/cart";
+        }
 
         try {
             learner = LearnerDAO.getUser(Integer.parseInt(userID));

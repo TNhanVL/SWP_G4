@@ -132,6 +132,12 @@
                 }
             %>
 
+            <c:if test="${instructor != null}">
+                <a href="/course/create">
+                    <div class="btn btn-primary">Create new course</div>
+                </a>
+            </c:if>
+
         </div>
     </c:if>
 </div>

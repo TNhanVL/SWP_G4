@@ -56,7 +56,7 @@ function Navbar({instructor, admin}) {
 
                     <div id="userMenu" className="userMenu close">
                         {(instructor) &&
-                            <a href="profile.html">
+                            <a href={"/profile/instructor/" + instructor.username}>
                                 <i className="fa-solid fa-user"></i>
                                 <span>Profile</span>
                             </a>}

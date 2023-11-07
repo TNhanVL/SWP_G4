@@ -6,7 +6,7 @@ import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.*;
-import com.swp_project_g4.Service.model.UserServices;
+import com.swp_project_g4.Service.UserServices;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

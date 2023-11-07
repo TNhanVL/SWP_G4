@@ -1,4 +1,4 @@
-package com.swp_project_g4.Service.model;
+package com.swp_project_g4.Service;
 
 import com.swp_project_g4.Database.LearnerDAO;
 import org.apache.commons.validator.GenericValidator;
