@@ -40,6 +40,14 @@ function EditCourse({course, afterEditCourse}) {
     }, [course]);
 
     function tryToSave() {
+        if(!editCourse.name){
+            popUpAlert.warning("Name can not be empty!")
+            return
+        }
+        if(editCourse.price < 0){
+            popUpAlert.warning("Price must be greater than or equal to 0!")
+            return
+        }
         backend.post('course/update', {
             ...editCourse
         }).then(res => {
@@ -128,6 +136,10 @@ function EditChapter({chapter, afterEditChapter}) {
     }, [chapter]);
 
     function tryToSave() {
+        if(!editChapter.name){
+            popUpAlert.warning("Name can not be empty!")
+            return
+        }
         backend.post('chapter/update', {
             ...editChapter
         }).then(res => {
@@ -232,6 +244,22 @@ function EditLesson({lesson, afterEditLesson}) {
     }, [lesson]);
 
     function tryToSave() {
+        if(!editLesson.name){
+            popUpAlert.warning("Name can not be empty!")
+            return
+        }
+        if(editLesson.percentToPassed < 0){
+            popUpAlert.warning("Percent to passed must be greater than or equal to 0!")
+            return
+        }
+        if(editLesson.percentToPassed > 100){
+            popUpAlert.warning("Percent to passed must be less than or equal to 0!")
+            return
+        }
+        if(editLesson.time <= 0){
+            popUpAlert.warning("Time must be greater than 0!")
+            return
+        }
         backend.post('lesson/update', {
             ...editLesson
         }).then(res => {
