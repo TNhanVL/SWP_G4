@@ -3,6 +3,7 @@ package com.swp_project_g4.Controller;
 import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
+import com.swp_project_g4.Model.Instruct;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repo;
 import com.swp_project_g4.Service.CookieServices;
@@ -94,6 +95,10 @@ public class CourseController {
             course.setOrganizationID(instructor.getOrganizationID());
             course.setName("New course");
             course = repo.getCourseRepository().save(course);
+            Instruct instruct = new Instruct();
+            instruct.setCourseID(course.getID());
+            instruct.setInstructorID(instructor.getID());
+            repo.getInstructRepository().save(instruct);
             return "redirect:/course/edit/" + course.getID();
         } catch (Exception e) {
 
