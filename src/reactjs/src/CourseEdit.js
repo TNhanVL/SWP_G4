@@ -252,6 +252,10 @@ function EditLesson({lesson, afterEditLesson}) {
             popUpAlert.warning("Percent to passed must be greater than or equal to 0!")
             return
         }
+        if(editLesson.percentToPassed > 100){
+            popUpAlert.warning("Percent to passed must be less than or equal to 0!")
+            return
+        }
         if(editLesson.time <= 0){
             popUpAlert.warning("Time must be greater than 0!")
             return
