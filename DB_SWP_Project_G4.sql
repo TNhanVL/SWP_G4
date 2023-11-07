@@ -474,18 +474,18 @@ VALUES (1, 1, 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@exampl
 GO
 INSERT INTO course
 (name, [picture], [description], organizationID, price, rate, verified, total_time)
-VALUES ('Dekiru Nihongo', 'a.png', 'easy', 1, 1, 4.2, 1, 0),
-       ('Java advance', 'a.png', 'medium', 1, 2, 4.5, 1, 0),
+VALUES ('Dekiru Nihongo', 'nihon.png', 'easy', 1, 1, 4.2, 1, 0),
+       ('Java advance', 'javaAd.png', 'medium', 1, 2, 4.5, 1, 0),
        ('C++', 'a.png', 'hard', 1, 1.2, 4.7, 1, 0),
-       ('PYTHON FOR BEGINNER', 'a.png', 'easy', 1, 1.4, 4.2, 1, 0),
-       ('Java advance', 'a.png', 'medium', 1, 2.5, 4.5, 1, 0),
-       ('C++', 'a.png', 'hard', 1, 600, 4.7, 1, 0),
-       ('Java basic', 'a.png', 'easy', 1, 200, 4.2, 1, 0),
-       ('Java advance', 'a.png', 'medium', 1, 0.4, 4.5, 1, 0),
-       ('C++', 'a.png', 'hard', 1, 5, 4.7, 1, 0),
-       ('Java basic', 'a.png', 'easy', 1, 1, 4.2, 1, 0),
-       ('Java advance', 'a.png', 'medium', 1, 2, 4.5, 1, 0),
-       ('C++', 'a.png', 'hard', 1, 5, 4.7, 1, 0)
+       ('PYTHON FOR BEGINNER', 'python.png', 'easy', 1, 1.4, 4.2, 1, 0),
+       ('Java fundamentals', 'a.png', 'medium', 1, 2.5, 4.5, 1, 0),
+       ('C for beginner', 'c.png', 'hard', 1, 600, 4.7, 1, 0),
+       ('JavaScript basics', 'js.png', 'easy', 1, 200, 4.2, 1, 0),
+       ('PHP', 'php.png', 'medium', 1, 0.4, 4.5, 1, 0),
+       ('Advanced C++', 'a.png', 'hard', 1, 5, 4.7, 1, 0),
+       ('Data Structure and Algorithms', 'dsa.png', 'easy', 1, 1, 4.2, 1, 0),
+       ('MySQL', 'sql.png', 'medium', 1, 2, 4.5, 1, 0),
+       ('C#', 'cc.png', 'hard', 1, 5, 4.7, 1, 0)
 GO
 INSERT INTO instruct(courseID, instructorID)
 VALUES (1, 1),
@@ -541,7 +541,6 @@ VALUES (1, 'A, Ka Row', 1, 3, 3, 1, 's4RXDEVFO_E'),
        (1, 'Dakuon & Handakuon of Hiragana combination', 12, 3, 3, 1, 'V34OFinfTbU'),
        (1, 'Multiple-choice test (10 questions)', 13, 2, 30, 1, ''),
        (2, 'Nihongo2', 1, 2, 5, 1, ''),
-       (2, 'Video', 2, 0, 5, 1, 'DoggieCorgi-4.mp4'),
        (2, 'Post', 3, 1, 5, 1, ''),
        (3, 'Youtube', 1, 3, 5, 1, 'V34OFinfTbU'),
        (4, 'Object Oriented Programming', 1, 3, 19, 1, '7BVt6OGfVfQ'),
@@ -828,7 +827,7 @@ set content =
         <span class="token keyword">int</span> <span class="token keyword">int</span><span class="token punctuation">;</span>
         </code></pre>
         '
-where lessonID = 16;
+where lessonID = 15;
 GO
 
 INSERT INTO notification (learnerID, type, description, [read], receive_at)
