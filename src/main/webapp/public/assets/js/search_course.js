@@ -36,12 +36,12 @@ document.getElementById("search-course").onkeyup = function () {
     result.forEach(function (x) {
         inner_html += `
         <a href="/course/${x.id}">        
-            <div id="search_instance" class="container row border border-success bg-white" 
+            <div id="search_instance" class="container row border border-success bg-white mt-1" 
             style="width: 200%; padding: 5px; border-radius: 14px">
                     <img src="/public/media/course/${x.id}/${x.picture}" alt="" class="img-thumbnail col-2" 
                     style="height: 77px;width: 77px; object-fit: contain; ">
                 
-                <div class="col-9" style="display: flex; flex-direction: column">
+                <div style="width: 80%; display: flex; flex-direction: column">
                     <p class="h5 text text-start course-name" style="margin: 1px">
                         <strong>${x.name}</strong>
                     </p>

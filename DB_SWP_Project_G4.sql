@@ -832,8 +832,8 @@ where lessonID = 16;
 GO
 
 INSERT INTO notification (learnerID, type, description, [read], receive_at)
-VALUES (1, 0, 'Course registration successful: [Course name]', 0, CURRENT_TIMESTAMP),
-       (1, 0, 'Course registration successful: [Course name]', 0, CURRENT_TIMESTAMP);
+VALUES (1, 0, 'Course registration successful: Dekiru Nihongo', 0, CURRENT_TIMESTAMP),
+       (1, 0, 'Course registration successful: Java advance', 0, CURRENT_TIMESTAMP);
 
 
 INSERT INTO [transaction] (learnerID, courseID, origin_price, price, type, description, status)
