@@ -4,10 +4,15 @@
  */
 package com.swp_project_g4.Service;
 
+import com.swp_project_g4.Database.DBConnection;
 import com.swp_project_g4.Model.GooglePojo;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
@@ -18,10 +23,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
- *
  * @author TTNhan
  */
 public class GoogleUtils {
@@ -34,6 +41,17 @@ public class GoogleUtils {
     public static String GOOGLE_GRANT_TYPE = "authorization_code";
 
     public static String getToken(final String code) throws IOException {
+        String GOOGLE_REDIRECT_URI = "loginWithGG";
+        try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("application.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+            GOOGLE_REDIRECT_URI = prop.getProperty("hostserver") + "/" + GOOGLE_REDIRECT_URI;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         String response = Request.Post(GOOGLE_LINK_GET_TOKEN)
                 .bodyForm(Form.form().add("client_id", GOOGLE_CLIENT_ID)
                         .add("client_secret", GOOGLE_CLIENT_SECRET)
@@ -72,10 +90,10 @@ public class GoogleUtils {
         try {
             // Configure the Request object to use the custom SSLContext
             Request request = Request.Get("https://www.googleapis.com/oauth2/v3/userinfo?access_token=ya29.a0AbVbY6N5tmm0xlsq9WD8jd4cE83EKOhWFk1cczQPqv_5qIkeGrge-qpewKnzDePo86AM0NCnSIrM--fOcwIrMKQFl73-iMEIdzPaJDREJb2wur1AO8aeP4EfDUN2eDd_sRZs2WioWdezVg8-_YHTMBwXZIbWaCgYKAUASARISFQFWKvPlvRFJBs6SZfJxS7_lPnGBDg0163");
-            
+
             // Execute the request
             String response = request.execute().returnContent().asString();
-            
+
             System.out.println(response);
         } catch (IOException ex) {
             Logger.getLogger(GoogleUtils.class.getName()).log(Level.SEVERE, null, ex);
