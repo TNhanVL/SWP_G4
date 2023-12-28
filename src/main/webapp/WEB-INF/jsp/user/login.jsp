@@ -63,7 +63,7 @@
                 String host = request.getServerName() + ":" + request.getServerPort();
             %>
             <a
-                    href="https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/userinfo.email&redirect_uri=<%=host%>/loginWithGG&response_type=code
+                    href="https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/userinfo.email&redirect_uri=http://<%=host%>/loginWithGG&response_type=code
                                &client_id=246255507082-vpebidclj199n0sgg035cos2ijabjrmg.apps.googleusercontent.com&approval_prompt=force">
                 <i class="fa-brands fa-google"></i>
                 <p>Login with Google</p>
