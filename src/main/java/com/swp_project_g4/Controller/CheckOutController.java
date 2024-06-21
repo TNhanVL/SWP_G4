@@ -7,7 +7,7 @@ import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.CourseProgress;
 import com.swp_project_g4.Model.Learner;
-import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.CookieServices;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 public class CheckOutController {
 
     @Autowired
-    private Repo repo;
+    private Repository repository;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String checkOutPost(ModelMap model, HttpServletRequest request) {
@@ -139,7 +139,7 @@ public class CheckOutController {
                     }
 
                     CourseDAO.deleteCartProduct(learner.getID(), courseID);
-                    repo.getCourseProgressRepository().save(new CourseProgress(learner.getID(), courseID));
+                    repository.getCourseProgressRepository().save(new CourseProgress(learner.getID(), courseID));
 
                 } catch (NumberFormatException e) {
                     System.out.println(e);

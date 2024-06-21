@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Getter
-public class Repo {
+public class Repository {
     @Autowired
     private AdminRepository adminRepository;
     @Autowired

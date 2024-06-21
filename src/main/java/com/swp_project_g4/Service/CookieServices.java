@@ -8,7 +8,7 @@ import com.swp_project_g4.Database.AdminDAO;
 import com.swp_project_g4.Database.InstructorDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Instructor;
-import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Repository.Repository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,11 +22,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CookieServices {
 
-    private static Repo repo;
+    private static Repository repository;
 
     @Autowired
-    public CookieServices(Repo repo) {
-        CookieServices.repo = repo;
+    public CookieServices(Repository repository) {
+        CookieServices.repository = repository;
     }
 
 
@@ -62,16 +62,16 @@ public class CookieServices {
 
             switch (type) {
                 case LEARNER -> {
-                    return repo.getLearnerRepository().findByUsernameAndPassword(username, password).isPresent();
+                    return repository.getLearnerRepository().findByUsernameAndPassword(username, password).isPresent();
                 }
                 case ADMIN -> {
-                    return repo.getAdminRepository().findByUsernameAndPassword(username, password).isPresent();
+                    return repository.getAdminRepository().findByUsernameAndPassword(username, password).isPresent();
                 }
                 case ORGANIZATION -> {
-                    return repo.getOrganizationRepository().findByUsernameAndPassword(username, password).isPresent();
+                    return repository.getOrganizationRepository().findByUsernameAndPassword(username, password).isPresent();
                 }
                 case INSTRUCTOR -> {
-                    return repo.getInstructorRepository().findByUsernameAndPassword(username, password).isPresent();
+                    return repository.getInstructorRepository().findByUsernameAndPassword(username, password).isPresent();
                 }
                 case RESET -> {
                     return false;

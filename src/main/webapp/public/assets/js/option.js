@@ -104,6 +104,7 @@ if (input) {
 const notification_background_color = ["#e6ffcf", "#deead2"];
 
 function get_notification() {
+    if (!$("#id_string")[0]) return;
     $.post("/learner_request/notification", jQuery.param({
             id_string: $("#id_string").val()
         }), function (data) {

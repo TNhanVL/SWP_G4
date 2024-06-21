@@ -1,10 +1,9 @@
 package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.LearnerDAO;
-import com.swp_project_g4.Model.GooglePojo;
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
-import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,11 +16,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @Service
@@ -29,153 +28,9 @@ import java.util.logging.Logger;
 public class MainController {
 
     @Autowired
-    private Repo repo;
+    private Repository repository;
     @Autowired
     private EmailService emailService;
-
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    @ResponseBody
-    public String getAll() {
-        var a = repo.getCountryRepository().findAll();
-        System.out.println(a);
-        return "ok";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(HttpServletRequest request) {
-//        try {
-//            var loggedIn = CookieServices.checkLoggedIn(request);
-//            if (loggedIn) {
-//                request.getSession().setAttribute("error", "Please logout before login into another account");
-//                return "redirect:/";
-//            }
-//        } catch (Exception e) {
-//
-//        }
-        return "user/login";
-    }
-
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
-    public String forgetPasswordGet(HttpServletRequest request) {
-        request.getSession().setAttribute("sentPasswordRecoveryEmail", 0);
-        return "user/forgotPassword";
-    }
-
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
-    public String forgetPasswordPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String email) {
-        try {
-            var account = repo.getLearnerRepository().findByEmail(email).orElseThrow();
-
-            var resetToken = JwtUtil.generateJwt(account.getUsername(), account.getID() + "", CookiesToken.RESET);
-
-            var cookie = new Cookie(CookiesToken.RESET.toString(), resetToken);
-
-
-            cookie.setMaxAge(60 * 5);
-
-
-            emailService.sendResetPasswordEmail(account.getID(), resetToken);
-
-            response.addCookie(cookie);
-
-            request.getSession().setAttribute("recoveryAccount", account);
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 1);
-        } catch (Exception e) {
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 2);
-        }
-        return "user/forgotPassword";
-    }
-
-    @RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
-
-    public String resetForgotPassword(HttpServletResponse response, HttpServletRequest request, @RequestParam String token) {
-        var resetCookie = CookieServices.searchCookie(request.getCookies(), CookiesToken.RESET);
-        var resetClaim = JwtUtil.parseJwt(token);
-        try {
-            if (resetCookie.hashCode() != resetClaim.hashCode())
-                throw new Exception();
-
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 3);
-
-        } catch (Exception e) {
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 4);
-        }
-
-        return "user/forgotPassword";
-
-    }
-
-    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
-
-    public String resetForgotPasswordPost(HttpServletResponse response, HttpServletRequest request, @RequestParam String password) {
-
-        try {
-            var resetCookie = CookieServices.searchCookie(request.getCookies(), CookiesToken.RESET);
-            var id = Integer.parseInt(resetCookie.get("password").toString());
-            var account = repo.getLearnerRepository().findById(id).orElseThrow();
-
-            account.setPassword(MD5.getMd5(password));
-
-            repo.getLearnerRepository().save(account);
-
-            for (var cookie : request.getCookies()) {
-                if (cookie.getName().equals(CookiesToken.RESET.toString())) {
-                    cookie.setValue(null);
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                    break;
-                }
-            }
-
-            request.getSession().setAttribute("success", "Password reset!");
-            return "redirect:/login";
-        } catch (Exception e) {
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 4);
-        }
-
-        return "user/forgotPassword";
-
-    }
-
-    @RequestMapping(value = "/loginWithGG", method = RequestMethod.GET)
-//    @ResponseBody
-    public String loginWithGG(HttpServletRequest request, HttpServletResponse response, @RequestParam String code) {
-        if (code == null || code.isEmpty()) {
-            request.getSession().setAttribute("error", "Error when login with Google!");
-            return "redirect:/login";
-        } else {
-            try {
-                String accessToken = GoogleUtils.getToken(code);
-                GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-
-                Learner learner = LearnerDAO.getUserByEmail(googlePojo.getEmail());
-
-//                System.out.println(googlePojo);
-                if (learner != null
-                        && CookieServices.loginAccount(response, learner.getUsername(), learner.getPassword(), CookiesToken.LEARNER)) {
-                    request.getSession().setAttribute("success", "Login succeed!");
-                    return "redirect:./";
-                }
-
-                learner = new Learner(googlePojo);
-
-                request.setAttribute("userSignUp", learner);
-
-            } catch (IOException ex) {
-                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-                request.getSession().setAttribute("error", "Error when login with Google!");
-                return "redirect:/login";
-            }
-
-        }
-        return "user/signup";
-    }
-
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String signup(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        Learner learner = (Learner) request.getAttribute("userSignUp");
-        return "user/signup";
-    }
 
     @RequestMapping(value = "/checkUsername", method = RequestMethod.GET)
     @ResponseBody
@@ -194,6 +49,13 @@ public class MainController {
     @ResponseBody
     public String checkEmail(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         String email = request.getParameter("email");
+        var regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        if (!matcher.matches()) {
+            return "exist";
+        }
+
         Learner learner = LearnerDAO.getUserByEmail(email);
         response.setHeader("Access-Control-Allow-Origin", "*");
         if (learner != null) {
@@ -211,35 +73,6 @@ public class MainController {
         CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
         //Register it as custom editor for the Date type
         binder.registerCustomEditor(Date.class, editor);
-    }
-
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signupPost(HttpServletRequest request, @ModelAttribute("user") Learner learner) {
-        if (learner.getCountryID() == 0) {
-            learner.setCountryID(16);
-        }
-        learner.setPassword(MD5.getMd5(learner.getPassword()));
-
-        if (LearnerDAO.getUserByUsername(learner.getUsername()) != null) {
-            request.getSession().setAttribute("error", "User already exist!");
-            return "redirect:./signup";
-        }
-
-        if (LearnerDAO.getUserByEmail(learner.getEmail()) != null) {
-            request.getSession().setAttribute("error", "Email already exist!");
-            return "redirect:./signup";
-        }
-
-        boolean isValidInfo = UserServices.isValidInformation(learner.getFirstName() + " " + learner.getLastName(), "0939006143", learner.getEmail(), learner.getBirthday().toString());
-
-        if (!isValidInfo) {
-            request.getSession().setAttribute("error", "Invalid information!");
-            return "redirect:/";
-        }
-
-        LearnerDAO.insertUser(learner);
-        request.getSession().setAttribute("success", "Signup successful!");
-        return "redirect:/login";
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
@@ -266,7 +99,7 @@ public class MainController {
     @RequestMapping(value = "/updateInstructor", method = RequestMethod.POST)
     public String updateInstructor(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int instructorID, @ModelAttribute("user") Learner learner) {
 
-        Instructor instructor1 = repo.getInstructorRepository().findById(instructorID).get();
+        Instructor instructor1 = repository.getInstructorRepository().findById(instructorID).get();
 
         if (instructor1 == null) {
             request.getSession().setAttribute("error", "User not exist!");
@@ -278,65 +111,9 @@ public class MainController {
         instructor1.setCountryID(learner.getCountryID());
         instructor1.setEmail(learner.getEmail());
 
-        repo.getInstructorRepository().save(instructor1);
+        repository.getInstructorRepository().save(instructor1);
         request.getSession().setAttribute("success", "Update user success!");
         return "redirect:/profile/instructor/" + instructor1.getUsername();
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String username, @RequestParam String password, @RequestParam String account_type) {
-
-        CookiesToken token_type = null;
-
-        String hashed_password = MD5.getMd5(password);
-
-        String login_password = "";
-        String login_username = "";
-
-        try {
-            switch (account_type) {
-                case "admin" -> {
-                    var admin = repo.getAdminRepository().findByUsername(username).orElseThrow();
-                    login_password = admin.getPassword();
-                    login_username = admin.getUsername();
-                    token_type = CookiesToken.ADMIN;
-                }
-                case "learner" -> {
-                    var learner = repo.getLearnerRepository().findByUsername(username).orElseThrow();
-                    login_password = learner.getPassword();
-                    login_username = learner.getUsername();
-                    token_type = CookiesToken.LEARNER;
-
-                }
-                case "instructor" -> {
-                    var instructor = repo.getInstructorRepository().findByUsername(username).orElseThrow();
-                    login_password = instructor.getPassword();
-                    login_username = instructor.getUsername();
-                    token_type = CookiesToken.INSTRUCTOR;
-
-                }
-                case "organization" -> {
-                    var organization = repo.getOrganizationRepository().findByUsername(username).orElseThrow();
-                    login_password = organization.getPassword();
-                    login_username = organization.getUsername();
-                    token_type = CookiesToken.ORGANIZATION;
-
-                }
-            }
-        } catch (Exception e) {
-            request.getSession().setAttribute("error", "Account does not exist");
-            return "redirect:/login";
-        }
-
-        if (!login_password.equals(hashed_password)) {
-            request.getSession().setAttribute("error", "Wrong password");
-            return "redirect:/login";
-        }
-
-        CookieServices.loginAccount(response, login_username, login_password, token_type);
-        request.getSession().setAttribute("success", "Login succeed!");
-
-        return "redirect:/";
     }
 
 

@@ -18,13 +18,13 @@
 <%
     Learner learnerHeader = null;
     Instructor instructorHeader = null;
-    int numberOfOrderHeader = 0;
+    int numberOfCartItems = 0;
     if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
         learnerHeader = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
-        numberOfOrderHeader = CourseDAO.countCartProduct(learnerHeader.getID());
+        numberOfCartItems = CourseDAO.countCartProduct(learnerHeader.getID());
     } else if (CookieServices.checkInstructorLoggedIn(request.getCookies())) {
         instructorHeader = InstructorDAO.getInstructorByUsername(CookieServices.getUserNameOfInstructor(request.getCookies()));
-        numberOfOrderHeader = 0;
+        numberOfCartItems = 0;
     }
 %>
 <div id="header">
@@ -48,7 +48,7 @@
         <%if (learnerHeader != null) {%>
         <a href="/cart" class="cart">
             <i class="fa-solid fa-cart-shopping"></i>
-            <div class="quantity"><%=numberOfOrderHeader%>
+            <div class="quantity"><%=numberOfCartItems%>
             </div>
         </a>
         <a onclick="toggle_notification()" class="notification">

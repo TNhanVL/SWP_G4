@@ -1,12 +1,10 @@
 package com.swp_project_g4.RestController;
 
-import com.swp_project_g4.Model.Lesson;
 import com.swp_project_g4.Model.Question;
-import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Repository.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +13,12 @@ import java.util.Map;
 @RequestMapping("api/question")
 public class QuestionRestController {
     @Autowired
-    private Repo repo;
+    private Repository repository;
 
     @PostMapping("/getByQuestionID")
     public Question getByQuestionID(@RequestBody Map<String, Integer> data) {
         try {
-            return repo.getQuestionRepository().findById(data.get("questionID")).get();
+            return repository.getQuestionRepository().findById(data.get("questionID")).get();
         } catch (Exception e) {
 
         }
@@ -30,7 +28,7 @@ public class QuestionRestController {
     @PostMapping("/getByLessonID")
     public List<Question> getByLessonID(@RequestBody Map<String, Integer> data) {
         try {
-            return repo.getQuestionRepository().findByLessonID(data.get("lessonID"));
+            return repository.getQuestionRepository().findByLessonID(data.get("lessonID"));
         } catch (Exception e) {
 
         }
@@ -40,11 +38,11 @@ public class QuestionRestController {
     @PostMapping("/create")
     public Question create(@RequestBody Map<String, Integer> data) {
         try {
-            int questionSize = repo.getLessonRepository().findById(data.get("lessonID")).get().getQuestions().size();
+            int questionSize = repository.getLessonRepository().findById(data.get("lessonID")).get().getQuestions().size();
             Question question = new Question();
             question.setLessonID(data.get("lessonID"));
             question.setIndex(questionSize + 1);
-            question = repo.getQuestionRepository().save(question);
+            question = repository.getQuestionRepository().save(question);
             return question;
         } catch (Exception e) {
 
@@ -55,7 +53,7 @@ public class QuestionRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            repo.getQuestionRepository().deleteById(data.get("questionID"));
+            repository.getQuestionRepository().deleteById(data.get("questionID"));
             return true;
         } catch (Exception e) {
 
@@ -66,12 +64,12 @@ public class QuestionRestController {
     @PostMapping("/update")
     public Question update(@RequestBody Question ques) {
         try {
-            Question question = repo.getQuestionRepository().findById(ques.getID()).get();
+            Question question = repository.getQuestionRepository().findById(ques.getID()).get();
             question.setContent(ques.getContent());
             question.setIndex(ques.getIndex());
             question.setType(ques.getType());
             question.setPoint(ques.getPoint());
-            question = repo.getQuestionRepository().save(question);
+            question = repository.getQuestionRepository().save(question);
             return question;
         } catch (Exception e) {
 
@@ -87,9 +85,9 @@ public class QuestionRestController {
             for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);
-                var question = repo.getQuestionRepository().findById(id).get();
+                var question = repository.getQuestionRepository().findById(id).get();
                 question.setIndex(index);
-                repo.getQuestionRepository().save(question);
+                repository.getQuestionRepository().save(question);
             }
             return true;
         } catch (Exception e) {
