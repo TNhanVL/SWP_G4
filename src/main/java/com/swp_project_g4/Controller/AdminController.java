@@ -199,7 +199,7 @@ public class AdminController {
             var user = repository.getInstructorRepository().findById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
-            var instructed_course = repository.getInstructRepository().findAllByInstructorID(user_id).orElseThrow();
+            var instructed_course = repository.getInstructRepository().findAllByInstructorID(user_id);
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : instructed_course) {
