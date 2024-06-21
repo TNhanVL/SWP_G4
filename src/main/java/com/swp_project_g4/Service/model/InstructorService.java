@@ -13,6 +13,11 @@ public class InstructorService {
     @Autowired
     private Repository repository;
 
+    public Optional<Instructor> getById(int Id) {
+        var instructor = repository.getInstructorRepository().findById(Id);
+        return instructor;
+    }
+
     public Optional<Instructor> getByUsername(String username) {
         var instructor = repository.getInstructorRepository().findByUsername(username);
         return instructor;

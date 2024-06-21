@@ -3,10 +3,12 @@ package com.swp_project_g4.RestController;
 import com.swp_project_g4.Model.Chapter;
 import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.model.ChapterService;
+import com.swp_project_g4.Service.model.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +19,7 @@ public class ChapterRestController {
     @Autowired
     private Repository repository;
     @Autowired
-    private ChapterService chapterService;
+    private CourseService courseService;
 
     @PostMapping("/getByChapterID")
     public Chapter getByChapterID(@RequestBody Map<String, Integer> data) {
@@ -59,7 +61,7 @@ public class ChapterRestController {
         try {
             var chapter = repository.getChapterRepository().findById(data.get("chapterID")).get();
             repository.getChapterRepository().deleteById(chapter.getID());
-            chapterService.reIndexAllChapterByCourseID(chapter.getCourseID());
+            courseService.reIndexAllChapterByCourseID(chapter.getCourseID());
             return true;
         } catch (Exception e) {
 
