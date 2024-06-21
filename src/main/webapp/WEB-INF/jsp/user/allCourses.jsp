@@ -45,7 +45,7 @@
                         <ul class="courseList">
                             <!-- course -->
                             <%
-                                ArrayList<Course> courses = CourseDAO.getAllCourses();
+                                ArrayList<Course> courses = (ArrayList<Course>) request.getAttribute("courses");
                                 for (Course course : courses) {
                             %>
                             <li class="listItem">

@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/course")
 public class CourseController {
@@ -77,7 +80,9 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public String allCourses(HttpServletRequest request, HttpServletResponse response) {
+    public String allCourses(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+        List<Course> courses = repository.getCourseRepository().findAll();
+        model.addAttribute("courses", courses);
         return "user/allCourses";
     }
 
