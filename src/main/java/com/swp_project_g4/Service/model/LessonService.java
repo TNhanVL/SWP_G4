@@ -8,11 +8,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LessonService {
     @Autowired
     private LessonRepository lessonRepository;
+
+    public Optional<Lesson> getById(int lessonId) {
+        return lessonRepository.findById(lessonId);
+    }
 
     public Lesson save(Lesson lesson) {
         return lessonRepository.save(lesson);
