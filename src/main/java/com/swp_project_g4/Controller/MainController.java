@@ -123,12 +123,6 @@ public class MainController {
 
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String signup(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        Learner learner = (Learner) request.getAttribute("userSignUp");
-        return "user/signup";
-    }
-
     @RequestMapping(value = "/checkUsername", method = RequestMethod.GET)
     @ResponseBody
     public String checkUsername(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
@@ -163,35 +157,6 @@ public class MainController {
         CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
         //Register it as custom editor for the Date type
         binder.registerCustomEditor(Date.class, editor);
-    }
-
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signupPost(HttpServletRequest request, @ModelAttribute("user") Learner learner) {
-        if (learner.getCountryID() == 0) {
-            learner.setCountryID(16);
-        }
-        learner.setPassword(MD5.getMd5(learner.getPassword()));
-
-        if (LearnerDAO.getUserByUsername(learner.getUsername()) != null) {
-            request.getSession().setAttribute("error", "User already exist!");
-            return "redirect:./signup";
-        }
-
-        if (LearnerDAO.getUserByEmail(learner.getEmail()) != null) {
-            request.getSession().setAttribute("error", "Email already exist!");
-            return "redirect:./signup";
-        }
-
-        boolean isValidInfo = UserServices.isValidInformation(learner.getFirstName() + " " + learner.getLastName(), "0939006143", learner.getEmail(), learner.getBirthday().toString());
-
-        if (!isValidInfo) {
-            request.getSession().setAttribute("error", "Invalid information!");
-            return "redirect:/";
-        }
-
-        LearnerDAO.insertUser(learner);
-        request.getSession().setAttribute("success", "Signup successful!");
-        return "redirect:/login";
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)

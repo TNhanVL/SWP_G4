@@ -19,4 +19,8 @@ public class LearnerService {
         return learner;
     }
 
+    public Optional<Learner> getByEmail(String email) {
+        var learner = repository.getLearnerRepository().findByEmail(email);
+        return learner;
+    }
 }
