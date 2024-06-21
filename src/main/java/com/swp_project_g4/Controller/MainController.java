@@ -1,7 +1,6 @@
 package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.LearnerDAO;
-import com.swp_project_g4.Model.GooglePojo;
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repository;
@@ -17,11 +16,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @Service
@@ -32,96 +30,6 @@ public class MainController {
     private Repository repository;
     @Autowired
     private EmailService emailService;
-
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    @ResponseBody
-    public String getAll() {
-        var a = repository.getCountryRepository().findAll();
-        System.out.println(a);
-        return "ok";
-    }
-
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
-    public String forgetPasswordGet(HttpServletRequest request) {
-        request.getSession().setAttribute("sentPasswordRecoveryEmail", 0);
-        return "user/forgotPassword";
-    }
-
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
-    public String forgetPasswordPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String email) {
-        try {
-            var account = repository.getLearnerRepository().findByEmail(email).orElseThrow();
-
-            var resetToken = JwtUtil.generateJwt(account.getUsername(), account.getID() + "", CookiesToken.RESET);
-
-            var cookie = new Cookie(CookiesToken.RESET.toString(), resetToken);
-
-
-            cookie.setMaxAge(60 * 5);
-
-
-            emailService.sendResetPasswordEmail(account.getID(), resetToken);
-
-            response.addCookie(cookie);
-
-            request.getSession().setAttribute("recoveryAccount", account);
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 1);
-        } catch (Exception e) {
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 2);
-        }
-        return "user/forgotPassword";
-    }
-
-    @RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
-
-    public String resetForgotPassword(HttpServletResponse response, HttpServletRequest request, @RequestParam String token) {
-        var resetCookie = CookieServices.searchCookie(request.getCookies(), CookiesToken.RESET);
-        var resetClaim = JwtUtil.parseJwt(token);
-        try {
-            if (resetCookie.hashCode() != resetClaim.hashCode())
-                throw new Exception();
-
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 3);
-
-        } catch (Exception e) {
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 4);
-        }
-
-        return "user/forgotPassword";
-
-    }
-
-    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
-
-    public String resetForgotPasswordPost(HttpServletResponse response, HttpServletRequest request, @RequestParam String password) {
-
-        try {
-            var resetCookie = CookieServices.searchCookie(request.getCookies(), CookiesToken.RESET);
-            var id = Integer.parseInt(resetCookie.get("password").toString());
-            var account = repository.getLearnerRepository().findById(id).orElseThrow();
-
-            account.setPassword(MD5.getMd5(password));
-
-            repository.getLearnerRepository().save(account);
-
-            for (var cookie : request.getCookies()) {
-                if (cookie.getName().equals(CookiesToken.RESET.toString())) {
-                    cookie.setValue(null);
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                    break;
-                }
-            }
-
-            request.getSession().setAttribute("success", "Password reset!");
-            return "redirect:/login";
-        } catch (Exception e) {
-            request.getSession().setAttribute("sentPasswordRecoveryEmail", 4);
-        }
-
-        return "user/forgotPassword";
-
-    }
 
     @RequestMapping(value = "/checkUsername", method = RequestMethod.GET)
     @ResponseBody
@@ -140,6 +48,13 @@ public class MainController {
     @ResponseBody
     public String checkEmail(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         String email = request.getParameter("email");
+        var regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        if (!matcher.matches()) {
+            return "exist";
+        }
+
         Learner learner = LearnerDAO.getUserByEmail(email);
         response.setHeader("Access-Control-Allow-Origin", "*");
         if (learner != null) {
