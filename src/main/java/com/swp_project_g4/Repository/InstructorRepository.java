@@ -14,7 +14,7 @@ public interface InstructorRepository extends JpaRepository<Instructor, Integer>
 
     Optional<Instructor> findByUsername(String username);
 
-    Optional<List<Instructor>> findByOrganizationID(int organizationID);
+    List<Instructor> findAllByOrganizationID(int organizationID);
 
 
     Optional<Instructor> findByUsernameAndPassword(String username, String password);

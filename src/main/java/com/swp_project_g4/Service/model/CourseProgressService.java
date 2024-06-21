@@ -16,12 +16,12 @@ public class CourseProgressService {
     private EmailService emailService;
 
     public List<CourseProgress> getByLearnerID(int learnerId) {
-        var courseProgress = courseProgressRepository.findByLearnerID(learnerId);
+        var courseProgress = courseProgressRepository.findAllByLearnerID(learnerId);
         return courseProgress;
     }
 
     public List<CourseProgress> getByLearnerIDAndCompleted(int learnerId, boolean completed) {
-        var courseProgress = courseProgressRepository.findByLearnerIDAndCompleted(learnerId, completed);
+        var courseProgress = courseProgressRepository.findAllByLearnerIDAndCompleted(learnerId, completed);
         return courseProgress;
     }
 

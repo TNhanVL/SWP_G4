@@ -20,7 +20,7 @@ public class ScheduledTasks {
 
     @Scheduled(fixedRate = 5000)
     public void endQuizSchedule() {
-        var notEndQuizs = repository.getQuizResultRepository().findByFinished(false);
+        var notEndQuizs = repository.getQuizResultRepository().findAllByFinished(false);
         for (var quizResult : notEndQuizs) {
             if (quizResult.getEndAt().before(new Date())) {
                 quizService.endAQuiz(quizResult);
@@ -30,7 +30,7 @@ public class ScheduledTasks {
 
     @Scheduled(fixedRate = 5000)
     public void actionAfterCompletedCourseSchedule() {
-        var notActionCourseProgresses = repository.getCourseProgressRepository().findByActionAfterCompletedAndCompleted(false, true);
+        var notActionCourseProgresses = repository.getCourseProgressRepository().findAllByActionAfterCompletedAndCompleted(false, true);
         for (var courseProgress : notActionCourseProgresses) {
             courseProgressService.doActionAfterCompleted(courseProgress);
         }

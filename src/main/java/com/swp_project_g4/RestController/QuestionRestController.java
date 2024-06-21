@@ -28,7 +28,7 @@ public class QuestionRestController {
     @PostMapping("/getByLessonID")
     public List<Question> getByLessonID(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getQuestionRepository().findByLessonID(data.get("lessonID"));
+            return repository.getQuestionRepository().findAllByLessonID(data.get("lessonID"));
         } catch (Exception e) {
 
         }

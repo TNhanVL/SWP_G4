@@ -28,7 +28,7 @@ public class AnswerRestController {
     @PostMapping("/getByQuestionID")
     public List<Answer> getByQuestionID(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getAnswerRepository().findByQuestionID(data.get("questionID"));
+            return repository.getAnswerRepository().findAllByQuestionID(data.get("questionID"));
         } catch (Exception e) {
 
         }

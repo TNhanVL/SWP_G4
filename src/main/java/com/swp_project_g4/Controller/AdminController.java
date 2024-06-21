@@ -64,7 +64,7 @@ public class AdminController {
         try {
             var user_id = Integer.parseInt(id);
             var user = repository.getLearnerRepository().findById(user_id).orElseThrow();
-            var course_progress = repository.getCourseProgressRepository().findByLearnerID(user_id);
+            var course_progress = repository.getCourseProgressRepository().findAllByLearnerID(user_id);
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
             request.getSession().setAttribute("courseProgress", course_progress);
@@ -151,9 +151,9 @@ public class AdminController {
             var organization = repository.getOrganizationRepository().findById(organization_id).orElseThrow();
             request.getSession().setAttribute("currentOrg", organization);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
-            var courseList = repository.getCourseRepository().findByOrganizationID(organization_id).orElseThrow();
+            var courseList = repository.getCourseRepository().findAllByOrganizationID(organization_id);
             request.getSession().setAttribute("courseList", courseList);
-            request.getSession().setAttribute("instructorsList", repository.getInstructorRepository().findByOrganizationID(organization_id).orElseThrow());
+            request.getSession().setAttribute("instructorsList", repository.getInstructorRepository().findAllByOrganizationID(organization_id));
 
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Failed to load organization");
@@ -199,7 +199,7 @@ public class AdminController {
             var user = repository.getInstructorRepository().findById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
-            var instructed_course = repository.getInstructRepository().findByInstructorID(user_id).orElseThrow();
+            var instructed_course = repository.getInstructRepository().findAllByInstructorID(user_id).orElseThrow();
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : instructed_course) {

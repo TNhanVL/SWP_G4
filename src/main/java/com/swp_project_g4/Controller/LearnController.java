@@ -164,7 +164,7 @@ public class LearnController {
 
         //if lesson type == 2 (quiz)
         if (lesson.getType() == 2) {
-            var quizResults = repository.getQuizResultRepository().findByLessonIDAndLessonProgressID(lesson.getID(), lessonProgress.getID());
+            var quizResults = repository.getQuizResultRepository().findAllByLessonIDAndLessonProgressID(lesson.getID(), lessonProgress.getID());
             if (!quizResults.isEmpty()) {
                 model.addAttribute("quizResult", quizResults.get(quizResults.size() - 1));
             }
