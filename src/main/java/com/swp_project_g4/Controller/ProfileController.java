@@ -2,11 +2,15 @@ package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Learner;
+import com.swp_project_g4.Repository.CourseProgressRepository;
 import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.CookiesToken;
+import com.swp_project_g4.Service.model.CourseProgressService;
 import com.swp_project_g4.Service.model.CourseService;
 import com.swp_project_g4.Service.MD5;
+import com.swp_project_g4.Service.model.InstructorService;
+import com.swp_project_g4.Service.model.LearnerService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +30,13 @@ import java.util.Date;
 @RequestMapping("/profile")
 public class ProfileController {
     @Autowired
-    private Repository repository;
-    @Autowired
     private CourseService courseService;
+    @Autowired
+    private LearnerService learnerService;
+    @Autowired
+    private InstructorService instructorService;
+    @Autowired
+    private CourseProgressService courseProgressService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String selfProfile(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
@@ -37,7 +45,8 @@ public class ProfileController {
             return "redirect:/";
         }
 
-        Learner learner = repository.getLearnerRepository().findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+        Learner learner = learnerService.getByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+//        Learner learner = learnerService.getByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
         return "redirect:/profile/" + learner.getUsername();
     }
 
@@ -46,7 +55,8 @@ public class ProfileController {
         var usernameInCookie = CookieServices.getUserNameOfLearner(request.getCookies());
         boolean guest = true;
 
-        var learnerOptional = repository.getLearnerRepository().findByUsername(username);
+        
+        var learnerOptional = learnerService.getByUsername(username);
         if (!learnerOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this username!");
             return "redirect:/";
@@ -59,7 +69,7 @@ public class ProfileController {
         }
 
         //get purchased courses
-        var courseProgresses = repository.getCourseProgressRepository().findByLearnerID(learner.getID());
+        var courseProgresses = courseProgressService.getByLearnerID(learner.getID());
         var purchasedCourses = new ArrayList<Course>();
         for (var courseProgress : courseProgresses) {
             purchasedCourses.add(courseProgress.getCourse());
@@ -83,7 +93,7 @@ public class ProfileController {
         model.addAttribute("learner", learner);
         model.addAttribute("totalLearningTime", totalLearningTime);
         model.addAttribute("numberOfPurchasedCourses", purchasedCourses.size());
-        model.addAttribute("numberOfCompletedCourse", repository.getCourseProgressRepository().findByLearnerIDAndCompleted(learner.getID(), true).size());
+        model.addAttribute("numberOfCompletedCourse", courseProgressService.getByLearnerIDAndCompleted(learner.getID(), true).size());
         model.addAttribute("firstYearOfLearning", firstYearOfLearning + 1900);
         model.addAttribute("courseProgresses", courseProgresses);
         model.addAttribute("purchasedCourses", purchasedCourses);
@@ -95,7 +105,7 @@ public class ProfileController {
         var usernameInCookie = CookieServices.getUserNameOfInstructor(request.getCookies());
         boolean guest = true;
 
-        var instructorOptional = repository.getInstructorRepository().findByUsername(username);
+        var instructorOptional = instructorService.getByUsername(username);
         if (!instructorOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this username!");
             return "redirect:/";
@@ -129,24 +139,5 @@ public class ProfileController {
         model.addAttribute("purchasedCourses", purchasedCourses);
         model.addAttribute("createdCourses", createdCourses);
         return "user/profile/profile";
-    }
-
-    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-
-    public void changePassword(HttpServletResponse response, HttpServletRequest request, @RequestParam String password, @RequestParam String oldPassword, @RequestParam String username) {
-        try {
-            var user = repository.getLearnerRepository().findByUsernameAndPassword(username, MD5.getMd5(oldPassword)).orElseThrow();
-
-            CookieServices.logout(request, response, CookiesToken.LEARNER.toString());
-
-            user.setPassword(MD5.getMd5(password));
-            repository.getLearnerRepository().save(user);
-
-            request.getSession().setAttribute("success", "Your password has been changed, please login again");
-//            return "redirect:/";
-        } catch (Exception e) {
-            request.getSession().setAttribute("error", "Your password cannot be change in the moment");
-        }
-//        return "redirect:/profile/" + username;
     }
 }

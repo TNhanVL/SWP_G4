@@ -111,4 +111,23 @@ public class PasswordController {
         return "user/forgotPassword";
 
     }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+
+    public void changePassword(HttpServletResponse response, HttpServletRequest request, @RequestParam String password, @RequestParam String oldPassword, @RequestParam String username) {
+        try {
+            var user = learnerService.getByUsernameAndPassword(username, MD5.getMd5(oldPassword)).orElseThrow();
+
+            CookieServices.logout(request, response, CookiesToken.LEARNER.toString());
+
+            user.setPassword(MD5.getMd5(password));
+            learnerService.save(user);
+
+            request.getSession().setAttribute("success", "Your password has been changed, please login again");
+//            return "redirect:/";
+        } catch (Exception e) {
+            request.getSession().setAttribute("error", "Your password cannot be change in the moment");
+        }
+//        return "redirect:/profile/" + username;
+    }
 }

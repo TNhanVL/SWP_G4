@@ -30,6 +30,11 @@ public class LearnerService {
         return learner;
     }
 
+    public Optional<Learner> getByUsernameAndPassword(String username, String password) {
+        var learner = learnerRepository.findByUsernameAndPassword(username, password);
+        return learner;
+    }
+
     public Learner save(Learner learner) {
         return learnerRepository.save(learner);
     }

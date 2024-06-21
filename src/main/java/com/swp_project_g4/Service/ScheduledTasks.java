@@ -32,7 +32,7 @@ public class ScheduledTasks {
     public void actionAfterCompletedCourseSchedule() {
         var notActionCourseProgresses = repository.getCourseProgressRepository().findByActionAfterCompletedAndCompleted(false, true);
         for (var courseProgress : notActionCourseProgresses) {
-            courseProgressService.afterCompleted(courseProgress);
+            courseProgressService.doActionAfterCompleted(courseProgress);
         }
     }
 }
