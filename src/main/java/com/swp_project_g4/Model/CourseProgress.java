@@ -22,8 +22,8 @@ public class CourseProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int learnerID;
-    private int courseID;
+    private int learnerId;
+    private int courseId;
     private boolean enrolled = false;
     private int progressPercent;
     private boolean completed = false;
@@ -33,21 +33,21 @@ public class CourseProgress {
     private boolean rated = false;
     private int rate;
 
-    public CourseProgress(int learnerID, int courseID) {
-        this.learnerID = learnerID;
-        this.courseID = courseID;
+    public CourseProgress(int learnerId, int courseId) {
+        this.learnerId = learnerId;
+        this.courseId = courseId;
         this.startAt = new Date();
     }
 
     @ManyToOne
-    @JoinColumn(name = "learnerID", insertable = false, updatable = false)
+    @JoinColumn(name = "learnerId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Learner learner;
 
     @ManyToOne
-    @JoinColumn(name = "courseID", insertable = false, updatable = false)
+    @JoinColumn(name = "courseId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

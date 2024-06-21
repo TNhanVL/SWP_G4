@@ -96,15 +96,15 @@ public class QuizResultDAO extends DBConnection {
         return point;
     }
 
-    public static QuizResult getLastQuizResult(int userID, int lessonId) {
+    public static QuizResult getLastQuizResult(int userId, int lessonId) {
         QuizResult quizResult = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select top 1 * from quiz_result where learnerID = ? and lessonId = ? order by startAt desc");
-            statement.setInt(1, userID);
+            statement = conn.prepareStatement("select top 1 * from quiz_result where learnerId = ? and lessonId = ? order by startAt desc");
+            statement.setInt(1, userId);
             statement.setInt(2, lessonId);
             ResultSet resultSet = statement.executeQuery();
 

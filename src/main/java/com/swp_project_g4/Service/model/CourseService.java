@@ -33,8 +33,8 @@ public class CourseService {
         return courses;
     }
 
-    public List<Course> getAllCreatedCourses(int instructorID) {
-        var instructor = instructorService.getById(instructorID).get();
+    public List<Course> getAllCreatedCourses(int instructorId) {
+        var instructor = instructorService.getById(instructorId).get();
         var instructs = instructor.getInstructs();
         var courses = new ArrayList<Course>();
         for (var instruct : instructs) {
@@ -43,8 +43,8 @@ public class CourseService {
         return courses;
     }
 
-    public List<Instructor> getAllInstructors(int courseID) {
-        var instructs = courseRepository.findById(courseID).get().getInstructs();
+    public List<Instructor> getAllInstructors(int courseId) {
+        var instructs = courseRepository.findById(courseId).get().getInstructs();
         var instructors = new ArrayList<Instructor>();
         for (var instruct : instructs) {
             instructors.add(instruct.getInstructor());
@@ -69,9 +69,9 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public boolean reIndexAllChapterByCourseID(int courseID) {
+    public boolean reIndexAllChapterByCourseId(int courseId) {
         try {
-            var chapters = chapterService.getByCourseId(courseID);
+            var chapters = chapterService.getByCourseId(courseId);
             chapters.sort(Comparator.comparingInt(Chapter::getIndex));
             int tmp = 0;
             for (var chapter : chapters) {

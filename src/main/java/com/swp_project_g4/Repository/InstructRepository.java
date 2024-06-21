@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface InstructRepository extends JpaRepository<Instruct, Integer> {
 
-    List<Instruct> findAllByInstructorID(Integer instructorID);
+    List<Instruct> findAllByInstructorId(Integer instructorId);
 }

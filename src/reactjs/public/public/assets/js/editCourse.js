@@ -176,13 +176,13 @@ function showCreateBox() {
 /////////////////////////////////////////////////////////////////////////////////
 
 //get MOOC ID
-var ChapterID = document.querySelectorAll(".accordion-item")[0].
+var ChapterId = document.querySelectorAll(".accordion-item")[0].
     getElementsByTagName("button")[0].innerText.slice("-1")
 
 // console.log(document.querySelectorAll(".accordion-item")[0])
 
-var ChapterIDArray = document.querySelectorAll(".accordion-item")
-ChapterIDArray.forEach(element => {
+var ChapterIdArray = document.querySelectorAll(".accordion-item")
+ChapterIdArray.forEach(element => {
     element.addEventListener("click", function (event) {
         event.stopPropagation();
     })
@@ -199,12 +199,12 @@ btnArr.forEach(element => {
 
 
 function showEditChapterByID(element) {
-    var chapterID = element.querySelector(".accordion-header button").innerText.split("#")[1]
-    console.log("Chapter: " + chapterID)
+    var chapterId = element.querySelector(".accordion-header button").innerText.split("#")[1]
+    console.log("Chapter: " + chapterId)
     var currentWork = document.querySelector("#editChapter")
     currentWork.style.display = "block"
-    currentWork.querySelector("form #ChapterID").value = chapterID;
-    console.log("Value: " + currentWork.querySelector("form #ChapterID").value)
+    currentWork.querySelector("form #ChapterId").value = chapterId;
+    console.log("Value: " + currentWork.querySelector("form #ChapterId").value)
 
     document.querySelector("#addChapter").style.display = "none"
     document.querySelector("#editLesson").style.display = "none"
@@ -241,7 +241,7 @@ function showAddLessonArea() {
 
 
 var Chapter = {
-    courseID: 1,
+    courseId: 1,
     index: 1,
     title: "Example title",
     description: "Example des",
@@ -263,7 +263,7 @@ var Chapter = {
                 ],
                 answer: [
                     {
-                        questionID: 1,
+                        questionId: 1,
                         content: "",
                         status: "true"
                     }

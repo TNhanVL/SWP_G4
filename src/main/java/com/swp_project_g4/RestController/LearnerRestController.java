@@ -50,7 +50,7 @@ public class LearnerRestController {
         List<Notification> returnList = null;
         try {
             var id = Integer.parseInt(id_string);
-            returnList = repository.getNotificationRepository().findAllByLearnerID(id);
+            returnList = repository.getNotificationRepository().findAllByLearnerId(id);
         } catch (Exception e) {
             System.err.println(e);
         }

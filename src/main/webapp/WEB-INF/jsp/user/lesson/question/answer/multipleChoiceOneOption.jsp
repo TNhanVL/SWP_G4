@@ -13,7 +13,7 @@
 <p><b>Choose 1 answer:</b></p>
 <%
 //    Question question = null;
-    ArrayList<Answer> answers = AnswerDAO.getAnswersByQuestionID(question.getID());
+    ArrayList<Answer> answers = AnswerDAO.getAnswersByQuestionId(question.getID());
     if (!quizResult.isFinished()) {
         Collections.shuffle(answers);
     }

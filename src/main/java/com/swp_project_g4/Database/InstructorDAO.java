@@ -20,26 +20,26 @@ import java.util.logging.Logger;
  */
 public class InstructorDAO extends DBConnection {
 
-    public static Instructor getInstructor(int instructorID) {
+    public static Instructor getInstructor(int instructorId) {
         Instructor instructor = null;
         try {
             //connect to database
             connect();
-            statement = conn.prepareStatement("select * from instructor where instructorID = ?");
-            statement.setInt(1, instructorID);
+            statement = conn.prepareStatement("select * from instructor where instructorId = ?");
+            statement.setInt(1, instructorId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 instructor = new Instructor(
-                        resultSet.getInt("instructorID"),
-                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("instructorId"),
+                        resultSet.getInt("organizationId"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
-                        resultSet.getInt("countryID"),
+                        resultSet.getInt("countryId"),
                         resultSet.getInt("status")
                 );
             }
@@ -62,15 +62,15 @@ public class InstructorDAO extends DBConnection {
 
             if (resultSet.next()) {
                 instructor = new Instructor(
-                        resultSet.getInt("instructorID"),
-                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("instructorId"),
+                        resultSet.getInt("organizationId"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
-                        resultSet.getInt("countryID"),
+                        resultSet.getInt("countryId"),
                         resultSet.getInt("status")
                 );
             }
@@ -90,15 +90,15 @@ public class InstructorDAO extends DBConnection {
 
             while (resultSet.next()) {
                 Instructor instructor = new Instructor(
-                        resultSet.getInt("instructorID"),
-                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("instructorId"),
+                        resultSet.getInt("organizationId"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
-                        resultSet.getInt("countryID"),
+                        resultSet.getInt("countryId"),
                         resultSet.getInt("status")
                 );
             }

@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface ChapterRepository extends JpaRepository<Chapter, Integer> {
-    List<Chapter> findAllByCourseID(int courseId);
+    List<Chapter> findAllByCourseId(int courseId);
 }

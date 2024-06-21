@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class MomoPay {
 
-    public static String getPayLink(HttpServletRequest request, RequestType requestType, int userID, String[] courseIDs, long amount) {
+    public static String getPayLink(HttpServletRequest request, RequestType requestType, int userId, String[] courseIds, long amount) {
         String payLink = null;
 
         LogUtils.init();
@@ -31,19 +31,19 @@ public class MomoPay {
 
         //description pay
         String orderInfo = "Pay With MoMo";
-        if (courseIDs != null) {
-            if (courseIDs.length == 1) {
+        if (courseIds != null) {
+            if (courseIds.length == 1) {
                 orderInfo = "Pay 1 course";
             } else {
-                orderInfo = "Pay " + courseIDs.length + " courses";
+                orderInfo = "Pay " + courseIds.length + " courses";
             }
         }
 
         //link after pay success
-        String returnURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/checkOut/finishedPayment?userID=" + userID;
-        if (courseIDs != null) {
-            for (String courseID : courseIDs) {
-                returnURL += "&course=" + courseID;
+        String returnURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/checkOut/finishedPayment?userId=" + userId;
+        if (courseIds != null) {
+            for (String courseId : courseIds) {
+                returnURL += "&course=" + courseId;
             }
         }
         String notifyURL = "https://google.com.vn";

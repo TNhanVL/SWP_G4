@@ -27,7 +27,7 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int chapterID;
+    private int chapterId;
     private String name = "";
     private String description;
     private int percentToPassed = 80;
@@ -38,9 +38,9 @@ public class Lesson {
     private int index;
     private int time;
 
-    public Lesson(int ID, int chapterID, String name, String description, int percentToPassed, boolean mustBeCompleted, String content, int type, int index, int time) {
+    public Lesson(int ID, int chapterId, String name, String description, int percentToPassed, boolean mustBeCompleted, String content, int type, int index, int time) {
         this.ID = ID;
-        this.chapterID = chapterID;
+        this.chapterId = chapterId;
         this.name = name;
         this.description = description;
         this.percentToPassed = percentToPassed;
@@ -52,7 +52,7 @@ public class Lesson {
     }
 
     @ManyToOne
-    @JoinColumn(name = "chapterID", insertable = false, updatable = false)
+    @JoinColumn(name = "chapterId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

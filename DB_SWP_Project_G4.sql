@@ -18,7 +18,7 @@ GO
 
 CREATE TABLE [admin]
 (
-    adminID    INT IDENTITY (1,1) PRIMARY KEY,
+    adminId    INT IDENTITY (1,1) PRIMARY KEY,
     username   VARCHAR(50) NOT NULL,
     [password] VARCHAR(50) NOT NULL
 );
@@ -26,16 +26,16 @@ GO
 
 CREATE TABLE country
 (
-    countryID INT PRIMARY KEY,
+    countryId INT PRIMARY KEY,
     name      NVARCHAR(60) NOT NULL
 );
 GO
 
 CREATE TABLE organization
 (
-    organizationID INT IDENTITY (1,1) PRIMARY KEY,
+    organizationId INT IDENTITY (1,1) PRIMARY KEY,
     -- giá trị bắt đầu là 1, giá trị tăng thêm là 1
-    countryID      INT FOREIGN KEY REFERENCES [country],
+    countryId      INT FOREIGN KEY REFERENCES [country],
     username       VARCHAR(50) NOT NULL,
     [password]     VARCHAR(50) NOT NULL,
     email          VARCHAR(320),
@@ -48,7 +48,7 @@ GO
 
 CREATE TABLE [learner]
 (
-    learnerID      INT IDENTITY (1,1) PRIMARY KEY,
+    learnerId      INT IDENTITY (1,1) PRIMARY KEY,
     picture        TEXT,
     username       VARCHAR(50)   NOT NULL,
     [password]     VARCHAR(50)   NOT NULL,
@@ -57,16 +57,16 @@ CREATE TABLE [learner]
     [firstName]   NVARCHAR(50),
     [lastName]    NVARCHAR(50),
     birthday       DATE,
-    countryID      INT FOREIGN KEY REFERENCES [country],
+    countryId      INT FOREIGN KEY REFERENCES [country],
     [status]       int DEFAULT 0
 );
 GO
 
 CREATE TABLE instructor
 (
-    instructorID   INT IDENTITY (1,1) PRIMARY KEY,
-    organizationID INT         NOT NULL,
-    countryID      INT FOREIGN KEY REFERENCES [country],
+    instructorId   INT IDENTITY (1,1) PRIMARY KEY,
+    organizationId INT         NOT NULL,
+    countryId      INT FOREIGN KEY REFERENCES [country],
     username       VARCHAR(50) NOT NULL,
     [password]     VARCHAR(50) NOT NULL,
     email          VARCHAR(320),
@@ -74,14 +74,14 @@ CREATE TABLE instructor
     [firstName]   NVARCHAR(50),
     [lastName]    NVARCHAR(50),
     [status]       int DEFAULT 0,
-    FOREIGN KEY (organizationID) REFERENCES organization (organizationID)
+    FOREIGN KEY (organizationId) REFERENCES organization (organizationId)
 );
 GO
 
 CREATE TABLE course
 (
-    courseID        INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    organizationID  INT                NOT NULL,
+    courseId        INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    organizationId  INT                NOT NULL,
     name            NVARCHAR(50)       NOT NULL,
     [picture]       TEXT,
     [description]   NVARCHAR(50),
@@ -90,87 +90,87 @@ CREATE TABLE course
     price           NUMERIC(10, 2)     NOT NULL,
     rate            NUMERIC(2, 1),
     numberOfRated INT DEFAULT 0,
-    FOREIGN KEY (organizationID) REFERENCES organization (organizationID)
+    FOREIGN KEY (organizationId) REFERENCES organization (organizationId)
 );
 GO
 
 CREATE TABLE sale
 (
     saleID   INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    courseID INT                NOT NULL,
+    courseId INT                NOT NULL,
     price    NUMERIC(10, 2)     NOT NULL,
     startAt DATETIME,
     endAt   DATETIME,
-    FOREIGN KEY (courseID) REFERENCES course (courseID)
+    FOREIGN KEY (courseId) REFERENCES course (courseId)
 );
 GO
 
 CREATE TABLE [transaction]
 (
-    transactionID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    learnerID     INT                NOT NULL,
-    courseID      INT                NOT NULL,
-    origin_price  NUMERIC(10, 2)     NOT NULL,
+    transactionId INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    learnerId     INT                NOT NULL,
+    courseId      INT                NOT NULL,
+    originPrice  NUMERIC(10, 2)     NOT NULL,
     price         NUMERIC(10, 2)     NOT NULL,
     type          INT DEFAULT 0,
     description   NTEXT,
     status        INT DEFAULT 0,
-    FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
-    FOREIGN KEY (courseID) REFERENCES course (courseID)
+    FOREIGN KEY (learnerId) REFERENCES [learner] (learnerId),
+    FOREIGN KEY (courseId) REFERENCES course (courseId)
 );
 GO
 
 CREATE TABLE instruct
 (
-    instructID   INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    courseID     INT                NOT NULL,
-    instructorID INT                NOT NULL,
-    FOREIGN KEY (instructorID) REFERENCES [instructor] (instructorID),
-    FOREIGN KEY (courseID) REFERENCES course (courseID),
-    UNIQUE (instructorID, courseID)
+    instructId   INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    courseId     INT                NOT NULL,
+    instructorId INT                NOT NULL,
+    FOREIGN KEY (instructorId) REFERENCES [instructor] (instructorId),
+    FOREIGN KEY (courseId) REFERENCES course (courseId),
+    UNIQUE (instructorId, courseId)
 );
 GO
 
 CREATE TABLE review
 (
-    reviewID     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    instructorID INT,
-    courseID     INT,
+    reviewId     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    instructorId INT,
+    courseId     INT,
     reviewed     BIT DEFAULT 0      NOT NULL,
     verified     BIT DEFAULT 0      NOT NULL,
     note         NTEXT,
-    FOREIGN KEY (instructorID) REFERENCES [instructor] (instructorID),
-    FOREIGN KEY (courseID) REFERENCES course (courseID),
-    UNIQUE (instructorID, courseID)
+    FOREIGN KEY (instructorId) REFERENCES [instructor] (instructorId),
+    FOREIGN KEY (courseId) REFERENCES course (courseId),
+    UNIQUE (instructorId, courseId)
 );
 GO
 
 CREATE TABLE cart_product
 (
-    userID   INT NOT NULL,
-    courseID INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES [learner] (learnerID),
-    FOREIGN KEY (courseID) REFERENCES course (courseID),
-    UNIQUE (userID, courseID)
+    userId   INT NOT NULL,
+    courseId INT NOT NULL,
+    FOREIGN KEY (userId) REFERENCES [learner] (learnerId),
+    FOREIGN KEY (courseId) REFERENCES course (courseId),
+    UNIQUE (userId, courseId)
 );
 GO
 
 CREATE TABLE chapter
 (
-    chapterID     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    courseID      INT,
+    chapterId     INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    courseId      INT,
     [index]       INT                NOT NULL,
     name          NVARCHAR(50),
     [description] NVARCHAR(50),
     totalTime    INT DEFAULT 0      NOT NULL,
-    FOREIGN KEY (courseID) REFERENCES course (courseID)
+    FOREIGN KEY (courseId) REFERENCES course (courseId)
 );
 GO
 
 CREATE TABLE lesson
 (
     lessonId          INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    chapterID         INT,
+    chapterId         INT,
     name              NVARCHAR(50),
     description       NTEXT,
     percentToPassed INT DEFAULT 80     NOT NULL,
@@ -179,15 +179,15 @@ CREATE TABLE lesson
     [index]           INT                NOT NULL,
     [type]            INT                NOT NULL,
     [time]            INT DEFAULT 0      NOT NULL,
-    FOREIGN KEY (chapterID) REFERENCES chapter (chapterID)
+    FOREIGN KEY (chapterId) REFERENCES chapter (chapterId)
 );
 GO
 
 CREATE TABLE course_progress
 (
     courseProgressId      INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    learnerID              INT,
-    courseID               INT,
+    learnerId              INT,
+    courseId               INT,
     enrolled               BIT      DEFAULT 0                 NOT NULL,
     progressPercent       INT      DEFAULT 0                 NOT NULL,
     completed              BIT      DEFAULT 0                 NOT NULL,
@@ -196,21 +196,21 @@ CREATE TABLE course_progress
     rate                   INT      DEFAULT 0                 NOT NULL,
     totalTime             INT      DEFAULT 0                 NOT NULL,
     startAt               DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
-    FOREIGN KEY (courseID) REFERENCES course (courseID)
+    FOREIGN KEY (learnerId) REFERENCES [learner] (learnerId),
+    FOREIGN KEY (courseId) REFERENCES course (courseId)
 );
 GO
 
 CREATE TABLE chapter_progress
 (
     chapterProgressId INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    chapterID          INT,
+    chapterId          INT,
     courseProgressId  INT,
     progressPercent   INT      DEFAULT 0,
     completed          BIT      DEFAULT 0                 NOT NULL,
     totalTime         INT      DEFAULT 0,
     startAt           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
+    FOREIGN KEY (chapterId) REFERENCES chapter (chapterId),
     FOREIGN KEY (courseProgressId) REFERENCES course_progress (courseProgressId)
 );
 GO
@@ -230,7 +230,7 @@ GO
 
 CREATE TABLE question
 (
-    [questionID] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    [questionId] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     lessonId     INT,
     [index]      INT                NOT NULL,
     content      NTEXT              NOT NULL,
@@ -242,12 +242,12 @@ GO
 
 CREATE TABLE answer
 (
-    [answerID] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    questionID INT,
+    [answerId] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    questionId INT,
     content    NTEXT,
     correct    BIT DEFAULT 0      NOT NULL,
     --True: 1, False: 0
-    FOREIGN KEY (questionID) REFERENCES question (questionID)
+    FOREIGN KEY (questionId) REFERENCES question (questionId)
 );
 GO
 
@@ -271,25 +271,25 @@ CREATE TABLE chosen_answer
 (
     chosenAnswerId INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     quizResultId   INT,
-    questionID      INT,
-    answerID        INT,
+    questionId      INT,
+    answerId        INT,
     correct         BIT DEFAULT 0      NOT NULL,
     FOREIGN KEY (quizResultId) REFERENCES quiz_result (quizResultId),
-    FOREIGN KEY (questionID) REFERENCES question (questionID),
-    FOREIGN KEY (answerID) REFERENCES answer (answerID)
+    FOREIGN KEY (questionId) REFERENCES question (questionId),
+    FOREIGN KEY (answerId) REFERENCES answer (answerId)
 );
 GO
 
 CREATE TABLE notification
 (
-    notificationID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    learnerID      INT                NOT NULL,
+    notificationId INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    learnerId      INT                NOT NULL,
     type           INT,
     description    NTEXT              NOT NULL,
     [read]         BIT                NOT NULL,
     --True: 1, False: 0
     receive_at     DATETIME,
-    FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID)
+    FOREIGN KEY (learnerId) REFERENCES [learner] (learnerId)
 );
 GO
 
@@ -300,15 +300,15 @@ CREATE OR ALTER TRIGGER updateChapterTotalTimeTrigger
 BEGIN
     update chapter
     set chapter.totalTime = IIF(cal.totalTime IS NULL, 0, cal.totalTime)
-    from (select chapterID, sum(time) totalTime
+    from (select chapterId, sum(time) totalTime
           from lesson
-          group by chapterID) cal
-    where chapter.chapterID in (select distinct chapterID
+          group by chapterId) cal
+    where chapter.chapterId in (select distinct chapterId
                                 from inserted
                                 union
-                                select distinct chapterID
+                                select distinct chapterId
                                 from deleted)
-      and chapter.chapterID = cal.chapterID
+      and chapter.chapterId = cal.chapterId
 END
 GO
 
@@ -319,15 +319,15 @@ CREATE OR ALTER TRIGGER updateCourseTotalTimeTrigger
 BEGIN
     update course
     set course.totalTime = IIF(cal.totalTime IS NULL, 0, cal.totalTime)
-    from (select courseID, sum(totalTime) totalTime
+    from (select courseId, sum(totalTime) totalTime
           from chapter
-          group by courseID) cal
-    where course.courseID in (select distinct courseID
+          group by courseId) cal
+    where course.courseId in (select distinct courseId
                               from inserted
                               union
-                              select distinct courseID
+                              select distinct courseId
                               from deleted)
-      and course.courseID = cal.courseID
+      and course.courseId = cal.courseId
 END
 GO
 
@@ -345,17 +345,17 @@ BEGIN
                                                ROUND(chapter_progress_info.totalTime * 100.0 / chapter_info.sumTime,
                                                      0))
     from (select chapter_progress.courseProgressId,
-                 courseID,
+                 courseId,
                  sum(chapter_progress.totalTime)             totalTime,
                  sum(cast(chapter_progress.completed as INT)) sumCompleted
           from chapter_progress
                    join course_progress cp on chapter_progress.courseProgressId = cp.courseProgressId
-          group by chapter_progress.courseProgressId, courseID) chapter_progress_info
-             join (select course.courseID, count(*) numberOfChapter, sum(course.totalTime) sumTime
+          group by chapter_progress.courseProgressId, courseId) chapter_progress_info
+             join (select course.courseId, count(*) numberOfChapter, sum(course.totalTime) sumTime
                    from course
-                            join chapter c on course.courseID = c.courseID
-                   group by course.courseID) chapter_info
-                  on chapter_progress_info.courseID = chapter_info.courseID
+                            join chapter c on course.courseId = c.courseId
+                   group by course.courseId) chapter_info
+                  on chapter_progress_info.courseId = chapter_info.courseId
     where course_progress.courseProgressId in (select distinct courseProgressId
                                                 from inserted
                                                 union
@@ -381,21 +381,21 @@ BEGIN
           where lp.completed = 1
           group by chapterProgressId) cal
              join
-         (select chapter_progress_info_with_chapterID.chapterProgressId,
+         (select chapter_progress_info_with_chapterId.chapterProgressId,
                  IIF(sumCompleted = sumMustBeCompleted, 1, 0) completed,
                  sumTime
-          from (select chapterID, sum(cast(mustBeCompleted as INT)) sumMustBeCompleted, sum(time) sumTime
+          from (select chapterId, sum(cast(mustBeCompleted as INT)) sumMustBeCompleted, sum(time) sumTime
                 from lesson
-                group by chapterID) chapter_info
+                group by chapterId) chapter_info
                    join
-               (select chapter_progress.chapterProgressId, sumCompleted, chapterID
+               (select chapter_progress.chapterProgressId, sumCompleted, chapterId
                 from (select lesson_progress.chapterProgressId, sum(cast(completed as INT)) sumCompleted
                       from lesson_progress
                       group by lesson_progress.chapterProgressId) chapter_progress_info
                          join chapter_progress
                               on chapter_progress.chapterProgressId =
-                                 chapter_progress_info.chapterProgressId) chapter_progress_info_with_chapterID
-               on chapter_info.chapterID = chapter_progress_info_with_chapterID.chapterID) cal1
+                                 chapter_progress_info.chapterProgressId) chapter_progress_info_with_chapterId
+               on chapter_info.chapterId = chapter_progress_info_with_chapterId.chapterId) cal1
          on cal.chapterProgressId = cal1.chapterProgressId
     where chapter_progress.chapterProgressId in (select distinct chapterProgressId
                                                   from inserted
@@ -409,7 +409,7 @@ GO
 -- insert data
 
 INSERT INTO country
-    (countryID, [name])
+    (countryId, [name])
 VALUES (1, 'United States'),
        (2, 'Canada'),
        (3, 'Mexico'),
@@ -440,7 +440,7 @@ VALUES ('admin', '0e7517141fb53f21ee439b355b5a1d0a'),
 
 GO
 INSERT INTO [learner]
-(picture, username, [password], email, firstName, lastName, birthday, countryID, [status])
+(picture, username, [password], email, firstName, lastName, birthday, countryId, [status])
 VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gmail.com', 'Nhan', 'Tran Thanh',
         '1990-01-01', 16, 0),
        ('a.jpg', 'dylan12', 'e10adc3949ba59abbe56e057f20f883e', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem',
@@ -451,17 +451,17 @@ VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gma
 GO
 --password Fpt@123
 INSERT INTO organization
-    (countryID, [name], username, password, email, picture, [description])
+    (countryId, [name], username, password, email, picture, [description])
 VALUES (16, 'FPT University', 'fptuni', '5e7c74592ea8dffbfdc20c84de15afea', 'NhanTTCE171358@fpt.edu.vn', 'FPT.png',
         N'Trường đại học top 1 Việt Nam');
 GO
 
--- INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [firstName], [lastName], [status])
+-- INSERT INTO instructor (organizationId, countryId, username, [password], email, picture, [firstName], [lastName], [status])
 -- VALUES (1, 1, 'sussybaka', '0cc175b9c0f1b6a831c399e269772661', 'instructor_email@example.com', '', 'Le', 'Truong Giang',
 --         1),
 --        (1, 1, 'instructor_1', '202cb962ac59075b964b07152d234b70', 'instructor_1@example.com', '', 'John', 'Doe', 1),
 --        (2, 2, 'instructor_2', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_2@example.com', '', 'Jane', 'Doe', 1);
-INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [firstName], [lastName],
+INSERT INTO instructor (organizationId, countryId, username, [password], email, picture, [firstName], [lastName],
                         [status])
 VALUES (1, 1, 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@example.com', 'a.jpg', 'John', 'Doe', 0),
        (1, 1, 'instructor_2', '202cb962ac59075b964b07152d234b70', 'instructor_2@example.com', 'a.jpg', 'Jane', 'Doe',
@@ -473,7 +473,7 @@ VALUES (1, 1, 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@exampl
 
 GO
 INSERT INTO course
-(name, [picture], [description], organizationID, price, rate, verified, totalTime)
+(name, [picture], [description], organizationId, price, rate, verified, totalTime)
 VALUES ('Dekiru Nihongo', 'nihon.png', 'easy', 1, 1, 4.2, 1, 0),
        ('Java advance', 'javaAd.png', 'medium', 1, 2, 4.5, 1, 0),
        ('C++', 'a.png', 'hard', 1, 1.2, 4.7, 1, 0),
@@ -487,7 +487,7 @@ VALUES ('Dekiru Nihongo', 'nihon.png', 'easy', 1, 1, 4.2, 1, 0),
        ('MySQL', 'sql.png', 'medium', 1, 2, 4.5, 1, 0),
        ('C#', 'cc.png', 'hard', 1, 5, 4.7, 1, 0)
 GO
-INSERT INTO instruct(courseID, instructorID)
+INSERT INTO instruct(courseId, instructorId)
 VALUES (1, 1),
        (2, 2),
        (3, 3),
@@ -510,15 +510,15 @@ VALUES (1, 1),
        (12, 3)
 GO
 INSERT INTO cart_product
-    (userID, courseID)
+    (userId, courseId)
 VALUES (1, 3)
 GO
-INSERT INTO course_progress(learnerID, courseID)
+INSERT INTO course_progress(learnerId, courseId)
 VALUES (1, 1),
        (1, 2)
 GO
 INSERT INTO chapter
-    (courseID, [index], name, [description])
+    (courseId, [index], name, [description])
 VALUES (1, 1, N'Hiragana 。ひらがな', ''),
        (1, 2, N'Katakana 。かたがな', ''),
        (2, 1, N'Test chapter', ''),
@@ -526,7 +526,7 @@ VALUES (1, 1, N'Hiragana 。ひらがな', ''),
        (3, 2, N'Basic statements', '')
 GO
 INSERT INTO lesson
-    (chapterID, name, [index], [type], [time], mustBeCompleted, content)
+    (chapterId, name, [index], [type], [time], mustBeCompleted, content)
 VALUES (1, 'A, Ka Row', 1, 3, 3, 1, 's4RXDEVFO_E'),
        (1, 'Sa, Ta Row', 2, 3, 3, 1, 'J9MvqJnj5kQ'),
        (1, 'Practice 1: Choose the pronunciation', 3, 2, 5, 1, ''),
@@ -604,7 +604,7 @@ VALUES (3, 1, 'a.png', 0, 1),
 
 GO
 INSERT INTO answer
-    (questionID, content, correct)
+    (questionId, content, correct)
 VALUES (1, 'a', 1),
        (1, 'u', 0),
        (1, 'e', 0),
@@ -706,69 +706,69 @@ VALUES (1, 'a', 1),
 --(26, 'josei', 1), (26, 'jiso', 0), (26, 'jose', 0), (26, 'jisei', 0)
 
 GO
--- select * from instructor where countryID ='1'
+-- select * from instructor where countryId ='1'
 -- select * from learner
 -- select * from [transaction]
--- insert into [transaction](userID, courseID, originPrice, price, type, description, status)
+-- insert into [transaction](userId, courseId, originPrice, price, type, description, status)
 -- values('2','7','20.00000000','40.00000000','2','dung roi','0')
--- update [transaction] set courseID = '7' , originPrice = '40',price = '60',type ='3',description ='moi update',status ='1'where userID ='2'
--- delete from [transaction] where userID ='1'
+-- update [transaction] set courseId = '7' , originPrice = '40',price = '60',type ='3',description ='moi update',status ='1'where userId ='2'
+-- delete from [transaction] where userId ='1'
 -- select * from instruct
--- insert into instruct(userID, courseID)values ('2','8')
--- delete from instruct where userID = '1' and courseID = '10'
--- insert into sale(courseID, price, start_date, end_date)
+-- insert into instruct(userId, courseId)values ('2','8')
+-- delete from instruct where userId = '1' and courseId = '10'
+-- insert into sale(courseId, price, start_date, end_date)
 -- values ('2','20','12/16/2022','12/20/2022')
---     UPDATE sale set price = '30',start_date ='11/22/2022',end_date ='12/23/2022'where courseID ='2'
---     delete from sale where courseID = '2'
+--     UPDATE sale set price = '30',start_date ='11/22/2022',end_date ='12/23/2022'where courseId ='2'
+--     delete from sale where courseId = '2'
 --  select * from review
 --SELECT * FROM [learner];
--- insert into review(userID, courseID, reviewed, verified, note)
+-- insert into review(userId, courseId, reviewed, verified, note)
 -- values ('2','7','0','2','COI LAI KIEN THUC')
--- update review set courseID = '7',reviewed='0',verified='1',note='thay sai roi' where userID ='2'
--- delete from review where userID = '1'
+-- update review set courseId = '7',reviewed='0',verified='1',note='thay sai roi' where userId ='2'
+-- delete from review where userId = '1'
 --get sum of completed lesson of a course
 --select sum([time]) as sumTime from
 --(select l.ID, [time] from
 --(select * from lesson) as l
 --join
---(select * from chapter where courseID = 1) as m
---on l.chapterID = m.ID) l
+--(select * from chapter where courseId = 1) as m
+--on l.chapterId = m.ID) l
 --join
---(select * from lesson_completed where userID = 1) lc
+--(select * from lesson_completed where userId = 1) lc
 --on l.ID = lc.lessonId
 
 -- Check if question are correct
 --select 1 from
---(select selected_answer as ID from chosen_answer where quizResultId = 1 and questionID = 4) a
+--(select selected_answer as ID from chosen_answer where quizResultId = 1 and questionId = 4) a
 --full join
---(select answerID from answer where questionID = 4 and correct = 1) b
---on a.ID = b.answerID
---where a.ID is null or b.answerID is null;
+--(select answerId from answer where questionId = 4 and correct = 1) b
+--on a.ID = b.answerId
+--where a.ID is null or b.answerId is null;
 
---select top 1 * from quiz_result where userID = 1 and lessonId = 2 order by startAt desc;
+--select top 1 * from quiz_result where userId = 1 and lessonId = 2 order by startAt desc;
 
 --get number completed lesson of a chapter
 --select count(*) as number from
---(select lessonId as ID from lesson_completed where userID = 1) as a
+--(select lessonId as ID from lesson_completed where userId = 1) as a
 --join
---(select ID from lesson where chapterID = 1) as b
+--(select ID from lesson where chapterId = 1) as b
 --on a.ID = b.ID;
 
 --get last lessonId
 --select top 1 lessonId from
---(select ID as chapterID, [index] as chapterIndex from chapter where courseID = 1) as a
+--(select ID as chapterId, [index] as chapterIndex from chapter where courseId = 1) as a
 --join
---(select chapterID, ID as lessonId, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID
+--(select chapterId, ID as lessonId, [index] as lessonIndex from lesson) as b on a.chapterId = b.chapterId
 --order by chapterIndex desc, lessonIndex desc;
 
 --get first uncompleted lessonId
 --select top 1 lessonId from
 --(select chapterIndex, lessonId, lessonIndex from
---(select ID as chapterID, [index] as chapterIndex from chapter where courseID = 1) as a
+--(select ID as chapterId, [index] as chapterIndex from chapter where courseId = 1) as a
 --join
---(select chapterID, ID as lessonId, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID) a
+--(select chapterId, ID as lessonId, [index] as lessonIndex from lesson) as b on a.chapterId = b.chapterId) a
 --where lessonId not in
---(select lessonId from lesson_completed where userID = 1)
+--(select lessonId from lesson_completed where userId = 1)
 --order by chapterIndex, lessonIndex;
 
 update lesson
@@ -831,18 +831,18 @@ set content =
 where lessonId = 16;
 GO
 
-INSERT INTO notification (learnerID, type, description, [read], receive_at)
+INSERT INTO notification (learnerId, type, description, [read], receive_at)
 VALUES (1, 0, 'Course registration successful: Dekiru Nihongo', 0, CURRENT_TIMESTAMP),
        (1, 0, 'Course registration successful: Java advance', 0, CURRENT_TIMESTAMP);
 
 
-INSERT INTO [transaction] (learnerID, courseID, origin_price, price, type, description, status)
+INSERT INTO [transaction] (learnerId, courseId, originPrice, price, type, description, status)
 VALUES (1, 1, 1.00, 1.00, 0, 'Course registration', 0),
        (1, 2, 2.00, 2.00, 0, 'Course registration', 0);
 
 -- SELECT course.name
 -- FROM [transaction]
 --          JOIN course
---               ON [transaction].courseID = course.courseID
--- WHERE [transaction].learnerID = 1;
+--               ON [transaction].courseId = course.courseId
+-- WHERE [transaction].learnerId = 1;
 

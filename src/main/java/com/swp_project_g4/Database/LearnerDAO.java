@@ -132,13 +132,13 @@ public class LearnerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from [learner] where learnerID = ?");
+            statement = conn.prepareStatement("select * from [learner] where learnerId = ?");
             statement.setInt(1, ID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 learner = new Learner(
-                        resultSet.getInt("learnerID"),
+                        resultSet.getInt("learnerId"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
@@ -147,7 +147,7 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
                         resultSet.getDate("birthday"),
-                        resultSet.getInt("countryID"),
+                        resultSet.getInt("countryId"),
                         resultSet.getInt("status")
                 );
             }
@@ -173,7 +173,7 @@ public class LearnerDAO extends DBConnection {
 
             if (resultSet.next()) {
                 learner = new Learner(
-                        resultSet.getInt("learnerID"),
+                        resultSet.getInt("learnerId"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
@@ -182,7 +182,7 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
                         resultSet.getDate("birthday"),
-                        resultSet.getInt("countryID"),
+                        resultSet.getInt("countryId"),
                         resultSet.getInt("status")
                 );
             }
@@ -208,7 +208,7 @@ public class LearnerDAO extends DBConnection {
 
             if (resultSet.next()) {
                 learner = new Learner(
-                        resultSet.getInt("learnerID"),
+                        resultSet.getInt("learnerId"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
@@ -217,7 +217,7 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
                         resultSet.getDate("birthday"),
-                        resultSet.getInt("countryID"),
+                        resultSet.getInt("countryId"),
                         resultSet.getInt("status")
                 );
             }
@@ -242,7 +242,7 @@ public class LearnerDAO extends DBConnection {
 
             while (resultSet.next()) {
                 Learner learner = new Learner(
-                        resultSet.getInt("learnerID"),
+                        resultSet.getInt("learnerId"),
                         resultSet.getString("picture"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
@@ -251,7 +251,7 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
                         resultSet.getDate("birthday"),
-                        resultSet.getInt("countryID"),
+                        resultSet.getInt("countryId"),
                         resultSet.getInt("status")
                 );
                 list.add(learner);
@@ -271,7 +271,7 @@ public class LearnerDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("insert into [learner](picture,username,[password],email,firstName,lastName,birthday,countryID,status) values(?,?,?,?,?,?,?,?,?)");
+            statement = conn.prepareStatement("insert into [learner](picture,username,[password],email,firstName,lastName,birthday,countryId,status) values(?,?,?,?,?,?,?,?,?)");
             statement.setString(1, learner.getPicture());
             statement.setString(2, learner.getUsername());
             statement.setString(3, learner.getPassword());
@@ -279,7 +279,7 @@ public class LearnerDAO extends DBConnection {
             statement.setString(5, learner.getFirstName());
             statement.setString(6, learner.getLastName());
             statement.setString(7, dateFormat.format(learner.getBirthday()));
-            statement.setInt(8, learner.getCountryID());
+            statement.setInt(8, learner.getCountryId());
             statement.setInt(9, learner.getStatus());
             statement.executeUpdate();
 
@@ -300,7 +300,7 @@ public class LearnerDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("UPDATE [learner] SET picture = ?, username = ?, [password] = ?, email = ?, firstName = ?, lastName = ?, birthday = ?, countryID = ?, [status] = ? WHERE learnerID = ?");
+            statement = conn.prepareStatement("UPDATE [learner] SET picture = ?, username = ?, [password] = ?, email = ?, firstName = ?, lastName = ?, birthday = ?, countryId = ?, [status] = ? WHERE learnerId = ?");
             statement.setString(1, learner.getPicture());
             statement.setString(2, learner.getUsername());
             statement.setString(3, learner.getPassword());
@@ -308,7 +308,7 @@ public class LearnerDAO extends DBConnection {
             statement.setString(5, learner.getFirstName());
             statement.setString(6, learner.getLastName());
             statement.setString(7, dateFormat.format(learner.getBirthday()));
-            statement.setInt(8, learner.getCountryID());
+            statement.setInt(8, learner.getCountryId());
             statement.setInt(9, learner.getStatus());
             statement.setInt(10, learner.getID());
             statement.execute();
@@ -331,7 +331,7 @@ public class LearnerDAO extends DBConnection {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from [learner] where learnerID=?");
+            statement = conn.prepareStatement("delete from [learner] where learnerId=?");
             statement.setInt(1, ID);
             statement.execute();
             disconnect();

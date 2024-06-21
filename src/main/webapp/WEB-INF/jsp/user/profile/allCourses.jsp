@@ -25,7 +25,7 @@
             <%
                 int index = -1;
                 for (Course course : courses) {
-                    request.getSession().setAttribute("courseID", course.getID());
+                    request.getSession().setAttribute("courseId", course.getID());
                     index++;
             %>
 
@@ -68,7 +68,7 @@
                                 <%
                                     if (learner != null && courseProgresses.get(index).isCompleted()) {
                                 %>
-                                <a href="/certificate/${learner.ID}/${courseID}" target="_blank">View
+                                <a href="/certificate/${learner.ID}/${courseId}" target="_blank">View
                                     certificate</a>
                                 <%
                                     }

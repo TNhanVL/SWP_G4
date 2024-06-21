@@ -14,7 +14,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Admin {
-    @Column(name = "adminID")
+    @Column(name = "adminId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;

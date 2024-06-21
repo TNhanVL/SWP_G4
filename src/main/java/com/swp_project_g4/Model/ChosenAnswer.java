@@ -24,8 +24,8 @@ public class ChosenAnswer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int quizResultID;
-    private int questionID;
-    private int answerID;
+    private int questionId;
+    private int answerId;
     private boolean correct;
 
     @ManyToOne
@@ -36,14 +36,14 @@ public class ChosenAnswer {
     private QuizResult quizResult;
 
     @ManyToOne
-    @JoinColumn(name = "questionID", insertable=false, updatable=false)
+    @JoinColumn(name = "questionId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Question question;
 
     @ManyToOne
-    @JoinColumn(name = "answerID", insertable=false, updatable=false)
+    @JoinColumn(name = "answerId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

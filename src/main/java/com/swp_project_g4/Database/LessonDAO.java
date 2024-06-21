@@ -36,7 +36,7 @@ public class LessonDAO extends DBConnection {
             if (resultSet.next()) {
                 lesson = new Lesson(
                         resultSet.getInt("lessonId"),
-                        resultSet.getInt("ChapterID"),
+                        resultSet.getInt("ChapterId"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
                         resultSet.getInt("percentToPassed"),
@@ -55,21 +55,21 @@ public class LessonDAO extends DBConnection {
         return lesson;
     }
 
-    public static ArrayList<Lesson> getLessonsByChapterID(int chapterID) {
+    public static ArrayList<Lesson> getLessonsByChapterId(int chapterId) {
         ArrayList<Lesson> lessons = new ArrayList<>();
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from lesson where chapterID = ? order by [index]");
-            statement.setInt(1, chapterID);
+            statement = conn.prepareStatement("select * from lesson where chapterId = ? order by [index]");
+            statement.setInt(1, chapterId);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 Lesson lesson = new Lesson(
                         resultSet.getInt("lessonId"),
-                        resultSet.getInt("ChapterID"),
+                        resultSet.getInt("ChapterId"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
                         resultSet.getInt("percentToPassed"),
@@ -89,15 +89,15 @@ public class LessonDAO extends DBConnection {
         return lessons;
     }
 
-    public static int getNumberLessonsByChapterID(int chapterID) {
+    public static int getNumberLessonsByChapterId(int chapterId) {
         int ans = 0;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select count(*) as number from lesson where chapterID = ?");
-            statement.setInt(1, chapterID);
+            statement = conn.prepareStatement("select count(*) as number from lesson where chapterId = ?");
+            statement.setInt(1, chapterId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -113,6 +113,6 @@ public class LessonDAO extends DBConnection {
     }
 
     public static void main(String[] args) {
-        System.out.println(getNumberLessonsByChapterID(1));
+        System.out.println(getNumberLessonsByChapterId(1));
     }
 }

@@ -18,18 +18,18 @@ import java.util.logging.Logger;
  */
 public class CourseDAO extends DBConnection {
 
-    public static boolean existCourse(int courseID) {
+    public static boolean existCourse(int courseId) {
         boolean ok = false;
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select courseID from course where courseID = ?");
-            statement.setInt(1, courseID);
+            statement = conn.prepareStatement("select courseId from course where courseId = ?");
+            statement.setInt(1, courseId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                if (resultSet.getInt("courseID") == courseID) {
+                if (resultSet.getInt("courseId") == courseId) {
                     ok = true;
                 }
             }
@@ -43,21 +43,21 @@ public class CourseDAO extends DBConnection {
         return ok;
     }
 
-    public static Course getCourse(int courseID) {
+    public static Course getCourse(int courseId) {
         Course course = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from course where courseID = ?");
-            statement.setInt(1, courseID);
+            statement = conn.prepareStatement("select * from course where courseId = ?");
+            statement.setInt(1, courseId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 course = new Course(
-                        resultSet.getInt("courseID"),
-                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("courseId"),
+                        resultSet.getInt("organizationId"),
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
@@ -88,8 +88,8 @@ public class CourseDAO extends DBConnection {
 
             while (resultSet.next()) {
                 Course course = new Course(
-                        resultSet.getInt("courseID"),
-                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("courseId"),
+                        resultSet.getInt("organizationId"),
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
@@ -124,8 +124,8 @@ public class CourseDAO extends DBConnection {
 
             while (resultSet.next()) {
                 Course course = new Course(
-                        resultSet.getInt("courseID"),
-                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("courseId"),
+                        resultSet.getInt("organizationId"),
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
@@ -157,8 +157,8 @@ public class CourseDAO extends DBConnection {
 
             while (resultSet.next()) {
                 Course course = new Course(
-                        resultSet.getInt("courseID"),
-                        resultSet.getInt("organizationID"),
+                        resultSet.getInt("courseId"),
+                        resultSet.getInt("organizationId"),
                         resultSet.getString("name"),
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
@@ -178,7 +178,7 @@ public class CourseDAO extends DBConnection {
         return courses;
     }
 
-    public static int getSumTimeOfCourse(int courseID) {
+    public static int getSumTimeOfCourse(int courseId) {
         try {
             //connect to database
             connect();
@@ -187,9 +187,9 @@ public class CourseDAO extends DBConnection {
                     select sum([time]) as sumTime from
                     (select * from lesson) as l
                     join
-                    (select * from chapter where courseID = ?) as m
-                    on l.chapterID = m.chapterID""");
-            statement.setInt(1, courseID);
+                    (select * from chapter where courseId = ?) as m
+                    on l.chapterId = m.chapterId""");
+            statement.setInt(1, courseId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -205,13 +205,13 @@ public class CourseDAO extends DBConnection {
         return 0;
     }
 
-    public static int countCartProduct(int userID) {
+    public static int countCartProduct(int userId) {
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select count(*) as number from cart_product where userID = ?");
-            statement.setInt(1, userID);
+            statement = conn.prepareStatement("select count(*) as number from cart_product where userId = ?");
+            statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -227,14 +227,14 @@ public class CourseDAO extends DBConnection {
         return 0;
     }
 
-    public static boolean checkCartProduct(int userID, int courseID) {
+    public static boolean checkCartProduct(int userId, int courseId) {
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select 1 from cart_product where userID = ? and courseID = ?");
-            statement.setInt(1, userID);
-            statement.setInt(2, courseID);
+            statement = conn.prepareStatement("select 1 from cart_product where userId = ? and courseId = ?");
+            statement.setInt(1, userId);
+            statement.setInt(2, courseId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -250,14 +250,14 @@ public class CourseDAO extends DBConnection {
         return false;
     }
 
-    public static boolean insertCartProduct(int userID, int courseID) {
+    public static boolean insertCartProduct(int userId, int courseId) {
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into cart_product(userID, courseID) values (?,?)");
-            statement.setInt(1, userID);
-            statement.setInt(2, courseID);
+            statement = conn.prepareStatement("insert into cart_product(userId, courseId) values (?,?)");
+            statement.setInt(1, userId);
+            statement.setInt(2, courseId);
 
             statement.execute();
 
@@ -272,38 +272,38 @@ public class CourseDAO extends DBConnection {
         return false;
     }
 
-    public static boolean deleteCartProduct(int userID, int courseID) {
+    public static boolean deleteCartProduct(int userId, int courseId) {
         try {
-            if (!checkCartProduct(userID, courseID)) {
+            if (!checkCartProduct(userId, courseId)) {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from cart_product where userID = ? and courseID = ?");
-            statement.setInt(1, userID);
-            statement.setInt(2, courseID);
+            statement = conn.prepareStatement("delete from cart_product where userId = ? and courseId = ?");
+            statement.setInt(1, userId);
+            statement.setInt(2, courseId);
             statement.execute();
             disconnect();
-            return !checkCartProduct(userID, courseID);
+            return !checkCartProduct(userId, courseId);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
-    public static ArrayList<Course> getAllCartProducts(int userID) {
+    public static ArrayList<Course> getAllCartProducts(int userId) {
         ArrayList<Course> courses = new ArrayList<>();
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select courseID from cart_product where userID = ?");
-            statement.setInt(1, userID);
+            statement = conn.prepareStatement("select courseId from cart_product where userId = ?");
+            statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                int courseID = resultSet.getInt("courseID");
-                Course course = getCourse(courseID);
+                int courseId = resultSet.getInt("courseId");
+                Course course = getCourse(courseId);
                 courses.add(course);
             }
 
@@ -315,9 +315,9 @@ public class CourseDAO extends DBConnection {
         return courses;
     }
 
-    public static boolean addCourse(int organizationID, String name, String picture, double price) {
+    public static boolean addCourse(int organizationId, String name, String picture, double price) {
         try {
-            boolean existOgranization = OrganizationDAO.existOrganization(organizationID);
+            boolean existOgranization = OrganizationDAO.existOrganization(organizationId);
             if (!existOgranization) {
                 Logger.getLogger(LearnerDAO.class.getName()).log(Level.INFO, "ogranization not exist");
                 return false;

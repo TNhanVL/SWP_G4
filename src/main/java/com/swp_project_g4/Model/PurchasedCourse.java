@@ -15,7 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 public class PurchasedCourse {
 
-    private int userID;
-    private int courseID;
+    private int userId;
+    private int courseId;
 
 }

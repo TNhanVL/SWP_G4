@@ -22,20 +22,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Chapter {
-    @Column(name = "chapterID")
+    @Column(name = "chapterId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int courseID;
+    private int courseId;
     @Column(name = "[index]")
     private int index;
     private String name = "";
     private String description = "";
     private int totalTime;
 
-    public Chapter(int ID, int courseID, int index, String name, String description, int totalTime) {
+    public Chapter(int ID, int courseId, int index, String name, String description, int totalTime) {
         this.ID = ID;
-        this.courseID = courseID;
+        this.courseId = courseId;
         this.index = index;
         this.name = name;
         this.description = description;
@@ -43,21 +43,21 @@ public class Chapter {
     }
 
     @ManyToOne
-    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @JoinColumn(name = "courseId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Course course;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "chapterID")
+    @JoinColumn(name = "chapterId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Lesson> lessons = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "chapterID")
+    @JoinColumn(name = "chapterId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

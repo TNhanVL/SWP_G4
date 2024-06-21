@@ -6,13 +6,13 @@ import java.util.logging.Logger;
 
 public class InstructDAO extends DBConnection {
 
-    public static boolean insertIntruct(int userID, int courseID) {
+    public static boolean insertIntruct(int userId, int courseId) {
         try {
             //connect to database
             connect();
-            statement = conn.prepareStatement("insert into instruct(userID, courseID)values (?,?)");
-            statement.setInt(1, userID);
-            statement.setInt(2, courseID);
+            statement = conn.prepareStatement("insert into instruct(userId, courseId)values (?,?)");
+            statement.setInt(1, userId);
+            statement.setInt(2, courseId);
             statement.execute();
             //disconnect to database
             disconnect();
@@ -22,12 +22,12 @@ public class InstructDAO extends DBConnection {
         }
         return false;
     }
-    public static void deleteIntruct(int userID, int courseID) {
+    public static void deleteIntruct(int userId, int courseId) {
         try {
             connect();
-            statement = conn.prepareStatement("delete from instruct where userID = ? and courseID = ?");
-            statement.setInt(1, userID);
-            statement.setInt(2, courseID);
+            statement = conn.prepareStatement("delete from instruct where userId = ? and courseId = ?");
+            statement.setInt(1, userId);
+            statement.setInt(2, courseId);
             statement.execute();
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {

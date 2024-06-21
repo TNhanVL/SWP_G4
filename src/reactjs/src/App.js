@@ -8,7 +8,7 @@ export default function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path='course/edit/:courseID' element={<CourseEdit />}></Route>
+        <Route path='course/edit/:courseId' element={<CourseEdit />}></Route>
       </Routes>
     </div>
   );

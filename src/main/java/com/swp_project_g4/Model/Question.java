@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question {
-    @Column(name = "questionID")
+    @Column(name = "questionId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
@@ -49,7 +49,7 @@ public class Question {
     private Lesson lesson;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "questionID")
+    @JoinColumn(name = "questionId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

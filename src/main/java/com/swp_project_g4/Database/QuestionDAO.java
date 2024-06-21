@@ -17,18 +17,18 @@ import java.util.logging.Logger;
  */
 public class QuestionDAO extends DBConnection {
 
-    public static boolean existQuestion(int questionID) {
+    public static boolean existQuestion(int questionId) {
         boolean ok = false;
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select questionID from question where questionID = ?");
-            statement.setInt(1, questionID);
+            statement = conn.prepareStatement("select questionId from question where questionId = ?");
+            statement.setInt(1, questionId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                if (resultSet.getInt("questionID") == questionID) {
+                if (resultSet.getInt("questionId") == questionId) {
                     ok = true;
                 }
             }
@@ -42,20 +42,20 @@ public class QuestionDAO extends DBConnection {
         return ok;
     }
 
-    public static Question getQuestion(int questionID) {
+    public static Question getQuestion(int questionId) {
         Question question = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from question where questionID = ?");
-            statement.setInt(1, questionID);
+            statement = conn.prepareStatement("select * from question where questionId = ?");
+            statement.setInt(1, questionId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 question = new Question(
-                        resultSet.getInt("questionID"),
+                        resultSet.getInt("questionId"),
                         resultSet.getInt("lessonId"),
                         resultSet.getInt("index"),
                         resultSet.getString("content"),
@@ -85,7 +85,7 @@ public class QuestionDAO extends DBConnection {
 
             while (resultSet.next()) {
                 Question question = new Question(
-                        resultSet.getInt("questionID"),
+                        resultSet.getInt("questionId"),
                         resultSet.getInt("lessonId"),
                         resultSet.getInt("index"),
                         resultSet.getString("content"),
@@ -154,7 +154,7 @@ public class QuestionDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update question set lessonId=?, [index]=?, content=?, [type]=?, point=? where questionID=?");
+            statement = conn.prepareStatement("update question set lessonId=?, [index]=?, content=?, [type]=?, point=? where questionId=?");
             statement.setInt(1, question.getLessonId());
             statement.setInt(2, question.getIndex());
             statement.setString(3, question.getContent());
@@ -172,17 +172,17 @@ public class QuestionDAO extends DBConnection {
         return false;
     }
 
-    public static boolean deleteQuestion(int questionID) {
+    public static boolean deleteQuestion(int questionId) {
         try {
-            if (!existQuestion(questionID)) {
+            if (!existQuestion(questionId)) {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from question where questionID=?");
-            statement.setInt(1, questionID);
+            statement = conn.prepareStatement("delete from question where questionId=?");
+            statement.setInt(1, questionId);
             statement.execute();
             disconnect();
-            return !existQuestion(questionID);
+            return !existQuestion(questionId);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

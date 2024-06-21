@@ -30,10 +30,10 @@ public class LessonRestController {
         return null;
     }
 
-    @PostMapping("/getByChapterID")
-    public List<Lesson> getByChapterID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByChapterId")
+    public List<Lesson> getByChapterId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getChapterRepository().findById(data.get("chapterID")).get().getLessons();
+            return repository.getChapterRepository().findById(data.get("chapterId")).get().getLessons();
         } catch (Exception e) {
 
         }
@@ -43,9 +43,9 @@ public class LessonRestController {
     @PostMapping("/create")
     public Lesson create(@RequestBody Map<String, Integer> data) {
         try {
-            int lessonSize = repository.getChapterRepository().findById(data.get("chapterID")).get().getLessons().size();
+            int lessonSize = repository.getChapterRepository().findById(data.get("chapterId")).get().getLessons().size();
             Lesson lesson = new Lesson();
-            lesson.setChapterID(data.get("chapterID"));
+            lesson.setChapterId(data.get("chapterId"));
             lesson.setIndex(lessonSize + 1);
             lesson = repository.getLessonRepository().save(lesson);
             return lesson;
@@ -60,7 +60,7 @@ public class LessonRestController {
         try {
             var lesson = repository.getLessonRepository().findById(data.get("lessonId")).get();
             repository.getLessonRepository().deleteById(lesson.getID());
-            chapterService.reIndexAllLessonByChapterID(lesson.getChapterID());
+            chapterService.reIndexAllLessonByChapterId(lesson.getChapterId());
             return true;
         } catch (Exception e) {
 
@@ -92,7 +92,7 @@ public class LessonRestController {
     public boolean update(@RequestBody Map<String, Integer> data) {
         try {
             int size = data.get("size");
-            int chapterID = data.get("chapterID");
+            int chapterId = data.get("chapterId");
             for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);

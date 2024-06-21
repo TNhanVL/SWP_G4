@@ -12,11 +12,11 @@
     <h4><%out.print(course.getName());%></h4>
 
     <%
-        ArrayList<Chapter> chapters = ChapterDAO.getChaptersByCourseID(course.getID());
+        ArrayList<Chapter> chapters = ChapterDAO.getChaptersByCourseId(course.getID());
         Set<Integer> completedLessonIds = (Set<Integer>) request.getAttribute("completedLessonIds");
         for (Chapter chapter1 : chapters) {
 
-            ArrayList<Lesson> lessons = LessonDAO.getLessonsByChapterID(chapter1.getID());
+            ArrayList<Lesson> lessons = LessonDAO.getLessonsByChapterId(chapter1.getID());
             int numberOfCompleted = 0;
             for(var lesson1: lessons){
                 if(completedLessonIds.contains(lesson1.getID())){

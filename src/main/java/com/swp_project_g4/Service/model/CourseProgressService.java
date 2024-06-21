@@ -15,13 +15,13 @@ public class CourseProgressService {
     @Autowired
     private EmailService emailService;
 
-    public List<CourseProgress> getByLearnerID(int learnerId) {
-        var courseProgress = courseProgressRepository.findAllByLearnerID(learnerId);
+    public List<CourseProgress> getByLearnerId(int learnerId) {
+        var courseProgress = courseProgressRepository.findAllByLearnerId(learnerId);
         return courseProgress;
     }
 
-    public List<CourseProgress> getByLearnerIDAndCompleted(int learnerId, boolean completed) {
-        var courseProgress = courseProgressRepository.findAllByLearnerIDAndCompleted(learnerId, completed);
+    public List<CourseProgress> getByLearnerIdAndCompleted(int learnerId, boolean completed) {
+        var courseProgress = courseProgressRepository.findAllByLearnerIdAndCompleted(learnerId, completed);
         return courseProgress;
     }
 

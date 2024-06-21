@@ -22,20 +22,20 @@ public class ChapterProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int chapterID;
+    private int chapterId;
     private int courseProgressID;
     private int progressPercent;
     private boolean completed;
     private int totalTime;
     private Date startAt = new Date();
 
-    public ChapterProgress(int chapterID, int courseProgressID){
-        this.chapterID = chapterID;
+    public ChapterProgress(int chapterId, int courseProgressID){
+        this.chapterId = chapterId;
         this.courseProgressID = courseProgressID;
     }
 
     @ManyToOne
-    @JoinColumn(name = "chapterID", insertable=false, updatable=false)
+    @JoinColumn(name = "chapterId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

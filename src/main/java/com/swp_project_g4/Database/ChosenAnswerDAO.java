@@ -14,14 +14,14 @@ import java.util.logging.Logger;
  */
 public class ChosenAnswerDAO extends DBConnection {
 
-    public static boolean CheckChosenAnswer(int quizResultID, int questionID, int selected_answer) {
+    public static boolean CheckChosenAnswer(int quizResultID, int questionId, int selected_answer) {
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select 1 from chosen_answer where quizResultId = ? and questionID = ? and answerID = ?");
+            statement = conn.prepareStatement("select 1 from chosen_answer where quizResultId = ? and questionId = ? and answerId = ?");
             statement.setInt(1, quizResultID);
-            statement.setInt(2, questionID);
+            statement.setInt(2, questionId);
             statement.setInt(3, selected_answer);
             ResultSet resultSet = statement.executeQuery();
 
@@ -38,20 +38,20 @@ public class ChosenAnswerDAO extends DBConnection {
         return false;
     }
 
-    public static boolean CheckChosenAnswerCorrect(int quizResultID, int questionID) {
+    public static boolean CheckChosenAnswerCorrect(int quizResultID, int questionId) {
         try {
             //connect to database
             connect();
 
             statement = conn.prepareStatement("select 1 from\n"
-                    + "(select answerID as ID from chosen_answer where quizResultId = ? and questionID = ?) a\n"
+                    + "(select answerId as ID from chosen_answer where quizResultId = ? and questionId = ?) a\n"
                     + "full join\n"
-                    + "(select answerID from answer where questionID = ? and correct = 1) b\n"
-                    + "on a.ID = b.answerID\n"
-                    + "where a.ID is null or b.answerID is null");
+                    + "(select answerId from answer where questionId = ? and correct = 1) b\n"
+                    + "on a.ID = b.answerId\n"
+                    + "where a.ID is null or b.answerId is null");
             statement.setInt(1, quizResultID);
-            statement.setInt(2, questionID);
-            statement.setInt(3, questionID);
+            statement.setInt(2, questionId);
+            statement.setInt(3, questionId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -67,14 +67,14 @@ public class ChosenAnswerDAO extends DBConnection {
         return true;
     }
 
-    public static boolean insertChosenAnswer(int quizResultID, int questionID, int selected_answer) {
+    public static boolean insertChosenAnswer(int quizResultID, int questionId, int selected_answer) {
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into chosen_answer(quizResultId,questionID,answerID,correct) values(?,?,?,?)");
+            statement = conn.prepareStatement("insert into chosen_answer(quizResultId,questionId,answerId,correct) values(?,?,?,?)");
             statement.setInt(1, quizResultID);
-            statement.setInt(2, questionID);
+            statement.setInt(2, questionId);
             statement.setInt(3, selected_answer);
             statement.setBoolean(4, false);
             statement.execute();
@@ -91,12 +91,12 @@ public class ChosenAnswerDAO extends DBConnection {
         return false;
     }
 
-    public static void deleteChosenAnswerOfQuestion(int quizResultID, int questionID) {
+    public static void deleteChosenAnswerOfQuestion(int quizResultID, int questionId) {
         try {
             connect();
-            statement = conn.prepareStatement("delete from chosen_answer where quizResultId = ? and questionID = ?");
+            statement = conn.prepareStatement("delete from chosen_answer where quizResultId = ? and questionId = ?");
             statement.setInt(1, quizResultID);
-            statement.setInt(2, questionID);
+            statement.setInt(2, questionId);
             statement.execute();
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {

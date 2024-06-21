@@ -9,13 +9,13 @@ import java.util.Optional;
 
 @Repository
 public interface CourseProgressRepository extends JpaRepository<CourseProgress, Integer> {
-    Optional<CourseProgress> findByCourseIDAndLearnerID(int courseID, int learnerID);
+    Optional<CourseProgress> findByCourseIdAndLearnerId(int courseId, int learnerId);
 
-    List<CourseProgress> findAllByLearnerID(int learnerID);
+    List<CourseProgress> findAllByLearnerId(int learnerId);
 
-    List<CourseProgress> findAllByCourseID(int courseID);
+    List<CourseProgress> findAllByCourseId(int courseId);
 
     List<CourseProgress> findAllByActionAfterCompletedAndCompleted(boolean actionAfterCompleted, boolean completed);
 
-    List<CourseProgress> findAllByLearnerIDAndCompleted(int learnerID, boolean completed);
+    List<CourseProgress> findAllByLearnerIdAndCompleted(int learnerId, boolean completed);
 }

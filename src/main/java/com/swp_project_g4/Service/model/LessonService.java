@@ -19,6 +19,6 @@ public class LessonService {
     }
 
     public List<Lesson> getAllByChapterId(int chapterId) {
-        return lessonRepository.findAllByChapterID(chapterId);
+        return lessonRepository.findAllByChapterId(chapterId);
     }
 }

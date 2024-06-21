@@ -6,15 +6,15 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <script>
-    function sendUpdateAnswer(questionID) {
+    function sendUpdateAnswer(questionId) {
         let paramsSend = "_";
-        let answers = $("input[name=" + questionID + "]");
+        let answers = $("input[name=" + questionId + "]");
         for (let i = 0; i < answers.length; i++) {
             if (answers[i].checked) {
                 paramsSend += answers[i].value + "_";
             }
         }
 
-        fetch("/learn/updateChosenAnswer/<%out.print(quizResult.getID());%>/" + questionID.slice(8) + "/" + paramsSend, {method: 'POST'}).catch(error => console.error(error));
+        fetch("/learn/updateChosenAnswer/<%out.print(quizResult.getID());%>/" + questionId.slice(8) + "/" + paramsSend, {method: 'POST'}).catch(error => console.error(error));
     }
 </script>

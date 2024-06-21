@@ -9,11 +9,11 @@ class EmailServiceTest {
 //    @Test
 //    public void testSendEnrollEmail() {
 //        // Arrange
-//        int learnerID = 3;
-//        int courseID = 1;
+//        int learnerId = 3;
+//        int courseId = 1;
 //        String type = "enroll";
 //        // Act
-//        EmailService.sendEmail(learnerID, courseID, type);
+//        EmailService.sendEmail(learnerId, courseId, type);
 //        // Assert
 //        // Verify that the email was sent successfully.
 //    }
@@ -21,10 +21,10 @@ class EmailServiceTest {
 //    @Test
 //    public void testSendChangePasswordEmail() {
 //        // Arrange
-//        int learnerID = 3;
+//        int learnerId = 3;
 //        String type = "change_password";
 //        // Act
-////        EmailService.sendEmail(learnerID, type);
+////        EmailService.sendEmail(learnerId, type);
 //        // Assert
 //        // Verify that the email was sent successfully.
 //    }
@@ -32,11 +32,11 @@ class EmailServiceTest {
 //    @Test
 //    public void testSendCompleteCourseEmail() {
 //        // Arrange
-//        int learnerID = 3;
-//        int courseID = 1;
+//        int learnerId = 3;
+//        int courseId = 1;
 //        String type = "certification";
 //        // Act
-//        EmailService.sendEmail(learnerID, courseID, type);
+//        EmailService.sendEmail(learnerId, courseId, type);
 //        // Assert
 //        // Verify that the email was sent successfully.
 //    }

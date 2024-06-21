@@ -15,10 +15,10 @@ public class QuestionRestController {
     @Autowired
     private Repository repository;
 
-    @PostMapping("/getByQuestionID")
-    public Question getByQuestionID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByQuestionId")
+    public Question getByQuestionId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getQuestionRepository().findById(data.get("questionID")).get();
+            return repository.getQuestionRepository().findById(data.get("questionId")).get();
         } catch (Exception e) {
 
         }
@@ -53,7 +53,7 @@ public class QuestionRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            repository.getQuestionRepository().deleteById(data.get("questionID"));
+            repository.getQuestionRepository().deleteById(data.get("questionId"));
             return true;
         } catch (Exception e) {
 

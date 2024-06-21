@@ -82,10 +82,10 @@
                     </div>
 
                     <div class="orgranization">
-                        <p><%out.print(CountryDAO.getCountry(user.getCountryID()).getName());%></p>
+                        <p><%out.print(CountryDAO.getCountry(user.getCountryId()).getName());%></p>
                         <%
                             if (instructor != null) {
-                                Organization organization = OrganizationDAO.getOrganization(instructor.getOrganizationID());
+                                Organization organization = OrganizationDAO.getOrganization(instructor.getOrganizationId());
                         %>
                         <p>Instructor of <%out.print(organization.getName());%></p>
                         <img class="org"
@@ -153,7 +153,7 @@
 
             <p>Let the Yojihan community of other learners and instructors know more about you!</p>
 
-            <form action="${learner != null ? "/updateUser?userID=": "/updateInstructor?instructorID="}${learner != null ? learner.ID: instructor.ID}"
+            <form action="${learner != null ? "/updateUser?userId=": "/updateInstructor?instructorId="}${learner != null ? learner.ID: instructor.ID}"
                   method="post">
                 <div>
                     <label for="firstName">First name:</label>
@@ -181,11 +181,11 @@
 
                 <div>
                     <label for="country">Country:</label>
-                    <select name="countryID" id="country">
+                    <select name="countryId" id="country">
                         <c:forEach items="${countries}" var="country">
                             <option value="${country.ID}" class="form-control" placeholder="Enter your country"
                                     required
-                                    <c:if test="${country.ID == user.countryID}">selected</c:if>>${country.name}</option>
+                                    <c:if test="${country.ID == user.countryId}">selected</c:if>>${country.name}</option>
                         </c:forEach>
                     </select>
                 </div>

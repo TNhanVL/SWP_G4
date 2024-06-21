@@ -18,7 +18,7 @@ public class QuizService {
     public void endAQuiz(QuizResult quizResult) {
         if (quizResult.isFinished()) return;
 
-        int learnerID = quizResult.getLessonProgress().getChapterProgress().getCourseProgress().getLearnerID();
+        int learnerId = quizResult.getLessonProgress().getChapterProgress().getCourseProgress().getLearnerId();
         Lesson lesson = repository.getLessonRepository().findById(quizResult.getLessonId()).get();
 
         //set endAt to current
@@ -29,7 +29,7 @@ public class QuizService {
         int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResult.getID());
         int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonId(lesson.getID());
         if (numberOfCorrectQuestion * 100 >= numberOfQuestion * lesson.getPercentToPassed()) {
-            lessonProgressService.markLessonCompleted(learnerID, lesson.getID());
+            lessonProgressService.markLessonCompleted(learnerId, lesson.getID());
         }
     }
 

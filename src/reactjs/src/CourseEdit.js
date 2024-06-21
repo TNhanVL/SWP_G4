@@ -30,8 +30,8 @@ function EditCourse({course, afterEditCourse}) {
     useEffect(() => {
         if (!course) return
         //Get course
-        backend.post('course/getByCourseID', {
-            courseID: course.id
+        backend.post('course/getByCourseId', {
+            courseId: course.id
         }).then(res => {
             if (res) {
                 setEditCourse(res)
@@ -126,8 +126,8 @@ function EditChapter({chapter, afterEditChapter}) {
     useEffect(() => {
         if (!chapter) return
         //Get course
-        backend.post('chapter/getByChapterID', {
-            chapterID: chapter.id
+        backend.post('chapter/getByChapterId', {
+            chapterId: chapter.id
         }).then(res => {
             if (res) {
                 setEditChapter(res)
@@ -161,7 +161,7 @@ function EditChapter({chapter, afterEditChapter}) {
                     label: 'Yes',
                     onClick: () => {
                         backend.post('chapter/delete', {
-                            chapterID: chapter.id
+                            chapterId: chapter.id
                         }).then(res => {
                             if (!res) {
                                 popUpAlert.warning("Delete Chapter failed")
@@ -439,7 +439,7 @@ function EditLesson({lesson, afterEditLesson}) {
 
 function CourseEdit() {
 
-    const {courseID} = useParams()
+    const {courseId} = useParams()
     const [instructor, setInstructor] = useState(null)
     const [admin, setAdmin] = useState(null)
     const [course, setCourse] = useState(null);
@@ -451,9 +451,9 @@ function CourseEdit() {
 
     let navigate = useNavigate();
 
-    function getCourse(courseID) {
-        backend.post('course/getByCourseID', {
-            courseID: courseID
+    function getCourse(courseId) {
+        backend.post('course/getByCourseId', {
+            courseId: courseId
         }).then(res => {
             if (!res) {
                 window.location.replace('/')
@@ -462,9 +462,9 @@ function CourseEdit() {
         })
     }
 
-    function getChapters(courseID, getIndex) {
-        backend.post('chapter/getByCourseID', {
-            courseID: courseID
+    function getChapters(courseId, getIndex) {
+        backend.post('chapter/getByCourseId', {
+            courseId: courseId
         }).then(res => {
             if (res) {
                 res.sort(function (a, b) {
@@ -507,10 +507,10 @@ function CourseEdit() {
         })
 
         //Get course
-        getCourse(courseID)
+        getCourse(courseId)
 
         //Get all chapters
-        getChapters(courseID, false)
+        getChapters(courseId, false)
     }, []);
 
     useEffect(() => {
@@ -529,7 +529,7 @@ function CourseEdit() {
     }
 
     function afterEditCourse() {
-        getCourse(courseID)
+        getCourse(courseId)
     }
 
     function showEditCourse() {
@@ -552,16 +552,16 @@ function CourseEdit() {
     }
 
     function afterEditChapter() {
-        getChapters(courseID, true);
+        getChapters(courseId, true);
     }
 
     function tryAddNewChapter() {
         backend.post('chapter/create', {
-            courseID: courseID
+            courseId: courseId
         }).then(res => {
             if (res) {
                 // popUpAlert.success("Add new chapter successful")
-                getChapters(courseID, false)
+                getChapters(courseId, false)
                 setEditChapter(res)
                 setMode(2)
             } else {
@@ -591,7 +591,7 @@ function CourseEdit() {
         //send to server
         let data = {
             size: sendChapters.length,
-            courseID
+            courseId
         }
         for (let i = 0; i < sendChapters.length; i++) {
             data['id_' + i] = sendChapters[i].id
@@ -602,7 +602,7 @@ function CourseEdit() {
                 if (!res) {
                     popUpAlert.warning("Reindex chapters failed")
                 } else {
-                    getChapters(courseID)
+                    getChapters(courseId)
                     $(".chapterTitles").sortable("cancel")
                 }
             })

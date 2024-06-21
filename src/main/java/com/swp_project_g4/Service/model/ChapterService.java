@@ -19,7 +19,7 @@ public class ChapterService {
     private LessonService lessonService;
 
     public List<Chapter> getByCourseId(int courseId) {
-        return chapterRepository.findAllByCourseID(courseId);
+        return chapterRepository.findAllByCourseId(courseId);
     }
 
     public Optional<Chapter> getById(int chapterId) {
@@ -39,9 +39,9 @@ public class ChapterService {
         return totalTime;
     }
 
-    public boolean reIndexAllLessonByChapterID(int chapterID) {
+    public boolean reIndexAllLessonByChapterId(int chapterId) {
         try {
-            var lessons = lessonService.getAllByChapterId(chapterID);
+            var lessons = lessonService.getAllByChapterId(chapterId);
             lessons.sort(Comparator.comparingInt(Lesson::getIndex));
             int tmp = 0;
             for (var lesson : lessons) {

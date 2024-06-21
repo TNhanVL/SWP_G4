@@ -76,9 +76,9 @@ public class MainController {
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public String updateUser(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int userID, @ModelAttribute("user") Learner learner) {
+    public String updateUser(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int userId, @ModelAttribute("user") Learner learner) {
 
-        Learner learner1 = LearnerDAO.getUser(userID);
+        Learner learner1 = LearnerDAO.getUser(userId);
 
         if (learner1 == null) {
             request.getSession().setAttribute("error", "User not exist!");
@@ -88,7 +88,7 @@ public class MainController {
         learner1.setFirstName(learner.getFirstName());
         learner1.setLastName(learner.getLastName());
         learner1.setBirthday(learner.getBirthday());
-        learner1.setCountryID(learner.getCountryID());
+        learner1.setCountryId(learner.getCountryId());
         learner1.setEmail(learner.getEmail());
 
         LearnerDAO.updateUser(learner1);
@@ -97,9 +97,9 @@ public class MainController {
     }
 
     @RequestMapping(value = "/updateInstructor", method = RequestMethod.POST)
-    public String updateInstructor(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int instructorID, @ModelAttribute("user") Learner learner) {
+    public String updateInstructor(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int instructorId, @ModelAttribute("user") Learner learner) {
 
-        Instructor instructor1 = repository.getInstructorRepository().findById(instructorID).get();
+        Instructor instructor1 = repository.getInstructorRepository().findById(instructorId).get();
 
         if (instructor1 == null) {
             request.getSession().setAttribute("error", "User not exist!");
@@ -108,7 +108,7 @@ public class MainController {
 
         instructor1.setFirstName(learner.getFirstName());
         instructor1.setLastName(learner.getLastName());
-        instructor1.setCountryID(learner.getCountryID());
+        instructor1.setCountryId(learner.getCountryId());
         instructor1.setEmail(learner.getEmail());
 
         repository.getInstructorRepository().save(instructor1);

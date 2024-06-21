@@ -69,7 +69,7 @@ public class ProfileController {
         }
 
         //get purchased courses
-        var courseProgresses = courseProgressService.getByLearnerID(learner.getID());
+        var courseProgresses = courseProgressService.getByLearnerId(learner.getID());
         var purchasedCourses = new ArrayList<Course>();
         for (var courseProgress : courseProgresses) {
             purchasedCourses.add(courseProgress.getCourse());
@@ -93,7 +93,7 @@ public class ProfileController {
         model.addAttribute("learner", learner);
         model.addAttribute("totalLearningTime", totalLearningTime);
         model.addAttribute("numberOfPurchasedCourses", purchasedCourses.size());
-        model.addAttribute("numberOfCompletedCourse", courseProgressService.getByLearnerIDAndCompleted(learner.getID(), true).size());
+        model.addAttribute("numberOfCompletedCourse", courseProgressService.getByLearnerIdAndCompleted(learner.getID(), true).size());
         model.addAttribute("firstYearOfLearning", firstYearOfLearning + 1900);
         model.addAttribute("courseProgresses", courseProgresses);
         model.addAttribute("purchasedCourses", purchasedCourses);

@@ -31,8 +31,8 @@ public class LearnController {
     @Autowired
     private CourseProgressService courseProgressService;
 
-    @RequestMapping(value = "/{courseID}", method = RequestMethod.GET)
-    public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID) {
+    @RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
+    public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseId) {
         String username = CookieServices.getUserNameOfLearner(request.getCookies());
 
         //check learner logged in
@@ -41,10 +41,10 @@ public class LearnController {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
-        int learnerID = learnerOptional.get().getID();
+        int learnerId = learnerOptional.get().getID();
 
         //check course exist
-        var courseOptional = repository.getCourseRepository().findById(courseID);
+        var courseOptional = repository.getCourseRepository().findById(courseId);
         if (!courseOptional.isPresent()) {
             if (!learnerOptional.isPresent()) {
                 request.getSession().setAttribute("error", "Not exist this course!");
@@ -54,7 +54,7 @@ public class LearnController {
         var course = courseOptional.get();
 
         //check courseProgress
-        var courseProgressOptional = repository.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learnerID);
+        var courseProgressOptional = repository.getCourseProgressRepository().findByCourseIdAndLearnerId(courseId, learnerId);
         if (!courseProgressOptional.isPresent()) {
             request.getSession().setAttribute("error", "You need to purchased this course first!");
             return "redirect:/";
@@ -68,7 +68,7 @@ public class LearnController {
         int lessonId = 0;
         for (var chapter : course.getChapters()) {
             //check chapterProgress
-            var chapterProgressOptional = repository.getChapterProgressRepository().findByChapterIDAndCourseProgressID(chapter.getID(), courseProgress.getID());
+            var chapterProgressOptional = repository.getChapterProgressRepository().findByChapterIdAndCourseProgressID(chapter.getID(), courseProgress.getID());
             var chapterProgress = chapterProgressOptional.orElse(new ChapterProgress(chapter.getID(), courseProgress.getID()));
             if (!chapterProgressOptional.isPresent()) {
                 chapterProgress = repository.getChapterProgressRepository().save(chapterProgress);
@@ -82,16 +82,16 @@ public class LearnController {
                     if (!lessonProgressOptional.isPresent()) {
                         lessonProgress = repository.getLessonProgressRepository().save(lessonProgress);
                     }
-                    return "redirect:/learn/" + courseID + "/" + lessonId;
+                    return "redirect:/learn/" + courseId + "/" + lessonId;
                 }
             }
         }
 
-        return "redirect:/learn/" + courseID + "/" + lessonId;
+        return "redirect:/learn/" + courseId + "/" + lessonId;
     }
 
-    @RequestMapping(value = "/{courseID}/{lessonId}", method = RequestMethod.GET)
-    public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID, @PathVariable int lessonId) {
+    @RequestMapping(value = "/{courseId}/{lessonId}", method = RequestMethod.GET)
+    public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseId, @PathVariable int lessonId) {
         String username = CookieServices.getUserNameOfLearner(request.getCookies());
 
         //check learner logged in
@@ -101,10 +101,10 @@ public class LearnController {
             return "redirect:/login";
         }
         var learner = learnerOptional.get();
-        int learnerID = learner.getID();
+        int learnerId = learner.getID();
 
         //check course exist
-        var courseOptional = repository.getCourseRepository().findById(courseID);
+        var courseOptional = repository.getCourseRepository().findById(courseId);
         if (!courseOptional.isPresent()) {
             if (!learnerOptional.isPresent()) {
                 request.getSession().setAttribute("error", "Not exist this course!");
@@ -113,7 +113,7 @@ public class LearnController {
         }
 
         //check courseProgress
-        var courseProgressOptional = repository.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learnerID);
+        var courseProgressOptional = repository.getCourseProgressRepository().findByCourseIdAndLearnerId(courseId, learnerId);
         if (!courseProgressOptional.isPresent()) {
             request.getSession().setAttribute("error", "You need to purchased this course first!");
             return "redirect:/";
@@ -132,15 +132,15 @@ public class LearnController {
         var lesson = lessonOptional.get();
 
         //check course include lesson
-        var chapter = repository.getChapterRepository().findById(lesson.getChapterID()).get();
-        var course = repository.getCourseRepository().findById(chapter.getCourseID()).get();
-        if (course.getID() != courseID) {
+        var chapter = repository.getChapterRepository().findById(lesson.getChapterId()).get();
+        var course = repository.getCourseRepository().findById(chapter.getCourseId()).get();
+        if (course.getID() != courseId) {
             request.getSession().setAttribute("error", "Not exist this lesson in the course!");
             return "redirect:/";
         }
 
         //check chapterProgress
-        var chapterProgressOptional = repository.getChapterProgressRepository().findByChapterIDAndCourseProgressID(chapter.getID(), courseProgress.getID());
+        var chapterProgressOptional = repository.getChapterProgressRepository().findByChapterIdAndCourseProgressID(chapter.getID(), courseProgress.getID());
         var chapterProgress = chapterProgressOptional.orElse(new ChapterProgress(chapter.getID(), courseProgress.getID()));
         if (!chapterProgressOptional.isPresent()) {
             chapterProgress = repository.getChapterProgressRepository().save(chapterProgress);
@@ -174,7 +174,7 @@ public class LearnController {
         model.addAttribute("course", course);
         model.addAttribute("chapter", chapter);
         model.addAttribute("lesson", lesson);
-        model.addAttribute("courseID", courseID);
+        model.addAttribute("courseId", courseId);
         model.addAttribute("lessonId", lessonId);
         model.addAttribute("lessonProgressID", lessonProgress.getID());
         model.addAttribute("completedLessonIds", completedLessonIds);
@@ -192,8 +192,8 @@ public class LearnController {
         }
 
         Lesson lesson = LessonDAO.getLesson(lessonId);
-        Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
-        Course course = CourseDAO.getCourse(chapter.getCourseID());
+        Chapter chapter = ChapterDAO.getChapter(lesson.getChapterId());
+        Course course = CourseDAO.getCourse(chapter.getCourseId());
         return "redirect:/learn/" + course.getID() + "/" + lessonId;
     }
 
@@ -236,12 +236,12 @@ public class LearnController {
 
         QuizResult quizResult = new QuizResult(lessonId, lessonProgressID, lesson);
         repository.getQuizResultRepository().save(quizResult);
-        return "redirect:/learn/" + lesson.getChapter().getCourseID() + "/" + lessonId;
+        return "redirect:/learn/" + lesson.getChapter().getCourseId() + "/" + lessonId;
     }
 
-    @RequestMapping(value = "/updateChosenAnswer/{quizResultID}/{questionID}/{data}", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateChosenAnswer/{quizResultID}/{questionId}/{data}", method = RequestMethod.POST)
     @ResponseBody
-    public String updateChosenAnswer(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int quizResultID, @PathVariable int questionID, @PathVariable String data) {
+    public String updateChosenAnswer(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int quizResultID, @PathVariable int questionId, @PathVariable String data) {
         //check logged in
         if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
@@ -260,13 +260,13 @@ public class LearnController {
             return "out of time!";
         }
 
-        ChosenAnswerDAO.deleteChosenAnswerOfQuestion(quizResultID, questionID);
+        ChosenAnswerDAO.deleteChosenAnswerOfQuestion(quizResultID, questionId);
 
-        String[] answerIDs = data.split("_");
-        for (String i : answerIDs) {
+        String[] answerIds = data.split("_");
+        for (String i : answerIds) {
             try {
-                int answerID = Integer.parseInt(i);
-                ChosenAnswerDAO.insertChosenAnswer(quizResultID, questionID, answerID);
+                int answerId = Integer.parseInt(i);
+                ChosenAnswerDAO.insertChosenAnswer(quizResultID, questionId, answerId);
             } catch (NumberFormatException e) {
 
             }
@@ -292,11 +292,11 @@ public class LearnController {
         }
 
         Lesson lesson = LessonDAO.getLesson(quizResult.getLessonId());
-        Chapter chapter = ChapterDAO.getChapter(lesson.getChapterID());
+        Chapter chapter = ChapterDAO.getChapter(lesson.getChapterId());
 
         //if quiz end yet
         if (quizResult.getEndAt().before(new Date())) {
-            return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getID();
+            return "redirect:/learn/" + chapter.getCourseId() + "/" + lesson.getID();
         }
 
         //set endAt to current
@@ -310,7 +310,7 @@ public class LearnController {
 //            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getID(), request);
             lessonProgressService.markLessonCompleted(learner.getID(), lesson.getID());
         }
-        return "redirect:/learn/" + chapter.getCourseID() + "/" + lesson.getID();
+        return "redirect:/learn/" + chapter.getCourseId() + "/" + lesson.getID();
     }
 
 }

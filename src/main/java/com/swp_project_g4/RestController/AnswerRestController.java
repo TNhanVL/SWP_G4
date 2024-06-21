@@ -18,17 +18,17 @@ public class AnswerRestController {
     @PostMapping("/getByAnswerID")
     public Answer getByAnswerID(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getAnswerRepository().findById(data.get("answerID")).get();
+            return repository.getAnswerRepository().findById(data.get("answerId")).get();
         } catch (Exception e) {
 
         }
         return null;
     }
 
-    @PostMapping("/getByQuestionID")
-    public List<Answer> getByQuestionID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByQuestionId")
+    public List<Answer> getByQuestionId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getAnswerRepository().findAllByQuestionID(data.get("questionID"));
+            return repository.getAnswerRepository().findAllByQuestionId(data.get("questionId"));
         } catch (Exception e) {
 
         }
@@ -38,9 +38,9 @@ public class AnswerRestController {
     @PostMapping("/create")
     public Answer create(@RequestBody Map<String, Integer> data) {
         try {
-            int answerSize = repository.getQuestionRepository().findById(data.get("questionID")).get().getAnswers().size();
+            int answerSize = repository.getQuestionRepository().findById(data.get("questionId")).get().getAnswers().size();
             Answer answer = new Answer();
-            answer.setQuestionID(data.get("questionID"));
+            answer.setQuestionId(data.get("questionId"));
             answer = repository.getAnswerRepository().save(answer);
             return answer;
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class AnswerRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            repository.getAnswerRepository().deleteById(data.get("answerID"));
+            repository.getAnswerRepository().deleteById(data.get("answerId"));
             return true;
         } catch (Exception e) {
 
