@@ -25,10 +25,10 @@ public class QuestionRestController {
         return null;
     }
 
-    @PostMapping("/getByLessonID")
-    public List<Question> getByLessonID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByLessonId")
+    public List<Question> getByLessonId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getQuestionRepository().findAllByLessonID(data.get("lessonID"));
+            return repository.getQuestionRepository().findAllByLessonId(data.get("lessonId"));
         } catch (Exception e) {
 
         }
@@ -38,9 +38,9 @@ public class QuestionRestController {
     @PostMapping("/create")
     public Question create(@RequestBody Map<String, Integer> data) {
         try {
-            int questionSize = repository.getLessonRepository().findById(data.get("lessonID")).get().getQuestions().size();
+            int questionSize = repository.getLessonRepository().findById(data.get("lessonId")).get().getQuestions().size();
             Question question = new Question();
-            question.setLessonID(data.get("lessonID"));
+            question.setLessonId(data.get("lessonId"));
             question.setIndex(questionSize + 1);
             question = repository.getQuestionRepository().save(question);
             return question;
@@ -81,7 +81,7 @@ public class QuestionRestController {
     public boolean update(@RequestBody Map<String, Integer> data) {
         try {
             int size = data.get("size");
-            int lesson = data.get("lessonID");
+            int lesson = data.get("lessonId");
             for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);

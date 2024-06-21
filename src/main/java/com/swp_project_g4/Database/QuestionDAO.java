@@ -56,7 +56,7 @@ public class QuestionDAO extends DBConnection {
             if (resultSet.next()) {
                 question = new Question(
                         resultSet.getInt("questionID"),
-                        resultSet.getInt("lessonID"),
+                        resultSet.getInt("lessonId"),
                         resultSet.getInt("index"),
                         resultSet.getString("content"),
                         resultSet.getInt("type"),
@@ -72,21 +72,21 @@ public class QuestionDAO extends DBConnection {
         return question;
     }
 
-    public static ArrayList<Question> getQuestionByLessonID(int lessonID) {
+    public static ArrayList<Question> getQuestionByLessonId(int lessonId) {
         ArrayList<Question> questions = new ArrayList<>();
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from question where lessonID = ? order by [index]");
-            statement.setInt(1, lessonID);
+            statement = conn.prepareStatement("select * from question where lessonId = ? order by [index]");
+            statement.setInt(1, lessonId);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 Question question = new Question(
                         resultSet.getInt("questionID"),
-                        resultSet.getInt("lessonID"),
+                        resultSet.getInt("lessonId"),
                         resultSet.getInt("index"),
                         resultSet.getString("content"),
                         resultSet.getInt("type"),
@@ -103,15 +103,15 @@ public class QuestionDAO extends DBConnection {
         return questions;
     }
 
-    public static int getNumberQuestionByLessonID(int lessonID) {
+    public static int getNumberQuestionByLessonId(int lessonId) {
         int ans = 0;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select count(*) as number from question where lessonID = ?");
-            statement.setInt(1, lessonID);
+            statement = conn.prepareStatement("select count(*) as number from question where lessonId = ?");
+            statement.setInt(1, lessonId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -131,8 +131,8 @@ public class QuestionDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into question(lessonID,[index],content,[type],point) values (?,?,?,?,?)");
-            statement.setInt(1, question.getLessonID());
+            statement = conn.prepareStatement("insert into question(lessonId,[index],content,[type],point) values (?,?,?,?,?)");
+            statement.setInt(1, question.getLessonId());
             statement.setInt(2, question.getIndex());
             statement.setString(3, question.getContent());
             statement.setInt(4, question.getType());
@@ -154,8 +154,8 @@ public class QuestionDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update question set lessonID=?, [index]=?, content=?, [type]=?, point=? where questionID=?");
-            statement.setInt(1, question.getLessonID());
+            statement = conn.prepareStatement("update question set lessonId=?, [index]=?, content=?, [type]=?, point=? where questionID=?");
+            statement.setInt(1, question.getLessonId());
             statement.setInt(2, question.getIndex());
             statement.setString(3, question.getContent());
             statement.setInt(4, question.getType());
@@ -190,6 +190,6 @@ public class QuestionDAO extends DBConnection {
     }
 
     public static void main(String[] args) {
-        System.out.println(getNumberQuestionByLessonID(2));
+        System.out.println(getNumberQuestionByLessonId(2));
     }
 }

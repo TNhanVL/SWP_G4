@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    ArrayList<Question> questions = QuestionDAO.getQuestionByLessonID(lesson.getID());
+    ArrayList<Question> questions = QuestionDAO.getQuestionByLessonId(lesson.getID());
 %>
 
 <div class="quiz-type1 finished">
@@ -106,7 +106,7 @@
                     %></span>
             </div>
             <div class="listQuestion">
-                <h5><%out.print(QuizResultDAO.getQuizResultPoint(quizResult.getID()));%>/<%out.print(QuestionDAO.getNumberQuestionByLessonID(lesson.getID()));%> corrects!</h5>
+                <h5><%out.print(QuizResultDAO.getQuizResultPoint(quizResult.getID()));%>/<%out.print(QuestionDAO.getNumberQuestionByLessonId(lesson.getID()));%> corrects!</h5>
                 <ul>
                     <%                        //show all questionLabel
                         for (int i = 1; i <= questions.size(); i++) {
@@ -120,7 +120,7 @@
             </div>
 
             <div class="finishBtn">
-                <a href="/learn/startAQuiz/${lessonID}/${lessonProgressID}">
+                <a href="/learn/startAQuiz/${lessonId}/${lessonProgressID}">
                     <p>Retake</p>
                 </a>
             </div>

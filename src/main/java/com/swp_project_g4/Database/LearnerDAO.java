@@ -143,9 +143,9 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getBoolean("email_verified"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
+                        resultSet.getBoolean("emailVerified"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -178,9 +178,9 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getBoolean("email_verified"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
+                        resultSet.getBoolean("emailVerified"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -213,9 +213,9 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getBoolean("email_verified"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
+                        resultSet.getBoolean("emailVerified"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -247,9 +247,9 @@ public class LearnerDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getBoolean("email_verified"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
+                        resultSet.getBoolean("emailVerified"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
                         resultSet.getDate("birthday"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
@@ -271,7 +271,7 @@ public class LearnerDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("insert into [learner](picture,username,[password],email,first_name,last_name,birthday,countryID,status) values(?,?,?,?,?,?,?,?,?)");
+            statement = conn.prepareStatement("insert into [learner](picture,username,[password],email,firstName,lastName,birthday,countryID,status) values(?,?,?,?,?,?,?,?,?)");
             statement.setString(1, learner.getPicture());
             statement.setString(2, learner.getUsername());
             statement.setString(3, learner.getPassword());
@@ -300,7 +300,7 @@ public class LearnerDAO extends DBConnection {
         try {
             connect();
 
-            statement = conn.prepareStatement("UPDATE [learner] SET picture = ?, username = ?, [password] = ?, email = ?, first_name = ?, last_name = ?, birthday = ?, countryID = ?, [status] = ? WHERE learnerID = ?");
+            statement = conn.prepareStatement("UPDATE [learner] SET picture = ?, username = ?, [password] = ?, email = ?, firstName = ?, lastName = ?, birthday = ?, countryID = ?, [status] = ? WHERE learnerID = ?");
             statement.setString(1, learner.getPicture());
             statement.setString(2, learner.getUsername());
             statement.setString(3, learner.getPassword());

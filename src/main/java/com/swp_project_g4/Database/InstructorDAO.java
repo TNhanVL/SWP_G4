@@ -37,8 +37,8 @@ public class InstructorDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
                 );
@@ -68,8 +68,8 @@ public class InstructorDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
                 );
@@ -96,8 +96,8 @@ public class InstructorDAO extends DBConnection {
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
                         resultSet.getInt("countryID"),
                         resultSet.getInt("status")
                 );

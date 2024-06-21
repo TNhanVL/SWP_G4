@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChapterProgress {
-    @Column(name = "chapter_progressID")
+    @Column(name = "chapterProgressId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;

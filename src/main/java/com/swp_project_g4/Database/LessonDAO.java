@@ -22,25 +22,25 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class LessonDAO extends DBConnection {
 
-    public static Lesson getLesson(int lessonID) {
+    public static Lesson getLesson(int lessonId) {
         Lesson lesson = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from lesson where lessonID = ?");
-            statement.setInt(1, lessonID);
+            statement = conn.prepareStatement("select * from lesson where lessonId = ?");
+            statement.setInt(1, lessonId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 lesson = new Lesson(
-                        resultSet.getInt("lessonID"),
+                        resultSet.getInt("lessonId"),
                         resultSet.getInt("ChapterID"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("percent_to_passed"),
-                        resultSet.getBoolean("must_be_completed"),
+                        resultSet.getInt("percentToPassed"),
+                        resultSet.getBoolean("mustBeCompleted"),
                         resultSet.getString("content"),
                         resultSet.getInt("type"),
                         resultSet.getInt("index"),
@@ -68,12 +68,12 @@ public class LessonDAO extends DBConnection {
 
             while (resultSet.next()) {
                 Lesson lesson = new Lesson(
-                        resultSet.getInt("lessonID"),
+                        resultSet.getInt("lessonId"),
                         resultSet.getInt("ChapterID"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("percent_to_passed"),
-                        resultSet.getBoolean("must_be_completed"),
+                        resultSet.getInt("percentToPassed"),
+                        resultSet.getBoolean("mustBeCompleted"),
                         resultSet.getString("content"),
                         resultSet.getInt("type"),
                         resultSet.getInt("index"),

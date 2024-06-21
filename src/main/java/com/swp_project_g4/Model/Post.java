@@ -16,5 +16,5 @@ import lombok.*;
 public class Post {
     private int ID;
     private String content;
-    private int lessonID;
+    private int lessonId;
 }

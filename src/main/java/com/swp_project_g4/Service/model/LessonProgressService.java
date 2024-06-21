@@ -11,15 +11,15 @@ public class LessonProgressService {
     @Autowired
     private CourseProgressService courseProgressService;
 
-    public boolean markLessonCompleted(int learnerID, int lessonID) {
+    public boolean markLessonCompleted(int learnerID, int lessonId) {
         try {
             //check learner exist
             var learner = repository.getLearnerRepository().findById(learnerID).orElseThrow();
-            var lesson = repository.getLessonRepository().findById(lessonID).orElseThrow();
+            var lesson = repository.getLessonRepository().findById(lessonId).orElseThrow();
             var chapter = lesson.getChapter();
             var courseProgress = repository.getCourseProgressRepository().findByCourseIDAndLearnerID(chapter.getCourseID(), learnerID).orElseThrow();
             var chapterProgress = repository.getChapterProgressRepository().findByChapterIDAndCourseProgressID(chapter.getID(), courseProgress.getID()).orElseThrow();
-            var lessonProgress = repository.getLessonProgressRepository().findByLessonIDAndChapterProgressID(lessonID, chapterProgress.getID()).orElseThrow();
+            var lessonProgress = repository.getLessonProgressRepository().findByLessonIdAndChapterProgressID(lessonId, chapterProgress.getID()).orElseThrow();
             //set completed
             if (!lessonProgress.isCompleted()) {
                 lessonProgress.setCompleted(true);

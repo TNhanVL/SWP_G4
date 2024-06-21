@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChosenAnswer {
-    @Column(name = "chosen_answerID")
+    @Column(name = "chosenAnswerId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;

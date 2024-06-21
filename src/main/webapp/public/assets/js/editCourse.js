@@ -214,11 +214,11 @@ function showEditChapterByID(element) {
 
 function showEditLessonByID(element) {
 
-    var lessonID = element.querySelector(".accordion-header button").innerText.split("#")[1]
-    console.log("Lesson: " + lessonID)
+    var lessonId = element.querySelector(".accordion-header button").innerText.split("#")[1]
+    console.log("Lesson: " + lessonId)
     var currentWork = document.querySelector("#editLesson")
     currentWork.style.display = "block"
-    currentWork.querySelector("form #LessonID-edit").value = lessonID;
+    currentWork.querySelector("form #LessonId-edit").value = lessonId;
 
     document.querySelector("#addChapter").style.display = "none"
     document.querySelector("#editChapter").style.display = "none"
@@ -254,7 +254,7 @@ var Chapter = {
             content: {
                 question: [
                     {
-                        lessonID: 1,
+                        lessonId: 1,
                         index: 1,
                         content: "Why do we have bugs?",
                         type: 0,
@@ -278,7 +278,7 @@ var Chapter = {
 
 
 var Question = {
-    lessonID: 1,
+    lessonId: 1,
     index: 1,
     content: "Why we have bug?",
     type: 0,

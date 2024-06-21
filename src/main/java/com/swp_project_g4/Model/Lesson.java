@@ -23,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Lesson {
-    @Column(name = "lessonID")
+    @Column(name = "lessonId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
@@ -59,21 +59,21 @@ public class Lesson {
     private Chapter chapter;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lessonID")
+    @JoinColumn(name = "lessonId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lessonID")
+    @JoinColumn(name = "lessonId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<LessonProgress> lessonProgresses = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lessonID")
+    @JoinColumn(name = "lessonId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

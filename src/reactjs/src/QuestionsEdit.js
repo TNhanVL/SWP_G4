@@ -277,16 +277,16 @@ function Question({questionID, updateQuestion, setChosingQContent, afterDeleteQ,
     )
 }
 
-function QuestionsEdit({lessonID}) {
+function QuestionsEdit({lessonId}) {
 
     const [questions, setQuestions] = useState([])
     const [chosingQ, setChosingQ] = useState('')
     const [chosingQContent, setChosingQContent] = useState('')
 
     function getQuestions() {
-        if (!lessonID) return
-        backend.post('question/getByLessonID', {
-            lessonID
+        if (!lessonId) return
+        backend.post('question/getByLessonId', {
+            lessonId
         }).then(res => {
             if (!res) {
                 popUpAlert.warning("Get questions failed")
@@ -317,13 +317,13 @@ function QuestionsEdit({lessonID}) {
     }
 
     useEffect(() => {
-        if (!lessonID) return;
-        getQuestions(lessonID)
-    }, [lessonID]);
+        if (!lessonId) return;
+        getQuestions(lessonId)
+    }, [lessonId]);
 
     function tryCreateNewQuestion() {
         backend.post('question/create', {
-            lessonID
+            lessonId
         }).then(res => {
             if (!res) {
                 popUpAlert.warning("Create new question failed")
@@ -338,7 +338,7 @@ function QuestionsEdit({lessonID}) {
     }
 
     return (
-        lessonID && questions &&
+        lessonId && questions &&
         <div className="questionsBlock mt-3">
             <div className='left-Pane'>
                 <h4 className='title'>Questions ({questions ? questions.length : '...'})</h4>

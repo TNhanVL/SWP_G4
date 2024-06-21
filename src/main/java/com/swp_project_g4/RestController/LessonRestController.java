@@ -20,10 +20,10 @@ public class LessonRestController {
     @Autowired
     private ChapterService chapterService;
 
-    @PostMapping("/getByLessonID")
-    public Lesson getByLessonID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByLessonId")
+    public Lesson getByLessonId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getLessonRepository().findById(data.get("lessonID")).get();
+            return repository.getLessonRepository().findById(data.get("lessonId")).get();
         } catch (Exception e) {
 
         }
@@ -58,7 +58,7 @@ public class LessonRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            var lesson = repository.getLessonRepository().findById(data.get("lessonID")).get();
+            var lesson = repository.getLessonRepository().findById(data.get("lessonId")).get();
             repository.getLessonRepository().deleteById(lesson.getID());
             chapterService.reIndexAllLessonByChapterID(lesson.getChapterID());
             return true;

@@ -19,7 +19,7 @@ public class ChosenAnswerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select 1 from chosen_answer where quiz_resultID = ? and questionID = ? and answerID = ?");
+            statement = conn.prepareStatement("select 1 from chosen_answer where quizResultId = ? and questionID = ? and answerID = ?");
             statement.setInt(1, quizResultID);
             statement.setInt(2, questionID);
             statement.setInt(3, selected_answer);
@@ -44,7 +44,7 @@ public class ChosenAnswerDAO extends DBConnection {
             connect();
 
             statement = conn.prepareStatement("select 1 from\n"
-                    + "(select answerID as ID from chosen_answer where quiz_resultID = ? and questionID = ?) a\n"
+                    + "(select answerID as ID from chosen_answer where quizResultId = ? and questionID = ?) a\n"
                     + "full join\n"
                     + "(select answerID from answer where questionID = ? and correct = 1) b\n"
                     + "on a.ID = b.answerID\n"
@@ -72,7 +72,7 @@ public class ChosenAnswerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into chosen_answer(quiz_resultID,questionID,answerID,correct) values(?,?,?,?)");
+            statement = conn.prepareStatement("insert into chosen_answer(quizResultId,questionID,answerID,correct) values(?,?,?,?)");
             statement.setInt(1, quizResultID);
             statement.setInt(2, questionID);
             statement.setInt(3, selected_answer);
@@ -94,7 +94,7 @@ public class ChosenAnswerDAO extends DBConnection {
     public static void deleteChosenAnswerOfQuestion(int quizResultID, int questionID) {
         try {
             connect();
-            statement = conn.prepareStatement("delete from chosen_answer where quiz_resultID = ? and questionID = ?");
+            statement = conn.prepareStatement("delete from chosen_answer where quizResultId = ? and questionID = ?");
             statement.setInt(1, quizResultID);
             statement.setInt(2, questionID);
             statement.execute();

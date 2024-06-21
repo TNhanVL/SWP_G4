@@ -62,7 +62,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
                         resultSet.getBoolean("verified"),
-                        resultSet.getInt("total_time"),
+                        resultSet.getInt("totalTime"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate")
                 );
@@ -94,7 +94,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
                         resultSet.getBoolean("verified"),
-                        resultSet.getInt("total_time"),
+                        resultSet.getInt("totalTime"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate")
                 );
@@ -130,7 +130,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
                         resultSet.getBoolean("verified"),
-                        resultSet.getInt("total_time"),
+                        resultSet.getInt("totalTime"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate")
                 );
@@ -163,7 +163,7 @@ public class CourseDAO extends DBConnection {
                         resultSet.getString("picture"),
                         resultSet.getString("description"),
                         resultSet.getBoolean("verified"),
-                        resultSet.getInt("total_time"),
+                        resultSet.getInt("totalTime"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("rate")
                 );

@@ -25,16 +25,16 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int lessonID;
+    private int lessonId;
     @Column(name = "[index]")
     private int index;
     private String content = "";
     private int type;
     private int point;
 
-    public Question(int ID, int lessonID, int index, String content, int type, int point) {
+    public Question(int ID, int lessonId, int index, String content, int type, int point) {
         this.ID = ID;
-        this.lessonID = lessonID;
+        this.lessonId = lessonId;
         this.index = index;
         this.content = content;
         this.type = type;
@@ -42,7 +42,7 @@ public class Question {
     }
 
     @ManyToOne
-    @JoinColumn(name = "lessonID", insertable = false, updatable = false)
+    @JoinColumn(name = "lessonId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

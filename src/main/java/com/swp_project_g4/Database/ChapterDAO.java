@@ -60,7 +60,7 @@ public class ChapterDAO extends DBConnection {
                         resultSet.getInt("index"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("total_time"));
+                        resultSet.getInt("totalTime"));
             }
 
             disconnect();
@@ -89,7 +89,7 @@ public class ChapterDAO extends DBConnection {
                         resultSet.getInt("index"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("total_time"));
+                        resultSet.getInt("totalTime"));
                 chapters.add(chapter);
             }
 

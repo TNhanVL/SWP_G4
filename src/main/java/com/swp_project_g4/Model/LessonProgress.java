@@ -18,23 +18,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LessonProgress {
-    @Column(name = "lesson_progressID")
+    @Column(name = "lessonProgressId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int lessonID;
+    private int lessonId;
     private int chapterProgressID;
     private int progressPercent;
     private boolean completed;
     private Date startAt = new Date();
 
-    public LessonProgress(int lessonID, int chapterProgressID) {
-        this.lessonID = lessonID;
+    public LessonProgress(int lessonId, int chapterProgressID) {
+        this.lessonId = lessonId;
         this.chapterProgressID = chapterProgressID;
     }
 
     @ManyToOne
-    @JoinColumn(name = "lessonID", insertable=false, updatable=false)
+    @JoinColumn(name = "lessonId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

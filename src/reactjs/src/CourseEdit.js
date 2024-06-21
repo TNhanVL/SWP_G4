@@ -234,8 +234,8 @@ function EditLesson({lesson, afterEditLesson}) {
     useEffect(() => {
         if (!lesson) return
         //Get course
-        backend.post('lesson/getByLessonID', {
-            lessonID: lesson.id
+        backend.post('lesson/getByLessonId', {
+            lessonId: lesson.id
         }).then(res => {
             if (res) {
                 setEditLesson(res)
@@ -281,7 +281,7 @@ function EditLesson({lesson, afterEditLesson}) {
                     label: 'Yes',
                     onClick: () => {
                         backend.post('lesson/delete', {
-                            lessonID: lesson.id
+                            lessonId: lesson.id
                         }).then(res => {
                             if (!res) {
                                 popUpAlert.warning("Delete lesson failed")
@@ -661,7 +661,7 @@ function CourseEdit() {
                     {mode == 2 && course && <EditChapter chapter={editChapter} afterEditChapter={afterEditChapter}/>}
                     {mode == 3 && course && <EditLesson lesson={editLesson} afterEditLesson={afterEditLesson}/>}
                     {mode == 3 && course && editLesson && editLesson.type == 2 &&
-                        <QuestionsEdit lessonID={editLesson.id}/>}
+                        <QuestionsEdit lessonId={editLesson.id}/>}
                 </div>
 
 

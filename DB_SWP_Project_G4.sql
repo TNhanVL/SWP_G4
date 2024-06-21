@@ -53,9 +53,9 @@ CREATE TABLE [learner]
     username       VARCHAR(50)   NOT NULL,
     [password]     VARCHAR(50)   NOT NULL,
     email          VARCHAR(320),
-    email_verified BIT DEFAULT 0 NOT NULL,
-    [first_name]   NVARCHAR(50),
-    [last_name]    NVARCHAR(50),
+    emailVerified BIT DEFAULT 0 NOT NULL,
+    [firstName]   NVARCHAR(50),
+    [lastName]    NVARCHAR(50),
     birthday       DATE,
     countryID      INT FOREIGN KEY REFERENCES [country],
     [status]       int DEFAULT 0
@@ -71,8 +71,8 @@ CREATE TABLE instructor
     [password]     VARCHAR(50) NOT NULL,
     email          VARCHAR(320),
     picture        TEXT,
-    [first_name]   NVARCHAR(50),
-    [last_name]    NVARCHAR(50),
+    [firstName]   NVARCHAR(50),
+    [lastName]    NVARCHAR(50),
     [status]       int DEFAULT 0,
     FOREIGN KEY (organizationID) REFERENCES organization (organizationID)
 );
@@ -86,10 +86,10 @@ CREATE TABLE course
     [picture]       TEXT,
     [description]   NVARCHAR(50),
     verified        BIT DEFAULT 0,
-    total_time      INT DEFAULT 0,
+    totalTime      INT DEFAULT 0,
     price           NUMERIC(10, 2)     NOT NULL,
     rate            NUMERIC(2, 1),
-    number_of_rated INT DEFAULT 0,
+    numberOfRated INT DEFAULT 0,
     FOREIGN KEY (organizationID) REFERENCES organization (organizationID)
 );
 GO
@@ -99,8 +99,8 @@ CREATE TABLE sale
     saleID   INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     courseID INT                NOT NULL,
     price    NUMERIC(10, 2)     NOT NULL,
-    start_at DATETIME,
-    end_at   DATETIME,
+    startAt DATETIME,
+    endAt   DATETIME,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
@@ -162,19 +162,19 @@ CREATE TABLE chapter
     [index]       INT                NOT NULL,
     name          NVARCHAR(50),
     [description] NVARCHAR(50),
-    total_time    INT DEFAULT 0      NOT NULL,
+    totalTime    INT DEFAULT 0      NOT NULL,
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
 GO
 
 CREATE TABLE lesson
 (
-    lessonID          INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    lessonId          INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     chapterID         INT,
     name              NVARCHAR(50),
     description       NTEXT,
-    percent_to_passed INT DEFAULT 80     NOT NULL,
-    must_be_completed BIT DEFAULT 1      NOT NULL,
+    percentToPassed INT DEFAULT 80     NOT NULL,
+    mustBeCompleted BIT DEFAULT 1      NOT NULL,
     content           NTEXT,
     [index]           INT                NOT NULL,
     [type]            INT                NOT NULL,
@@ -185,17 +185,17 @@ GO
 
 CREATE TABLE course_progress
 (
-    course_progressID      INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    courseProgressId      INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
     learnerID              INT,
     courseID               INT,
     enrolled               BIT      DEFAULT 0                 NOT NULL,
-    progress_percent       INT      DEFAULT 0                 NOT NULL,
+    progressPercent       INT      DEFAULT 0                 NOT NULL,
     completed              BIT      DEFAULT 0                 NOT NULL,
-    action_after_completed BIT      DEFAULT 0                 NOT NULL,
+    actionAfterCompleted BIT      DEFAULT 0                 NOT NULL,
     rated                  BIT      DEFAULT 0                 NOT NULL,
     rate                   INT      DEFAULT 0                 NOT NULL,
-    total_time             INT      DEFAULT 0                 NOT NULL,
-    start_at               DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    totalTime             INT      DEFAULT 0                 NOT NULL,
+    startAt               DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (learnerID) REFERENCES [learner] (learnerID),
     FOREIGN KEY (courseID) REFERENCES course (courseID)
 );
@@ -203,40 +203,40 @@ GO
 
 CREATE TABLE chapter_progress
 (
-    chapter_progressID INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    chapterProgressId INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
     chapterID          INT,
-    course_progressID  INT,
-    progress_percent   INT      DEFAULT 0,
+    courseProgressId  INT,
+    progressPercent   INT      DEFAULT 0,
     completed          BIT      DEFAULT 0                 NOT NULL,
-    total_time         INT      DEFAULT 0,
-    start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    totalTime         INT      DEFAULT 0,
+    startAt           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (chapterID) REFERENCES chapter (chapterID),
-    FOREIGN KEY (course_progressID) REFERENCES course_progress (course_progressID)
+    FOREIGN KEY (courseProgressId) REFERENCES course_progress (courseProgressId)
 );
 GO
 
 CREATE TABLE lesson_progress
 (
-    lesson_progressID  INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    lessonID           INT,
-    chapter_progressID INT,
-    progress_percent   INT      DEFAULT 0                 NOT NULL,
+    lessonProgressId  INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    lessonId           INT,
+    chapterProgressId INT,
+    progressPercent   INT      DEFAULT 0                 NOT NULL,
     completed          BIT      DEFAULT 0                 NOT NULL,
-    start_at           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
-    FOREIGN KEY (chapter_progressID) REFERENCES chapter_progress (chapter_progressID)
+    startAt           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    FOREIGN KEY (lessonId) REFERENCES lesson (lessonId),
+    FOREIGN KEY (chapterProgressId) REFERENCES chapter_progress (chapterProgressId)
 );
 GO
 
 CREATE TABLE question
 (
     [questionID] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonID     INT,
+    lessonId     INT,
     [index]      INT                NOT NULL,
     content      NTEXT              NOT NULL,
     [type]       INT                NOT NULL,
     point        INT DEFAULT 1      NOT NULL,
-    FOREIGN KEY (lessonID) REFERENCES lesson (lessonID)
+    FOREIGN KEY (lessonId) REFERENCES lesson (lessonId)
 );
 GO
 
@@ -253,28 +253,28 @@ GO
 
 CREATE TABLE quiz_result
 (
-    quiz_resultID            INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonID                 INT,
-    lesson_progressID        INT,
-    number_of_correct_answer INT,
-    number_of_question       INT,
+    quizResultId            INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    lessonId                 INT,
+    lessonProgressId        INT,
+    numberOfCorrectAnswer INT,
+    numberOfQuestion       INT,
     mark                     INT,
     finished                 BIT DEFAULT 0      NOT NULL,
-    start_at                 DATETIME,
-    end_at                   DATETIME,
-    FOREIGN KEY (lessonID) REFERENCES lesson (lessonID),
-    FOREIGN KEY (lesson_progressID) REFERENCES [lesson_progress] (lesson_progressID)
+    startAt                 DATETIME,
+    endAt                   DATETIME,
+    FOREIGN KEY (lessonId) REFERENCES lesson (lessonId),
+    FOREIGN KEY (lessonProgressId) REFERENCES [lesson_progress] (lessonProgressId)
 );
 GO
 
 CREATE TABLE chosen_answer
 (
-    chosen_answerID INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    quiz_resultID   INT,
+    chosenAnswerId INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    quizResultId   INT,
     questionID      INT,
     answerID        INT,
     correct         BIT DEFAULT 0      NOT NULL,
-    FOREIGN KEY (quiz_resultID) REFERENCES quiz_result (quiz_resultID),
+    FOREIGN KEY (quizResultId) REFERENCES quiz_result (quizResultId),
     FOREIGN KEY (questionID) REFERENCES question (questionID),
     FOREIGN KEY (answerID) REFERENCES answer (answerID)
 );
@@ -299,8 +299,8 @@ CREATE OR ALTER TRIGGER updateChapterTotalTimeTrigger
     AS
 BEGIN
     update chapter
-    set chapter.total_time = IIF(cal.total_time IS NULL, 0, cal.total_time)
-    from (select chapterID, sum(time) total_time
+    set chapter.totalTime = IIF(cal.totalTime IS NULL, 0, cal.totalTime)
+    from (select chapterID, sum(time) totalTime
           from lesson
           group by chapterID) cal
     where chapter.chapterID in (select distinct chapterID
@@ -318,8 +318,8 @@ CREATE OR ALTER TRIGGER updateCourseTotalTimeTrigger
     AS
 BEGIN
     update course
-    set course.total_time = IIF(cal.total_time IS NULL, 0, cal.total_time)
-    from (select courseID, sum(total_time) total_time
+    set course.totalTime = IIF(cal.totalTime IS NULL, 0, cal.totalTime)
+    from (select courseID, sum(totalTime) totalTime
           from chapter
           group by courseID) cal
     where course.courseID in (select distinct courseID
@@ -337,31 +337,31 @@ CREATE OR ALTER TRIGGER updateCourseProgressTrigger
     AS
 BEGIN
     update course_progress
-    set course_progress.total_time       = IIF(chapter_progress_info.total_time IS NULL, 0,
-                                               chapter_progress_info.total_time),
+    set course_progress.totalTime       = IIF(chapter_progress_info.totalTime IS NULL, 0,
+                                               chapter_progress_info.totalTime),
         course_progress.completed        = IIF(sumCompleted = numberOfChapter, 1, 0),
-        course_progress.progress_percent = IIF(chapter_info.sumTime IS NULL OR chapter_info.sumTime = 0 OR
-                                               chapter_progress_info.total_time IS NULL, 0,
-                                               ROUND(chapter_progress_info.total_time * 100.0 / chapter_info.sumTime,
+        course_progress.progressPercent = IIF(chapter_info.sumTime IS NULL OR chapter_info.sumTime = 0 OR
+                                               chapter_progress_info.totalTime IS NULL, 0,
+                                               ROUND(chapter_progress_info.totalTime * 100.0 / chapter_info.sumTime,
                                                      0))
-    from (select chapter_progress.course_progressID,
+    from (select chapter_progress.courseProgressId,
                  courseID,
-                 sum(chapter_progress.total_time)             total_time,
+                 sum(chapter_progress.totalTime)             totalTime,
                  sum(cast(chapter_progress.completed as INT)) sumCompleted
           from chapter_progress
-                   join course_progress cp on chapter_progress.course_progressID = cp.course_progressID
-          group by chapter_progress.course_progressID, courseID) chapter_progress_info
-             join (select course.courseID, count(*) numberOfChapter, sum(course.total_time) sumTime
+                   join course_progress cp on chapter_progress.courseProgressId = cp.courseProgressId
+          group by chapter_progress.courseProgressId, courseID) chapter_progress_info
+             join (select course.courseID, count(*) numberOfChapter, sum(course.totalTime) sumTime
                    from course
                             join chapter c on course.courseID = c.courseID
                    group by course.courseID) chapter_info
                   on chapter_progress_info.courseID = chapter_info.courseID
-    where course_progress.course_progressID in (select distinct course_progressID
+    where course_progress.courseProgressId in (select distinct courseProgressId
                                                 from inserted
                                                 union
-                                                select distinct course_progressID
+                                                select distinct courseProgressId
                                                 from deleted)
-      and course_progress.course_progressID = chapter_progress_info.course_progressID
+      and course_progress.courseProgressId = chapter_progress_info.courseProgressId
 END
 GO
 
@@ -371,38 +371,38 @@ CREATE OR ALTER TRIGGER updateChapterProgressTrigger
     AS
 BEGIN
     update chapter_progress
-    set chapter_progress.total_time       = IIF(cal.total_time IS NULL, 0, cal.total_time),
+    set chapter_progress.totalTime       = IIF(cal.totalTime IS NULL, 0, cal.totalTime),
         chapter_progress.completed        = IIF(cal1.completed IS NULL, 0, cal1.completed),
-        chapter_progress.progress_percent = IIF(cal1.sumTime IS NULL OR cal1.sumTime = 0 OR cal.total_time IS NULL, 0,
-                                                round(cal.total_time * 100.0 / cal1.sumTime, 0))
-    from (select lp.chapter_progressID, sum(time) total_time
+        chapter_progress.progressPercent = IIF(cal1.sumTime IS NULL OR cal1.sumTime = 0 OR cal.totalTime IS NULL, 0,
+                                                round(cal.totalTime * 100.0 / cal1.sumTime, 0))
+    from (select lp.chapterProgressId, sum(time) totalTime
           from lesson_progress lp
-                   full join lesson l on lp.lessonID = l.lessonID
+                   full join lesson l on lp.lessonId = l.lessonId
           where lp.completed = 1
-          group by chapter_progressID) cal
+          group by chapterProgressId) cal
              join
-         (select chapter_progress_info_with_chapterID.chapter_progressID,
+         (select chapter_progress_info_with_chapterID.chapterProgressId,
                  IIF(sumCompleted = sumMustBeCompleted, 1, 0) completed,
                  sumTime
-          from (select chapterID, sum(cast(must_be_completed as INT)) sumMustBeCompleted, sum(time) sumTime
+          from (select chapterID, sum(cast(mustBeCompleted as INT)) sumMustBeCompleted, sum(time) sumTime
                 from lesson
                 group by chapterID) chapter_info
                    join
-               (select chapter_progress.chapter_progressID, sumCompleted, chapterID
-                from (select lesson_progress.chapter_progressID, sum(cast(completed as INT)) sumCompleted
+               (select chapter_progress.chapterProgressId, sumCompleted, chapterID
+                from (select lesson_progress.chapterProgressId, sum(cast(completed as INT)) sumCompleted
                       from lesson_progress
-                      group by lesson_progress.chapter_progressID) chapter_progress_info
+                      group by lesson_progress.chapterProgressId) chapter_progress_info
                          join chapter_progress
-                              on chapter_progress.chapter_progressID =
-                                 chapter_progress_info.chapter_progressID) chapter_progress_info_with_chapterID
+                              on chapter_progress.chapterProgressId =
+                                 chapter_progress_info.chapterProgressId) chapter_progress_info_with_chapterID
                on chapter_info.chapterID = chapter_progress_info_with_chapterID.chapterID) cal1
-         on cal.chapter_progressID = cal1.chapter_progressID
-    where chapter_progress.chapter_progressID in (select distinct chapter_progressID
+         on cal.chapterProgressId = cal1.chapterProgressId
+    where chapter_progress.chapterProgressId in (select distinct chapterProgressId
                                                   from inserted
                                                   union
-                                                  select distinct chapter_progressID
+                                                  select distinct chapterProgressId
                                                   from deleted)
-      and chapter_progress.chapter_progressID = cal.chapter_progressID
+      and chapter_progress.chapterProgressId = cal.chapterProgressId
 END
 GO
 
@@ -440,7 +440,7 @@ VALUES ('admin', '0e7517141fb53f21ee439b355b5a1d0a'),
 
 GO
 INSERT INTO [learner]
-(picture, username, [password], email, first_name, last_name, birthday, countryID, [status])
+(picture, username, [password], email, firstName, lastName, birthday, countryID, [status])
 VALUES ('a.jpg', 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'nhan12341184@gmail.com', 'Nhan', 'Tran Thanh',
         '1990-01-01', 16, 0),
        ('a.jpg', 'dylan12', 'e10adc3949ba59abbe56e057f20f883e', 'dylan@example.com', 'Huong', 'Nguyen Thi Diem',
@@ -456,12 +456,12 @@ VALUES (16, 'FPT University', 'fptuni', '5e7c74592ea8dffbfdc20c84de15afea', 'Nha
         N'Trường đại học top 1 Việt Nam');
 GO
 
--- INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [first_name], [last_name], [status])
+-- INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [firstName], [lastName], [status])
 -- VALUES (1, 1, 'sussybaka', '0cc175b9c0f1b6a831c399e269772661', 'instructor_email@example.com', '', 'Le', 'Truong Giang',
 --         1),
 --        (1, 1, 'instructor_1', '202cb962ac59075b964b07152d234b70', 'instructor_1@example.com', '', 'John', 'Doe', 1),
 --        (2, 2, 'instructor_2', 'c4ca4238a0b923820dcc509a6f75849b', 'instructor_2@example.com', '', 'Jane', 'Doe', 1);
-INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [first_name], [last_name],
+INSERT INTO instructor (organizationID, countryID, username, [password], email, picture, [firstName], [lastName],
                         [status])
 VALUES (1, 1, 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@example.com', 'a.jpg', 'John', 'Doe', 0),
        (1, 1, 'instructor_2', '202cb962ac59075b964b07152d234b70', 'instructor_2@example.com', 'a.jpg', 'Jane', 'Doe',
@@ -473,7 +473,7 @@ VALUES (1, 1, 'ttnhan', '0cc175b9c0f1b6a831c399e269772661', 'instructor_1@exampl
 
 GO
 INSERT INTO course
-(name, [picture], [description], organizationID, price, rate, verified, total_time)
+(name, [picture], [description], organizationID, price, rate, verified, totalTime)
 VALUES ('Dekiru Nihongo', 'nihon.png', 'easy', 1, 1, 4.2, 1, 0),
        ('Java advance', 'javaAd.png', 'medium', 1, 2, 4.5, 1, 0),
        ('C++', 'a.png', 'hard', 1, 1.2, 4.7, 1, 0),
@@ -526,7 +526,7 @@ VALUES (1, 1, N'Hiragana 。ひらがな', ''),
        (3, 2, N'Basic statements', '')
 GO
 INSERT INTO lesson
-    (chapterID, name, [index], [type], [time], must_be_completed, content)
+    (chapterID, name, [index], [type], [time], mustBeCompleted, content)
 VALUES (1, 'A, Ka Row', 1, 3, 3, 1, 's4RXDEVFO_E'),
        (1, 'Sa, Ta Row', 2, 3, 3, 1, 'J9MvqJnj5kQ'),
        (1, 'Practice 1: Choose the pronunciation', 3, 2, 5, 1, ''),
@@ -556,7 +556,7 @@ VALUES (1, 'A, Ka Row', 1, 3, 3, 1, 's4RXDEVFO_E'),
 
 GO
 INSERT INTO question
-    (lessonID, [index], content, [type], point)
+    (lessonId, [index], content, [type], point)
 VALUES (3, 1, 'a.png', 0, 1),
        (3, 2, 'i.png', 0, 1),
        (3, 3, 'u.png', 1, 1),
@@ -735,40 +735,40 @@ GO
 --on l.chapterID = m.ID) l
 --join
 --(select * from lesson_completed where userID = 1) lc
---on l.ID = lc.lessonID
+--on l.ID = lc.lessonId
 
 -- Check if question are correct
 --select 1 from
---(select selected_answer as ID from chosen_answer where quiz_resultID = 1 and questionID = 4) a
+--(select selected_answer as ID from chosen_answer where quizResultId = 1 and questionID = 4) a
 --full join
 --(select answerID from answer where questionID = 4 and correct = 1) b
 --on a.ID = b.answerID
 --where a.ID is null or b.answerID is null;
 
---select top 1 * from quiz_result where userID = 1 and lessonID = 2 order by start_at desc;
+--select top 1 * from quiz_result where userID = 1 and lessonId = 2 order by startAt desc;
 
 --get number completed lesson of a chapter
 --select count(*) as number from
---(select lessonID as ID from lesson_completed where userID = 1) as a
+--(select lessonId as ID from lesson_completed where userID = 1) as a
 --join
 --(select ID from lesson where chapterID = 1) as b
 --on a.ID = b.ID;
 
---get last lessonID
---select top 1 lessonID from
+--get last lessonId
+--select top 1 lessonId from
 --(select ID as chapterID, [index] as chapterIndex from chapter where courseID = 1) as a
 --join
---(select chapterID, ID as lessonID, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID
+--(select chapterID, ID as lessonId, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID
 --order by chapterIndex desc, lessonIndex desc;
 
---get first uncompleted lessonID
---select top 1 lessonID from
---(select chapterIndex, lessonID, lessonIndex from
+--get first uncompleted lessonId
+--select top 1 lessonId from
+--(select chapterIndex, lessonId, lessonIndex from
 --(select ID as chapterID, [index] as chapterIndex from chapter where courseID = 1) as a
 --join
---(select chapterID, ID as lessonID, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID) a
---where lessonID not in
---(select lessonID from lesson_completed where userID = 1)
+--(select chapterID, ID as lessonId, [index] as lessonIndex from lesson) as b on a.chapterID = b.chapterID) a
+--where lessonId not in
+--(select lessonId from lesson_completed where userID = 1)
 --order by chapterIndex, lessonIndex;
 
 update lesson
@@ -828,7 +828,7 @@ set content =
         <span class="token keyword">int</span> <span class="token keyword">int</span><span class="token punctuation">;</span>
         </code></pre>
         '
-where lessonID = 16;
+where lessonId = 16;
 GO
 
 INSERT INTO notification (learnerID, type, description, [read], receive_at)

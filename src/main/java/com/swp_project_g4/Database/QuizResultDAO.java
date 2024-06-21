@@ -25,12 +25,12 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select quiz_resultID from quiz_result where quiz_resultID = ?");
+            statement = conn.prepareStatement("select quizResultId from quiz_result where quizResultId = ?");
             statement.setInt(1, quizResultID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                if (resultSet.getInt("quiz_resultID") == quizResultID) {
+                if (resultSet.getInt("quizResultId") == quizResultID) {
                     ok = true;
                 }
             }
@@ -51,20 +51,20 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from quiz_result where quiz_resultID = ?");
+            statement = conn.prepareStatement("select * from quiz_result where quizResultId = ?");
             statement.setInt(1, quizResultID);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 quizResult = new QuizResult(
-                        resultSet.getInt("quiz_resultID"),
-                        resultSet.getInt("lessonID"),
-                        resultSet.getInt("lesson_progressID"),
-                        resultSet.getInt("number_of_correct_answer"),
-                        resultSet.getInt("number_of_question"),
+                        resultSet.getInt("quizResultId"),
+                        resultSet.getInt("lessonId"),
+                        resultSet.getInt("lessonProgressId"),
+                        resultSet.getInt("numberOfCorrectAnswer"),
+                        resultSet.getInt("numberOfQuestion"),
                         resultSet.getInt("mark"),
-                        resultSet.getTimestamp("start_at"),
-                        resultSet.getTimestamp("end_at")
+                        resultSet.getTimestamp("startAt"),
+                        resultSet.getTimestamp("endAt")
                 );
             }
 
@@ -83,7 +83,7 @@ public class QuizResultDAO extends DBConnection {
             return 0;
         }
 
-        ArrayList<Question> questions = QuestionDAO.getQuestionByLessonID(quizResult.getLessonID());
+        ArrayList<Question> questions = QuestionDAO.getQuestionByLessonId(quizResult.getLessonId());
 
         int point = 0;
 
@@ -96,28 +96,28 @@ public class QuizResultDAO extends DBConnection {
         return point;
     }
 
-    public static QuizResult getLastQuizResult(int userID, int lessonID) {
+    public static QuizResult getLastQuizResult(int userID, int lessonId) {
         QuizResult quizResult = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select top 1 * from quiz_result where learnerID = ? and lessonID = ? order by start_at desc");
+            statement = conn.prepareStatement("select top 1 * from quiz_result where learnerID = ? and lessonId = ? order by startAt desc");
             statement.setInt(1, userID);
-            statement.setInt(2, lessonID);
+            statement.setInt(2, lessonId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 quizResult = new QuizResult(
-                        resultSet.getInt("quiz_resultID"),
-                        resultSet.getInt("lessonID"),
-                        resultSet.getInt("lesson_progressID"),
-                        resultSet.getInt("number_of_correct_answer"),
-                        resultSet.getInt("number_of_question"),
+                        resultSet.getInt("quizResultId"),
+                        resultSet.getInt("lessonId"),
+                        resultSet.getInt("lessonProgressId"),
+                        resultSet.getInt("numberOfCorrectAnswer"),
+                        resultSet.getInt("numberOfQuestion"),
                         resultSet.getInt("mark"),
-                        resultSet.getTimestamp("start_at"),
-                        resultSet.getTimestamp("end_at")
+                        resultSet.getTimestamp("startAt"),
+                        resultSet.getTimestamp("endAt")
                 );
             }
 
@@ -137,8 +137,8 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into quiz_result(lessonID,start_at,end_at) values(?,?,?)");
-            statement.setInt(1, quizResult.getLessonID());
+            statement = conn.prepareStatement("insert into quiz_result(lessonId,startAt,endAt) values(?,?,?)");
+            statement.setInt(1, quizResult.getLessonId());
             statement.setString(2, dateFormat.format(quizResult.getStartAt()));
             statement.setString(3, dateFormat.format(quizResult.getEndAt()));
             statement.executeUpdate();
@@ -165,8 +165,8 @@ public class QuizResultDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update quiz_result set lessonID=?, start_at=?, end_at=? where quiz_resultID=?");
-            statement.setInt(1, quizResult.getLessonID());
+            statement = conn.prepareStatement("update quiz_result set lessonId=?, startAt=?, endAt=? where quizResultId=?");
+            statement.setInt(1, quizResult.getLessonId());
             statement.setString(2, dateFormat.format(quizResult.getStartAt()));
             statement.setString(3, dateFormat.format(quizResult.getEndAt()));
             statement.setInt(4, quizResult.getID());
@@ -188,7 +188,7 @@ public class QuizResultDAO extends DBConnection {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from quiz_result where quiz_resultID=?");
+            statement = conn.prepareStatement("delete from quiz_result where quizResultId=?");
             statement.setInt(1, quizResultID);
             statement.execute();
             disconnect();

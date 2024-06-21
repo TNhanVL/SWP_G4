@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseProgress {
-    @Column(name = "course_progressID")
+    @Column(name = "courseprogressid")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
