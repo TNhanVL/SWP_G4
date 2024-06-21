@@ -81,7 +81,7 @@ public class CourseController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String allCourses(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        List<Course> courses = repository.getCourseRepository().findAll();
+        List<Course> courses = courseService.getAll();
         model.addAttribute("courses", courses);
         return "user/allCourses";
     }

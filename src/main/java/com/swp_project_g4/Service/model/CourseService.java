@@ -14,6 +14,11 @@ public class CourseService {
     @Autowired
     private Repository repository;
 
+    public List<Course> getAll() {
+        var courses = repository.getCourseRepository().findAll();
+        return courses;
+    }
+
     public List<Course> getAllCreatedCourses(int instructorID) {
         var instructor = repository.getInstructorRepository().findById(instructorID).get();
         var instructs = instructor.getInstructs();
@@ -33,4 +38,7 @@ public class CourseService {
         return instructors;
     }
 
+    public void save(Course course) {
+        repository.getCourseRepository().save(course);
+    }
 }
