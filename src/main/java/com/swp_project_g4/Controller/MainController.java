@@ -4,7 +4,7 @@ import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.GooglePojo;
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
-import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,14 +29,14 @@ import java.util.logging.Logger;
 public class MainController {
 
     @Autowired
-    private Repo repo;
+    private Repository repository;
     @Autowired
     private EmailService emailService;
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     @ResponseBody
     public String getAll() {
-        var a = repo.getCountryRepository().findAll();
+        var a = repository.getCountryRepository().findAll();
         System.out.println(a);
         return "ok";
     }
@@ -64,7 +64,7 @@ public class MainController {
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
     public String forgetPasswordPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String email) {
         try {
-            var account = repo.getLearnerRepository().findByEmail(email).orElseThrow();
+            var account = repository.getLearnerRepository().findByEmail(email).orElseThrow();
 
             var resetToken = JwtUtil.generateJwt(account.getUsername(), account.getID() + "", CookiesToken.RESET);
 
@@ -112,11 +112,11 @@ public class MainController {
         try {
             var resetCookie = CookieServices.searchCookie(request.getCookies(), CookiesToken.RESET);
             var id = Integer.parseInt(resetCookie.get("password").toString());
-            var account = repo.getLearnerRepository().findById(id).orElseThrow();
+            var account = repository.getLearnerRepository().findById(id).orElseThrow();
 
             account.setPassword(MD5.getMd5(password));
 
-            repo.getLearnerRepository().save(account);
+            repository.getLearnerRepository().save(account);
 
             for (var cookie : request.getCookies()) {
                 if (cookie.getName().equals(CookiesToken.RESET.toString())) {
@@ -266,7 +266,7 @@ public class MainController {
     @RequestMapping(value = "/updateInstructor", method = RequestMethod.POST)
     public String updateInstructor(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int instructorID, @ModelAttribute("user") Learner learner) {
 
-        Instructor instructor1 = repo.getInstructorRepository().findById(instructorID).get();
+        Instructor instructor1 = repository.getInstructorRepository().findById(instructorID).get();
 
         if (instructor1 == null) {
             request.getSession().setAttribute("error", "User not exist!");
@@ -278,7 +278,7 @@ public class MainController {
         instructor1.setCountryID(learner.getCountryID());
         instructor1.setEmail(learner.getEmail());
 
-        repo.getInstructorRepository().save(instructor1);
+        repository.getInstructorRepository().save(instructor1);
         request.getSession().setAttribute("success", "Update user success!");
         return "redirect:/profile/instructor/" + instructor1.getUsername();
     }
@@ -296,27 +296,27 @@ public class MainController {
         try {
             switch (account_type) {
                 case "admin" -> {
-                    var admin = repo.getAdminRepository().findByUsername(username).orElseThrow();
+                    var admin = repository.getAdminRepository().findByUsername(username).orElseThrow();
                     login_password = admin.getPassword();
                     login_username = admin.getUsername();
                     token_type = CookiesToken.ADMIN;
                 }
                 case "learner" -> {
-                    var learner = repo.getLearnerRepository().findByUsername(username).orElseThrow();
+                    var learner = repository.getLearnerRepository().findByUsername(username).orElseThrow();
                     login_password = learner.getPassword();
                     login_username = learner.getUsername();
                     token_type = CookiesToken.LEARNER;
 
                 }
                 case "instructor" -> {
-                    var instructor = repo.getInstructorRepository().findByUsername(username).orElseThrow();
+                    var instructor = repository.getInstructorRepository().findByUsername(username).orElseThrow();
                     login_password = instructor.getPassword();
                     login_username = instructor.getUsername();
                     token_type = CookiesToken.INSTRUCTOR;
 
                 }
                 case "organization" -> {
-                    var organization = repo.getOrganizationRepository().findByUsername(username).orElseThrow();
+                    var organization = repository.getOrganizationRepository().findByUsername(username).orElseThrow();
                     login_password = organization.getPassword();
                     login_username = organization.getUsername();
                     token_type = CookiesToken.ORGANIZATION;

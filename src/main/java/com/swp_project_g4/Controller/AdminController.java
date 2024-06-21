@@ -6,7 +6,7 @@ import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Model.Organization;
-import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.MD5;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ import java.util.NoSuchElementException;
 public class AdminController {
 
     @Autowired
-    private Repo repo;
+    private Repository repository;
 
     @GetMapping("")
     public String redirect(HttpServletRequest request) {
@@ -41,10 +41,10 @@ public class AdminController {
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String dashboard(ModelMap model, HttpServletRequest request) {
-        request.getSession().setAttribute("learnerList", repo.getLearnerRepository().findAll());
-        request.getSession().setAttribute("orgList", repo.getOrganizationRepository().findAll());
-        request.getSession().setAttribute("instructorsList", repo.getInstructorRepository().findAll());
-        request.getSession().setAttribute("courseList", repo.getCourseRepository().findAll());
+        request.getSession().setAttribute("learnerList", repository.getLearnerRepository().findAll());
+        request.getSession().setAttribute("orgList", repository.getOrganizationRepository().findAll());
+        request.getSession().setAttribute("instructorsList", repository.getInstructorRepository().findAll());
+        request.getSession().setAttribute("courseList", repository.getCourseRepository().findAll());
         return "admin/dashboard";
     }
 
@@ -63,17 +63,17 @@ public class AdminController {
     public String editUser(ModelMap model, HttpServletRequest request, @RequestParam String id) {
         try {
             var user_id = Integer.parseInt(id);
-            var user = repo.getLearnerRepository().findById(user_id).orElseThrow();
-            var course_progress = repo.getCourseProgressRepository().findByLearnerID(user_id);
+            var user = repository.getLearnerRepository().findById(user_id).orElseThrow();
+            var course_progress = repository.getCourseProgressRepository().findByLearnerID(user_id);
             request.getSession().setAttribute("currentUser", user);
-            request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
+            request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
             request.getSession().setAttribute("courseProgress", course_progress);
             request.getSession().setAttribute("addUser", false);
 
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : course_progress) {
-                courseList.add(repo.getCourseRepository().findById(course.getCourseID()).orElseThrow());
+                courseList.add(repository.getCourseRepository().findById(course.getCourseID()).orElseThrow());
             }
 
             request.getSession().setAttribute("courseList", courseList);
@@ -98,7 +98,7 @@ public class AdminController {
         }
 
         try {
-            var user = repo.getLearnerRepository().findById(learner.getID()).orElseThrow();
+            var user = repository.getLearnerRepository().findById(learner.getID()).orElseThrow();
 
             if (!user.getPassword().equals(learner.getPassword()))
                 user.setPassword(MD5.getMd5(learner.getPassword()));
@@ -111,7 +111,7 @@ public class AdminController {
             user.setCountryID(learner.getCountryID());
             user.setStatus(learner.getStatus());
 
-            repo.getLearnerRepository().save(user);
+            repository.getLearnerRepository().save(user);
 
             request.getSession().setAttribute("success", "Update learner information succeed!");
 
@@ -148,12 +148,12 @@ public class AdminController {
     public String editOrganization(ModelMap model, HttpServletRequest request, @RequestParam String id) {
         try {
             var organization_id = Integer.parseInt(id);
-            var organization = repo.getOrganizationRepository().findById(organization_id).orElseThrow();
+            var organization = repository.getOrganizationRepository().findById(organization_id).orElseThrow();
             request.getSession().setAttribute("currentOrg", organization);
-            request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
-            var courseList = repo.getCourseRepository().findByOrganizationID(organization_id).orElseThrow();
+            request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
+            var courseList = repository.getCourseRepository().findByOrganizationID(organization_id).orElseThrow();
             request.getSession().setAttribute("courseList", courseList);
-            request.getSession().setAttribute("instructorsList", repo.getInstructorRepository().findByOrganizationID(organization_id).orElseThrow());
+            request.getSession().setAttribute("instructorsList", repository.getInstructorRepository().findByOrganizationID(organization_id).orElseThrow());
 
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Failed to load organization");
@@ -172,7 +172,7 @@ public class AdminController {
 
         try {
 
-            var user = repo.getOrganizationRepository().findById(organization.getID()).orElseThrow();
+            var user = repository.getOrganizationRepository().findById(organization.getID()).orElseThrow();
 
 
             if (!user.getPassword().equals(organization.getPassword()))
@@ -196,14 +196,14 @@ public class AdminController {
     public String editInstructor(HttpServletRequest request, @RequestParam String id) {
         try {
             var user_id = Integer.parseInt(id);
-            var user = repo.getInstructorRepository().findById(user_id).orElseThrow();
+            var user = repository.getInstructorRepository().findById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
-            request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
-            var instructed_course = repo.getInstructRepository().findByInstructorID(user_id).orElseThrow();
+            request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
+            var instructed_course = repository.getInstructRepository().findByInstructorID(user_id).orElseThrow();
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : instructed_course) {
-                courseList.add(repo.getCourseRepository().findById(course.getCourseID()).orElseThrow());
+                courseList.add(repository.getCourseRepository().findById(course.getCourseID()).orElseThrow());
             }
 
             request.getSession().setAttribute("courseList", courseList);
@@ -224,7 +224,7 @@ public class AdminController {
         }
 
         try {
-            var user = repo.getInstructorRepository().findById(instructor.getID()).orElseThrow();
+            var user = repository.getInstructorRepository().findById(instructor.getID()).orElseThrow();
 
             if (!user.getPassword().equals(instructor.getPassword()))
                 user.setPassword(MD5.getMd5(instructor.getPassword()));
@@ -236,7 +236,7 @@ public class AdminController {
             user.setStatus(instructor.getStatus());
             user.setEmail(instructor.getEmail());
 
-            repo.getInstructorRepository().save(user);
+            repository.getInstructorRepository().save(user);
             request.getSession().setAttribute("success", "Update instructor information succeed!");
 
         } catch (NumberFormatException e) {
@@ -252,8 +252,8 @@ public class AdminController {
             @ModelAttribute("organization") Learner learner, HttpServletRequest request) {
         try {
             learner.setPassword(MD5.getMd5(learner.getPassword()));
-            learner.setCountry(repo.getCountryRepository().findById(learner.getCountryID()).orElseThrow());
-            repo.getLearnerRepository().save(learner);
+            learner.setCountry(repository.getCountryRepository().findById(learner.getCountryID()).orElseThrow());
+            repository.getLearnerRepository().save(learner);
         } catch (Exception e) {
             request.getSession().setAttribute("error", "There are some error when add new learner!");
         }
@@ -264,9 +264,9 @@ public class AdminController {
     public String addLearnerGET(HttpServletRequest request) {
         try {
             var user = new Learner();
-            user.setID((int) repo.getLearnerRepository().count() + 1);
+            user.setID((int) repository.getLearnerRepository().count() + 1);
             request.getSession().setAttribute("currentUser", user);
-            request.getSession().setAttribute("countryList", repo.getCountryRepository().findAll());
+            request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
             request.getSession().setAttribute("addUser", true);
         } catch (NoSuchElementException ex) {
             request.getSession().setAttribute("error", "No such user information!");

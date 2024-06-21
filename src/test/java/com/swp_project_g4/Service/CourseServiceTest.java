@@ -10,20 +10,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class QuizServiceTest {
+class CourseServiceTest {
     @Autowired
     private Repository repository;
 
     @Test
-    void getAllCourseProgresses() {
-        var b = repository.getLearnerRepository().findByUsernameAndPassword("ttnhan", "0cc175b9c0f1b6a831c399e269772661");
+    void getAllCourse() {
+        var b = repository.getCourseRepository().findAll();
         System.out.println(b);
-    }
-
-    @Test
-    void getInstructorByID() {
-        Course course = repository.getCourseRepository().findById(1).get();
-        course = repository.getCourseRepository().save(course);
-        System.out.println(course);
     }
 }

@@ -1,7 +1,7 @@
 package com.swp_project_g4.RestController;
 
 import com.swp_project_g4.Model.Course;
-import com.swp_project_g4.Repository.Repo;
+import com.swp_project_g4.Repository.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,26 +14,26 @@ import java.util.Map;
 @RequestMapping("api/course")
 public class CourseRestController {
     @Autowired
-    private Repo repo;
+    private Repository repository;
 
     @PostMapping("/getByCourseID")
     public Course getByCourseID(@RequestBody Map<String, Integer> data) {
-        return repo.getCourseRepository().findById(data.get("courseID")).orElse(null);
+        return repository.getCourseRepository().findById(data.get("courseID")).orElse(null);
     }
 
     @GetMapping("/getAll")
     public List<Course> getAll() {
-        return repo.getCourseRepository().findAll();
+        return repository.getCourseRepository().findAll();
     }
 
     @PostMapping("/update")
     public Course update(@RequestBody Course course1) {
         try {
-            Course course = repo.getCourseRepository().findById(course1.getID()).get();
+            Course course = repository.getCourseRepository().findById(course1.getID()).get();
             course.setName(course1.getName());
             course.setDescription(course1.getDescription());
             course.setPrice(course1.getPrice());
-            course = repo.getCourseRepository().save(course);
+            course = repository.getCourseRepository().save(course);
             return course;
         } catch (Exception e) {
 
@@ -48,6 +48,6 @@ public class CourseRestController {
 
     @GetMapping("fetchCourse")
     public List<Course> fetchCourse() {
-        return repo.getCourseRepository().findAll();
+        return repository.getCourseRepository().findAll();
     }
 }

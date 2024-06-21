@@ -13,8 +13,6 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.swp_project_g4.Database.CourseDAO;
-import com.swp_project_g4.Database.InstructorDAO;
 import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
@@ -24,15 +22,12 @@ import com.swp_project_g4.Model.Organization;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.swp_project_g4.Repository.Repo;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.swp_project_g4.Repository.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,11 +37,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class Certificate {
 
-    private static Repo repo;
+    private static Repository repository;
 
     @Autowired
-    public Certificate(Repo repo) {
-        this.repo = repo;
+    public Certificate(Repository repository) {
+        this.repository = repository;
     }
 
     private static String srcPath = "src/main/webapp/public";
@@ -128,7 +123,7 @@ public class Certificate {
 
     public static void createCertificate(String certificateName, int userID, int courseID) {
         Learner learner = LearnerDAO.getUser(userID);
-        Course course = repo.getCourseRepository().findById(courseID).get();
+        Course course = repository.getCourseRepository().findById(courseID).get();
         String imagePath = "public/certificate/Yojihan_Certificate.png"; // Provide the path to your image file
 
         try {
