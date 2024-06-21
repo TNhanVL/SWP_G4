@@ -41,20 +41,6 @@ public class MainController {
         return "ok";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(HttpServletRequest request) {
-//        try {
-//            var loggedIn = CookieServices.checkLoggedIn(request);
-//            if (loggedIn) {
-//                request.getSession().setAttribute("error", "Please logout before login into another account");
-//                return "redirect:/";
-//            }
-//        } catch (Exception e) {
-//
-//        }
-        return "user/login";
-    }
-
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
     public String forgetPasswordGet(HttpServletRequest request) {
         request.getSession().setAttribute("sentPasswordRecoveryEmail", 0);
@@ -135,40 +121,6 @@ public class MainController {
 
         return "user/forgotPassword";
 
-    }
-
-    @RequestMapping(value = "/loginWithGG", method = RequestMethod.GET)
-//    @ResponseBody
-    public String loginWithGG(HttpServletRequest request, HttpServletResponse response, @RequestParam String code) {
-        if (code == null || code.isEmpty()) {
-            request.getSession().setAttribute("error", "Error when login with Google!");
-            return "redirect:/login";
-        } else {
-            try {
-                String accessToken = GoogleUtils.getToken(code);
-                GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-
-                Learner learner = LearnerDAO.getUserByEmail(googlePojo.getEmail());
-
-//                System.out.println(googlePojo);
-                if (learner != null
-                        && CookieServices.loginAccount(response, learner.getUsername(), learner.getPassword(), CookiesToken.LEARNER)) {
-                    request.getSession().setAttribute("success", "Login succeed!");
-                    return "redirect:./";
-                }
-
-                learner = new Learner(googlePojo);
-
-                request.setAttribute("userSignUp", learner);
-
-            } catch (IOException ex) {
-                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-                request.getSession().setAttribute("error", "Error when login with Google!");
-                return "redirect:/login";
-            }
-
-        }
-        return "user/signup";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
