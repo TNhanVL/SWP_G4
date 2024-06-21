@@ -15,7 +15,7 @@ import jakarta.persistence.*;
  * @author TTNhan
  */
 @Entity
-@Table(name = "[learner]")
+@Table(name = "[Learner]")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

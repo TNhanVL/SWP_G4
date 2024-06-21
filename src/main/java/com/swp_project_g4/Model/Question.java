@@ -16,7 +16,7 @@ import java.util.List;
  * @author TTNhan
  */
 @Entity
-@Table(name = "question")
+@Table(name = "Question")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

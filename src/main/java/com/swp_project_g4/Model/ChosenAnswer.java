@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author TTNhan
  */
 @Entity
-@Table(name = "chosen_answer")
+@Table(name = "ChosenAnswer")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

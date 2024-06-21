@@ -9,7 +9,7 @@ import lombok.*;
  * @author TTNhan
  */
 @Entity
-@Table(name = "admin")
+@Table(name = "Admin")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

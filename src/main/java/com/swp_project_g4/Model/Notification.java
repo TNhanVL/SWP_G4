@@ -11,7 +11,7 @@ import java.util.Date;
  * @author TTNhan
  */
 @Entity
-@Table(name = "notification")
+@Table(name = "Notification")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

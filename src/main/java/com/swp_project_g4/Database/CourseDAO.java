@@ -210,7 +210,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select count(*) as number from cart_product where userId = ?");
+            statement = conn.prepareStatement("select count(*) as number from Cart where userId = ?");
             statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
 
@@ -232,7 +232,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select 1 from cart_product where userId = ? and courseId = ?");
+            statement = conn.prepareStatement("select 1 from Cart where userId = ? and courseId = ?");
             statement.setInt(1, userId);
             statement.setInt(2, courseId);
             ResultSet resultSet = statement.executeQuery();
@@ -255,7 +255,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into cart_product(userId, courseId) values (?,?)");
+            statement = conn.prepareStatement("insert into Cart(userId, courseId) values (?,?)");
             statement.setInt(1, userId);
             statement.setInt(2, courseId);
 
@@ -278,7 +278,7 @@ public class CourseDAO extends DBConnection {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from cart_product where userId = ? and courseId = ?");
+            statement = conn.prepareStatement("delete from Cart where userId = ? and courseId = ?");
             statement.setInt(1, userId);
             statement.setInt(2, courseId);
             statement.execute();
@@ -297,7 +297,7 @@ public class CourseDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select courseId from cart_product where userId = ?");
+            statement = conn.prepareStatement("select courseId from Cart where userId = ?");
             statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
 

@@ -4,7 +4,6 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Model.Post" %>
 <%@page import="com.swp_project_g4.Model.Chapter" %>
 <%@page import="com.swp_project_g4.Model.Lesson" %>
 <%@page import="com.swp_project_g4.Service.CookieServices" %>

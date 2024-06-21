@@ -13,7 +13,7 @@ import java.util.List;
  * @author TTNhan
  */
 @Entity
-@Table(name = "[chapter_progress]")
+@Table(name = "[ChapterProgress]")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -6,7 +6,7 @@ import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "instruct")
+@Table(name = "Instruct")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 @Entity
-@Table(name = "sale")
+@Table(name = "Sale")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

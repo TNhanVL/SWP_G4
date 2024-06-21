@@ -17,7 +17,7 @@ import java.util.List;
  * @author TTNhan
  */
 @Entity
-@Table(name = "chapter")
+@Table(name = "Chapter")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
