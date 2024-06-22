@@ -271,11 +271,9 @@ CREATE TABLE ChosenAnswer
 (
     chosenAnswerId INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     quizResultId   INT,
-    questionId      INT,
     answerId        INT,
     correct         BIT DEFAULT 0      NOT NULL,
     FOREIGN KEY (quizResultId) REFERENCES QuizResult (quizResultId),
-    FOREIGN KEY (questionId) REFERENCES Question (questionId),
     FOREIGN KEY (answerId) REFERENCES Answer (answerId)
 );
 GO

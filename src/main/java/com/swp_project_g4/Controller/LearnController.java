@@ -2,6 +2,7 @@ package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.*;
 import com.swp_project_g4.Model.*;
+import com.swp_project_g4.Repository.ChosenAnswerRepository;
 import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.model.*;
@@ -22,9 +23,6 @@ import java.util.Set;
 @Controller
 @RequestMapping("/learn")
 public class LearnController {
-
-    @Autowired
-    private Repository repository;
     @Autowired
     private LearnerService learnerService;
     @Autowired
@@ -41,6 +39,10 @@ public class LearnController {
     private CourseProgressService courseProgressService;
     @Autowired
     private QuizResultService quizResultService;
+    @Autowired
+    private ChosenAnswerService chosenAnswerService;
+    @Autowired
+    private QuestionService questionService;
 
     @RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
     public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseId) {
@@ -84,6 +86,7 @@ public class LearnController {
             if (!chapterProgressOptional.isPresent()) {
                 chapterProgress = chapterProgressService.save(chapterProgress);
             }
+            boolean found = false;
             for (var lesson : chapter.getLessons()) {
                 lessonId = lesson.getID();
                 //check lessonProgress
@@ -93,10 +96,14 @@ public class LearnController {
                     if (!lessonProgressOptional.isPresent()) {
                         lessonProgressService.save(lessonProgress);
                     }
-                    return "redirect:/learn/" + courseId + "/" + lessonId;
+                    found = true;
+                    break;
                 }
             }
+            if (found) break;
         }
+
+
 
         return "redirect:/learn/" + courseId + "/" + lessonId;
     }
@@ -272,13 +279,15 @@ public class LearnController {
             return "out of time!";
         }
 
-        ChosenAnswerDAO.deleteChosenAnswerOfQuestion(quizResultID, questionId);
+        chosenAnswerService.deleteAllChosenAnswerWithQuizResultIdQuestionId(quizResultID, questionId);
+//        ChosenAnswerDAO.deleteChosenAnswerOfQuestion(quizResultID, questionId);
 
         String[] answerIds = data.split("_");
         for (String i : answerIds) {
             try {
                 int answerId = Integer.parseInt(i);
-                ChosenAnswerDAO.insertChosenAnswer(quizResultID, questionId, answerId);
+                chosenAnswerService.save(new ChosenAnswer(0, quizResultID, answerId, false));
+//                ChosenAnswerDAO.insertChosenAnswer(quizResultID, answerId);
             } catch (NumberFormatException e) {
 
             }
@@ -316,8 +325,10 @@ public class LearnController {
         quizResult.setFinished(true);
         quizResultService.save(quizResult);
 
-        int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
-        int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonId(lesson.getID());
+
+        int numberOfCorrectQuestion = quizResultService.calcTotalMarkByQuizResultId(quizResultID);
+//        int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
+        int numberOfQuestion = questionService.getAllByLessonId(lesson.getID()).size();
         if (numberOfCorrectQuestion * 100 >= numberOfQuestion * lesson.getPercentToPassed()) {
 //            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getID(), request);
             lessonProgressService.markLessonCompleted(learner.getID(), lesson.getID());

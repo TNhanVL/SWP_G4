@@ -19,7 +19,7 @@
     }
     for (Answer answer : answers) {
         String answerName = "answer" + answer.getID();
-        boolean checked = ChosenAnswerDAO.CheckChosenAnswer(quizResult.getID(), question.getID(), answer.getID());
+        boolean checked = ChosenAnswerDAO.CheckChosenAnswer(quizResult.getID(), answer.getID());
         String correctClass = "";
         if (quizResult.isFinished() && checked) {
             correctClass = AnswerDAO.getAnswer(answer.getID()).isCorrect() ? "correct" : "incorrect";

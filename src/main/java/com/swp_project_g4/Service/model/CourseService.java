@@ -20,8 +20,6 @@ public class CourseService {
     @Autowired
     private ChapterService chapterService;
     @Autowired
-    private LessonService lessonService;
-    @Autowired
     private InstructorService instructorService;
 
     public Optional<Course> getById(int courseId) {

@@ -14,15 +14,14 @@ import java.util.logging.Logger;
  */
 public class ChosenAnswerDAO extends DBConnection {
 
-    public static boolean CheckChosenAnswer(int quizResultID, int questionId, int selected_answer) {
+    public static boolean CheckChosenAnswer(int quizResultID, int selected_answer) {
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select 1 from ChosenAnswer where quizResultId = ? and questionId = ? and answerId = ?");
+            statement = conn.prepareStatement("select 1 from ChosenAnswer where quizResultId = ? and answerId = ?");
             statement.setInt(1, quizResultID);
-            statement.setInt(2, questionId);
-            statement.setInt(3, selected_answer);
+            statement.setInt(2, selected_answer);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -44,14 +43,13 @@ public class ChosenAnswerDAO extends DBConnection {
             connect();
 
             statement = conn.prepareStatement("select 1 from\n"
-                    + "(select answerId as ID from ChosenAnswer where quizResultId = ? and questionId = ?) a\n"
+                    + "(select answerId as ID from ChosenAnswer where quizResultId = ?) a\n"
                     + "full join\n"
                     + "(select answerId from answer where questionId = ? and correct = 1) b\n"
                     + "on a.ID = b.answerId\n"
                     + "where a.ID is null or b.answerId is null");
             statement.setInt(1, quizResultID);
             statement.setInt(2, questionId);
-            statement.setInt(3, questionId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -67,16 +65,15 @@ public class ChosenAnswerDAO extends DBConnection {
         return true;
     }
 
-    public static boolean insertChosenAnswer(int quizResultID, int questionId, int selected_answer) {
+    public static boolean insertChosenAnswer(int quizResultID, int selected_answer) {
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into ChosenAnswer(quizResultId,questionId,answerId,correct) values(?,?,?,?)");
+            statement = conn.prepareStatement("insert into ChosenAnswer(quizResultId,answerId,correct) values(?,?,?)");
             statement.setInt(1, quizResultID);
-            statement.setInt(2, questionId);
-            statement.setInt(3, selected_answer);
-            statement.setBoolean(4, false);
+            statement.setInt(2, selected_answer);
+            statement.setBoolean(3, false);
             statement.execute();
 
             //disconnect to database
@@ -94,9 +91,9 @@ public class ChosenAnswerDAO extends DBConnection {
     public static void deleteChosenAnswerOfQuestion(int quizResultID, int questionId) {
         try {
             connect();
-            statement = conn.prepareStatement("delete from ChosenAnswer where quizResultId = ? and questionId = ?");
+            statement = conn.prepareStatement("delete from ChosenAnswer where quizResultId = ?");
             statement.setInt(1, quizResultID);
-            statement.setInt(2, questionId);
+//            statement.setInt(2, questionId);
             statement.execute();
             disconnect();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -105,6 +102,6 @@ public class ChosenAnswerDAO extends DBConnection {
     }
 
     public static void main(String[] args) {
-        deleteChosenAnswerOfQuestion(1, 3);
+//        deleteChosenAnswerOfQuestion(1, 3);
     }
 }
