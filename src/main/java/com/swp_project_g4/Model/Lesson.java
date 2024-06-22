@@ -28,6 +28,7 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int chapterId;
+    private Integer quizId;
     private String name = "";
     private String description;
     private int percentToPassed = 80;
@@ -38,9 +39,10 @@ public class Lesson {
     private int index;
     private int time;
 
-    public Lesson(int ID, int chapterId, String name, String description, int percentToPassed, boolean mustBeCompleted, String content, int type, int index, int time) {
+    public Lesson(int ID, int chapterId, Integer quizId, String name, String description, int percentToPassed, boolean mustBeCompleted, String content, int type, int index, int time) {
         this.ID = ID;
         this.chapterId = chapterId;
+        this.quizId = quizId;
         this.name = name;
         this.description = description;
         this.percentToPassed = percentToPassed;
@@ -58,12 +60,12 @@ public class Lesson {
     @JsonIgnore
     private Chapter chapter;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lessonId")
+    @ManyToOne
+    @JoinColumn(name = "quizId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
-    private List<Question> questions = new ArrayList<>();
+    private Quiz quiz;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "lessonId")
@@ -71,11 +73,4 @@ public class Lesson {
     @ToString.Exclude
     @JsonIgnore
     private List<LessonProgress> lessonProgresses = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lessonId")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JsonIgnore
-    private List<QuizResult> quizResults = new ArrayList<>();
 }

@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    ArrayList<Question> questions = QuestionDAO.getQuestionByLessonId(lesson.getID());
+    var questions = new ArrayList<Question>((List<Question>)request.getAttribute("questions"));
 %>
 
 <div class="quiz-type1">

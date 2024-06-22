@@ -2,6 +2,7 @@ package com.swp_project_g4.RestController;
 
 import com.swp_project_g4.Model.Question;
 import com.swp_project_g4.Repository.Repository;
+import com.swp_project_g4.Service.model.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,8 @@ import java.util.Map;
 public class QuestionRestController {
     @Autowired
     private Repository repository;
+    @Autowired
+    private QuizService quizService;
 
     @PostMapping("/getByQuestionId")
     public Question getByQuestionId(@RequestBody Map<String, Integer> data) {
@@ -28,7 +31,7 @@ public class QuestionRestController {
     @PostMapping("/getByLessonId")
     public List<Question> getByLessonId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getQuestionRepository().findAllByLessonId(data.get("lessonId"));
+            return repository.getQuestionRepository().findAllByQuizId(data.get("quizId"));
         } catch (Exception e) {
 
         }
@@ -38,9 +41,9 @@ public class QuestionRestController {
     @PostMapping("/create")
     public Question create(@RequestBody Map<String, Integer> data) {
         try {
-            int questionSize = repository.getLessonRepository().findById(data.get("lessonId")).get().getQuestions().size();
+            int questionSize = quizService.getById(data.get("quizId")).get().getQuestions().size();
             Question question = new Question();
-            question.setLessonId(data.get("lessonId"));
+            question.setQuizId(data.get("quizId"));
             question.setIndex(questionSize + 1);
             question = repository.getQuestionRepository().save(question);
             return question;

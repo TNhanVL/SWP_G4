@@ -46,7 +46,7 @@
                     %></span>
             </div>
             <div class="listQuestion">
-                <h5><%out.print(QuestionDAO.getNumberQuestionByLessonId(lesson.getID()));%> questions</h5>
+                <h5>${numberOfQuestion} questions</h5>
             </div>
 
             <div class="finishBtn"><a href="/learn/startAQuiz/${lessonId}/${lessonProgressID}"><p>Take Quiz</p></a></div>

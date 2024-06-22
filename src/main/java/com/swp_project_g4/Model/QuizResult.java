@@ -26,7 +26,7 @@ public class QuizResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int lessonId;
+    private int quizId;
     private int lessonProgressID;
     private int numberOfCorrectAnswer;
     private int numberOfQuestion;
@@ -35,15 +35,15 @@ public class QuizResult {
     private Date startAt = new Date();
     private Date endAt;
 
-    public QuizResult(int lessonId, int lessonProgressID, Lesson lesson) {
-        this.lessonId = lessonId;
+    public QuizResult(int quizId, int lessonProgressID, Lesson lesson) {
+        this.quizId = quizId;
         this.lessonProgressID = lessonProgressID;
         endAt = new Date(startAt.getTime() + lesson.getTime() * 60 * 1000);
     }
 
-    public QuizResult(int ID, int lessonId, int lessonProgressID, int numberOfCorrectAnswer, int numberOfQuestion, int mark, Date startAt, Date endAt) {
+    public QuizResult(int ID, int quizId, int lessonProgressID, int numberOfCorrectAnswer, int numberOfQuestion, int mark, Date startAt, Date endAt) {
         this.ID = ID;
-        this.lessonId = lessonId;
+        this.quizId = quizId;
         this.lessonProgressID = lessonProgressID;
         this.numberOfCorrectAnswer = numberOfCorrectAnswer;
         this.numberOfQuestion = numberOfQuestion;
@@ -53,11 +53,11 @@ public class QuizResult {
     }
 
     @ManyToOne
-    @JoinColumn(name = "lessonId", insertable = false, updatable = false)
+    @JoinColumn(name = "quizId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
-    private Lesson lesson;
+    private Quiz quiz;
 
     @ManyToOne
     @JoinColumn(name = "lessonProgressID", insertable = false, updatable = false)

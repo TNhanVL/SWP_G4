@@ -37,6 +37,7 @@ public class LessonDAO extends DBConnection {
                 lesson = new Lesson(
                         resultSet.getInt("lessonId"),
                         resultSet.getInt("ChapterId"),
+                        resultSet.getInt("quizId"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
                         resultSet.getInt("percentToPassed"),
@@ -70,6 +71,7 @@ public class LessonDAO extends DBConnection {
                 Lesson lesson = new Lesson(
                         resultSet.getInt("lessonId"),
                         resultSet.getInt("ChapterId"),
+                        resultSet.getInt("quizId"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
                         resultSet.getInt("percentToPassed"),

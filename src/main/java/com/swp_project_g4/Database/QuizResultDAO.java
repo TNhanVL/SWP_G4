@@ -44,57 +44,59 @@ public class QuizResultDAO extends DBConnection {
 //        return ok;
 //    }
 
-    public static QuizResult getQuizResult(int quizResultID) {
-        QuizResult quizResult = null;
+//    public static QuizResult getQuizResult(int quizResultID) {
+//        QuizResult quizResult = null;
+//
+//        try {
+//            //connect to database
+//            connect();
+//
+//            statement = conn.prepareStatement("select * from QuizResult where quizResultId = ?");
+//            statement.setInt(1, quizResultID);
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            if (resultSet.next()) {
+//                quizResult = new QuizResult(
+//                        resultSet.getInt("quizResultId"),
+//                        resultSet.getInt("lessonId"),
+//                        resultSet.getInt("lessonProgressId"),
+//                        resultSet.getInt("numberOfCorrectAnswer"),
+//                        resultSet.getInt("numberOfQuestion"),
+//                        resultSet.getInt("mark"),
+//                        resultSet.getTimestamp("startAt"),
+//                        resultSet.getTimestamp("endAt")
+//                );
+//            }
+//
+//            disconnect();
+//        } catch (SQLException | ClassNotFoundException ex) {
+//            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        return quizResult;
+//    }
 
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("select * from QuizResult where quizResultId = ?");
-            statement.setInt(1, quizResultID);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                quizResult = new QuizResult(
-                        resultSet.getInt("quizResultId"),
-                        resultSet.getInt("lessonId"),
-                        resultSet.getInt("lessonProgressId"),
-                        resultSet.getInt("numberOfCorrectAnswer"),
-                        resultSet.getInt("numberOfQuestion"),
-                        resultSet.getInt("mark"),
-                        resultSet.getTimestamp("startAt"),
-                        resultSet.getTimestamp("endAt")
-                );
-            }
-
-            disconnect();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return quizResult;
-    }
-
-    public static int getQuizResultPoint(int quizResultID) {
-        QuizResult quizResult = getQuizResult(quizResultID);
-
-        if (quizResult == null) {
-            return 0;
-        }
-
-        ArrayList<Question> questions = QuestionDAO.getQuestionByLessonId(quizResult.getLessonId());
-
-        int point = 0;
-
-        for (Question question : questions) {
-            if (ChosenAnswerDAO.CheckChosenAnswerCorrect(quizResult.getID(), question.getID())) {
-                point++;
-            }
-        }
-
-        return point;
-    }
+//    public static int getQuizResultPoint(int quizResultID) {
+//        QuizResult quizResult = getQuizResult(quizResultID);
+//
+//        if (quizResult == null) {
+//            return 0;
+//        }
+//
+//        System.out.println(quizResult);
+//
+//        ArrayList<Question> questions = QuestionDAO.getQuestionByLessonId(quizResult.getQuiz().getLessonId());
+//
+//        int point = 0;
+//
+//        for (Question question : questions) {
+//            if (ChosenAnswerDAO.CheckChosenAnswerCorrect(quizResult.getID(), question.getID())) {
+//                point++;
+//            }
+//        }
+//
+//        return point;
+//    }
 
 //    public static QuizResult getLastQuizResult(int userId, int lessonId) {
 //        QuizResult quizResult = null;
