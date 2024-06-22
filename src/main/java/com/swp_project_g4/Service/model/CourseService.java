@@ -63,8 +63,8 @@ public class CourseService {
         return totalTime;
     }
 
-    public void save(Course course) {
-        courseRepository.save(course);
+    public Course save(Course course) {
+        return courseRepository.save(course);
     }
 
     public boolean reIndexAllChapterByCourseId(int courseId) {

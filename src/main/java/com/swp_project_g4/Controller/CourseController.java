@@ -7,7 +7,7 @@ import com.swp_project_g4.Model.Instruct;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.CookieServices;
-import com.swp_project_g4.Service.model.CourseService;
+import com.swp_project_g4.Service.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,18 @@ import java.util.List;
 @RequestMapping("/course")
 public class CourseController {
     @Autowired
-    private Repository repository;
-    @Autowired
     private CourseService courseService;
+    @Autowired
+    private CourseProgressService courseProgressService;
+    @Autowired
+    private LearnerService learnerService;
+    @Autowired
+    private InstructorService instructorService;
+    @Autowired
+    private InstructService instructService;
 
     @RequestMapping(value = "/deleteOrder/{courseId}", method = RequestMethod.GET)
-    public String deleteOrderFromCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseId) {
+    public String deleteCartByCourseId(ModelMap model, HttpServletRequest request, @PathVariable int courseId) {
 
         //check logged in
         if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
@@ -47,7 +53,7 @@ public class CourseController {
     @RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
     public String course(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseId) {
         //check course
-        var courseOptional = repository.getCourseRepository().findById(courseId);
+        var courseOptional = courseService.getById(courseId);
         if (!courseOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this course!");
             return "redirect:/course/all";
@@ -55,10 +61,10 @@ public class CourseController {
         var course = courseOptional.get();
 
         var username = CookieServices.getUserNameOfLearner(request.getCookies());
-        var learnerOptional = repository.getLearnerRepository().findByUsername(username);
+        var learnerOptional = learnerService.getByUsername(username);
         var learner = learnerOptional.orElse(null);
         if (learnerOptional.isPresent()) {
-            var courseProgressOptional = repository.getCourseProgressRepository().findByCourseIdAndLearnerId(courseId, learner.getID());
+            var courseProgressOptional = courseProgressService.getByCourseIdAndLearnerId(courseId, learner.getID());
             if (courseProgressOptional.isPresent()) {
                 model.addAttribute("coursePurchased", courseId);
                 model.addAttribute("courseProgress", courseProgressOptional.get());
@@ -66,7 +72,7 @@ public class CourseController {
             }
         }
 
-        var courseProgresses = repository.getCourseProgressRepository().findAllByCourseId(courseId);
+        var courseProgresses = courseProgressService.getAllByCourseId(courseId);
         var instructors = courseService.getAllInstructors(courseId);
 
         model.addAttribute("instructors", instructors);
@@ -94,15 +100,15 @@ public class CourseController {
     public String createCourse(ModelMap model, HttpServletRequest request) {
         try {
             String username = CookieServices.getUserNameOfInstructor(request.getCookies());
-            var instructor = repository.getInstructorRepository().findByUsername(username).get();
+            var instructor = instructorService.getByUsername(username).get();
             var course = new Course();
             course.setOrganizationId(instructor.getOrganizationId());
             course.setName("New course");
-            course = repository.getCourseRepository().save(course);
+            course = courseService.save(course);
             Instruct instruct = new Instruct();
             instruct.setCourseId(course.getID());
             instruct.setInstructorId(instructor.getID());
-            repository.getInstructRepository().save(instruct);
+            instructService.save(instruct);
             return "redirect:/course/edit/" + course.getID();
         } catch (Exception e) {
 

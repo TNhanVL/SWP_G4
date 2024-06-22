@@ -21,6 +21,11 @@ public class CourseProgressService {
         return courseProgress;
     }
 
+    public List<CourseProgress> getAllByCourseId(int courseId) {
+        var courseProgress = courseProgressRepository.findAllByCourseId(courseId);
+        return courseProgress;
+    }
+
     public List<CourseProgress> getAllByLearnerIdAndCompleted(int learnerId, boolean completed) {
         var courseProgress = courseProgressRepository.findAllByLearnerIdAndCompleted(learnerId, completed);
         return courseProgress;
