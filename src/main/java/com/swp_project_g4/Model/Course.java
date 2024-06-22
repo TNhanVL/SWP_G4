@@ -18,16 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "course")
+@Table(name = "Course")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course {
-    @Column(name = "courseID")
+    @Column(name = "courseId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int organizationID;
+    private int organizationId;
     private String name;
     private String picture;
     private String description;
@@ -37,9 +37,9 @@ public class Course {
     private double rate;
     private int numberOfRated;
 
-    public Course(int ID, int organizationID, String name, String picture, String description, boolean verified, int totalTime, double price, double rate) {
+    public Course(int ID, int organizationId, String name, String picture, String description, boolean verified, int totalTime, double price, double rate) {
         this.ID = ID;
-        this.organizationID = organizationID;
+        this.organizationId = organizationId;
         this.name = name;
         this.picture = picture;
         this.description = description;
@@ -50,42 +50,42 @@ public class Course {
     }
 
     @ManyToOne
-    @JoinColumn(name = "organizationID", insertable = false, updatable = false)
+    @JoinColumn(name = "organizationId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Organization organization;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "courseID")
+    @JoinColumn(name = "courseId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Chapter> chapters = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "courseID")
+    @JoinColumn(name = "courseId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Sale> sales = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "courseID")
+    @JoinColumn(name = "courseId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "courseID")
+    @JoinColumn(name = "courseId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Instruct> instructs = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "courseID")
+    @JoinColumn(name = "courseId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

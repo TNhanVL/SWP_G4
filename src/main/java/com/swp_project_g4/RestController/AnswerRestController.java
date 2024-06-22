@@ -1,7 +1,9 @@
 package com.swp_project_g4.RestController;
 
 import com.swp_project_g4.Model.Answer;
+import com.swp_project_g4.Repository.AnswerRepository;
 import com.swp_project_g4.Repository.Repository;
+import com.swp_project_g4.Service.model.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,22 +15,22 @@ import java.util.Map;
 @RequestMapping("api/answer")
 public class AnswerRestController {
     @Autowired
-    private Repository repository;
+    private AnswerService answerService;
 
     @PostMapping("/getByAnswerID")
     public Answer getByAnswerID(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getAnswerRepository().findById(data.get("answerID")).get();
+            return answerService.getById(data.get("answerId")).get();
         } catch (Exception e) {
 
         }
         return null;
     }
 
-    @PostMapping("/getByQuestionID")
-    public List<Answer> getByQuestionID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByQuestionId")
+    public List<Answer> getByQuestionId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getAnswerRepository().findByQuestionID(data.get("questionID"));
+            return answerService.getAllByQuestionId(data.get("questionId"));
         } catch (Exception e) {
 
         }
@@ -38,10 +40,10 @@ public class AnswerRestController {
     @PostMapping("/create")
     public Answer create(@RequestBody Map<String, Integer> data) {
         try {
-            int answerSize = repository.getQuestionRepository().findById(data.get("questionID")).get().getAnswers().size();
+            int answerSize = answerService.getAllByQuestionId(data.get("questionId")).size();
             Answer answer = new Answer();
-            answer.setQuestionID(data.get("questionID"));
-            answer = repository.getAnswerRepository().save(answer);
+            answer.setQuestionId(data.get("questionId"));
+            answer = answerService.save(answer);
             return answer;
         } catch (Exception e) {
 
@@ -52,7 +54,7 @@ public class AnswerRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            repository.getAnswerRepository().deleteById(data.get("answerID"));
+            answerService.deleteById(data.get("answerId"));
             return true;
         } catch (Exception e) {
 
@@ -63,10 +65,10 @@ public class AnswerRestController {
     @PostMapping("/update")
     public Answer update(@RequestBody Answer answer1) {
         try {
-            Answer answer = repository.getAnswerRepository().findById(answer1.getID()).get();
+            Answer answer = answerService.getById(answer1.getID()).get();
             answer.setContent(answer1.getContent());
             answer.setCorrect(answer1.isCorrect());
-            answer = repository.getAnswerRepository().save(answer);
+            answer = answerService.save(answer);
             return answer;
         } catch (Exception e) {
 

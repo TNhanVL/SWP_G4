@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -29,8 +28,8 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @RequestMapping(value = "/deleteOrder/{courseID}", method = RequestMethod.GET)
-    public String deleteOrderFromCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
+    @RequestMapping(value = "/deleteOrder/{courseId}", method = RequestMethod.GET)
+    public String deleteOrderFromCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseId) {
 
         //check logged in
         if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
@@ -40,15 +39,15 @@ public class CourseController {
 
         Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
-        CourseDAO.deleteCartProduct(learner.getID(), courseID);
+        CourseDAO.deleteCartProduct(learner.getID(), courseId);
 
-        return "redirect:/course/" + courseID;
+        return "redirect:/course/" + courseId;
     }
 
-    @RequestMapping(value = "/{courseID}", method = RequestMethod.GET)
-    public String course(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseID) {
+    @RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
+    public String course(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseId) {
         //check course
-        var courseOptional = repository.getCourseRepository().findById(courseID);
+        var courseOptional = repository.getCourseRepository().findById(courseId);
         if (!courseOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this course!");
             return "redirect:/course/all";
@@ -59,23 +58,23 @@ public class CourseController {
         var learnerOptional = repository.getLearnerRepository().findByUsername(username);
         var learner = learnerOptional.orElse(null);
         if (learnerOptional.isPresent()) {
-            var courseProgressOptional = repository.getCourseProgressRepository().findByCourseIDAndLearnerID(courseID, learner.getID());
+            var courseProgressOptional = repository.getCourseProgressRepository().findByCourseIdAndLearnerId(courseId, learner.getID());
             if (courseProgressOptional.isPresent()) {
-                model.addAttribute("coursePurchased", courseID);
+                model.addAttribute("coursePurchased", courseId);
                 model.addAttribute("courseProgress", courseProgressOptional.get());
                 request.getSession().setAttribute("courseProgress", courseProgressOptional.get());
             }
         }
 
-        var courseProgresses = repository.getCourseProgressRepository().findByCourseID(courseID);
-        var instructors = courseService.getAllInstructors(courseID);
+        var courseProgresses = repository.getCourseProgressRepository().findAllByCourseId(courseId);
+        var instructors = courseService.getAllInstructors(courseId);
 
         model.addAttribute("instructors", instructors);
         model.addAttribute("numberOfPurchased", courseProgresses.size());
-        model.addAttribute("courseID", courseID);
+        model.addAttribute("courseId", courseId);
         request.getSession().setAttribute("learner", learner);
         request.getSession().setAttribute("course", course);
-        request.getSession().setAttribute("courseID", courseID);
+        request.getSession().setAttribute("courseId", courseId);
         return "user/course";
     }
 
@@ -86,8 +85,8 @@ public class CourseController {
         return "user/allCourses";
     }
 
-    @GetMapping("edit/{courseID}")
-    public String editCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
+    @GetMapping("edit/{courseId}")
+    public String editCourse(ModelMap model, HttpServletRequest request, @PathVariable int courseId) {
         return "reactjs/index";
     }
 
@@ -97,12 +96,12 @@ public class CourseController {
             String username = CookieServices.getUserNameOfInstructor(request.getCookies());
             var instructor = repository.getInstructorRepository().findByUsername(username).get();
             var course = new Course();
-            course.setOrganizationID(instructor.getOrganizationID());
+            course.setOrganizationId(instructor.getOrganizationId());
             course.setName("New course");
             course = repository.getCourseRepository().save(course);
             Instruct instruct = new Instruct();
-            instruct.setCourseID(course.getID());
-            instruct.setInstructorID(instructor.getID());
+            instruct.setCourseId(course.getID());
+            instruct.setInstructorId(instructor.getID());
             repository.getInstructRepository().save(instruct);
             return "redirect:/course/edit/" + course.getID();
         } catch (Exception e) {

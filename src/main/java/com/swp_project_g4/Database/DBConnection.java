@@ -68,7 +68,7 @@ public class DBConnection {
         try {
             connect();
 
-//            statement = conn.prepareStatement("UPDATE [learner] SET first_name = ?  WHERE ID = 4");
+//            statement = conn.prepareStatement("UPDATE [learner] SET firstName = ?  WHERE ID = 4");
 //            statement.setString(1, "Thanh Nhân");
 //            statement.execute();
 

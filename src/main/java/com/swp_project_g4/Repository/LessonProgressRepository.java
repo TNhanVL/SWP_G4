@@ -8,8 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface LessonProgressRepository extends JpaRepository<LessonProgress, Integer> {
-    Optional<LessonProgress> findByLessonIDAndChapterProgressID(int lessonID, int chapterProgressID);
+    Optional<LessonProgress> findByLessonIdAndChapterProgressID(int lessonId, int chapterProgressID);
 
-    void deleteAllByLessonID(int lessonID);
+    void deleteAllByLessonId(int lessonId);
     void deleteAllByChapterProgressID(int chapterProgressID);
 }

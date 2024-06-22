@@ -17,7 +17,7 @@ import java.util.List;
  * @author TTNhan
  */
 @Entity
-@Table(name = "quiz_result")
+@Table(name = "QuizResult")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +26,7 @@ public class QuizResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int lessonID;
+    private int lessonId;
     private int lessonProgressID;
     private int numberOfCorrectAnswer;
     private int numberOfQuestion;
@@ -35,15 +35,15 @@ public class QuizResult {
     private Date startAt = new Date();
     private Date endAt;
 
-    public QuizResult(int lessonID, int lessonProgressID, Lesson lesson) {
-        this.lessonID = lessonID;
+    public QuizResult(int lessonId, int lessonProgressID, Lesson lesson) {
+        this.lessonId = lessonId;
         this.lessonProgressID = lessonProgressID;
         endAt = new Date(startAt.getTime() + lesson.getTime() * 60 * 1000);
     }
 
-    public QuizResult(int ID, int lessonID, int lessonProgressID, int numberOfCorrectAnswer, int numberOfQuestion, int mark, Date startAt, Date endAt) {
+    public QuizResult(int ID, int lessonId, int lessonProgressID, int numberOfCorrectAnswer, int numberOfQuestion, int mark, Date startAt, Date endAt) {
         this.ID = ID;
-        this.lessonID = lessonID;
+        this.lessonId = lessonId;
         this.lessonProgressID = lessonProgressID;
         this.numberOfCorrectAnswer = numberOfCorrectAnswer;
         this.numberOfQuestion = numberOfQuestion;
@@ -53,7 +53,7 @@ public class QuizResult {
     }
 
     @ManyToOne
-    @JoinColumn(name = "lessonID", insertable = false, updatable = false)
+    @JoinColumn(name = "lessonId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

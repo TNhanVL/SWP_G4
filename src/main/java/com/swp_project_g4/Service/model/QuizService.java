@@ -11,25 +11,29 @@ import java.util.Date;
 @Service
 public class QuizService {
     @Autowired
-    private Repository repository;
-    @Autowired
     private LessonProgressService lessonProgressService;
+    @Autowired
+    private QuizResultService quizResultService;
+    @Autowired
+    private QuestionService questionService;
+    @Autowired
+    private LessonService lessonService;
 
     public void endAQuiz(QuizResult quizResult) {
         if (quizResult.isFinished()) return;
 
-        int learnerID = quizResult.getLessonProgress().getChapterProgress().getCourseProgress().getLearnerID();
-        Lesson lesson = repository.getLessonRepository().findById(quizResult.getLessonID()).get();
+        int learnerId = quizResult.getLessonProgress().getChapterProgress().getCourseProgress().getLearnerId();
+        Lesson lesson = lessonService.getById(quizResult.getLessonId()).get();
 
-        //set end_at to current
+        //set endAt to current
         if (quizResult.getEndAt().after(new Date())) quizResult.setEndAt(new Date());
         quizResult.setFinished(true);
-        repository.getQuizResultRepository().save(quizResult);
+        quizResultService.save(quizResult);
 
-        int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResult.getID());
-        int numberOfQuestion = QuestionDAO.getNumberQuestionByLessonID(lesson.getID());
+        int numberOfCorrectQuestion = quizResultService.calcTotalMarkByQuizResultId(quizResult.getID());
+        int numberOfQuestion = questionService.getAllByLessonId(lesson.getID()).size();
         if (numberOfCorrectQuestion * 100 >= numberOfQuestion * lesson.getPercentToPassed()) {
-            lessonProgressService.markLessonCompleted(learnerID, lesson.getID());
+            lessonProgressService.markLessonCompleted(learnerId, lesson.getID());
         }
     }
 

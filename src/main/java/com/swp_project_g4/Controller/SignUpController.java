@@ -38,8 +38,8 @@ public class SignUpController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signupPost(HttpServletRequest request, @ModelAttribute("user") Learner learner) {
-        if (learner.getCountryID() == 0) {
-            learner.setCountryID(16);
+        if (learner.getCountryId() == 0) {
+            learner.setCountryId(16);
         }
         learner.setPassword(MD5.getMd5(learner.getPassword()));
 

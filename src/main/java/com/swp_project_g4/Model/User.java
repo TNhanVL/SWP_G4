@@ -19,15 +19,15 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private int countryID;
+    private int countryId;
     private int status;
 
-    public User(String picture, String username, String password, String email, int countryID, int status) {
+    public User(String picture, String username, String password, String email, int countryId, int status) {
         this.picture = picture;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.countryID = countryID;
+        this.countryId = countryId;
         this.status = status;
     }
 
@@ -36,7 +36,7 @@ public class User {
         this.username = user.username;
         this.password = user.password;
         this.email = user.email;
-        this.countryID = user.countryID;
+        this.countryId = user.countryId;
         this.status = user.status;
     }
 
@@ -46,7 +46,7 @@ public class User {
     }
 
     @ManyToOne
-    @JoinColumn(name = "countryID", insertable = false, updatable = false)
+    @JoinColumn(name = "countryId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

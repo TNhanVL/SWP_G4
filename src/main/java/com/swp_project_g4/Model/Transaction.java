@@ -6,17 +6,17 @@ import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "[transaction]")
+@Table(name = "[Transaction]")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
-    @Column(name = "transactionID")
+    @Column(name = "transactionId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int learnerID;
-    private int courseID;
+    private int learnerId;
+    private int courseId;
     private double originPrice;
     private double price;
     private int type;
@@ -24,14 +24,14 @@ public class Transaction {
     private int status;
 
     @ManyToOne
-    @JoinColumn(name = "learnerID", insertable=false, updatable=false)
+    @JoinColumn(name = "learnerId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Learner learner;
 
     @ManyToOne
-    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @JoinColumn(name = "courseId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

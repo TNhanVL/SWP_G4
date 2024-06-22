@@ -18,16 +18,16 @@ import java.util.List;
  * @author TTNhan
  */
 @Entity
-@Table(name = "lesson")
+@Table(name = "Lesson")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Lesson {
-    @Column(name = "lessonID")
+    @Column(name = "lessonId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int chapterID;
+    private int chapterId;
     private String name = "";
     private String description;
     private int percentToPassed = 80;
@@ -38,9 +38,9 @@ public class Lesson {
     private int index;
     private int time;
 
-    public Lesson(int ID, int chapterID, String name, String description, int percentToPassed, boolean mustBeCompleted, String content, int type, int index, int time) {
+    public Lesson(int ID, int chapterId, String name, String description, int percentToPassed, boolean mustBeCompleted, String content, int type, int index, int time) {
         this.ID = ID;
-        this.chapterID = chapterID;
+        this.chapterId = chapterId;
         this.name = name;
         this.description = description;
         this.percentToPassed = percentToPassed;
@@ -52,28 +52,28 @@ public class Lesson {
     }
 
     @ManyToOne
-    @JoinColumn(name = "chapterID", insertable = false, updatable = false)
+    @JoinColumn(name = "chapterId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Chapter chapter;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lessonID")
+    @JoinColumn(name = "lessonId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lessonID")
+    @JoinColumn(name = "lessonId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<LessonProgress> lessonProgresses = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lessonID")
+    @JoinColumn(name = "lessonId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

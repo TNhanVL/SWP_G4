@@ -9,12 +9,12 @@ import lombok.*;
  * @author TTNhan
  */
 @Entity
-@Table(name = "admin")
+@Table(name = "Admin")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Admin {
-    @Column(name = "adminID")
+    @Column(name = "adminId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;

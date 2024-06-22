@@ -53,151 +53,151 @@ public class CourseDAOTest {
 
     @Test
     void addCourse_test_1() {
-        int organizationID = 1;
+        int organizationId = 1;
         String name = "";
         String picture = "";
         double price = 0;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertFalse(res);
     }
 
     @Test
     void addCourse_test_2() {
-        int organizationID = 1;
+        int organizationId = 1;
         String name = "Nihongo";
         String picture = "";
         double price = 0;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertTrue(res);
     }
 
     @Test
     void addCourse_test_3() {
-        int organizationID = 1;
+        int organizationId = 1;
         String name = "Nihongo";
         String picture = "a.png";
         double price = 10.234;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertTrue(res);
     }
 
     @Test
     void addCourse_test_4() {
-        int organizationID = 1;
+        int organizationId = 1;
         String name = "Nihongo";
         String picture = "a.png";
         double price = -10.12;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertFalse(res);
     }
 
     @Test
     void addCourse_test_5() {
-        int organizationID = 1;
+        int organizationId = 1;
         String name = "PYTHON FOR BEGINNER";
         String picture = "a.png";
         double price = 4;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertTrue(res);
     }
 
     @Test
     void addCourse_test_6() {
-        int organizationID = 1;
+        int organizationId = 1;
         String name = "PYTHON FOR BEGINNER";
         String picture = "https://www.vitto.vn/sac-hoa-tulip";
         double price = 4;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertTrue(res);
     }
 
     @Test
     void addCourse_test_7() {
-        int organizationID = 1;
+        int organizationId = 1;
         String name = "Nihongo";
         String picture = "a.png";
         double price = 4;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertTrue(res);
     }
 
     @Test
     void addCourse_test_8() {
-        int organizationID = 1;
+        int organizationId = 1;
         String name = "Nihongo";
         String picture = "https://www.vitto.vn/sac-hoa-tulip";
         double price = 4;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertTrue(res);
     }
 
     @Test
     void addCourse_test_9() {
-        int organizationID = 1;
+        int organizationId = 1;
         String name = "PYTHON FOR BEGINNER";
         String picture = "https://www.vitto.vn/sac-hoa-tulip";
         double price = 10.234;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertTrue(res);
     }
 
     @Test
     void addCourse_test_10() {
-        int organizationID = -12;
+        int organizationId = -12;
         String name = "Nihongo";
         String picture = "a.png";
         double price = 4;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertFalse(res);
     }
 
     @Test
     void addCourse_test_11() {
-        int organizationID = -12;
+        int organizationId = -12;
         String name = "";
         String picture = "";
         double price = 0;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertFalse(res);
     }
 
     @Test
     void addCourse_test_12() {
-        int organizationID = -12;
+        int organizationId = -12;
         String name = "PYTHON FOR BEGINNER";
         String picture = "https://www.vitto.vn/sac-hoa-tulip";
         double price = 10.234;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertFalse(res);
     }
 
     @Test
     void addCourse_test_13() {
-        int organizationID = 1607;
+        int organizationId = 1607;
         String name = "";
         String picture = "";
         double price = -10.12;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertFalse(res);
     }
 
     @Test
     void addCourse_test_14() {
-        int organizationID = 1607;
+        int organizationId = 1607;
         String name = "Nihongo";
         String picture = "a.png";
         double price = 10.234;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertFalse(res);
     }
 
     @Test
     void addCourse_test_15() {
-        int organizationID = 1607;
+        int organizationId = 1607;
         String name = "PYTHON FOR BEGINNER";
         String picture = "https://www.vitto.vn/sac-hoa-tulip";
         double price = 4;
-        boolean res = CourseDAO.addCourse(organizationID, name, picture, price);
+        boolean res = CourseDAO.addCourse(organizationId, name, picture, price);
         assertFalse(res);
     }
 }

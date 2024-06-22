@@ -98,10 +98,10 @@
 
                     <%
                         Learner learner = LearnerDAO.getUser(ID);
-                        request.setAttribute("userID", learner.getID());
+                        request.setAttribute("userId", learner.getID());
                     %>
 
-                    <form modelAttribute="driver" action="./editUser?id=${userID}" method="post" id="updateUserForm">
+                    <form modelAttribute="driver" action="./editUser?id=${userId}" method="post" id="updateUserForm">
                         <div class="card-body">
 
                             <div class="form-group">
@@ -166,13 +166,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="country">country</label>
-                                <select id="country" class="form-control" name="countryID" required>
+                                <select id="country" class="form-control" name="countryId" required>
                                     <%
                                         ArrayList<Country> countries = CountryDAO.getAllCountry();
                                         for (Country country : countries) {
                                     %>
                                     <option value=<%out.print(country.getID());
-                                        if (country.getID() == learner.getCountryID()) {%>
+                                        if (country.getID() == learner.getCountryId()) {%>
                                                     selected="selected"
                                             <%}%>>
                                         <%out.print(country.getName());%>

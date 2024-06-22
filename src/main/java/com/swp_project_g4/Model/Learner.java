@@ -15,12 +15,12 @@ import jakarta.persistence.*;
  * @author TTNhan
  */
 @Entity
-@Table(name = "[learner]")
+@Table(name = "[Learner]")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Learner extends User {
-    @Column(name = "learnerID")
+    @Column(name = "learnerId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
@@ -30,8 +30,8 @@ public class Learner extends User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
-    public Learner(int ID, String picture, String username, String password, String email, boolean emailVerified, String firstName, String lastName, Date birthday, int countryID, int status) {
-        super(picture, username, password, email, countryID, status);
+    public Learner(int ID, String picture, String username, String password, String email, boolean emailVerified, String firstName, String lastName, Date birthday, int countryId, int status) {
+        super(picture, username, password, email, countryId, status);
         this.ID = ID;
         this.emailVerified = emailVerified;
         this.firstName = firstName;
@@ -54,21 +54,21 @@ public class Learner extends User {
     }
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "learnerID")
+    @JoinColumn(name = "learnerId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "learnerID")
+    @JoinColumn(name = "learnerId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "learnerID")
+    @JoinColumn(name = "learnerId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

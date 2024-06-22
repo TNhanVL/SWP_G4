@@ -17,18 +17,18 @@ import java.util.logging.Logger;
  */
 public class ChapterDAO extends DBConnection {
 
-    public static boolean existChapter(int chapterID) {
+    public static boolean existChapter(int chapterId) {
         boolean ok = false;
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select chapterID from chapter where chapterID = ?");
-            statement.setInt(1, chapterID);
+            statement = conn.prepareStatement("select chapterId from chapter where chapterId = ?");
+            statement.setInt(1, chapterId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                if (resultSet.getInt("chapterID") == chapterID) {
+                if (resultSet.getInt("chapterId") == chapterId) {
                     ok = true;
                 }
             }
@@ -42,25 +42,25 @@ public class ChapterDAO extends DBConnection {
         return ok;
     }
 
-    public static Chapter getChapter(int chapterID) {
+    public static Chapter getChapter(int chapterId) {
         Chapter chapter = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from chapter where chapterID = ?");
-            statement.setInt(1, chapterID);
+            statement = conn.prepareStatement("select * from chapter where chapterId = ?");
+            statement.setInt(1, chapterId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 chapter = new Chapter(
-                        resultSet.getInt("chapterID"),
-                        resultSet.getInt("courseID"),
+                        resultSet.getInt("chapterId"),
+                        resultSet.getInt("courseId"),
                         resultSet.getInt("index"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("total_time"));
+                        resultSet.getInt("totalTime"));
             }
 
             disconnect();
@@ -71,25 +71,25 @@ public class ChapterDAO extends DBConnection {
         return chapter;
     }
 
-    public static ArrayList<Chapter> getChaptersByCourseID(int courseID) {
+    public static ArrayList<Chapter> getChaptersByCourseId(int courseId) {
         ArrayList<Chapter> chapters = new ArrayList<>();
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from chapter where courseID = ? order by [index]");
-            statement.setInt(1, courseID);
+            statement = conn.prepareStatement("select * from chapter where courseId = ? order by [index]");
+            statement.setInt(1, courseId);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 Chapter chapter = new Chapter(
-                        resultSet.getInt("chapterID"),
-                        resultSet.getInt("courseID"),
+                        resultSet.getInt("chapterId"),
+                        resultSet.getInt("courseId"),
                         resultSet.getInt("index"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("total_time"));
+                        resultSet.getInt("totalTime"));
                 chapters.add(chapter);
             }
 
@@ -106,8 +106,8 @@ public class ChapterDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into chapter(courseID,[index],name,description) values(?,?,?,?)");
-            statement.setInt(1, chapter.getCourseID());
+            statement = conn.prepareStatement("insert into chapter(courseId,[index],name,description) values(?,?,?,?)");
+            statement.setInt(1, chapter.getCourseId());
             statement.setInt(2, chapter.getIndex());
             statement.setString(3, chapter.getName());
             statement.setString(4, chapter.getDescription());
@@ -129,8 +129,8 @@ public class ChapterDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update chapter set courseID=?, [index]=?, name=?, description=? where chapterID=?");
-            statement.setInt(1, chapter.getCourseID());
+            statement = conn.prepareStatement("update chapter set courseId=?, [index]=?, name=?, description=? where chapterId=?");
+            statement.setInt(1, chapter.getCourseId());
             statement.setInt(2, chapter.getIndex());
             statement.setString(3, chapter.getName());
             statement.setString(4, chapter.getDescription());
@@ -147,17 +147,17 @@ public class ChapterDAO extends DBConnection {
         return false;
     }
 
-    public static boolean deleteChapter(int chapterID) {
+    public static boolean deleteChapter(int chapterId) {
         try {
-            if (!existChapter(chapterID)) {
+            if (!existChapter(chapterId)) {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from chapter where chapterID=?");
-            statement.setInt(1, chapterID);
+            statement = conn.prepareStatement("delete from chapter where chapterId=?");
+            statement.setInt(1, chapterId);
             statement.execute();
             disconnect();
-            return !existChapter(chapterID);
+            return !existChapter(chapterId);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -165,6 +165,6 @@ public class ChapterDAO extends DBConnection {
     }
 
     public static void main(String[] args) {
-        System.out.println(getChaptersByCourseID(1));
+        System.out.println(getChaptersByCourseId(1));
     }
 }

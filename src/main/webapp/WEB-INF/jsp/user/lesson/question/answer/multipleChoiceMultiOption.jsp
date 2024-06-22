@@ -14,13 +14,13 @@
 <p><b>Choose all correct answer:</b></p>
 <%
 //    Question question = null;
-    ArrayList<Answer> answers = AnswerDAO.getAnswersByQuestionID(question.getID());
+    ArrayList<Answer> answers = AnswerDAO.getAnswersByQuestionId(question.getID());
     if (!quizResult.isFinished()) {
         Collections.shuffle(answers);
     }
     for (Answer answer : answers) {
         String answerName = "answer" + answer.getID();
-        boolean checked = ChosenAnswerDAO.CheckChosenAnswer(quizResult.getID(), question.getID(), answer.getID());
+        boolean checked = ChosenAnswerDAO.CheckChosenAnswer(quizResult.getID(), answer.getID());
         String correctClass = "";
         if (quizResult.isFinished() && checked) {
             correctClass = AnswerDAO.getAnswer(answer.getID()).isCorrect() ? "correct" : "incorrect";

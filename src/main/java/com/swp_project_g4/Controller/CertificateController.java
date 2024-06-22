@@ -28,18 +28,18 @@ public class CertificateController {
     @Autowired
     private Certificate certificate;
 
-    @RequestMapping(value = "/{learnerID}/{courseID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{learnerId}/{courseId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Resource> lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int learnerID, @PathVariable int courseID) {
-        certificate.createCertificate("certificate.pdf", learnerID, courseID);
+    public ResponseEntity<Resource> lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int learnerId, @PathVariable int courseId) {
+        certificate.createCertificate("certificate.pdf", learnerId, courseId);
         Resource file = storageService.loadAsResource("certificate/certificate.pdf");
 
         if (file == null)
             return ResponseEntity.notFound().build();
 
-        Learner learner = repository.getLearnerRepository().findById(learnerID).get();
+        Learner learner = repository.getLearnerRepository().findById(learnerId).get();
 
-        String certificateFileName = repository.getCourseRepository().findById(courseID).get().getName() + " " +
+        String certificateFileName = repository.getCourseRepository().findById(courseId).get().getName() + " " +
                 learner.getFirstName() + " " + learner.getLastName() + " certificate";
         certificateFileName = certificateFileName.replace(' ', '_');
         certificateFileName += ".pdf";

@@ -16,23 +16,23 @@ import java.util.List;
  * @author TTNhan
  */
 @Entity
-@Table(name = "[instructor]")
+@Table(name = "[Instructor]")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Instructor extends User {
-    @Column(name = "instructorID")
+    @Column(name = "instructorId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int organizationID;
+    private int organizationId;
     private String firstName;
     private String lastName;
 
-    public Instructor(int ID, int organizationID, String picture, String username, String password, String email, String firstName, String lastName, int countryID, int status) {
-        super(picture, username, password, email, countryID, status);
+    public Instructor(int ID, int organizationId, String picture, String username, String password, String email, String firstName, String lastName, int countryId, int status) {
+        super(picture, username, password, email, countryId, status);
         this.ID = ID;
-        this.organizationID = organizationID;
+        this.organizationId = organizationId;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -47,27 +47,27 @@ public class Instructor extends User {
     public Instructor(Instructor instructor) {
         super(instructor);
         this.ID = instructor.ID;
-        this.organizationID = instructor.organizationID;
+        this.organizationId = instructor.organizationId;
         this.firstName = instructor.firstName;
         this.lastName = instructor.lastName;
     }
 
     @ManyToOne
-    @JoinColumn(name = "organizationID", insertable=false, updatable=false)
+    @JoinColumn(name = "organizationId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Organization organization;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "instructorID")
+    @JoinColumn(name = "instructorId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Instruct> instructs = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "instructorID")
+    @JoinColumn(name = "instructorId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

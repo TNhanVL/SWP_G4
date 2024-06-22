@@ -24,7 +24,7 @@ public class CountryDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select [name] from country where CountryID = ?");
+            statement = conn.prepareStatement("select [name] from country where CountryId = ?");
             statement.setInt(1, ID);
             ResultSet resultSet = statement.executeQuery();
 
@@ -51,7 +51,7 @@ public class CountryDAO extends DBConnection {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Country country = new Country(resultSet.getInt("countryID"), resultSet.getString("name"));
+                Country country = new Country(resultSet.getInt("countryId"), resultSet.getString("name"));
                 countries.add(country);
             }
 

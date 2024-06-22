@@ -121,9 +121,9 @@ public class Certificate {
         addText(OrganizationName, fontName, baseColor, size, px, py, contentByte, document);
     }
 
-    public static void createCertificate(String certificateName, int userID, int courseID) {
-        Learner learner = LearnerDAO.getUser(userID);
-        Course course = repository.getCourseRepository().findById(courseID).get();
+    public static void createCertificate(String certificateName, int userId, int courseId) {
+        Learner learner = LearnerDAO.getUser(userId);
+        Course course = repository.getCourseRepository().findById(courseId).get();
         String imagePath = "public/certificate/Yojihan_Certificate.png"; // Provide the path to your image file
 
         try {
@@ -154,7 +154,7 @@ public class Certificate {
 
             addDate(contentByte, document);
 
-            Organization organization = OrganizationDAO.getOrganization(course.getOrganizationID());
+            Organization organization = OrganizationDAO.getOrganization(course.getOrganizationId());
             addOrganizationName(organization.getName(), contentByte, document);
 
             document.close();

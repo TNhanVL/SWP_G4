@@ -104,7 +104,7 @@ class LearnerDAOTest {
         learner.setFirstName("First Name");
         learner.setLastName("Last Name");
         learner.setBirthday(new Date());
-        learner.setCountryID(1);
+        learner.setCountryId(1);
         learner.setStatus(1);
 
         boolean success = LearnerDAO.updateUser(learner);

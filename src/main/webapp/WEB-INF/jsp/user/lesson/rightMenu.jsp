@@ -12,14 +12,14 @@
     <h4><%out.print(course.getName());%></h4>
 
     <%
-        ArrayList<Chapter> chapters = ChapterDAO.getChaptersByCourseID(course.getID());
-        Set<Integer> completedLessonIDs = (Set<Integer>) request.getAttribute("completedLessonIDs");
+        ArrayList<Chapter> chapters = ChapterDAO.getChaptersByCourseId(course.getID());
+        Set<Integer> completedLessonIds = (Set<Integer>) request.getAttribute("completedLessonIds");
         for (Chapter chapter1 : chapters) {
 
-            ArrayList<Lesson> lessons = LessonDAO.getLessonsByChapterID(chapter1.getID());
+            ArrayList<Lesson> lessons = LessonDAO.getLessonsByChapterId(chapter1.getID());
             int numberOfCompleted = 0;
             for(var lesson1: lessons){
-                if(completedLessonIDs.contains(lesson1.getID())){
+                if(completedLessonIds.contains(lesson1.getID())){
                     numberOfCompleted++;
                 }
             }
@@ -52,7 +52,7 @@
                     }%>">
                     <span class="lesson-status">
                         <!-- checked -->
-                        <i class="<%if (completedLessonIDs.contains(lesson1.getID())) {
+                        <i class="<%if (completedLessonIds.contains(lesson1.getID())) {
                                 out.print("fa-solid fa-square-check");
                             } else {
                                 out.print("fa-regular fa-square");

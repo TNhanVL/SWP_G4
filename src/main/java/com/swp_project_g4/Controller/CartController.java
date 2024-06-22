@@ -20,8 +20,8 @@ public class CartController {
         return "user/cart";
     }
 
-    @RequestMapping(value = "/add/{courseID}", method = RequestMethod.GET)
-    public String addOrderByCourseID(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
+    @RequestMapping(value = "/add/{courseId}", method = RequestMethod.GET)
+    public String addOrderByCourseId(ModelMap model, HttpServletRequest request, @PathVariable int courseId) {
 
         //check logged in
         if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
@@ -31,13 +31,13 @@ public class CartController {
 
         Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
-        CourseDAO.insertCartProduct(learner.getID(), courseID);
+        CourseDAO.insertCartProduct(learner.getID(), courseId);
 
-        return "redirect:/course/" + courseID;
+        return "redirect:/course/" + courseId;
     }
 
-    @RequestMapping(value = "/delete/{courseID}", method = RequestMethod.GET)
-    public String deleteOrderFromCart(ModelMap model, HttpServletRequest request, @PathVariable int courseID) {
+    @RequestMapping(value = "/delete/{courseId}", method = RequestMethod.GET)
+    public String deleteOrderFromCart(ModelMap model, HttpServletRequest request, @PathVariable int courseId) {
 
         //check logged in
         if (!CookieServices.checkLearnerLoggedIn(request.getCookies())) {
@@ -47,7 +47,7 @@ public class CartController {
 
         Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
-        CourseDAO.deleteCartProduct(learner.getID(), courseID);
+        CourseDAO.deleteCartProduct(learner.getID(), courseId);
 
         return "redirect:/cart";
     }

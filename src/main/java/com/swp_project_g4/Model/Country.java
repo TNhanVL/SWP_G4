@@ -12,12 +12,12 @@ import lombok.*;
  * @author TTNhan
  */
 @Entity
-@Table(name = "country")
+@Table(name = "Country")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Country {
-    @Column(name = "countryID")
+    @Column(name = "countryId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;

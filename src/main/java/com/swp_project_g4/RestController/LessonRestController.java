@@ -2,6 +2,7 @@ package com.swp_project_g4.RestController;
 
 import com.swp_project_g4.Model.Lesson;
 import com.swp_project_g4.Repository.Repository;
+import com.swp_project_g4.Service.model.ChapterService;
 import com.swp_project_g4.Service.model.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +18,22 @@ public class LessonRestController {
     @Autowired
     private Repository repository;
     @Autowired
-    private LessonService lessonService;
+    private ChapterService chapterService;
 
-    @PostMapping("/getByLessonID")
-    public Lesson getByLessonID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByLessonId")
+    public Lesson getByLessonId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getLessonRepository().findById(data.get("lessonID")).get();
+            return repository.getLessonRepository().findById(data.get("lessonId")).get();
         } catch (Exception e) {
 
         }
         return null;
     }
 
-    @PostMapping("/getByChapterID")
-    public List<Lesson> getByChapterID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByChapterId")
+    public List<Lesson> getByChapterId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getChapterRepository().findById(data.get("chapterID")).get().getLessons();
+            return repository.getChapterRepository().findById(data.get("chapterId")).get().getLessons();
         } catch (Exception e) {
 
         }
@@ -42,9 +43,9 @@ public class LessonRestController {
     @PostMapping("/create")
     public Lesson create(@RequestBody Map<String, Integer> data) {
         try {
-            int lessonSize = repository.getChapterRepository().findById(data.get("chapterID")).get().getLessons().size();
+            int lessonSize = repository.getChapterRepository().findById(data.get("chapterId")).get().getLessons().size();
             Lesson lesson = new Lesson();
-            lesson.setChapterID(data.get("chapterID"));
+            lesson.setChapterId(data.get("chapterId"));
             lesson.setIndex(lessonSize + 1);
             lesson = repository.getLessonRepository().save(lesson);
             return lesson;
@@ -57,9 +58,9 @@ public class LessonRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            var lesson = repository.getLessonRepository().findById(data.get("lessonID")).get();
+            var lesson = repository.getLessonRepository().findById(data.get("lessonId")).get();
             repository.getLessonRepository().deleteById(lesson.getID());
-            lessonService.reIndexAllLessonByChapterID(lesson.getChapterID());
+            chapterService.reIndexAllLessonByChapterId(lesson.getChapterId());
             return true;
         } catch (Exception e) {
 
@@ -91,7 +92,7 @@ public class LessonRestController {
     public boolean update(@RequestBody Map<String, Integer> data) {
         try {
             int size = data.get("size");
-            int chapterID = data.get("chapterID");
+            int chapterId = data.get("chapterId");
             for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);

@@ -64,7 +64,7 @@ public class AdminController {
         try {
             var user_id = Integer.parseInt(id);
             var user = repository.getLearnerRepository().findById(user_id).orElseThrow();
-            var course_progress = repository.getCourseProgressRepository().findByLearnerID(user_id);
+            var course_progress = repository.getCourseProgressRepository().findAllByLearnerId(user_id);
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
             request.getSession().setAttribute("courseProgress", course_progress);
@@ -73,7 +73,7 @@ public class AdminController {
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : course_progress) {
-                courseList.add(repository.getCourseRepository().findById(course.getCourseID()).orElseThrow());
+                courseList.add(repository.getCourseRepository().findById(course.getCourseId()).orElseThrow());
             }
 
             request.getSession().setAttribute("courseList", courseList);
@@ -108,7 +108,7 @@ public class AdminController {
             user.setLastName(learner.getLastName());
             user.setEmail(learner.getEmail());
             user.setBirthday(learner.getBirthday());
-            user.setCountryID(learner.getCountryID());
+            user.setCountryId(learner.getCountryId());
             user.setStatus(learner.getStatus());
 
             repository.getLearnerRepository().save(user);
@@ -151,9 +151,9 @@ public class AdminController {
             var organization = repository.getOrganizationRepository().findById(organization_id).orElseThrow();
             request.getSession().setAttribute("currentOrg", organization);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
-            var courseList = repository.getCourseRepository().findByOrganizationID(organization_id).orElseThrow();
+            var courseList = repository.getCourseRepository().findAllByOrganizationId(organization_id);
             request.getSession().setAttribute("courseList", courseList);
-            request.getSession().setAttribute("instructorsList", repository.getInstructorRepository().findByOrganizationID(organization_id).orElseThrow());
+            request.getSession().setAttribute("instructorsList", repository.getInstructorRepository().findAllByOrganizationId(organization_id));
 
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Failed to load organization");
@@ -199,11 +199,11 @@ public class AdminController {
             var user = repository.getInstructorRepository().findById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
-            var instructed_course = repository.getInstructRepository().findByInstructorID(user_id).orElseThrow();
+            var instructed_course = repository.getInstructRepository().findAllByInstructorId(user_id);
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : instructed_course) {
-                courseList.add(repository.getCourseRepository().findById(course.getCourseID()).orElseThrow());
+                courseList.add(repository.getCourseRepository().findById(course.getCourseId()).orElseThrow());
             }
 
             request.getSession().setAttribute("courseList", courseList);
@@ -230,7 +230,7 @@ public class AdminController {
                 user.setPassword(MD5.getMd5(instructor.getPassword()));
 
             user.setUsername(instructor.getUsername());
-            user.setCountryID(instructor.getCountryID());
+            user.setCountryId(instructor.getCountryId());
             user.setFirstName(instructor.getFirstName());
             user.setLastName(instructor.getLastName());
             user.setStatus(instructor.getStatus());
@@ -252,7 +252,7 @@ public class AdminController {
             @ModelAttribute("organization") Learner learner, HttpServletRequest request) {
         try {
             learner.setPassword(MD5.getMd5(learner.getPassword()));
-            learner.setCountry(repository.getCountryRepository().findById(learner.getCountryID()).orElseThrow());
+            learner.setCountry(repository.getCountryRepository().findById(learner.getCountryId()).orElseThrow());
             repository.getLearnerRepository().save(learner);
         } catch (Exception e) {
             request.getSession().setAttribute("error", "There are some error when add new learner!");

@@ -11,19 +11,19 @@ import {hover} from "@testing-library/user-event/dist/hover";
 import Editor from "ckeditor5-custom-build";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 
-function Answer({answerID, getAnswers, getQuestions, correct, trySetCorrectAnswer}) {
+function Answer({answerId, getAnswers, getQuestions, correct, trySetCorrectAnswer}) {
 
     const [answer, setAnswer] = useState({})
     const [content, setContent] = useState('')
     //last time doing action
     const lastAction = useRef(Date.now())
-    const answerIDRef = useRef('')
+    const answerIdRef = useRef('')
     const contentRef = useRef('')
 
     function getAnswer() {
         //get answer
         backend.post('answer/getByAnswerID', {
-            answerID
+            answerId
         }).then(res => {
             if (!res) {
                 window.location.replace('/')
@@ -35,10 +35,10 @@ function Answer({answerID, getAnswers, getQuestions, correct, trySetCorrectAnswe
 
     useEffect(() => {
         getAnswer();
-    }, [answerID])
+    }, [answerId])
 
     useEffect(() => {
-        answerIDRef.current = answer.id
+        answerIdRef.current = answer.id
         contentRef.current = answer.content
         setContent(answer.content)
     }, [answer.id])
@@ -54,7 +54,7 @@ function Answer({answerID, getAnswers, getQuestions, correct, trySetCorrectAnswe
 
     function trySave() {
         if (contentRef.current === answer.content) return
-        if (answerIDRef.current != answerID) {
+        if (answerIdRef.current != answerId) {
             popUpAlert.danger('Save answer failed, please wait about 2s to save before switch to another answer!')
             return
         }
@@ -84,7 +84,7 @@ function Answer({answerID, getAnswers, getQuestions, correct, trySetCorrectAnswe
 
     function tryDeleteAnswer() {
         backend.post('answer/delete', {
-            answerID
+            answerId
         }).then(res => {
             if (res) {
                 getAnswers()
@@ -113,14 +113,14 @@ function Answer({answerID, getAnswers, getQuestions, correct, trySetCorrectAnswe
     )
 }
 
-function Question({questionID, updateQuestion, setChosingQContent, afterDeleteQ, getQuestions}) {
+function Question({questionId, updateQuestion, setChosingQContent, afterDeleteQ, getQuestions}) {
 
     const [question, setQuestion] = useState({})
     const [answers, setAnswers] = useState([])
 
     function getAnswers() {
-        backend.post('answer/getByQuestionID', {
-            questionID
+        backend.post('answer/getByQuestionId', {
+            questionId
         }).then(res => {
             if (res) {
                 setAnswers(res)
@@ -138,11 +138,11 @@ function Question({questionID, updateQuestion, setChosingQContent, afterDeleteQ,
     })
 
     useEffect(() => {
-        if (!questionID) return
+        if (!questionId) return
 
         //get question
-        backend.post('question/getByQuestionID', {
-            questionID
+        backend.post('question/getByQuestionId', {
+            questionId
         }).then(res => {
             if (res) {
                 setQuestion(res)
@@ -150,7 +150,7 @@ function Question({questionID, updateQuestion, setChosingQContent, afterDeleteQ,
         })
 
         getAnswers()
-    }, [questionID])
+    }, [questionId])
 
     function trySaveQuestion() {
         backend.post('question/update', {
@@ -168,7 +168,7 @@ function Question({questionID, updateQuestion, setChosingQContent, afterDeleteQ,
 
     function tryDeleteQuestion() {
         backend.post('question/delete', {
-            questionID
+            questionId
         }).then(res => {
             if (res) {
                 afterDeleteQ()
@@ -181,7 +181,7 @@ function Question({questionID, updateQuestion, setChosingQContent, afterDeleteQ,
 
     function tryAddAnswer() {
         backend.post('answer/create', {
-            questionID
+            questionId
         }).then(res => {
             if (res) {
                 getAnswers()
@@ -263,7 +263,7 @@ function Question({questionID, updateQuestion, setChosingQContent, afterDeleteQ,
                 <h4 className='title'>Answers ({answers ? answers.length : '...'})</h4>
                 <div className='answers'>
                     {answers && answers.map((answer, answerIndex) => (
-                        <Answer answerID={answer.id} getAnswers={getAnswers} correct={answer.correct}
+                        <Answer answerId={answer.id} getAnswers={getAnswers} correct={answer.correct}
                                 trySetCorrectAnswer={trySetCorrectAnswer} getQuestions={getQuestions}
                                 key={answerIndex}/>
                     ))}
@@ -277,16 +277,16 @@ function Question({questionID, updateQuestion, setChosingQContent, afterDeleteQ,
     )
 }
 
-function QuestionsEdit({lessonID}) {
+function QuestionsEdit({lessonId}) {
 
     const [questions, setQuestions] = useState([])
     const [chosingQ, setChosingQ] = useState('')
     const [chosingQContent, setChosingQContent] = useState('')
 
     function getQuestions() {
-        if (!lessonID) return
-        backend.post('question/getByLessonID', {
-            lessonID
+        if (!lessonId) return
+        backend.post('question/getByLessonId', {
+            lessonId
         }).then(res => {
             if (!res) {
                 popUpAlert.warning("Get questions failed")
@@ -317,13 +317,13 @@ function QuestionsEdit({lessonID}) {
     }
 
     useEffect(() => {
-        if (!lessonID) return;
-        getQuestions(lessonID)
-    }, [lessonID]);
+        if (!lessonId) return;
+        getQuestions(lessonId)
+    }, [lessonId]);
 
     function tryCreateNewQuestion() {
         backend.post('question/create', {
-            lessonID
+            lessonId
         }).then(res => {
             if (!res) {
                 popUpAlert.warning("Create new question failed")
@@ -338,7 +338,7 @@ function QuestionsEdit({lessonID}) {
     }
 
     return (
-        lessonID && questions &&
+        lessonId && questions &&
         <div className="questionsBlock mt-3">
             <div className='left-Pane'>
                 <h4 className='title'>Questions ({questions ? questions.length : '...'})</h4>
@@ -360,7 +360,7 @@ function QuestionsEdit({lessonID}) {
             </div>
 
             <div className='right-Pane'>
-                {(chosingQ && questions.length > 0) && <Question questionID={chosingQ} updateQuestion={updateQuestion}
+                {(chosingQ && questions.length > 0) && <Question questionId={chosingQ} updateQuestion={updateQuestion}
                                                                  setChosingQContent={setChosingQContent}
                                                                  afterDeleteQ={afterDeleteQ}
                                                                  getQuestions={getQuestions}/>}

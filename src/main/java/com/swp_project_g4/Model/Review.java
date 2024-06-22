@@ -6,30 +6,30 @@ import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "review")
+@Table(name = "Review")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review {
-    @Column(name = "reviewID")
+    @Column(name = "reviewId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int instructorID;
-    private int courseID;
+    private int instructorId;
+    private int courseId;
     private boolean reviewed;
     private boolean verified;
     private String note;
 
     @ManyToOne
-    @JoinColumn(name = "instructorID", insertable=false, updatable=false)
+    @JoinColumn(name = "instructorId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Instructor instructor;
 
     @ManyToOne
-    @JoinColumn(name = "courseID", insertable=false, updatable=false)
+    @JoinColumn(name = "courseId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

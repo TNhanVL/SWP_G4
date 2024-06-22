@@ -1,25 +1,52 @@
 package com.swp_project_g4.Service.model;
 
 import com.swp_project_g4.Model.Chapter;
+import com.swp_project_g4.Model.Lesson;
+import com.swp_project_g4.Repository.ChapterRepository;
 import com.swp_project_g4.Repository.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChapterService {
     @Autowired
-    private Repository repository;
+    private ChapterRepository chapterRepository;
+    @Autowired
+    private LessonService lessonService;
 
-    public boolean reIndexAllChapterByCourseID(int courseID) {
+    public List<Chapter> getByCourseId(int courseId) {
+        return chapterRepository.findAllByCourseId(courseId);
+    }
+
+    public Optional<Chapter> getById(int chapterId) {
+        return chapterRepository.findById(chapterId);
+    }
+
+    public Chapter save(Chapter chapter) {
+        return chapterRepository.save(chapter);
+    }
+
+    public int getSumTimeOfChapterById(int chapterId) {
+        var lessons = lessonService.getAllByChapterId(chapterId);
+        int totalTime = 0;
+        for (var lesson: lessons) {
+            totalTime += lesson.getTime();
+        }
+        return totalTime;
+    }
+
+    public boolean reIndexAllLessonByChapterId(int chapterId) {
         try {
-            var chapters = repository.getCourseRepository().findById(courseID).get().getChapters();
-            chapters.sort(Comparator.comparingInt(Chapter::getIndex));
+            var lessons = lessonService.getAllByChapterId(chapterId);
+            lessons.sort(Comparator.comparingInt(Lesson::getIndex));
             int tmp = 0;
-            for (var chapter : chapters) {
-                chapter.setIndex(++tmp);
-                repository.getChapterRepository().save(chapter);
+            for (var lesson : lessons) {
+                lesson.setIndex(++tmp);
+                lessonService.save(lesson);
             }
             return true;
         } catch (Exception e) {
@@ -27,5 +54,4 @@ public class ChapterService {
         }
         return false;
     }
-
 }

@@ -128,7 +128,7 @@
                                             <div class="form-group" hidden="hidden">
                                                 <label>ID</label>
                                                 <input type="text" name="ID" value="${user.ID}">
-                                                <input type="text" name="learnerID" value="${user.ID}">
+                                                <input type="text" name="learnerId" value="${user.ID}">
 
                                                 <input type="text" name="picture"
                                                        value="${user.picture}">
@@ -180,9 +180,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="country">country</label>
-                                                <select id="country" class="form-control" name="countryID" required>
+                                                <select id="country" class="form-control" name="countryId" required>
                                                     <c:forEach var="country" items="${sessionScope.countryList}">
-                                                        <option value=${country.ID} ${country.ID == user.countryID ? "selected" : "" }>
+                                                        <option value=${country.ID} ${country.ID == user.countryId ? "selected" : "" }>
                                                                 ${country.name}
                                                         </option>
                                                     </c:forEach>

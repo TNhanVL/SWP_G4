@@ -20,7 +20,7 @@
     //check course exist
     Course course = null;
     try {
-        course = CourseDAO.getCourse((int) request.getAttribute("courseID"));
+        course = CourseDAO.getCourse((int) request.getAttribute("courseId"));
         if (course == null) {
             throw new Exception("Not exist course!");
         }
@@ -30,7 +30,7 @@
         return;
     }
 
-    Organization organization = OrganizationDAO.getOrganization(course.getOrganizationID());
+    Organization organization = OrganizationDAO.getOrganization(course.getOrganizationId());
 
     Learner learner = null;
     if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
@@ -116,7 +116,7 @@
             <% if (learner != null && courseProgress != null) {
                 if (courseProgress.isCompleted()) {
             %>
-            <a href="/certificate/${learner.ID}/${courseID}" class="viewCer">View Certificate</a>
+            <a href="/certificate/${learner.ID}/${courseId}" class="viewCer">View Certificate</a>
             <%
                     }
                 }

@@ -15,20 +15,20 @@ public class QuestionRestController {
     @Autowired
     private Repository repository;
 
-    @PostMapping("/getByQuestionID")
-    public Question getByQuestionID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByQuestionId")
+    public Question getByQuestionId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getQuestionRepository().findById(data.get("questionID")).get();
+            return repository.getQuestionRepository().findById(data.get("questionId")).get();
         } catch (Exception e) {
 
         }
         return null;
     }
 
-    @PostMapping("/getByLessonID")
-    public List<Question> getByLessonID(@RequestBody Map<String, Integer> data) {
+    @PostMapping("/getByLessonId")
+    public List<Question> getByLessonId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getQuestionRepository().findByLessonID(data.get("lessonID"));
+            return repository.getQuestionRepository().findAllByLessonId(data.get("lessonId"));
         } catch (Exception e) {
 
         }
@@ -38,9 +38,9 @@ public class QuestionRestController {
     @PostMapping("/create")
     public Question create(@RequestBody Map<String, Integer> data) {
         try {
-            int questionSize = repository.getLessonRepository().findById(data.get("lessonID")).get().getQuestions().size();
+            int questionSize = repository.getLessonRepository().findById(data.get("lessonId")).get().getQuestions().size();
             Question question = new Question();
-            question.setLessonID(data.get("lessonID"));
+            question.setLessonId(data.get("lessonId"));
             question.setIndex(questionSize + 1);
             question = repository.getQuestionRepository().save(question);
             return question;
@@ -53,7 +53,7 @@ public class QuestionRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            repository.getQuestionRepository().deleteById(data.get("questionID"));
+            repository.getQuestionRepository().deleteById(data.get("questionId"));
             return true;
         } catch (Exception e) {
 
@@ -81,7 +81,7 @@ public class QuestionRestController {
     public boolean update(@RequestBody Map<String, Integer> data) {
         try {
             int size = data.get("size");
-            int lesson = data.get("lessonID");
+            int lesson = data.get("lessonId");
             for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);

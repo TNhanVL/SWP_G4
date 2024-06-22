@@ -11,16 +11,16 @@ import java.util.Date;
  * @author TTNhan
  */
 @Entity
-@Table(name = "notification")
+@Table(name = "Notification")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Notification {
-    @Column(name = "notificationID")
+    @Column(name = "notificationId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int learnerID;
+    private int learnerId;
     private int type;
     private String description;
     @Column(name = "[read]")
@@ -28,7 +28,7 @@ public class Notification {
     private Date receiveAt;
 
     @ManyToOne
-    @JoinColumn(name = "learnerID", insertable = false, updatable = false)
+    @JoinColumn(name = "learnerId", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

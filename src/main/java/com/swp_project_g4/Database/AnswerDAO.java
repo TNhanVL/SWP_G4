@@ -17,18 +17,18 @@ import java.util.logging.Logger;
  */
 public class AnswerDAO extends DBConnection {
 
-    public static boolean existAnswer(int answerID) {
+    public static boolean existAnswer(int answerId) {
         boolean ok = false;
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select answerID from answer where answerID = ?");
-            statement.setInt(1, answerID);
+            statement = conn.prepareStatement("select answerId from answer where answerId = ?");
+            statement.setInt(1, answerId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                if (resultSet.getInt("answerID") == answerID) {
+                if (resultSet.getInt("answerId") == answerId) {
                     ok = true;
                 }
             }
@@ -42,23 +42,23 @@ public class AnswerDAO extends DBConnection {
         return ok;
     }
 
-    public static Answer getAnswer(int answerID) {
+    public static Answer getAnswer(int answerId) {
         Answer answer = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from answer where answerID = ?");
-            statement.setInt(1, answerID);
+            statement = conn.prepareStatement("select * from answer where answerId = ?");
+            statement.setInt(1, answerId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 answer = new Answer(
-                        resultSet.getInt("answerID"),
+                        resultSet.getInt("answerId"),
                         resultSet.getString("content"),
                         resultSet.getBoolean("correct"),
-                        resultSet.getInt("questionID")
+                        resultSet.getInt("questionId")
                 );
             }
 
@@ -70,23 +70,23 @@ public class AnswerDAO extends DBConnection {
         return answer;
     }
 
-    public static ArrayList<Answer> getAnswersByQuestionID(int questionID) {
+    public static ArrayList<Answer> getAnswersByQuestionId(int questionId) {
         ArrayList<Answer> answers = new ArrayList<>();
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from answer where questionID = ?");
-            statement.setInt(1, questionID);
+            statement = conn.prepareStatement("select * from answer where questionId = ?");
+            statement.setInt(1, questionId);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 Answer answer = new Answer(
-                        resultSet.getInt("answerID"),
+                        resultSet.getInt("answerId"),
                         resultSet.getString("content"),
                         resultSet.getBoolean("correct"),
-                        resultSet.getInt("questionID")
+                        resultSet.getInt("questionId")
                 );
                 answers.add(answer);
             }
@@ -104,10 +104,10 @@ public class AnswerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("insert into answer(content,correct,questionID) values (?,?,?)");
+            statement = conn.prepareStatement("insert into answer(content,correct,questionId) values (?,?,?)");
             statement.setString(1, answer.getContent());
             statement.setBoolean(2, answer.isCorrect());
-            statement.setInt(3, answer.getQuestionID());
+            statement.setInt(3, answer.getQuestionId());
             statement.executeUpdate();
             //disconnect to database
             disconnect();
@@ -125,10 +125,10 @@ public class AnswerDAO extends DBConnection {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("update answer set content=?, correct=?, questionID=? where answerID=?");
+            statement = conn.prepareStatement("update answer set content=?, correct=?, questionId=? where answerId=?");
             statement.setString(1, answer.getContent());
             statement.setBoolean(2, answer.isCorrect());
-            statement.setInt(3, answer.getQuestionID());
+            statement.setInt(3, answer.getQuestionId());
             statement.setInt(4, answer.getID());
 
             //disconnect to database
@@ -141,17 +141,17 @@ public class AnswerDAO extends DBConnection {
         return false;
     }
 
-    public static boolean deleteAnswer(int answerID) {
+    public static boolean deleteAnswer(int answerId) {
         try {
-            if (!existAnswer(answerID)) {
+            if (!existAnswer(answerId)) {
                 return false;
             }
             connect();
-            statement = conn.prepareStatement("delete from answer where answerID=?");
-            statement.setInt(1, answerID);
+            statement = conn.prepareStatement("delete from answer where answerId=?");
+            statement.setInt(1, answerId);
             statement.execute();
             disconnect();
-            return !existAnswer(answerID);
+            return !existAnswer(answerId);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -159,6 +159,6 @@ public class AnswerDAO extends DBConnection {
     }
 
     public static void main(String[] args) {
-        System.out.println(getAnswersByQuestionID(1));
+        System.out.println(getAnswersByQuestionId(1));
     }
 }

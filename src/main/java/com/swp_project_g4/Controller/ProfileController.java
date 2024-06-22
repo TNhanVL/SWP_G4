@@ -2,13 +2,9 @@ package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Learner;
-import com.swp_project_g4.Repository.CourseProgressRepository;
-import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.CookieServices;
-import com.swp_project_g4.Service.CookiesToken;
 import com.swp_project_g4.Service.model.CourseProgressService;
 import com.swp_project_g4.Service.model.CourseService;
-import com.swp_project_g4.Service.MD5;
 import com.swp_project_g4.Service.model.InstructorService;
 import com.swp_project_g4.Service.model.LearnerService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,7 +64,7 @@ public class ProfileController {
         }
 
         //get purchased courses
-        var courseProgresses = courseProgressService.getByLearnerID(learner.getID());
+        var courseProgresses = courseProgressService.getAllByLearnerId(learner.getID());
         var purchasedCourses = new ArrayList<Course>();
         for (var courseProgress : courseProgresses) {
             purchasedCourses.add(courseProgress.getCourse());
@@ -93,7 +88,7 @@ public class ProfileController {
         model.addAttribute("learner", learner);
         model.addAttribute("totalLearningTime", totalLearningTime);
         model.addAttribute("numberOfPurchasedCourses", purchasedCourses.size());
-        model.addAttribute("numberOfCompletedCourse", courseProgressService.getByLearnerIDAndCompleted(learner.getID(), true).size());
+        model.addAttribute("numberOfCompletedCourse", courseProgressService.getAllByLearnerIdAndCompleted(learner.getID(), true).size());
         model.addAttribute("firstYearOfLearning", firstYearOfLearning + 1900);
         model.addAttribute("courseProgresses", courseProgresses);
         model.addAttribute("purchasedCourses", purchasedCourses);

@@ -14,19 +14,25 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author TTNhan
  */
 @Entity
-@Table(name = "chosen_answer")
+@Table(name = "ChosenAnswer")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChosenAnswer {
-    @Column(name = "chosen_answerID")
+    @Column(name = "chosenAnswerId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int quizResultID;
-    private int questionID;
-    private int answerID;
+    private int answerId;
     private boolean correct;
+
+    public ChosenAnswer(int ID, int quizResultID, int answerId, boolean correct) {
+        this.ID = ID;
+        this.quizResultID = quizResultID;
+        this.answerId = answerId;
+        this.correct = correct;
+    }
 
     @ManyToOne
     @JoinColumn(name = "quizResultID", insertable=false, updatable=false)
@@ -36,14 +42,7 @@ public class ChosenAnswer {
     private QuizResult quizResult;
 
     @ManyToOne
-    @JoinColumn(name = "questionID", insertable=false, updatable=false)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JsonIgnore
-    private Question question;
-
-    @ManyToOne
-    @JoinColumn(name = "answerID", insertable=false, updatable=false)
+    @JoinColumn(name = "answerId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

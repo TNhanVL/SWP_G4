@@ -38,21 +38,21 @@ public class CheckOutController {
         Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //get all courses ID
-        String[] courseIDStrs = request.getParameterValues("course");
+        String[] courseIdStrs = request.getParameterValues("course");
         ArrayList<Course> courses = new ArrayList<>();
 
-        if (courseIDStrs != null) {
-            for (String courseIDStr : courseIDStrs) {
+        if (courseIdStrs != null) {
+            for (String courseIdStr : courseIdStrs) {
                 try {
-                    int courseID = Integer.parseInt(courseIDStr);
+                    int courseId = Integer.parseInt(courseIdStr);
 
                     //check in cart
-                    if (!CourseDAO.checkCartProduct(learner.getID(), courseID)) {
+                    if (!CourseDAO.checkCartProduct(learner.getID(), courseId)) {
                         continue;
                     }
 
-                    if (CourseDAO.existCourse(courseID)) {
-                        courses.add(CourseDAO.getCourse(courseID));
+                    if (CourseDAO.existCourse(courseId)) {
+                        courses.add(CourseDAO.getCourse(courseId));
                     }
                 } catch (NumberFormatException e) {
                     System.out.println(e);
@@ -82,7 +82,7 @@ public class CheckOutController {
         Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
 
         //get all courses ID
-        String[] courseIDStrs = request.getParameterValues("course");
+        String[] courseIdStrs = request.getParameterValues("course");
 
         //get pay type
         RequestType requestType;
@@ -92,7 +92,7 @@ public class CheckOutController {
             requestType = RequestType.PAY_WITH_ATM;
         }
 
-        String payLink = MomoPay.getPayLink(request, requestType, learner.getID(), courseIDStrs, price);
+        String payLink = MomoPay.getPayLink(request, requestType, learner.getID(), courseIdStrs, price);
 
         if (payLink == null) {
             request.getSession().setAttribute("error", "There are some error when checkout!");
@@ -103,7 +103,7 @@ public class CheckOutController {
     }
 
     @RequestMapping(value = "/finishedPayment", method = RequestMethod.GET)
-    public String finishedPayment(ModelMap model, HttpServletRequest request, @RequestParam String userID, @RequestParam int resultCode, @RequestParam String message) {
+    public String finishedPayment(ModelMap model, HttpServletRequest request, @RequestParam String userId, @RequestParam int resultCode, @RequestParam String message) {
 
         Learner learner = null;
 
@@ -113,7 +113,7 @@ public class CheckOutController {
         }
 
         try {
-            learner = LearnerDAO.getUser(Integer.parseInt(userID));
+            learner = LearnerDAO.getUser(Integer.parseInt(userId));
             if (resultCode != 0) {
                 throw new Exception();
             }
@@ -126,20 +126,20 @@ public class CheckOutController {
         }
 
         //get all courses ID
-        String[] courseIDStrs = request.getParameterValues("course");
+        String[] courseIdStrs = request.getParameterValues("course");
 
-        if (courseIDStrs != null) {
-            for (String courseIDStr : courseIDStrs) {
+        if (courseIdStrs != null) {
+            for (String courseIdStr : courseIdStrs) {
                 try {
-                    int courseID = Integer.parseInt(courseIDStr);
+                    int courseId = Integer.parseInt(courseIdStr);
 
                     //check in cart
-                    if (!CourseDAO.checkCartProduct(learner.getID(), courseID)) {
+                    if (!CourseDAO.checkCartProduct(learner.getID(), courseId)) {
                         continue;
                     }
 
-                    CourseDAO.deleteCartProduct(learner.getID(), courseID);
-                    repository.getCourseProgressRepository().save(new CourseProgress(learner.getID(), courseID));
+                    CourseDAO.deleteCartProduct(learner.getID(), courseId);
+                    repository.getCourseProgressRepository().save(new CourseProgress(learner.getID(), courseId));
 
                 } catch (NumberFormatException e) {
                     System.out.println(e);

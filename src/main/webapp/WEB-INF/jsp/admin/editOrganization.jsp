@@ -174,9 +174,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="country">country</label>
-                                                <select id="country" class="form-control" name="countryID" required>
+                                                <select id="country" class="form-control" name="countryId" required>
                                                     <c:forEach var="country" items="${sessionScope.countryList}">
-                                                        <option value=${country.ID} ${country.ID == org.countryID ? "selected" : "" }>
+                                                        <option value=${country.ID} ${country.ID == org.countryId ? "selected" : "" }>
                                                                 ${country.name}
                                                         </option>
                                                     </c:forEach>

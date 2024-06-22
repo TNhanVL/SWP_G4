@@ -17,35 +17,35 @@ import java.util.List;
  * @author TTNhan
  */
 @Entity
-@Table(name = "answer")
+@Table(name = "Answer")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Answer {
-    @Column(name = "answerID")
+    @Column(name = "answerId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private String content;
     private boolean correct;
-    private int questionID;
+    private int questionId;
 
-    public Answer(int ID, String content, boolean correct, int questionID) {
+    public Answer(int ID, String content, boolean correct, int questionId) {
         this.ID = ID;
         this.content = content;
         this.correct = correct;
-        this.questionID = questionID;
+        this.questionId = questionId;
     }
 
     @ManyToOne
-    @JoinColumn(name = "questionID", insertable=false, updatable=false)
+    @JoinColumn(name = "questionId", insertable=false, updatable=false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private Question question;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "answerID")
+    @JoinColumn(name = "answerId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

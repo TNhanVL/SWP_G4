@@ -24,8 +24,8 @@ function ListLessonEdit({
     const [lessons, setLessons] = useState([])
 
     function getLessons(chapter, getIndex) {
-        backend.post('lesson/getByChapterID', {
-            chapterID: chapter.id
+        backend.post('lesson/getByChapterId', {
+            chapterId: chapter.id
         }).then(res => {
             if (res) {
                 res.sort(function (a, b) {
@@ -63,7 +63,7 @@ function ListLessonEdit({
 
     function tryAddNewLesson() {
         backend.post('lesson/create', {
-            chapterID: chapter.id
+            chapterId: chapter.id
         }).then(res => {
             if (res) {
                 // popUpAlert.success("Add new chapter successful")

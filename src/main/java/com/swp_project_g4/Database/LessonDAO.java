@@ -22,25 +22,25 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class LessonDAO extends DBConnection {
 
-    public static Lesson getLesson(int lessonID) {
+    public static Lesson getLesson(int lessonId) {
         Lesson lesson = null;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from lesson where lessonID = ?");
-            statement.setInt(1, lessonID);
+            statement = conn.prepareStatement("select * from lesson where lessonId = ?");
+            statement.setInt(1, lessonId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 lesson = new Lesson(
-                        resultSet.getInt("lessonID"),
-                        resultSet.getInt("ChapterID"),
+                        resultSet.getInt("lessonId"),
+                        resultSet.getInt("ChapterId"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("percent_to_passed"),
-                        resultSet.getBoolean("must_be_completed"),
+                        resultSet.getInt("percentToPassed"),
+                        resultSet.getBoolean("mustBeCompleted"),
                         resultSet.getString("content"),
                         resultSet.getInt("type"),
                         resultSet.getInt("index"),
@@ -55,25 +55,25 @@ public class LessonDAO extends DBConnection {
         return lesson;
     }
 
-    public static ArrayList<Lesson> getLessonsByChapterID(int chapterID) {
+    public static ArrayList<Lesson> getLessonsByChapterId(int chapterId) {
         ArrayList<Lesson> lessons = new ArrayList<>();
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select * from lesson where chapterID = ? order by [index]");
-            statement.setInt(1, chapterID);
+            statement = conn.prepareStatement("select * from lesson where chapterId = ? order by [index]");
+            statement.setInt(1, chapterId);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 Lesson lesson = new Lesson(
-                        resultSet.getInt("lessonID"),
-                        resultSet.getInt("ChapterID"),
+                        resultSet.getInt("lessonId"),
+                        resultSet.getInt("ChapterId"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("percent_to_passed"),
-                        resultSet.getBoolean("must_be_completed"),
+                        resultSet.getInt("percentToPassed"),
+                        resultSet.getBoolean("mustBeCompleted"),
                         resultSet.getString("content"),
                         resultSet.getInt("type"),
                         resultSet.getInt("index"),
@@ -89,15 +89,15 @@ public class LessonDAO extends DBConnection {
         return lessons;
     }
 
-    public static int getNumberLessonsByChapterID(int chapterID) {
+    public static int getNumberLessonsByChapterId(int chapterId) {
         int ans = 0;
 
         try {
             //connect to database
             connect();
 
-            statement = conn.prepareStatement("select count(*) as number from lesson where chapterID = ?");
-            statement.setInt(1, chapterID);
+            statement = conn.prepareStatement("select count(*) as number from lesson where chapterId = ?");
+            statement.setInt(1, chapterId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -113,6 +113,6 @@ public class LessonDAO extends DBConnection {
     }
 
     public static void main(String[] args) {
-        System.out.println(getNumberLessonsByChapterID(1));
+        System.out.println(getNumberLessonsByChapterId(1));
     }
 }

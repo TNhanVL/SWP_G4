@@ -35,8 +35,8 @@ public class EmailService {
     final static String password = "drmoubkcmogfmrlu";
 
     @Async
-    public void sendResetPasswordEmail(int learnerID, String resetToken) {
-        Learner learner = LearnerDAO.getUser(learnerID);
+    public void sendResetPasswordEmail(int learnerId, String resetToken) {
+        Learner learner = LearnerDAO.getUser(learnerId);
 
         var emailContent = "<div>\n"
                 + "        <p><b>Dear " + learner.getFirstName() + " " + learner.getLastName() + ",</b></p>\n"

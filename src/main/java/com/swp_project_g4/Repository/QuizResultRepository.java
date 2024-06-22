@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface QuizResultRepository extends JpaRepository<QuizResult, Integer> {
-    List<QuizResult> findByLessonIDAndLessonProgressID(int lessonID, int lessonProgressID);
+    List<QuizResult> findAllByLessonIdAndLessonProgressID(int lessonId, int lessonProgressID);
 
-    List<QuizResult> findByFinished(boolean finished);
+    List<QuizResult> findAllByFinished(boolean finished);
 }

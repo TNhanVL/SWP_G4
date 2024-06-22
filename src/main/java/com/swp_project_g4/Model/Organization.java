@@ -17,16 +17,16 @@ import java.util.List;
  * @author TTNhan
  */
 @Entity
-@Table(name = "organization")
+@Table(name = "Organization")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Organization {
-    @Column(name = "organizationID")
+    @Column(name = "organizationId")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-    private int countryID;
+    private int countryId;
     private String username;
     private String password;
     private String email;
@@ -34,9 +34,9 @@ public class Organization {
     private String name;
     private String description;
 
-    public Organization(int ID, int countryID, String username, String password, String email, String picture, String name, String description) {
+    public Organization(int ID, int countryId, String username, String password, String email, String picture, String name, String description) {
         this.ID = ID;
-        this.countryID = countryID;
+        this.countryId = countryId;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -46,14 +46,14 @@ public class Organization {
     }
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "organizationID")
+    @JoinColumn(name = "organizationId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
     private List<Instructor> instructors = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "organizationID")
+    @JoinColumn(name = "organizationId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

@@ -80,7 +80,7 @@
 
                     <div class="inputBox country">
                         <label class="form-label" for="country">Country</label>
-                        <select class="form-control" name="countryID" id="country">
+                        <select class="form-control" name="countryId" id="country">
                             <c:forEach items="${countries}" var="country">
                                 <option value="${country.ID}" <c:if test="${country.ID == 16}">selected</c:if>>${country.name}</option>
                             </c:forEach>

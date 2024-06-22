@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseProgressService {
@@ -15,13 +16,18 @@ public class CourseProgressService {
     @Autowired
     private EmailService emailService;
 
-    public List<CourseProgress> getByLearnerID(int learnerId) {
-        var courseProgress = courseProgressRepository.findByLearnerID(learnerId);
+    public List<CourseProgress> getAllByLearnerId(int learnerId) {
+        var courseProgress = courseProgressRepository.findAllByLearnerId(learnerId);
         return courseProgress;
     }
 
-    public List<CourseProgress> getByLearnerIDAndCompleted(int learnerId, boolean completed) {
-        var courseProgress = courseProgressRepository.findByLearnerIDAndCompleted(learnerId, completed);
+    public List<CourseProgress> getAllByLearnerIdAndCompleted(int learnerId, boolean completed) {
+        var courseProgress = courseProgressRepository.findAllByLearnerIdAndCompleted(learnerId, completed);
+        return courseProgress;
+    }
+
+    public Optional<CourseProgress> getByCourseIdAndLearnerId(int courseId, int learnerId) {
+        var courseProgress = courseProgressRepository.findByCourseIdAndLearnerId(courseId, learnerId);
         return courseProgress;
     }
 
