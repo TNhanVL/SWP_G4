@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,6 +44,8 @@ public class LearnController {
     private ChosenAnswerService chosenAnswerService;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private QuizService quizService;
 
     @RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
     public String lesson(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseId) {
@@ -86,7 +89,6 @@ public class LearnController {
             if (!chapterProgressOptional.isPresent()) {
                 chapterProgress = chapterProgressService.save(chapterProgress);
             }
-            boolean found = false;
             for (var lesson : chapter.getLessons()) {
                 lessonId = lesson.getID();
                 //check lessonProgress
@@ -95,15 +97,11 @@ public class LearnController {
                 if (!lessonProgressOptional.isPresent() || !lessonProgress.isCompleted()) {
                     if (!lessonProgressOptional.isPresent()) {
                         lessonProgressService.save(lessonProgress);
+                        return "redirect:/learn/" + courseId + "/" + lessonId;
                     }
-                    found = true;
-                    break;
                 }
             }
-            if (found) break;
         }
-
-
 
         return "redirect:/learn/" + courseId + "/" + lessonId;
     }
@@ -182,10 +180,22 @@ public class LearnController {
 
         //if lesson type == 2 (quiz)
         if (lesson.getType() == 2) {
-            var quizResults = quizResultService.getAllByLessonIdAndLessonProgressID(lesson.getID(), lessonProgress.getID());
+            var quiz = lesson.getQuiz();
+            var quizResults = quizResultService.getAllByQuizIdAndLessonProgressID(quiz.getID(), lessonProgress.getID());
             if (!quizResults.isEmpty()) {
                 model.addAttribute("quizResult", quizResults.get(quizResults.size() - 1));
             }
+            ArrayList<Boolean> questionCorrects = new ArrayList<Boolean>();
+            for (var question: quiz.getQuestions()) {
+                boolean correct = false;
+                if (chosenAnswerService.isQuestionCorrect(quizResults.get(quizResults.size() - 1).getID(), question.getID())) correct = true;
+                questionCorrects.add(correct);
+            }
+
+            model.addAttribute("numberOfQuestion", quiz.getQuestions().size());
+            model.addAttribute("questions", quiz.getQuestions());
+            model.addAttribute("quizResultTotalMark", quizResultService.calcTotalMarkByQuizResultId(quizResults.get(quizResults.size() - 1).getID()));
+            model.addAttribute("questionCorrects", questionCorrects);
         }
 
         model.addAttribute("learner", learner);
@@ -252,7 +262,7 @@ public class LearnController {
         }
 
 
-        QuizResult quizResult = new QuizResult(lessonId, lessonProgressID, lesson);
+        QuizResult quizResult = new QuizResult(lesson.getQuizId(), lessonProgressID, lesson);
         quizResultService.save(quizResult);
         return "redirect:/learn/" + lesson.getChapter().getCourseId() + "/" + lessonId;
     }
@@ -312,7 +322,7 @@ public class LearnController {
             return "redirect:/";
         }
 
-        Lesson lesson = lessonService.getById(quizResult.getLessonId()).get();
+        Lesson lesson = lessonService.getById(quizResult.getQuiz().getLessonId()).get();
         Chapter chapter = chapterService.getById(lesson.getChapterId()).get();
 
         //if quiz end yet
@@ -325,10 +335,10 @@ public class LearnController {
         quizResult.setFinished(true);
         quizResultService.save(quizResult);
 
-
+        var quiz = quizService.getByLessonId(lesson.getID()).get();
         int numberOfCorrectQuestion = quizResultService.calcTotalMarkByQuizResultId(quizResultID);
 //        int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
-        int numberOfQuestion = questionService.getAllByLessonId(lesson.getID()).size();
+        int numberOfQuestion = questionService.getAllByQuizId(quiz.getID()).size();
         if (numberOfCorrectQuestion * 100 >= numberOfQuestion * lesson.getPercentToPassed()) {
 //            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getID(), request);
             lessonProgressService.markLessonCompleted(learner.getID(), lesson.getID());

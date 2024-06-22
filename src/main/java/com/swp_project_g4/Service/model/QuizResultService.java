@@ -21,8 +21,8 @@ public class QuizResultService {
         return quizResultRepository.findById(quizResultId);
     }
 
-    public List<QuizResult> getAllByLessonIdAndLessonProgressID(int lessonId, int lessonProgressId) {
-        return quizResultRepository.findAllByLessonIdAndLessonProgressID(lessonId, lessonProgressId);
+    public List<QuizResult> getAllByQuizIdAndLessonProgressID(int quizId, int lessonProgressId) {
+        return quizResultRepository.findAllByQuizIdAndLessonProgressID(quizId, lessonProgressId);
     }
 
     public QuizResult save(QuizResult quizResult) {
@@ -31,7 +31,7 @@ public class QuizResultService {
 
     public int calcTotalMarkByQuizResultId(int quizResultId) {
         var quizResult = getById(quizResultId).get();
-        var questions = questionService.getAllByLessonId(quizResult.getLessonId());
+        var questions = quizResult.getQuiz().getQuestions();
         int totalMark = 0;
 
         for (var question: questions) {

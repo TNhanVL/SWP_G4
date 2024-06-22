@@ -48,17 +48,17 @@ GO
 
 CREATE TABLE [Learner]
 (
-    learnerId      INT IDENTITY (1,1) PRIMARY KEY,
-    picture        TEXT,
-    username       VARCHAR(50)   NOT NULL,
-    [password]     VARCHAR(50)   NOT NULL,
-    email          VARCHAR(320),
+    learnerId     INT IDENTITY (1,1) PRIMARY KEY,
+    picture       TEXT,
+    username      VARCHAR(50)   NOT NULL,
+    [password]    VARCHAR(50)   NOT NULL,
+    email         VARCHAR(320),
     emailVerified BIT DEFAULT 0 NOT NULL,
     [firstName]   NVARCHAR(50),
     [lastName]    NVARCHAR(50),
-    birthday       DATE,
-    countryId      INT FOREIGN KEY REFERENCES [Country],
-    [status]       int DEFAULT 0
+    birthday      DATE,
+    countryId     INT FOREIGN KEY REFERENCES [Country],
+    [status]      int DEFAULT 0
 );
 GO
 
@@ -71,8 +71,8 @@ CREATE TABLE Instructor
     [password]     VARCHAR(50) NOT NULL,
     email          VARCHAR(320),
     picture        TEXT,
-    [firstName]   NVARCHAR(50),
-    [lastName]    NVARCHAR(50),
+    [firstName]    NVARCHAR(50),
+    [lastName]     NVARCHAR(50),
     [status]       int DEFAULT 0,
     FOREIGN KEY (organizationId) REFERENCES Organization (organizationId)
 );
@@ -80,16 +80,16 @@ GO
 
 CREATE TABLE Course
 (
-    courseId        INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    organizationId  INT                NOT NULL,
-    name            NVARCHAR(50)       NOT NULL,
-    [picture]       TEXT,
-    [description]   NVARCHAR(50),
-    verified        BIT DEFAULT 0,
+    courseId       INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    organizationId INT                NOT NULL,
+    name           NVARCHAR(50)       NOT NULL,
+    [picture]      TEXT,
+    [description]  NVARCHAR(50),
+    verified       BIT DEFAULT 0,
     totalTime      INT DEFAULT 0,
-    price           NUMERIC(10, 2)     NOT NULL,
-    rate            NUMERIC(2, 1),
-    numberOfRated INT DEFAULT 0,
+    price          NUMERIC(10, 2)     NOT NULL,
+    rate           NUMERIC(2, 1),
+    numberOfRated  INT DEFAULT 0,
     FOREIGN KEY (organizationId) REFERENCES Organization (organizationId)
 );
 GO
@@ -99,8 +99,8 @@ CREATE TABLE Sale
     saleID   INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     courseId INT                NOT NULL,
     price    NUMERIC(10, 2)     NOT NULL,
-    startAt DATETIME,
-    endAt   DATETIME,
+    startAt  DATETIME,
+    endAt    DATETIME,
     FOREIGN KEY (courseId) REFERENCES Course (courseId)
 );
 GO
@@ -110,7 +110,7 @@ CREATE TABLE [Transaction]
     transactionId INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     learnerId     INT                NOT NULL,
     courseId      INT                NOT NULL,
-    originPrice  NUMERIC(10, 2)     NOT NULL,
+    originPrice   NUMERIC(10, 2)     NOT NULL,
     price         NUMERIC(10, 2)     NOT NULL,
     type          INT DEFAULT 0,
     description   NTEXT,
@@ -162,40 +162,41 @@ CREATE TABLE Chapter
     [index]       INT                NOT NULL,
     name          NVARCHAR(50),
     [description] NVARCHAR(50),
-    totalTime    INT DEFAULT 0      NOT NULL,
+    totalTime     INT DEFAULT 0      NOT NULL,
     FOREIGN KEY (courseId) REFERENCES Course (courseId)
 );
 GO
 
 CREATE TABLE Lesson
 (
-    lessonId          INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    chapterId         INT,
-    name              NVARCHAR(50),
-    description       NTEXT,
+    lessonId        INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    chapterId       INT,
+    quizId          INT,
+    name            NVARCHAR(50),
+    description     NTEXT,
     percentToPassed INT DEFAULT 80     NOT NULL,
     mustBeCompleted BIT DEFAULT 1      NOT NULL,
-    content           NTEXT,
-    [index]           INT                NOT NULL,
-    [type]            INT                NOT NULL,
-    [time]            INT DEFAULT 0      NOT NULL,
-    FOREIGN KEY (chapterId) REFERENCES Chapter (chapterId)
+    content         NTEXT,
+    [index]         INT                NOT NULL,
+    [type]          INT                NOT NULL,
+    [time]          INT DEFAULT 0      NOT NULL,
+    FOREIGN KEY (chapterId) REFERENCES Chapter (chapterId),
 );
 GO
 
 CREATE TABLE CourseProgress
 (
-    courseProgressId      INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    learnerId              INT,
-    courseId               INT,
-    enrolled               BIT      DEFAULT 0                 NOT NULL,
-    progressPercent       INT      DEFAULT 0                 NOT NULL,
-    completed              BIT      DEFAULT 0                 NOT NULL,
+    courseProgressId     INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
+    learnerId            INT,
+    courseId             INT,
+    enrolled             BIT      DEFAULT 0                 NOT NULL,
+    progressPercent      INT      DEFAULT 0                 NOT NULL,
+    completed            BIT      DEFAULT 0                 NOT NULL,
     actionAfterCompleted BIT      DEFAULT 0                 NOT NULL,
-    rated                  BIT      DEFAULT 0                 NOT NULL,
-    rate                   INT      DEFAULT 0                 NOT NULL,
-    totalTime             INT      DEFAULT 0                 NOT NULL,
-    startAt               DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    rated                BIT      DEFAULT 0                 NOT NULL,
+    rate                 INT      DEFAULT 0                 NOT NULL,
+    totalTime            INT      DEFAULT 0                 NOT NULL,
+    startAt              DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (learnerId) REFERENCES [Learner] (learnerId),
     FOREIGN KEY (courseId) REFERENCES Course (courseId)
 );
@@ -204,10 +205,10 @@ GO
 CREATE TABLE ChapterProgress
 (
     chapterProgressId INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    chapterId          INT,
+    chapterId         INT,
     courseProgressId  INT,
     progressPercent   INT      DEFAULT 0,
-    completed          BIT      DEFAULT 0                 NOT NULL,
+    completed         BIT      DEFAULT 0                 NOT NULL,
     totalTime         INT      DEFAULT 0,
     startAt           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (chapterId) REFERENCES Chapter (chapterId),
@@ -218,25 +219,43 @@ GO
 CREATE TABLE LessonProgress
 (
     lessonProgressId  INT IDENTITY (1,1)                 NOT NULL PRIMARY KEY,
-    lessonId           INT,
+    lessonId          INT,
     chapterProgressId INT,
     progressPercent   INT      DEFAULT 0                 NOT NULL,
-    completed          BIT      DEFAULT 0                 NOT NULL,
+    completed         BIT      DEFAULT 0                 NOT NULL,
     startAt           DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (lessonId) REFERENCES Lesson (lessonId),
     FOREIGN KEY (chapterProgressId) REFERENCES ChapterProgress (chapterProgressId)
 );
 GO
 
+CREATE TABLE Quiz
+(
+    [quizId]        INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    lessonId        INT,
+    name            NTEXT,
+    description     NTEXT,
+    noQuestion      INT DEFAULT 0      NOT NULL,
+    mustBeCompleted BIT DEFAULT 1      NOT NULL,
+    percentToPassed INT DEFAULT 80     NOT NULL,
+    FOREIGN KEY (lessonId) REFERENCES lesson (lessonId)
+);
+GO
+
+ALTER TABLE Lesson
+ADD FOREIGN KEY (quizId) REFERENCES Quiz (quizId)
+
+GO
+
 CREATE TABLE Question
 (
     [questionId] INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonId     INT,
+    quizId       INT,
     [index]      INT                NOT NULL,
     content      NTEXT              NOT NULL,
     [type]       INT                NOT NULL,
     point        INT DEFAULT 1      NOT NULL,
-    FOREIGN KEY (lessonId) REFERENCES Lesson (lessonId)
+    FOREIGN KEY (quizId) REFERENCES Quiz ([quizId])
 );
 GO
 
@@ -253,15 +272,15 @@ GO
 
 CREATE TABLE QuizResult
 (
-    quizResultId            INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-    lessonId                 INT,
-    lessonProgressId        INT,
+    quizResultId          INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    lessonId              INT,
+    lessonProgressId      INT,
     numberOfCorrectAnswer INT,
-    numberOfQuestion       INT,
-    mark                     INT,
-    finished                 BIT DEFAULT 0      NOT NULL,
-    startAt                 DATETIME,
-    endAt                   DATETIME,
+    numberOfQuestion      INT,
+    mark                  INT,
+    finished              BIT DEFAULT 0      NOT NULL,
+    startAt               DATETIME,
+    endAt                 DATETIME,
     FOREIGN KEY (lessonId) REFERENCES Lesson (lessonId),
     FOREIGN KEY (lessonProgressId) REFERENCES [LessonProgress] (lessonProgressId)
 );
@@ -271,8 +290,8 @@ CREATE TABLE ChosenAnswer
 (
     chosenAnswerId INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
     quizResultId   INT,
-    answerId        INT,
-    correct         BIT DEFAULT 0      NOT NULL,
+    answerId       INT,
+    correct        BIT DEFAULT 0      NOT NULL,
     FOREIGN KEY (quizResultId) REFERENCES QuizResult (quizResultId),
     FOREIGN KEY (answerId) REFERENCES Answer (answerId)
 );
@@ -336,15 +355,15 @@ CREATE OR ALTER TRIGGER updateCourseProgressTrigger
 BEGIN
     update CourseProgress
     set CourseProgress.totalTime       = IIF(chapter_progress_info.totalTime IS NULL, 0,
-                                               chapter_progress_info.totalTime),
-        CourseProgress.completed        = IIF(sumCompleted = numberOfChapter, 1, 0),
+                                             chapter_progress_info.totalTime),
+        CourseProgress.completed       = IIF(sumCompleted = numberOfChapter, 1, 0),
         CourseProgress.progressPercent = IIF(chapter_info.sumTime IS NULL OR chapter_info.sumTime = 0 OR
-                                               chapter_progress_info.totalTime IS NULL, 0,
-                                               ROUND(chapter_progress_info.totalTime * 100.0 / chapter_info.sumTime,
-                                                     0))
+                                             chapter_progress_info.totalTime IS NULL, 0,
+                                             ROUND(chapter_progress_info.totalTime * 100.0 / chapter_info.sumTime,
+                                                   0))
     from (select ChapterProgress.courseProgressId,
                  courseId,
-                 sum(ChapterProgress.totalTime)             totalTime,
+                 sum(ChapterProgress.totalTime)              totalTime,
                  sum(cast(ChapterProgress.completed as INT)) sumCompleted
           from ChapterProgress
                    join CourseProgress cp on ChapterProgress.courseProgressId = cp.courseProgressId
@@ -355,10 +374,10 @@ BEGIN
                    group by Course.courseId) chapter_info
                   on chapter_progress_info.courseId = chapter_info.courseId
     where CourseProgress.courseProgressId in (select distinct courseProgressId
-                                                from inserted
-                                                union
-                                                select distinct courseProgressId
-                                                from deleted)
+                                              from inserted
+                                              union
+                                              select distinct courseProgressId
+                                              from deleted)
       and CourseProgress.courseProgressId = chapter_progress_info.courseProgressId
 END
 GO
@@ -370,9 +389,9 @@ CREATE OR ALTER TRIGGER updateChapterProgressTrigger
 BEGIN
     update ChapterProgress
     set ChapterProgress.totalTime       = IIF(cal.totalTime IS NULL, 0, cal.totalTime),
-        ChapterProgress.completed        = IIF(cal1.completed IS NULL, 0, cal1.completed),
+        ChapterProgress.completed       = IIF(cal1.completed IS NULL, 0, cal1.completed),
         ChapterProgress.progressPercent = IIF(cal1.sumTime IS NULL OR cal1.sumTime = 0 OR cal.totalTime IS NULL, 0,
-                                                round(cal.totalTime * 100.0 / cal1.sumTime, 0))
+                                              round(cal.totalTime * 100.0 / cal1.sumTime, 0))
     from (select lp.chapterProgressId, sum(time) totalTime
           from LessonProgress lp
                    full join Lesson l on lp.lessonId = l.lessonId
@@ -396,10 +415,10 @@ BEGIN
                on chapter_info.chapterId = chapter_progress_info_with_chapterId.chapterId) cal1
          on cal.chapterProgressId = cal1.chapterProgressId
     where ChapterProgress.chapterProgressId in (select distinct chapterProgressId
-                                                  from inserted
-                                                  union
-                                                  select distinct chapterProgressId
-                                                  from deleted)
+                                                from inserted
+                                                union
+                                                select distinct chapterProgressId
+                                                from deleted)
       and ChapterProgress.chapterProgressId = cal.chapterProgressId
 END
 GO
@@ -524,7 +543,7 @@ VALUES (1, 1, N'Hiragana 。ひらがな', ''),
        (3, 2, N'Basic statements', '')
 GO
 INSERT INTO Lesson
-    (chapterId, name, [index], [type], [time], mustBeCompleted, content)
+(chapterId, name, [index], [type], [time], mustBeCompleted, content)
 VALUES (1, 'A, Ka Row', 1, 3, 3, 1, 's4RXDEVFO_E'),
        (1, 'Sa, Ta Row', 2, 3, 3, 1, 'J9MvqJnj5kQ'),
        (1, 'Practice 1: Choose the pronunciation', 3, 2, 5, 1, ''),
@@ -553,41 +572,52 @@ VALUES (1, 'A, Ka Row', 1, 3, 3, 1, 's4RXDEVFO_E'),
        (5, 'Multiple-choice test (5 questions)', 5, 2, 20, 1, '')
 
 GO
+INSERT INTO Quiz (lessonId, name, description)
+VALUES (3, 'Practice 1: Choose the pronunciation', 'This is description'),
+       (13, 'Multiple-choice test', 'This is description'),
+       (21, 'Practice 1: Review part 1', 'This is description'),
+       (26, 'Multiple-choice test', 'This is description')
+GO
+UPDATE Lesson SET quizId = 1 WHERE lessonId = 3;
+UPDATE Lesson SET quizId = 2 WHERE lessonId = 13;
+UPDATE Lesson SET quizId = 3 WHERE lessonId = 21;
+UPDATE Lesson SET quizId = 4 WHERE lessonId = 26;
+GO
 INSERT INTO Question
-    (lessonId, [index], content, [type], point)
-VALUES (3, 1, 'a.png', 0, 1),
-       (3, 2, 'i.png', 0, 1),
-       (3, 3, 'u.png', 1, 1),
-       (3, 4, 'e.png', 1, 1),
-       (3, 5, N'What is the character あ?', 20, 1),
-       (3, 6, 'https://statics.gojapan.vn/ufiles/2019/11/5b5bf0532cc51939d51b9798/5dde210b3b77504afb2f9cab.png', 10, 1),
-       (13, 1, 'https://statics.gojapan.vn/ufiles/2019/11/5b5bf0532cc51939d51b9798/5ddf8d1a3b7750201c44b5cd.png', 10,
+    (quizId, [index], content, [type], point)
+VALUES (1, 1, 'a.png', 0, 1),
+       (1, 2, 'i.png', 0, 1),
+       (1, 3, 'u.png', 1, 1),
+       (1, 4, 'e.png', 1, 1),
+       (1, 5, N'What is the character あ?', 20, 1),
+       (1, 6, 'https://statics.gojapan.vn/ufiles/2019/11/5b5bf0532cc51939d51b9798/5dde210b3b77504afb2f9cab.png', 10, 1),
+       (2, 1, 'https://statics.gojapan.vn/ufiles/2019/11/5b5bf0532cc51939d51b9798/5ddf8d1a3b7750201c44b5cd.png', 10,
         0.5),--ga
-       (13, 2, 'https://statics.gojapan.vn/ufiles/2019/11/5b5bf0532cc51939d51b9798/5ddf8bd13b77504ea52ea0c4.png', 10,
+       (2, 2, 'https://statics.gojapan.vn/ufiles/2019/11/5b5bf0532cc51939d51b9798/5ddf8bd13b77504ea52ea0c4.png', 10,
         0.5),--gi
-       (13, 3, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e3273cb59e7be49cd345ba4.png', 10,
+       (2, 3, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e3273cb59e7be49cd345ba4.png', 10,
         0.5),--go
-       (13, 4, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e3273d959e7be49cd345ba7.png', 10,
+       (2, 4, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e3273d959e7be49cd345ba7.png', 10,
         0.5),--za
-       (13, 5, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e3273f459e7be49cd345baa.png', 10,
+       (2, 5, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e3273f459e7be49cd345baa.png', 10,
         0.5),--zu
-       (13, 6, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e32741759e7be49cd345bad.png', 10,
+       (2, 6, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e32741759e7be49cd345bad.png', 10,
         0.5),--zo
-       (13, 7, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e327e4259e7be6c8434ba83.png', 10,
+       (2, 7, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e327e4259e7be6c8434ba83.png', 10,
         0.5),--da
-       (13, 8, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e327e5559e7be64dc788d6e.png', 10,
+       (2, 8, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e327e5559e7be64dc788d6e.png', 10,
         0.5),--di
-       (13, 9, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e327e7159e7be6a7d27ebbd.png', 10,
+       (2, 9, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e327e7159e7be6a7d27ebbd.png', 10,
         0.5),--de
-       (13, 10, N'Which words contain letters in the Ka row?', 21, 0.5),
-       (21, 1, N'Which of the following is NOT a key feature of C++?', 21, 1),
-       (21, 2, N'Which of the following is the correct syntax to declare an integer variable in C++?', 21, 1),
-       (21, 3, N'Which of the following is the correct way to print the value of a variable in C++?', 21, 1),
-       (26, 1, N'Which of the following is a control statement in C++?', 21, 1),
-       (26, 2, N'Which of the following is a selection statement in C++?', 21, 1),
-       (26, 3, N'Which of the following is a looping statement in C++?', 21, 1),
-       (26, 4, N'Which of the following is an input statement in C++?', 21, 1),
-       (26, 5, N'Which of the following is an output statement in C++?', 21, 1)
+       (2, 10, N'Which words contain letters in the Ka row?', 21, 0.5),
+       (3, 1, N'Which of the following is NOT a key feature of C++?', 21, 1),
+       (3, 2, N'Which of the following is the correct syntax to declare an integer variable in C++?', 21, 1),
+       (3, 3, N'Which of the following is the correct way to print the value of a variable in C++?', 21, 1),
+       (4, 1, N'Which of the following is a control statement in C++?', 21, 1),
+       (4, 2, N'Which of the following is a selection statement in C++?', 21, 1),
+       (4, 3, N'Which of the following is a looping statement in C++?', 21, 1),
+       (4, 4, N'Which of the following is an input statement in C++?', 21, 1),
+       (4, 5, N'Which of the following is an output statement in C++?', 21, 1)
 
 --(13, 11, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e327f4359e7be6c8434ba8f.png', 10, 0.5),--pu
 --(13, 12, 'https://statics.gojapan.vn/ufiles/2020/01/5b5bf0532cc51939d51b9798/5e33cdfc59e7be091357234a.png', 10, 0.5),--kitte
