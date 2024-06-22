@@ -4,18 +4,18 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Database.CourseDAO"%>
-<%@page import="com.swp_project_g4.Model.Course"%>
-<%@page import="com.swp_project_g4.Database.ChapterDAO"%>
-<%@page import="com.swp_project_g4.Model.Chapter"%>
-<%@page import="com.swp_project_g4.Model.Lesson"%>
-<%@page import="com.swp_project_g4.Service.CookieServices"%>
-<%@page import="com.swp_project_g4.Database.LearnerDAO"%>
-<%@page import="com.swp_project_g4.Model.Learner"%>
-<%@page import="com.swp_project_g4.Database.LessonDAO"%>
+<%@page import="com.swp_project_g4.Database.CourseDAO" %>
+<%@page import="com.swp_project_g4.Model.Course" %>
+<%@page import="com.swp_project_g4.Database.ChapterDAO" %>
+<%@page import="com.swp_project_g4.Model.Chapter" %>
+<%@page import="com.swp_project_g4.Model.Lesson" %>
+<%@page import="com.swp_project_g4.Service.CookieServices" %>
+<%@page import="com.swp_project_g4.Database.LearnerDAO" %>
+<%@page import="com.swp_project_g4.Model.Learner" %>
+<%@page import="com.swp_project_g4.Database.LessonDAO" %>
 <%@ page import="com.swp_project_g4.Database.LessonDAO" %>
 <%@ page import="com.swp_project_g4.Model.Learner" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 
 <%
 
@@ -23,7 +23,7 @@
     Lesson lesson1 = LessonDAO.getLesson(Integer.parseInt(request.getParameter("lessonId")));
     Chapter chapter1 = ChapterDAO.getChapter(lesson1.getChapterId());
     Course course1 = CourseDAO.getCourse(chapter1.getCourseId());
-    
+
 %>
 
 <div class="rightSide">
@@ -68,7 +68,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -90,7 +90,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -112,7 +112,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -134,7 +134,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -155,7 +155,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -216,7 +216,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -238,7 +238,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -260,7 +260,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -282,7 +282,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -303,7 +303,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -364,7 +364,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -386,7 +386,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -408,7 +408,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -430,7 +430,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">
@@ -451,7 +451,7 @@
                     <!-- <i class="fa-solid fa-square-check"> -->
                     <!-- unchecked -->
                     <i class="fa-regular fa-square"></i>
-                    </i></span>
+                    </span>
                 <div class="lesson-content">
                     <p class="title">1. Row A, Ka</p>
                     <span class="description">

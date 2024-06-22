@@ -183,19 +183,19 @@ public class LearnController {
             var quiz = lesson.getQuiz();
             var quizResults = quizResultService.getAllByQuizIdAndLessonProgressID(quiz.getID(), lessonProgress.getID());
             if (!quizResults.isEmpty()) {
+                ArrayList<Boolean> questionCorrects = new ArrayList<Boolean>();
+                for (var question: quiz.getQuestions()) {
+                    boolean correct = false;
+                    if (chosenAnswerService.isQuestionCorrect(quizResults.get(quizResults.size() - 1).getID(), question.getID())) correct = true;
+                    questionCorrects.add(correct);
+                }
+                model.addAttribute("quizResultTotalMark", quizResultService.calcTotalMarkByQuizResultId(quizResults.get(quizResults.size() - 1).getID()));
+                model.addAttribute("questionCorrects", questionCorrects);
                 model.addAttribute("quizResult", quizResults.get(quizResults.size() - 1));
-            }
-            ArrayList<Boolean> questionCorrects = new ArrayList<Boolean>();
-            for (var question: quiz.getQuestions()) {
-                boolean correct = false;
-                if (chosenAnswerService.isQuestionCorrect(quizResults.get(quizResults.size() - 1).getID(), question.getID())) correct = true;
-                questionCorrects.add(correct);
             }
 
             model.addAttribute("numberOfQuestion", quiz.getQuestions().size());
             model.addAttribute("questions", quiz.getQuestions());
-            model.addAttribute("quizResultTotalMark", quizResultService.calcTotalMarkByQuizResultId(quizResults.get(quizResults.size() - 1).getID()));
-            model.addAttribute("questionCorrects", questionCorrects);
         }
 
         model.addAttribute("learner", learner);
