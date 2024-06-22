@@ -6,10 +6,6 @@
 
 <%@page import="java.util.Date"%>
 <%@page import="com.swp_project_g4.Model.QuizResult"%>
-<%@page import="com.swp_project_g4.Database.QuizResultDAO"%>
-<%@page import="com.swp_project_g4.Database.QuestionDAO"%>
-<%@page import="com.swp_project_g4.Model.Question"%>
-<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%

@@ -101,69 +101,6 @@ public class ChapterDAO extends DBConnection {
         return chapters;
     }
 
-    public static boolean insertChapter(Chapter chapter) {
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("insert into chapter(courseId,[index],name,description) values(?,?,?,?)");
-            statement.setInt(1, chapter.getCourseId());
-            statement.setInt(2, chapter.getIndex());
-            statement.setString(3, chapter.getName());
-            statement.setString(4, chapter.getDescription());
-            statement.executeUpdate();
-
-            //disconnect to database
-            disconnect();
-            return true;
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-        return false;
-    }
-
-    public static boolean updateChapter(Chapter chapter) {
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("update chapter set courseId=?, [index]=?, name=?, description=? where chapterId=?");
-            statement.setInt(1, chapter.getCourseId());
-            statement.setInt(2, chapter.getIndex());
-            statement.setString(3, chapter.getName());
-            statement.setString(4, chapter.getDescription());
-            statement.setInt(5, chapter.getID());
-            statement.executeUpdate();
-
-            //disconnect to database
-            disconnect();
-            return true;
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public static boolean deleteChapter(int chapterId) {
-        try {
-            if (!existChapter(chapterId)) {
-                return false;
-            }
-            connect();
-            statement = conn.prepareStatement("delete from chapter where chapterId=?");
-            statement.setInt(1, chapterId);
-            statement.execute();
-            disconnect();
-            return !existChapter(chapterId);
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
     public static void main(String[] args) {
         System.out.println(getChaptersByCourseId(1));
     }

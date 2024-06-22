@@ -20,37 +20,6 @@ import java.util.logging.Logger;
  */
 public class InstructorDAO extends DBConnection {
 
-    public static Instructor getInstructor(int instructorId) {
-        Instructor instructor = null;
-        try {
-            //connect to database
-            connect();
-            statement = conn.prepareStatement("select * from instructor where instructorId = ?");
-            statement.setInt(1, instructorId);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                instructor = new Instructor(
-                        resultSet.getInt("instructorId"),
-                        resultSet.getInt("organizationId"),
-                        resultSet.getString("picture"),
-                        resultSet.getString("username"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
-                        resultSet.getInt("countryId"),
-                        resultSet.getInt("status")
-                );
-            }
-            disconnect();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return instructor;
-    }
-
     public static Instructor getInstructorByUsername(String username) {
         Instructor instructor = null;
         try {
@@ -80,32 +49,6 @@ public class InstructorDAO extends DBConnection {
         }
 
         return instructor;
-    }
-
-    public static ArrayList<Instructor> getAllInstructor() {
-        ArrayList<Instructor> list = new ArrayList<>();
-        try {
-            statement = conn.prepareStatement("select * from instructor");
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Instructor instructor = new Instructor(
-                        resultSet.getInt("instructorId"),
-                        resultSet.getInt("organizationId"),
-                        resultSet.getString("picture"),
-                        resultSet.getString("username"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
-                        resultSet.getInt("countryId"),
-                        resultSet.getInt("status")
-                );
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return list;
     }
 
     public static void main(String[] args) {

@@ -15,32 +15,6 @@ import java.util.logging.Logger;
  * @author TTNhan
  */
 public class AdminDAO extends DBConnection {
-
-    public static boolean existAdmin(String username) {
-        boolean ok = false;
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("select username from [admin] where username = ?");
-            statement.setString(1, username);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                if (resultSet.getString("username").equals(username)) {
-                    ok = true;
-                }
-            }
-
-            //disconnect to database
-            disconnect();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //return result
-        return ok;
-    }
-
     /**
      * check password of admin
      *

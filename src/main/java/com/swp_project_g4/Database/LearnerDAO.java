@@ -20,31 +20,6 @@ import java.util.logging.Logger;
  */
 public class LearnerDAO extends DBConnection {
 
-    public static boolean existUser(String username) {
-        boolean ok = false;
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("select username from [learner] where username = ?");
-            statement.setString(1, username);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                if (resultSet.getString("username").equals(username)) {
-                    ok = true;
-                }
-            }
-
-            //disconnect to database
-            disconnect();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(LearnerDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //return result
-        return ok;
-    }
-
     /**
      * check password of a user
      *
@@ -230,40 +205,6 @@ public class LearnerDAO extends DBConnection {
         return learner;
     }
 
-    public static ArrayList<Learner> getAllUsers() {
-        ArrayList<Learner> list = new ArrayList<>();
-
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("select * from [learner]");
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Learner learner = new Learner(
-                        resultSet.getInt("learnerId"),
-                        resultSet.getString("picture"),
-                        resultSet.getString("username"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getBoolean("emailVerified"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
-                        resultSet.getDate("birthday"),
-                        resultSet.getInt("countryId"),
-                        resultSet.getInt("status")
-                );
-                list.add(learner);
-            }
-
-            disconnect();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return list;
-    }
 
     public static int insertUser(Learner learner) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

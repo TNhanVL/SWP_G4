@@ -4,8 +4,6 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Database.QuestionDAO"%>
-<%@ page import="com.swp_project_g4.Database.QuestionDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="quiz-type1">
     <form action="" method="post">

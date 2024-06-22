@@ -99,65 +99,6 @@ public class AnswerDAO extends DBConnection {
         return answers;
     }
 
-    public static boolean insertAnswer(Answer answer) {
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("insert into answer(content,correct,questionId) values (?,?,?)");
-            statement.setString(1, answer.getContent());
-            statement.setBoolean(2, answer.isCorrect());
-            statement.setInt(3, answer.getQuestionId());
-            statement.executeUpdate();
-            //disconnect to database
-            disconnect();
-            return true;
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-        return false;
-    }
-
-    public static boolean updateAnswer(Answer answer) {
-        try {
-            //connect to database
-            connect();
-
-            statement = conn.prepareStatement("update answer set content=?, correct=?, questionId=? where answerId=?");
-            statement.setString(1, answer.getContent());
-            statement.setBoolean(2, answer.isCorrect());
-            statement.setInt(3, answer.getQuestionId());
-            statement.setInt(4, answer.getID());
-
-            //disconnect to database
-            disconnect();
-            return true;
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-    public static boolean deleteAnswer(int answerId) {
-        try {
-            if (!existAnswer(answerId)) {
-                return false;
-            }
-            connect();
-            statement = conn.prepareStatement("delete from answer where answerId=?");
-            statement.setInt(1, answerId);
-            statement.execute();
-            disconnect();
-            return !existAnswer(answerId);
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
     public static void main(String[] args) {
         System.out.println(getAnswersByQuestionId(1));
     }
