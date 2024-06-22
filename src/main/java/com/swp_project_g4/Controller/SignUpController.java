@@ -14,14 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @Service
@@ -56,5 +55,38 @@ public class SignUpController {
         LearnerDAO.insertUser(learner);
         request.getSession().setAttribute("success", "Signup successful!");
         return "redirect:/login";
+    }
+
+    @RequestMapping(value = "/checkUsername", method = RequestMethod.GET)
+    @ResponseBody
+    public String checkUsername(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+        String username = request.getParameter("username");
+        Learner learner = LearnerDAO.getUserByUsername(username);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        if (learner != null) {
+            return "exist";
+        } else {
+            return "not exist";
+        }
+    }
+
+    @RequestMapping(value = "/checkEmail", method = RequestMethod.GET)
+    @ResponseBody
+    public String checkEmail(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+        String email = request.getParameter("email");
+        var regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        if (!matcher.matches()) {
+            return "exist";
+        }
+
+        Learner learner = LearnerDAO.getUserByEmail(email);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        if (learner != null) {
+            return "exist";
+        } else {
+            return "not exist";
+        }
     }
 }

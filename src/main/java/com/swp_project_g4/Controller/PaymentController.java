@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/checkOut")
-public class CheckOutController {
+public class PaymentController {
 
     @Autowired
     private Repository repository;
@@ -122,7 +122,7 @@ public class CheckOutController {
             request.getSession().setAttribute("error", "There are some error!");
             return "redirect:/";
         } catch (Exception ex) {
-            Logger.getLogger(CheckOutController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PaymentController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         //get all courses ID

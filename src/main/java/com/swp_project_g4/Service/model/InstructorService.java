@@ -24,4 +24,7 @@ public class InstructorService {
         return instructor;
     }
 
+    public Instructor save(Instructor instructor) {
+        return instructorRepository.save(instructor);
+    }
 }

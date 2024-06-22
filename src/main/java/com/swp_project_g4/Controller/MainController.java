@@ -32,39 +32,6 @@ public class MainController {
     @Autowired
     private EmailService emailService;
 
-    @RequestMapping(value = "/checkUsername", method = RequestMethod.GET)
-    @ResponseBody
-    public String checkUsername(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        String username = request.getParameter("username");
-        Learner learner = LearnerDAO.getUserByUsername(username);
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        if (learner != null) {
-            return "exist";
-        } else {
-            return "not exist";
-        }
-    }
-
-    @RequestMapping(value = "/checkEmail", method = RequestMethod.GET)
-    @ResponseBody
-    public String checkEmail(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        String email = request.getParameter("email");
-        var regex = "^(.+)@(.+)$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-        if (!matcher.matches()) {
-            return "exist";
-        }
-
-        Learner learner = LearnerDAO.getUserByEmail(email);
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        if (learner != null) {
-            return "exist";
-        } else {
-            return "not exist";
-        }
-    }
-
     @InitBinder
     private void dateBinder(WebDataBinder binder) {
         //The date format to parse or output your dates
@@ -74,48 +41,6 @@ public class MainController {
         //Register it as custom editor for the Date type
         binder.registerCustomEditor(Date.class, editor);
     }
-
-    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public String updateUser(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int userId, @ModelAttribute("user") Learner learner) {
-
-        Learner learner1 = LearnerDAO.getUser(userId);
-
-        if (learner1 == null) {
-            request.getSession().setAttribute("error", "User not exist!");
-            return "redirect:./";
-        }
-
-        learner1.setFirstName(learner.getFirstName());
-        learner1.setLastName(learner.getLastName());
-        learner1.setBirthday(learner.getBirthday());
-        learner1.setCountryId(learner.getCountryId());
-        learner1.setEmail(learner.getEmail());
-
-        LearnerDAO.updateUser(learner1);
-        request.getSession().setAttribute("success", "Update user success!");
-        return "redirect:/profile/" + learner1.getUsername();
-    }
-
-    @RequestMapping(value = "/updateInstructor", method = RequestMethod.POST)
-    public String updateInstructor(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int instructorId, @ModelAttribute("user") Learner learner) {
-
-        Instructor instructor1 = repository.getInstructorRepository().findById(instructorId).get();
-
-        if (instructor1 == null) {
-            request.getSession().setAttribute("error", "User not exist!");
-            return "redirect:./";
-        }
-
-        instructor1.setFirstName(learner.getFirstName());
-        instructor1.setLastName(learner.getLastName());
-        instructor1.setCountryId(learner.getCountryId());
-        instructor1.setEmail(learner.getEmail());
-
-        repository.getInstructorRepository().save(instructor1);
-        request.getSession().setAttribute("success", "Update user success!");
-        return "redirect:/profile/instructor/" + instructor1.getUsername();
-    }
-
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam String token) {
