@@ -205,9 +205,15 @@ public class LearnController {
             model.addAttribute("questions", quiz.getQuestions());
         }
 
+        for (var chapter1: course.getChapters()) {
+            var lessons = chapter1.getLessons();
+            model.addAttribute("lessons_of_chapter_" + chapter1.getID(), lessons);
+        }
+
         model.addAttribute("learner", learner);
         model.addAttribute("course", course);
         model.addAttribute("chapter", chapter);
+        model.addAttribute("chapters", course.getChapters());
         model.addAttribute("lesson", lesson);
         model.addAttribute("courseId", courseId);
         model.addAttribute("lessonId", lessonId);

@@ -4,19 +4,17 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Database.LessonDAO" %>
 <%@ page import="java.util.Set" %>
-<%@ page import="java.util.HashSet" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <div class="rightSide">
     <h4><%out.print(course.getName());%></h4>
 
     <%
-        ArrayList<Chapter> chapters = ChapterDAO.getChaptersByCourseId(course.getID());
+        ArrayList<Chapter> chapters = new ArrayList<>((List<Chapter>) request.getAttribute("chapters"));
         Set<Integer> completedLessonIds = (Set<Integer>) request.getAttribute("completedLessonIds");
         for (Chapter chapter1 : chapters) {
 
-            ArrayList<Lesson> lessons = LessonDAO.getLessonsByChapterId(chapter1.getID());
+            ArrayList<Lesson> lessons = new ArrayList<>((List<Lesson>) request.getAttribute("lessons_of_chapter_" + chapter1.getID()));
             int numberOfCompleted = 0;
             for(var lesson1: lessons){
                 if(completedLessonIds.contains(lesson1.getID())){
