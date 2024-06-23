@@ -88,6 +88,10 @@ public class CourseController {
     public String allCourses(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         List<Course> courses = courseService.findAll();
         model.addAttribute("courses", courses);
+        for (var course: courses) {
+            var totalTime = courseService.getSumTimeOfCourseById(course.getID());
+            model.addAttribute("sumTimeOfCourse_" + course.getID(), totalTime);
+        }
         return "user/allCourses";
     }
 

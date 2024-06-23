@@ -4,7 +4,6 @@
     Author     : TTNhan
 --%>
 
-<%@page import="com.swp_project_g4.Database.CourseDAO"%>
 <%@page import="com.swp_project_g4.Model.Course"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -56,7 +55,7 @@
                                         <span class="type">
                                             <span><%out.print(course.getDescription());%></span>
                                             <span><%
-                                                int sumTimeInMinute = CourseDAO.getSumTimeOfCourse(course.getID());
+                                                int sumTimeInMinute = (int) request.getAttribute("sumTimeOfCourse_" + course.getID());
                                                 out.print(Math.round(sumTimeInMinute / 6.0) / 10.0);
                                                 %>h</span>
                                         </span>

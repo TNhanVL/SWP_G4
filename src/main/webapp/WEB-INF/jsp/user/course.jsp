@@ -5,7 +5,6 @@
 --%>
 
 <%@ page import="com.swp_project_g4.Database.*" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.swp_project_g4.Model.*" %>
 <%-- 
     Document   : allCourse
@@ -18,7 +17,7 @@
 
 <%
     //check course exist
-    Course course = null;
+    Course course;
     try {
         course = CourseDAO.getCourse((int) request.getAttribute("courseId"));
         if (course == null) {

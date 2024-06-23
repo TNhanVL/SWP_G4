@@ -6,6 +6,7 @@ import com.swp_project_g4.Model.Lesson;
 import com.swp_project_g4.Repository.ChapterRepository;
 import com.swp_project_g4.Repository.CountryRepository;
 import com.swp_project_g4.Repository.CourseRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CountryService {
     @Autowired
     private CountryRepository countryRepository;

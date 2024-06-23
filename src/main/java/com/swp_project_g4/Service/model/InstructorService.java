@@ -4,6 +4,7 @@ import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.InstructorRepository;
 import com.swp_project_g4.Repository.Repository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class InstructorService {
     @Autowired
     private InstructorRepository instructorRepository;
 
-    public Optional<Instructor> findById(int Id) {
-        var instructor = instructorRepository.findById(Id);
+    public Optional<Instructor> findById(int instructorId) {
+        var instructor = instructorRepository.findById(instructorId);
         return instructor;
     }
 

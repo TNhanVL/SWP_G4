@@ -4,6 +4,7 @@ import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Repository.OrganizationRepository;
 import com.swp_project_g4.Repository.Repository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class OrganizationService {
     @Autowired
     private OrganizationRepository organizationRepository;
