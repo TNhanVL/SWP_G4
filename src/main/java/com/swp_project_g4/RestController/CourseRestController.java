@@ -24,7 +24,7 @@ public class CourseRestController {
 
     @GetMapping("/getAll")
     public List<Course> getAll() {
-        return courseService.getAll();
+        return courseService.findAll();
     }
 
     @PostMapping("/update")
@@ -49,6 +49,6 @@ public class CourseRestController {
 
     @GetMapping("fetchCourse")
     public List<Course> fetchCourse() {
-        return courseService.getAll();
+        return courseService.findAll();
     }
 }

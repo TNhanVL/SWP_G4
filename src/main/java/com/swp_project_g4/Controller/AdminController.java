@@ -50,10 +50,10 @@ public class AdminController {
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String dashboard(ModelMap model, HttpServletRequest request) {
-        request.getSession().setAttribute("learnerList", learnerService.getAll());
-        request.getSession().setAttribute("orgList", organizationService.getAll());
-        request.getSession().setAttribute("instructorsList", instructorService.getAll());
-        request.getSession().setAttribute("courseList", courseService.getAll());
+        request.getSession().setAttribute("learnerList", learnerService.findAll());
+        request.getSession().setAttribute("orgList", organizationService.findAll());
+        request.getSession().setAttribute("instructorsList", instructorService.findAll());
+        request.getSession().setAttribute("courseList", courseService.findAll());
         return "admin/dashboard";
     }
 
@@ -75,7 +75,7 @@ public class AdminController {
             var user = learnerService.findById(user_id).orElseThrow();
             var course_progress = courseProgressService.findAllByLearnerId(user_id);
             request.getSession().setAttribute("currentUser", user);
-            request.getSession().setAttribute("countryList", countryService.getAll());
+            request.getSession().setAttribute("countryList", countryService.findAll());
             request.getSession().setAttribute("courseProgress", course_progress);
             request.getSession().setAttribute("addUser", false);
 
@@ -156,7 +156,7 @@ public class AdminController {
             var organization_id = Integer.parseInt(id);
             var organization = organizationService.findById(organization_id).orElseThrow();
             request.getSession().setAttribute("currentOrg", organization);
-            request.getSession().setAttribute("countryList", countryService.getAll());
+            request.getSession().setAttribute("countryList", countryService.findAll());
             var courseList = courseService.findAllByOrganizationId(organization_id);
             request.getSession().setAttribute("courseList", courseList);
             request.getSession().setAttribute("instructorsList", instructorService.findAllByOrganizationId(organization_id));
@@ -209,7 +209,7 @@ public class AdminController {
             var user_id = Integer.parseInt(id);
             var user = instructorService.findById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
-            request.getSession().setAttribute("countryList", countryService.getAll());
+            request.getSession().setAttribute("countryList", countryService.findAll());
             var instructed_course = instructService.findAllByInstructorId(user_id);
 
             ArrayList<Course> courseList = new ArrayList<>();
@@ -277,7 +277,7 @@ public class AdminController {
             var user = new Learner();
             user.setID((int) learnerService.count() + 1);
             request.getSession().setAttribute("currentUser", user);
-            request.getSession().setAttribute("countryList", countryService.getAll());
+            request.getSession().setAttribute("countryList", countryService.findAll());
             request.getSession().setAttribute("addUser", true);
         } catch (NoSuchElementException ex) {
             request.getSession().setAttribute("error", "No such user information!");

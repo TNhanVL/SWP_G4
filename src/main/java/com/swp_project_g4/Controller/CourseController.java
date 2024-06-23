@@ -73,7 +73,7 @@ public class CourseController {
         }
 
         var courseProgresses = courseProgressService.findAllByCourseId(courseId);
-        var instructors = courseService.getAllInstructors(courseId);
+        var instructors = courseService.findAllInstructors(courseId);
 
         model.addAttribute("instructors", instructors);
         model.addAttribute("numberOfPurchased", courseProgresses.size());
@@ -86,7 +86,7 @@ public class CourseController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String allCourses(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-        List<Course> courses = courseService.getAll();
+        List<Course> courses = courseService.findAll();
         model.addAttribute("courses", courses);
         return "user/allCourses";
     }

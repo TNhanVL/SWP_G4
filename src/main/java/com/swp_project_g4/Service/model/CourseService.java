@@ -26,12 +26,12 @@ public class CourseService {
         return courseRepository.findById(courseId);
     }
 
-    public List<Course> getAll() {
+    public List<Course> findAll() {
         var courses = courseRepository.findAll();
         return courses;
     }
 
-    public List<Course> getAllCreatedCourses(int instructorId) {
+    public List<Course> findAllCreatedCourses(int instructorId) {
         var instructor = instructorService.findById(instructorId).get();
         var instructs = instructor.getInstructs();
         var courses = new ArrayList<Course>();
@@ -45,7 +45,7 @@ public class CourseService {
         return courseRepository.findAllByOrganizationId(organizationId);
     }
 
-    public List<Instructor> getAllInstructors(int courseId) {
+    public List<Instructor> findAllInstructors(int courseId) {
         var instructs = courseRepository.findById(courseId).get().getInstructs();
         var instructors = new ArrayList<Instructor>();
         for (var instruct : instructs) {
