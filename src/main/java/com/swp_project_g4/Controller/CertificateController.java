@@ -3,6 +3,8 @@ package com.swp_project_g4.Controller;
 import com.swp_project_g4.Model.*;
 import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.Certificate;
+import com.swp_project_g4.Service.model.CourseService;
+import com.swp_project_g4.Service.model.LearnerService;
 import com.swp_project_g4.Service.storage.StorageFileNotFoundException;
 import com.swp_project_g4.Service.storage.StorageService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,9 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/certificate")
 public class CertificateController {
-
     @Autowired
-    private Repository repository;
+    private CourseService courseService;
+    @Autowired
+    private LearnerService learnerService;
     @Autowired
     private StorageService storageService;
     @Autowired
@@ -37,9 +40,9 @@ public class CertificateController {
         if (file == null)
             return ResponseEntity.notFound().build();
 
-        Learner learner = repository.getLearnerRepository().findById(learnerId).get();
+        Learner learner = learnerService.getById(learnerId).get();
 
-        String certificateFileName = repository.getCourseRepository().findById(courseId).get().getName() + " " +
+        String certificateFileName = courseService.getById(courseId).get().getName() + " " +
                 learner.getFirstName() + " " + learner.getLastName() + " certificate";
         certificateFileName = certificateFileName.replace(' ', '_');
         certificateFileName += ".pdf";
