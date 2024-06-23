@@ -6,6 +6,7 @@ import com.swp_project_g4.Repository.CartRepository;
 import com.swp_project_g4.Repository.InstructRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@Component("CartService")
 public class CartService {
     @Autowired
     private CartRepository cartRepository;

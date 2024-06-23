@@ -20,7 +20,7 @@ public class LessonRestController {
     @Autowired
     private LessonService lessonService;
 
-    @PostMapping("/findByLessonId")
+    @PostMapping("/getByLessonId")
     public Lesson getByLessonId(@RequestBody Map<String, Integer> data) {
         try {
             return lessonService.findById(data.get("lessonId")).get();
@@ -30,7 +30,7 @@ public class LessonRestController {
         return null;
     }
 
-    @PostMapping("/findByChapterId")
+    @PostMapping("/getByChapterId")
     public List<Lesson> getByChapterId(@RequestBody Map<String, Integer> data) {
         try {
             return chapterService.findById(data.get("chapterId")).get().getLessons();

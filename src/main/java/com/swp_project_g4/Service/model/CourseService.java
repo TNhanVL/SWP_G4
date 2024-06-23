@@ -7,6 +7,7 @@ import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@Component("CourseService")
 public class CourseService {
     @Autowired
     private CourseRepository courseRepository;

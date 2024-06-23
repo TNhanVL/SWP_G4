@@ -19,7 +19,7 @@ public class QuestionRestController {
     @Autowired
     private QuestionService questionService;
 
-    @PostMapping("/findByQuestionId")
+    @PostMapping("/getByQuestionId")
     public Question getByQuestionId(@RequestBody Map<String, Integer> data) {
         try {
             return questionService.findById(data.get("questionId")).get();
@@ -29,7 +29,7 @@ public class QuestionRestController {
         return null;
     }
 
-    @PostMapping("/findByLessonId")
+    @PostMapping("/getByLessonId")
     public List<Question> getByLessonId(@RequestBody Map<String, Integer> data) {
         try {
             return questionService.findAllByQuizId(data.get("quizId"));

@@ -37,10 +37,12 @@ public class AdminController {
     private CourseProgressService courseProgressService;
     @Autowired
     private CountryService countryService;
+    @Autowired
+    private CookieServices cookieServices;
 
     @GetMapping("")
     public String redirect(HttpServletRequest request) {
-        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
+        if (!cookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
@@ -101,7 +103,7 @@ public class AdminController {
     @RequestMapping(value = "/editUser", method = RequestMethod.POST)
     public String editUserPost(ModelMap model, HttpServletRequest request, @RequestParam String id, @ModelAttribute("user") Learner learner) {
 
-        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
+        if (!cookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:./login";
         }
@@ -135,7 +137,7 @@ public class AdminController {
     public String deleteUser(ModelMap model, @RequestParam String id, HttpServletRequest request) {
 
         //check logged in
-        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
+        if (!cookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
         }
@@ -171,7 +173,7 @@ public class AdminController {
     @RequestMapping(value = "/editOrganization", method = RequestMethod.POST)
     public String editOrganizationPost(HttpServletRequest request, @ModelAttribute("organization") Organization organization) {
         //check logged in
-        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
+        if (!cookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:./login";
         }
@@ -229,7 +231,7 @@ public class AdminController {
     @RequestMapping(value = "/editInstructor", method = RequestMethod.POST)
     public String editInstructor(HttpServletRequest request, @ModelAttribute("user") Instructor instructor) {
         //check logged in
-        if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
+        if (!cookieServices.checkAdminLoggedIn(request.getCookies())) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:./login";
         }

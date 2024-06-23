@@ -17,7 +17,7 @@ public class AnswerRestController {
     @Autowired
     private AnswerService answerService;
 
-    @PostMapping("/findByAnswerID")
+    @PostMapping("/getByAnswerID")
     public Answer getByAnswerID(@RequestBody Map<String, Integer> data) {
         try {
             return answerService.findById(data.get("answerId")).get();
@@ -27,7 +27,7 @@ public class AnswerRestController {
         return null;
     }
 
-    @PostMapping("/findByQuestionId")
+    @PostMapping("/getByQuestionId")
     public List<Answer> getByQuestionId(@RequestBody Map<String, Integer> data) {
         try {
             return answerService.findAllByQuestionId(data.get("questionId"));

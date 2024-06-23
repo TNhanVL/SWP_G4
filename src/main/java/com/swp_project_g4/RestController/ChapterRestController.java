@@ -21,7 +21,7 @@ public class ChapterRestController {
     @Autowired
     private ChapterService chapterService;
 
-    @PostMapping("/findByChapterId")
+    @PostMapping("/getByChapterId")
     public Chapter getByChapterId(@RequestBody Map<String, Integer> data) {
         try {
             return chapterService.findById(data.get("chapterId")).get();
@@ -31,7 +31,7 @@ public class ChapterRestController {
         return null;
     }
 
-    @PostMapping("/findByCourseId")
+    @PostMapping("/getByCourseId")
     public List<Chapter> getByCourseId(@RequestBody Map<String, Integer> data) {
         try {
             return courseService.findById(data.get("courseId")).get().getChapters();
