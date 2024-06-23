@@ -27,11 +27,6 @@ import java.util.regex.Pattern;
 //@RequestMapping("/user")
 public class MainController {
 
-    @Autowired
-    private Repository repository;
-    @Autowired
-    private EmailService emailService;
-
     @InitBinder
     private void dateBinder(WebDataBinder binder) {
         //The date format to parse or output your dates

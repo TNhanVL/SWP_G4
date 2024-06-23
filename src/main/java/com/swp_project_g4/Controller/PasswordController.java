@@ -22,12 +22,6 @@ public class PasswordController {
     @Autowired
     private LearnerService learnerService;
     @Autowired
-    private AdminService adminService;
-    @Autowired
-    private OrganizationService organizationService;
-    @Autowired
-    private InstructorService instructorService;
-    @Autowired
     private EmailService emailService;
 
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
