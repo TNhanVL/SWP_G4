@@ -17,7 +17,7 @@ public class CourseRestController {
     @Autowired
     private CourseService courseService;
 
-    @PostMapping("/findByCourseId")
+    @PostMapping("/getByCourseId")
     public Course getByCourseId(@RequestBody Map<String, Integer> data) {
         return courseService.findById(data.get("courseId")).orElse(null);
     }

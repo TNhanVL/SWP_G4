@@ -4,12 +4,10 @@
     Author     : TTNhan
 --%>
 
-<%@ page import="com.swp_project_g4.Database.*" %>
 <%@ page import="com.swp_project_g4.Model.*" %>
 <%@ page import="org.springframework.context.ApplicationContext" %>
 <%@ page import="org.springframework.web.servlet.support.RequestContextUtils" %>
 <%@ page import="com.swp_project_g4.Service.model.CourseService" %>
-<%@ page import="org.apache.catalina.webresources.Cache" %>
 <%@ page import="com.swp_project_g4.Service.model.CartService" %>
 <%@ page import="com.swp_project_g4.Service.model.OrganizationService" %>
 <%@ page import="com.swp_project_g4.Service.model.LearnerService" %>

@@ -9,20 +9,25 @@ import com.swp_project_g4.Database.InstructorDAO;
 import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Repository.Repository;
+import com.swp_project_g4.Service.model.AdminService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
  * @author TTNhan
  */
 @Service
+@Component("CookieServices")
 public class CookieServices {
-
+    @Autowired
     private static Repository repository;
+    @Autowired
+    private AdminService adminService;
 
     @Autowired
     public CookieServices(Repository repository) {
@@ -65,7 +70,7 @@ public class CookieServices {
                     return repository.getLearnerRepository().findByUsernameAndPassword(username, password).isPresent();
                 }
                 case ADMIN -> {
-                    return repository.getAdminRepository().findByUsernameAndPassword(username, password).isPresent();
+                    return adminService.findByUsername(username).get().getPassword().equals(password);
                 }
                 case ORGANIZATION -> {
                     return repository.getOrganizationRepository().findByUsernameAndPassword(username, password).isPresent();
@@ -84,7 +89,7 @@ public class CookieServices {
         return false;
     }
 
-    public static boolean checkAdminLoggedIn(Cookie[] cookies) {
+    public boolean checkAdminLoggedIn(Cookie[] cookies) {
         boolean ok = false;
 
         try {
@@ -93,7 +98,7 @@ public class CookieServices {
             if (claims != null) {
                 String username = (String) claims.get("username");
                 String password = (String) claims.get("password");
-                return AdminDAO.checkAdmin(username, password, true) == 0;
+                return adminService.findByUsername(username).get().getPassword().equals(password);
             }
             return false;
 

@@ -10,11 +10,15 @@
 <%@page import="com.swp_project_g4.Model.Learner" %>
 <%@page import="com.swp_project_g4.Service.CookieServices" %>
 <%@ page import="com.swp_project_g4.Database.LearnerDAO" %>
+<%@ page import="org.springframework.context.ApplicationContext" %>
+<%@ page import="org.springframework.web.servlet.support.RequestContextUtils" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
-    if (!CookieServices.checkAdminLoggedIn(request.getCookies())) {
+    ApplicationContext applicationContext = RequestContextUtils.findWebApplicationContext(request);
+    CookieServices cookieServices = (CookieServices) applicationContext.getBean("CookieServices");
+    if (!cookieServices.checkAdminLoggedIn(request.getCookies())) {
         response.sendRedirect("/login");
     }
 %>
