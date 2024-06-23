@@ -1,6 +1,5 @@
 package com.swp_project_g4.Controller;
 
-import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
@@ -50,7 +49,7 @@ public class ProfileController {
         var usernameInCookie = CookieServices.getUserNameOfLearner(request.getCookies());
         boolean guest = true;
 
-        
+
         var learnerOptional = learnerService.findByUsername(username);
         if (!learnerOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this username!");
@@ -98,7 +97,7 @@ public class ProfileController {
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public String updateUser(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int userId, @ModelAttribute("user") Learner learner) {
 
-        Learner learner1 = LearnerDAO.getUser(userId);
+        Learner learner1 = learnerService.findById(userId).get();
 
         if (learner1 == null) {
             request.getSession().setAttribute("error", "User not exist!");
@@ -111,7 +110,7 @@ public class ProfileController {
         learner1.setCountryId(learner.getCountryId());
         learner1.setEmail(learner.getEmail());
 
-        LearnerDAO.updateUser(learner1);
+        learnerService.save(learner1);
         request.getSession().setAttribute("success", "Update user success!");
         return "redirect:/profile/" + learner1.getUsername();
     }

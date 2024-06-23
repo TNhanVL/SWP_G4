@@ -2,8 +2,11 @@ package com.swp_project_g4.Controller;
 
 import com.swp_project_g4.Database.CourseDAO;
 import com.swp_project_g4.Database.LearnerDAO;
+import com.swp_project_g4.Model.Cart;
+import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Service.CookieServices;
+import com.swp_project_g4.Service.model.CartService;
 import com.swp_project_g4.Service.model.LearnerService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +16,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
+
 @Controller
 @RequestMapping("/cart")
 public class CartController {
     @Autowired
     private LearnerService learnerService;
+    @Autowired
+    private CartService cartService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String cart(ModelMap model) {
+    public String cart(ModelMap model, HttpServletRequest request) {
+        Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+        var carts = cartService.findAllByLearnerId(learner.getID());
+        var courses = new ArrayList<Course>();
+        for (var cart: carts) {
+            courses.add(cart.getCourse());
+        }
+        model.addAttribute("courses", courses);
         return "user/cart";
     }
 
@@ -35,7 +49,8 @@ public class CartController {
 
         Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
 
-        CourseDAO.insertCartProduct(learner.getID(), courseId);
+        Cart cart = new Cart(courseId, learner.getID());
+        cartService.save(cart);
 
         return "redirect:/course/" + courseId;
     }

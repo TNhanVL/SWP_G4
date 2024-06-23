@@ -1,17 +1,13 @@
 package com.swp_project_g4.Controller;
 
-import com.swp_project_g4.Database.LearnerDAO;
-import com.swp_project_g4.Database.OrganizationDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Instructor;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Model.Organization;
-import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.MD5;
 import com.swp_project_g4.Service.model.*;
 import jakarta.servlet.http.HttpServletRequest;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -145,11 +141,8 @@ public class AdminController {
         }
 
         try {
-            if (LearnerDAO.deleteUser(Integer.parseInt(id))) {
-                request.getSession().setAttribute("success", "Delete user succeed!");
-            } else {
-                request.getSession().setAttribute("error", "Delete user failed!");
-            }
+            learnerService.deleteById(Integer.parseInt(id));
+            request.getSession().setAttribute("success", "Delete user succeed!");
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("error", "There are some errors when delete user!");
         }
@@ -187,16 +180,21 @@ public class AdminController {
 
             var user = organizationService.findById(organization.getID()).orElseThrow();
 
+            user.setName(organization.getName());
+            user.setUsername(organization.getUsername());
+            user.setEmail(organization.getEmail());
+            user.setDescription(organization.getDescription());
+            user.setCountryId(organization.getCountryId());
 
             if (!user.getPassword().equals(organization.getPassword()))
                 organization.setPassword(MD5.getMd5(organization.getPassword()));
 
-            boolean ok = OrganizationDAO.updateOrganization(organization);
-            if (ok) {
-                request.getSession().setAttribute("success", "Update organization information succeed!");
-            } else {
-                request.getSession().setAttribute("error", "Update organization information failed!");
-            }
+            organizationService.save(user);
+//            if (ok) {
+            request.getSession().setAttribute("success", "Update organization information succeed!");
+//            } else {
+//                request.getSession().setAttribute("error", "Update organization information failed!");
+//            }
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("error", "There are some error when update organization information!");
             return "redirect:./dashboard";
