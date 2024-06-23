@@ -1,7 +1,5 @@
 package com.swp_project_g4.Controller;
 
-import com.swp_project_g4.Database.CourseDAO;
-import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Cart;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.Learner;
@@ -66,7 +64,7 @@ public class CartController {
 
         Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
 
-        CourseDAO.deleteCartProduct(learner.getID(), courseId);
+        cartService.deleteByCourseIdAndLearnerId(courseId, learner.getID());
 
         return "redirect:/cart";
     }

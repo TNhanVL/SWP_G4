@@ -3,6 +3,7 @@ package com.swp_project_g4.Service.model;
 import com.swp_project_g4.Model.CourseProgress;
 import com.swp_project_g4.Repository.CourseProgressRepository;
 import com.swp_project_g4.Service.EmailService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CourseProgressService {
     @Autowired
     private CourseProgressRepository courseProgressRepository;

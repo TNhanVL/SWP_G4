@@ -2,6 +2,7 @@ package com.swp_project_g4.Service.model;
 
 import com.swp_project_g4.Model.QuizResult;
 import com.swp_project_g4.Repository.QuizResultRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,13 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class QuizResultService {
     @Autowired
     private QuizResultRepository quizResultRepository;
     @Autowired
     private ChosenAnswerService chosenAnswerService;
-    @Autowired
-    private QuestionService questionService;
 
     public Optional<QuizResult> findById(int quizResultId) {
         return quizResultRepository.findById(quizResultId);

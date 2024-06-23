@@ -4,12 +4,14 @@ import com.swp_project_g4.Model.Lesson;
 import com.swp_project_g4.Model.LessonProgress;
 import com.swp_project_g4.Repository.LessonProgressRepository;
 import com.swp_project_g4.Repository.Repository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class LessonProgressService {
     @Autowired
     private CourseProgressService courseProgressService;
