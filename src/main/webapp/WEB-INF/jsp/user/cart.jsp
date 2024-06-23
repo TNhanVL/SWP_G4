@@ -6,7 +6,6 @@
 
 <%@page import="com.swp_project_g4.Model.Course"%>
 <%@page import="java.util.ArrayList"%>
-<%@ page import="com.swp_project_g4.Database.CourseDAO" %>
 <%@ page import="com.swp_project_g4.Database.LearnerDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -22,7 +21,7 @@
         learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
     }
 
-    ArrayList<Course> courses = CourseDAO.getAllCartProducts(learner.getID());
+    ArrayList<Course> courses = (ArrayList<Course>) request.getAttribute("courses");
 %>
 
 <!DOCTYPE html>
