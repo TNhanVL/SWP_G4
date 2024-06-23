@@ -25,7 +25,7 @@ public class OrganizationService {
         return organization;
     }
 
-    public List<Organization> getAll() {
+    public List<Organization> findAll() {
         return organizationRepository.findAll();
     }
 

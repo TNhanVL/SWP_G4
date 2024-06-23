@@ -36,7 +36,7 @@ public class LearnerService {
         return learner;
     }
 
-    public List<Learner> getAll() {
+    public List<Learner> findAll() {
         return learnerRepository.findAll();
     }
 

@@ -22,7 +22,7 @@ public class CountryService {
         return countryRepository.findById(countryId);
     }
 
-    public List<Country> getAll() {
+    public List<Country> findAll() {
         return countryRepository.findAll();
     }
 }

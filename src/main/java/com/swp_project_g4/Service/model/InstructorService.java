@@ -29,7 +29,7 @@ public class InstructorService {
         return instructorRepository.findAllByOrganizationId(organizationId);
     }
 
-    public List<Instructor> getAll() {
+    public List<Instructor> findAll() {
         return instructorRepository.findAll();
     }
 

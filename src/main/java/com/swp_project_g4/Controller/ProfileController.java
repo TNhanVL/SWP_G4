@@ -135,7 +135,7 @@ public class ProfileController {
         //get purchased courses
         var courseProgresses = new ArrayList<Course>();
         var purchasedCourses = new ArrayList<Course>();
-        var createdCourses = courseService.getAllCreatedCourses(instructor.getID());
+        var createdCourses = courseService.findAllCreatedCourses(instructor.getID());
 
         //sum time learning
         int totalLearningTime = 0;
