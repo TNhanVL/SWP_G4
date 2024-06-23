@@ -13,16 +13,17 @@
 <p><b>Choose 1 answer:</b></p>
 <%
 //    Question question = null;
-    ArrayList<Answer> answers = AnswerDAO.getAnswersByQuestionId(question.getID());
+    ArrayList<Answer> answers = new ArrayList<>((List<Answer>) request.getAttribute("answers_of_question_" + question.getID()));
     if (!quizResult.isFinished()) {
         Collections.shuffle(answers);
     }
     for (Answer answer : answers) {
         String answerName = "answer" + answer.getID();
-        boolean checked = ChosenAnswerDAO.CheckChosenAnswer(quizResult.getID(), answer.getID());
+        Boolean checked = (Boolean) request.getAttribute("checked_" + answer.getID());
+        if (checked == null) checked = false;
         String correctClass = "";
         if (quizResult.isFinished() && checked) {
-            correctClass = AnswerDAO.getAnswer(answer.getID()).isCorrect() ? "correct" : "incorrect";
+            correctClass = answer.isCorrect() ? "correct" : "incorrect";
         }
 %>
 <label for="<%out.print(answerName);%>" <%if (correctClass != "") {

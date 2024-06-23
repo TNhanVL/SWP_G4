@@ -183,15 +183,22 @@ public class LearnController {
             var quiz = lesson.getQuiz();
             var quizResults = quizResultService.findAllByQuizIdAndLessonProgressID(quiz.getID(), lessonProgress.getID());
             if (!quizResults.isEmpty()) {
+                var quizResult = quizResults.get(quizResults.size() - 1);
                 ArrayList<Boolean> questionCorrects = new ArrayList<Boolean>();
                 for (var question: quiz.getQuestions()) {
                     boolean correct = false;
-                    if (chosenAnswerService.isQuestionCorrect(quizResults.get(quizResults.size() - 1).getID(), question.getID())) correct = true;
+                    if (chosenAnswerService.isQuestionCorrect(quizResult.getID(), question.getID())) correct = true;
                     questionCorrects.add(correct);
+                    var answers = question.getAnswers();
+                    model.addAttribute("answers_of_question_" + question.getID(), answers);
+                    for (var answer: answers) {
+                        if (chosenAnswerService.findByQuizResultIdAndAnswerId(quizResult.getID(), answer.getID()).isEmpty()) continue;
+                        model.addAttribute("checked_" + answer.getID(), true);
+                    }
                 }
-                model.addAttribute("quizResultTotalMark", quizResultService.calcTotalMarkByQuizResultId(quizResults.get(quizResults.size() - 1).getID()));
+                model.addAttribute("quizResultTotalMark", quizResultService.calcTotalMarkByQuizResultId(quizResult.getID()));
                 model.addAttribute("questionCorrects", questionCorrects);
-                model.addAttribute("quizResult", quizResults.get(quizResults.size() - 1));
+                model.addAttribute("quizResult", quizResult);
             }
 
             model.addAttribute("numberOfQuestion", quiz.getQuestions().size());
