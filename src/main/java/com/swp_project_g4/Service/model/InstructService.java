@@ -7,12 +7,17 @@ import com.swp_project_g4.Repository.InstructorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class InstructService {
     @Autowired
     private InstructRepository instructRepository;
+
+    public List<Instruct> getAllByInstructorId(int instructorId) {
+        return instructRepository.findAllByInstructorId(instructorId);
+    }
 
     public Instruct save(Instruct instruct) {
         return instructRepository.save(instruct);

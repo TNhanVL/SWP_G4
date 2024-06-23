@@ -9,7 +9,9 @@ import com.swp_project_g4.Model.Organization;
 import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.CookieServices;
 import com.swp_project_g4.Service.MD5;
+import com.swp_project_g4.Service.model.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,18 @@ public class AdminController {
 
     @Autowired
     private Repository repository;
+    @Autowired
+    private LearnerService learnerService;
+    @Autowired
+    private OrganizationService organizationService;
+    @Autowired
+    private InstructorService instructorService;
+    @Autowired
+    private InstructService instructService;
+    @Autowired
+    private CourseService courseService;
+    @Autowired
+    private CourseProgressService courseProgressService;
 
     @GetMapping("")
     public String redirect(HttpServletRequest request) {
@@ -41,10 +55,10 @@ public class AdminController {
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String dashboard(ModelMap model, HttpServletRequest request) {
-        request.getSession().setAttribute("learnerList", repository.getLearnerRepository().findAll());
-        request.getSession().setAttribute("orgList", repository.getOrganizationRepository().findAll());
-        request.getSession().setAttribute("instructorsList", repository.getInstructorRepository().findAll());
-        request.getSession().setAttribute("courseList", repository.getCourseRepository().findAll());
+        request.getSession().setAttribute("learnerList", learnerService.getAll());
+        request.getSession().setAttribute("orgList", organizationService.getAll());
+        request.getSession().setAttribute("instructorsList", instructorService.getAll());
+        request.getSession().setAttribute("courseList", courseService.getAll());
         return "admin/dashboard";
     }
 
@@ -63,8 +77,8 @@ public class AdminController {
     public String editUser(ModelMap model, HttpServletRequest request, @RequestParam String id) {
         try {
             var user_id = Integer.parseInt(id);
-            var user = repository.getLearnerRepository().findById(user_id).orElseThrow();
-            var course_progress = repository.getCourseProgressRepository().findAllByLearnerId(user_id);
+            var user = learnerService.getById(user_id).orElseThrow();
+            var course_progress = courseProgressService.getAllByLearnerId(user_id);
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
             request.getSession().setAttribute("courseProgress", course_progress);
@@ -73,7 +87,7 @@ public class AdminController {
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : course_progress) {
-                courseList.add(repository.getCourseRepository().findById(course.getCourseId()).orElseThrow());
+                courseList.add(courseService.getById(course.getCourseId()).orElseThrow());
             }
 
             request.getSession().setAttribute("courseList", courseList);
@@ -98,7 +112,7 @@ public class AdminController {
         }
 
         try {
-            var user = repository.getLearnerRepository().findById(learner.getID()).orElseThrow();
+            var user = learnerService.getById(learner.getID()).orElseThrow();
 
             if (!user.getPassword().equals(learner.getPassword()))
                 user.setPassword(MD5.getMd5(learner.getPassword()));
@@ -111,7 +125,7 @@ public class AdminController {
             user.setCountryId(learner.getCountryId());
             user.setStatus(learner.getStatus());
 
-            repository.getLearnerRepository().save(user);
+            learnerService.save(user);
 
             request.getSession().setAttribute("success", "Update learner information succeed!");
 
@@ -148,12 +162,12 @@ public class AdminController {
     public String editOrganization(ModelMap model, HttpServletRequest request, @RequestParam String id) {
         try {
             var organization_id = Integer.parseInt(id);
-            var organization = repository.getOrganizationRepository().findById(organization_id).orElseThrow();
+            var organization = organizationService.getById(organization_id).orElseThrow();
             request.getSession().setAttribute("currentOrg", organization);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
-            var courseList = repository.getCourseRepository().findAllByOrganizationId(organization_id);
+            var courseList = courseService.getAllByOrganizationId(organization_id);
             request.getSession().setAttribute("courseList", courseList);
-            request.getSession().setAttribute("instructorsList", repository.getInstructorRepository().findAllByOrganizationId(organization_id));
+            request.getSession().setAttribute("instructorsList", instructorService.getAllByOrganizationId(organization_id));
 
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Failed to load organization");
@@ -172,7 +186,7 @@ public class AdminController {
 
         try {
 
-            var user = repository.getOrganizationRepository().findById(organization.getID()).orElseThrow();
+            var user = organizationService.getById(organization.getID()).orElseThrow();
 
 
             if (!user.getPassword().equals(organization.getPassword()))
@@ -196,14 +210,14 @@ public class AdminController {
     public String editInstructor(HttpServletRequest request, @RequestParam String id) {
         try {
             var user_id = Integer.parseInt(id);
-            var user = repository.getInstructorRepository().findById(user_id).orElseThrow();
+            var user = instructorService.getById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
-            var instructed_course = repository.getInstructRepository().findAllByInstructorId(user_id);
+            var instructed_course = instructService.getAllByInstructorId(user_id);
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : instructed_course) {
-                courseList.add(repository.getCourseRepository().findById(course.getCourseId()).orElseThrow());
+                courseList.add(courseService.getById(course.getCourseId()).orElseThrow());
             }
 
             request.getSession().setAttribute("courseList", courseList);
@@ -224,7 +238,7 @@ public class AdminController {
         }
 
         try {
-            var user = repository.getInstructorRepository().findById(instructor.getID()).orElseThrow();
+            var user = instructorService.getById(instructor.getID()).orElseThrow();
 
             if (!user.getPassword().equals(instructor.getPassword()))
                 user.setPassword(MD5.getMd5(instructor.getPassword()));
@@ -236,7 +250,7 @@ public class AdminController {
             user.setStatus(instructor.getStatus());
             user.setEmail(instructor.getEmail());
 
-            repository.getInstructorRepository().save(user);
+            instructorService.save(user);
             request.getSession().setAttribute("success", "Update instructor information succeed!");
 
         } catch (NumberFormatException e) {
@@ -253,7 +267,7 @@ public class AdminController {
         try {
             learner.setPassword(MD5.getMd5(learner.getPassword()));
             learner.setCountry(repository.getCountryRepository().findById(learner.getCountryId()).orElseThrow());
-            repository.getLearnerRepository().save(learner);
+            learnerService.save(learner);
         } catch (Exception e) {
             request.getSession().setAttribute("error", "There are some error when add new learner!");
         }
@@ -264,7 +278,7 @@ public class AdminController {
     public String addLearnerGET(HttpServletRequest request) {
         try {
             var user = new Learner();
-            user.setID((int) repository.getLearnerRepository().count() + 1);
+            user.setID((int) learnerService.count() + 1);
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
             request.getSession().setAttribute("addUser", true);

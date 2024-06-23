@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,7 +36,15 @@ public class LearnerService {
         return learner;
     }
 
+    public List<Learner> getAll() {
+        return learnerRepository.findAll();
+    }
+
     public Learner save(Learner learner) {
         return learnerRepository.save(learner);
+    }
+
+    public long count() {
+        return learnerRepository.count();
     }
 }

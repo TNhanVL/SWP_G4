@@ -41,6 +41,10 @@ public class CourseService {
         return courses;
     }
 
+    public List<Course> getAllByOrganizationId(int organizationId) {
+        return courseRepository.findAllByOrganizationId(organizationId);
+    }
+
     public List<Instructor> getAllInstructors(int courseId) {
         var instructs = courseRepository.findById(courseId).get().getInstructs();
         var instructors = new ArrayList<Instructor>();

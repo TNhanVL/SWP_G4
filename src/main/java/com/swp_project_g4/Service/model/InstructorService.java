@@ -7,6 +7,7 @@ import com.swp_project_g4.Repository.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,14 @@ public class InstructorService {
     public Optional<Instructor> getByUsername(String username) {
         var instructor = instructorRepository.findByUsername(username);
         return instructor;
+    }
+
+    public List<Instructor> getAllByOrganizationId(int organizationId) {
+        return instructorRepository.findAllByOrganizationId(organizationId);
+    }
+
+    public List<Instructor> getAll() {
+        return instructorRepository.findAll();
     }
 
     public Instructor save(Instructor instructor) {
