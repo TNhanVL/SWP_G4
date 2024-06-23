@@ -338,7 +338,7 @@ public class LearnController {
         var quiz = quizService.getByLessonId(lesson.getID()).get();
         int numberOfCorrectQuestion = quizResultService.calcTotalMarkByQuizResultId(quizResultID);
 //        int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
-        int numberOfQuestion = questionService.getAllByQuizId(quiz.getID()).size();
+        int numberOfQuestion = questionService.findAllByQuizId(quiz.getID()).size();
         if (numberOfCorrectQuestion * 100 >= numberOfQuestion * lesson.getPercentToPassed()) {
 //            LessonDAO.insertLessonCompleted(learner.getID(), lesson.getID(), request);
             lessonProgressService.markLessonCompleted(learner.getID(), lesson.getID());

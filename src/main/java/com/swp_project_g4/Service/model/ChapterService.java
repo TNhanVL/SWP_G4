@@ -54,4 +54,8 @@ public class ChapterService {
         }
         return false;
     }
+
+    public void deleteById(int chapterId) {
+        chapterRepository.deleteById(chapterId);
+    }
 }

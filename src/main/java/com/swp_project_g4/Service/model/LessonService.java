@@ -26,4 +26,8 @@ public class LessonService {
     public List<Lesson> getAllByChapterId(int chapterId) {
         return lessonRepository.findAllByChapterId(chapterId);
     }
+
+    public void deleteById(int lessonId) {
+        lessonRepository.deleteById(lessonId);
+    }
 }

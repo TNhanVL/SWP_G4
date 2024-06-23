@@ -17,14 +17,14 @@ import java.util.Map;
 @RequestMapping("api/chapter")
 public class ChapterRestController {
     @Autowired
-    private Repository repository;
-    @Autowired
     private CourseService courseService;
+    @Autowired
+    private ChapterService chapterService;
 
     @PostMapping("/getByChapterId")
     public Chapter getByChapterId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getChapterRepository().findById(data.get("chapterId")).get();
+            return chapterService.getById(data.get("chapterId")).get();
         } catch (Exception e) {
 
         }
@@ -34,7 +34,7 @@ public class ChapterRestController {
     @PostMapping("/getByCourseId")
     public List<Chapter> getByCourseId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getCourseRepository().findById(data.get("courseId")).get().getChapters();
+            return courseService.getById(data.get("courseId")).get().getChapters();
         } catch (Exception e) {
 
         }
@@ -44,11 +44,11 @@ public class ChapterRestController {
     @PostMapping("/create")
     public Chapter create(@RequestBody Map<String, Integer> data) {
         try {
-            int chapterSize = repository.getCourseRepository().findById(data.get("courseId")).get().getChapters().size();
+            int chapterSize = courseService.getById(data.get("courseId")).get().getChapters().size();
             Chapter chapter = new Chapter();
             chapter.setCourseId(data.get("courseId"));
             chapter.setIndex(chapterSize + 1);
-            chapter = repository.getChapterRepository().save(chapter);
+            chapter = chapterService.save(chapter);
             return chapter;
         } catch (Exception e) {
 
@@ -59,8 +59,8 @@ public class ChapterRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            var chapter = repository.getChapterRepository().findById(data.get("chapterId")).get();
-            repository.getChapterRepository().deleteById(chapter.getID());
+            var chapter = chapterService.getById(data.get("chapterId")).get();
+            chapterService.deleteById(chapter.getID());
             courseService.reIndexAllChapterByCourseId(chapter.getCourseId());
             return true;
         } catch (Exception e) {
@@ -72,11 +72,11 @@ public class ChapterRestController {
     @PostMapping("/update")
     public Chapter update(@RequestBody Chapter chapter1) {
         try {
-            Chapter chapter = repository.getChapterRepository().findById(chapter1.getID()).get();
+            Chapter chapter = chapterService.getById(chapter1.getID()).get();
             chapter.setName(chapter1.getName());
             chapter.setDescription(chapter1.getDescription());
             chapter.setIndex(chapter1.getIndex());
-            chapter = repository.getChapterRepository().save(chapter);
+            chapter = chapterService.save(chapter);
             return chapter;
         } catch (Exception e) {
 
@@ -92,9 +92,9 @@ public class ChapterRestController {
             for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);
-                var chapter = repository.getChapterRepository().findById(id).get();
+                var chapter = chapterService.getById(id).get();
                 chapter.setIndex(index);
-                repository.getChapterRepository().save(chapter);
+                chapterService.save(chapter);
             }
             return true;
         } catch (Exception e) {

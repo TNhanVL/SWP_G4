@@ -2,6 +2,7 @@ package com.swp_project_g4.RestController;
 
 import com.swp_project_g4.Model.Question;
 import com.swp_project_g4.Repository.Repository;
+import com.swp_project_g4.Service.model.QuestionService;
 import com.swp_project_g4.Service.model.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +15,14 @@ import java.util.Map;
 @RequestMapping("api/question")
 public class QuestionRestController {
     @Autowired
-    private Repository repository;
-    @Autowired
     private QuizService quizService;
+    @Autowired
+    private QuestionService questionService;
 
     @PostMapping("/getByQuestionId")
     public Question getByQuestionId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getQuestionRepository().findById(data.get("questionId")).get();
+            return questionService.findById(data.get("questionId")).get();
         } catch (Exception e) {
 
         }
@@ -31,7 +32,7 @@ public class QuestionRestController {
     @PostMapping("/getByLessonId")
     public List<Question> getByLessonId(@RequestBody Map<String, Integer> data) {
         try {
-            return repository.getQuestionRepository().findAllByQuizId(data.get("quizId"));
+            return questionService.findAllByQuizId(data.get("quizId"));
         } catch (Exception e) {
 
         }
@@ -45,7 +46,7 @@ public class QuestionRestController {
             Question question = new Question();
             question.setQuizId(data.get("quizId"));
             question.setIndex(questionSize + 1);
-            question = repository.getQuestionRepository().save(question);
+            question = questionService.save(question);
             return question;
         } catch (Exception e) {
 
@@ -56,7 +57,7 @@ public class QuestionRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            repository.getQuestionRepository().deleteById(data.get("questionId"));
+            questionService.deleteById(data.get("questionId"));
             return true;
         } catch (Exception e) {
 
@@ -67,12 +68,12 @@ public class QuestionRestController {
     @PostMapping("/update")
     public Question update(@RequestBody Question ques) {
         try {
-            Question question = repository.getQuestionRepository().findById(ques.getID()).get();
+            Question question = questionService.findById(ques.getID()).get();
             question.setContent(ques.getContent());
             question.setIndex(ques.getIndex());
             question.setType(ques.getType());
             question.setPoint(ques.getPoint());
-            question = repository.getQuestionRepository().save(question);
+            question = questionService.save(question);
             return question;
         } catch (Exception e) {
 
@@ -88,9 +89,9 @@ public class QuestionRestController {
             for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);
-                var question = repository.getQuestionRepository().findById(id).get();
+                var question = questionService.findById(id).get();
                 question.setIndex(index);
-                repository.getQuestionRepository().save(question);
+                questionService.save(question);
             }
             return true;
         } catch (Exception e) {

@@ -44,7 +44,7 @@ public class QuizService {
         quizResultService.save(quizResult);
 
         int numberOfCorrectQuestion = quizResultService.calcTotalMarkByQuizResultId(quizResult.getID());
-        int numberOfQuestion = questionService.getAllByQuizId(lesson.getQuiz().getID()).size();
+        int numberOfQuestion = questionService.findAllByQuizId(lesson.getQuiz().getID()).size();
         if (numberOfCorrectQuestion * 100 >= numberOfQuestion * lesson.getPercentToPassed()) {
             lessonProgressService.markLessonCompleted(learnerId, lesson.getID());
         }

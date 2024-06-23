@@ -15,7 +15,19 @@ public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
-    public List<Question> getAllByQuizId(int quizId) {
+    public Optional<Question> findById(int questionId) {
+        return questionRepository.findById(questionId);
+    }
+
+    public List<Question> findAllByQuizId(int quizId) {
         return questionRepository.findAllByQuizId(quizId);
+    }
+
+    public Question save(Question question) {
+        return questionRepository.save(question);
+    }
+
+    public void deleteById(int questionId) {
+        questionRepository.deleteById(questionId);
     }
 }
