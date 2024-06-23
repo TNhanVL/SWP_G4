@@ -27,9 +27,6 @@ import java.util.NoSuchElementException;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
-    @Autowired
-    private Repository repository;
     @Autowired
     private LearnerService learnerService;
     @Autowired
@@ -42,6 +39,8 @@ public class AdminController {
     private CourseService courseService;
     @Autowired
     private CourseProgressService courseProgressService;
+    @Autowired
+    private CountryService countryService;
 
     @GetMapping("")
     public String redirect(HttpServletRequest request) {
@@ -80,7 +79,7 @@ public class AdminController {
             var user = learnerService.getById(user_id).orElseThrow();
             var course_progress = courseProgressService.getAllByLearnerId(user_id);
             request.getSession().setAttribute("currentUser", user);
-            request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
+            request.getSession().setAttribute("countryList", countryService.getAll());
             request.getSession().setAttribute("courseProgress", course_progress);
             request.getSession().setAttribute("addUser", false);
 
@@ -164,7 +163,7 @@ public class AdminController {
             var organization_id = Integer.parseInt(id);
             var organization = organizationService.getById(organization_id).orElseThrow();
             request.getSession().setAttribute("currentOrg", organization);
-            request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
+            request.getSession().setAttribute("countryList", countryService.getAll());
             var courseList = courseService.getAllByOrganizationId(organization_id);
             request.getSession().setAttribute("courseList", courseList);
             request.getSession().setAttribute("instructorsList", instructorService.getAllByOrganizationId(organization_id));
@@ -212,7 +211,7 @@ public class AdminController {
             var user_id = Integer.parseInt(id);
             var user = instructorService.getById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
-            request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
+            request.getSession().setAttribute("countryList", countryService.getAll());
             var instructed_course = instructService.getAllByInstructorId(user_id);
 
             ArrayList<Course> courseList = new ArrayList<>();
@@ -266,7 +265,7 @@ public class AdminController {
             @ModelAttribute("organization") Learner learner, HttpServletRequest request) {
         try {
             learner.setPassword(MD5.getMd5(learner.getPassword()));
-            learner.setCountry(repository.getCountryRepository().findById(learner.getCountryId()).orElseThrow());
+            learner.setCountry(countryService.getById(learner.getCountryId()).orElseThrow());
             learnerService.save(learner);
         } catch (Exception e) {
             request.getSession().setAttribute("error", "There are some error when add new learner!");
@@ -280,7 +279,7 @@ public class AdminController {
             var user = new Learner();
             user.setID((int) learnerService.count() + 1);
             request.getSession().setAttribute("currentUser", user);
-            request.getSession().setAttribute("countryList", repository.getCountryRepository().findAll());
+            request.getSession().setAttribute("countryList", countryService.getAll());
             request.getSession().setAttribute("addUser", true);
         } catch (NoSuchElementException ex) {
             request.getSession().setAttribute("error", "No such user information!");
