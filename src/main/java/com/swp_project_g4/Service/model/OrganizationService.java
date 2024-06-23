@@ -28,4 +28,8 @@ public class OrganizationService {
     public List<Organization> getAll() {
         return organizationRepository.findAll();
     }
+
+    public Organization save(Organization organization) {
+        return organizationRepository.save(organization);
+    }
 }

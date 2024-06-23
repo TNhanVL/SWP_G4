@@ -47,4 +47,8 @@ public class LearnerService {
     public long count() {
         return learnerRepository.count();
     }
+
+    public void deleteById(int learnerId) {
+        learnerRepository.deleteById(learnerId);
+    }
 }

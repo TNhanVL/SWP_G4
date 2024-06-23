@@ -2,20 +2,21 @@ package com.swp_project_g4.Controller;
 
 import com.mservice.enums.RequestType;
 import com.mservice.momo.MomoPay;
-import com.swp_project_g4.Database.CourseDAO;
-import com.swp_project_g4.Database.LearnerDAO;
 import com.swp_project_g4.Model.Course;
 import com.swp_project_g4.Model.CourseProgress;
 import com.swp_project_g4.Model.Learner;
-import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.CookieServices;
+import com.swp_project_g4.Service.model.CartService;
 import com.swp_project_g4.Service.model.CourseProgressService;
+import com.swp_project_g4.Service.model.CourseService;
 import com.swp_project_g4.Service.model.LearnerService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -25,9 +26,13 @@ import java.util.logging.Logger;
 @RequestMapping("/checkOut")
 public class PaymentController {
     @Autowired
+    private CourseService courseService;
+    @Autowired
     private LearnerService learnerService;
     @Autowired
     private CourseProgressService courseProgressService;
+    @Autowired
+    private CartService cartService;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String checkOutPost(ModelMap model, HttpServletRequest request) {
@@ -49,13 +54,16 @@ public class PaymentController {
                 try {
                     int courseId = Integer.parseInt(courseIdStr);
 
+
                     //check in cart
-                    if (!CourseDAO.checkCartProduct(learner.getID(), courseId)) {
+
+                    if (cartService.findByCourseIdAndLearnerId(courseId, learner.getID()).isEmpty()) {
                         continue;
                     }
 
-                    if (CourseDAO.existCourse(courseId)) {
-                        courses.add(CourseDAO.getCourse(courseId));
+
+                    if (courseService.findById(courseId).isPresent()) {
+                        courses.add(courseService.findById(courseId).get());
                     }
                 } catch (NumberFormatException e) {
                     System.out.println(e);
@@ -82,7 +90,8 @@ public class PaymentController {
             return "redirect:/login";
         }
 
-        Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+
+        Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
 
         //get all courses ID
         String[] courseIdStrs = request.getParameterValues("course");
@@ -110,13 +119,13 @@ public class PaymentController {
 
         Learner learner = null;
 
-        if(!message.equals("Successful.")){
+        if (!message.equals("Successful.")) {
             request.getSession().setAttribute("error", "Failed when pay the course!");
             return "redirect:/cart";
         }
 
         try {
-            learner = LearnerDAO.getUser(Integer.parseInt(userId));
+            learner = learnerService.findById(Integer.parseInt(userId)).get();
             if (resultCode != 0) {
                 throw new Exception();
             }
@@ -137,11 +146,11 @@ public class PaymentController {
                     int courseId = Integer.parseInt(courseIdStr);
 
                     //check in cart
-                    if (!CourseDAO.checkCartProduct(learner.getID(), courseId)) {
+                    if (cartService.findByCourseIdAndLearnerId(courseId, learner.getID()).isEmpty()) {
                         continue;
                     }
 
-                    CourseDAO.deleteCartProduct(learner.getID(), courseId);
+                    cartService.deleteByCourseIdAndLearnerId(courseId, learner.getID());
                     courseProgressService.save(new CourseProgress(learner.getID(), courseId));
 
                 } catch (NumberFormatException e) {
