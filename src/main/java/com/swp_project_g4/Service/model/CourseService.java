@@ -41,7 +41,7 @@ public class CourseService {
         return courses;
     }
 
-    public List<Course> getAllByOrganizationId(int organizationId) {
+    public List<Course> findAllByOrganizationId(int organizationId) {
         return courseRepository.findAllByOrganizationId(organizationId);
     }
 

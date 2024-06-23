@@ -23,7 +23,7 @@ public class LessonService {
         return lessonRepository.save(lesson);
     }
 
-    public List<Lesson> getAllByChapterId(int chapterId) {
+    public List<Lesson> findAllByChapterId(int chapterId) {
         return lessonRepository.findAllByChapterId(chapterId);
     }
 

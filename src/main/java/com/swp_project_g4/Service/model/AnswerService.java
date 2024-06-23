@@ -16,7 +16,7 @@ public class AnswerService {
         return answerRepository.findById(answerId);
     }
 
-    public List<Answer> getAllByQuestionId(int questionId) {
+    public List<Answer> findAllByQuestionId(int questionId) {
         return answerRepository.findAllByQuestionId(questionId);
     }
 

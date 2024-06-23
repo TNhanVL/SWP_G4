@@ -77,7 +77,7 @@ public class AdminController {
         try {
             var user_id = Integer.parseInt(id);
             var user = learnerService.findById(user_id).orElseThrow();
-            var course_progress = courseProgressService.getAllByLearnerId(user_id);
+            var course_progress = courseProgressService.findAllByLearnerId(user_id);
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", countryService.getAll());
             request.getSession().setAttribute("courseProgress", course_progress);
@@ -164,9 +164,9 @@ public class AdminController {
             var organization = organizationService.findById(organization_id).orElseThrow();
             request.getSession().setAttribute("currentOrg", organization);
             request.getSession().setAttribute("countryList", countryService.getAll());
-            var courseList = courseService.getAllByOrganizationId(organization_id);
+            var courseList = courseService.findAllByOrganizationId(organization_id);
             request.getSession().setAttribute("courseList", courseList);
-            request.getSession().setAttribute("instructorsList", instructorService.getAllByOrganizationId(organization_id));
+            request.getSession().setAttribute("instructorsList", instructorService.findAllByOrganizationId(organization_id));
 
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Failed to load organization");
@@ -212,7 +212,7 @@ public class AdminController {
             var user = instructorService.findById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", countryService.getAll());
-            var instructed_course = instructService.getAllByInstructorId(user_id);
+            var instructed_course = instructService.findAllByInstructorId(user_id);
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : instructed_course) {

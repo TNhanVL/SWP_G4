@@ -72,7 +72,7 @@ public class CourseController {
             }
         }
 
-        var courseProgresses = courseProgressService.getAllByCourseId(courseId);
+        var courseProgresses = courseProgressService.findAllByCourseId(courseId);
         var instructors = courseService.getAllInstructors(courseId);
 
         model.addAttribute("instructors", instructors);

@@ -21,12 +21,12 @@ public class ChosenAnswerService {
         return chosenAnswerRepository.findByQuizResultIDAndAnswerId(quizResultId, answerId);
     }
 
-    public List<ChosenAnswer> getAllByQuizResultId(int quizResultId) {
-        return chosenAnswerRepository.getAllByQuizResultID(quizResultId);
+    public List<ChosenAnswer> findAllByQuizResultId(int quizResultId) {
+        return chosenAnswerRepository.findAllByQuizResultID(quizResultId);
     }
 
-    public List<ChosenAnswer> getAllByQuizResultIdAndQuestionId(int quizResultId, int questionId) {
-        var answers = answerService.getAllByQuestionId(questionId);
+    public List<ChosenAnswer> findAllByQuizResultIdAndQuestionId(int quizResultId, int questionId) {
+        var answers = answerService.findAllByQuestionId(questionId);
         List<ChosenAnswer> chosenAnswers = new ArrayList<>();
         for (var answer: answers) {
             var chosenAnswerOptional = findByQuizResultIdAndAnswerId(quizResultId, answer.getID());
@@ -36,8 +36,8 @@ public class ChosenAnswerService {
     }
 
     public boolean isQuestionCorrect(int quizResultId, int questionId) {
-        var answers = answerService.getAllByQuestionId(questionId);
-        var chosenAnswers = getAllByQuizResultIdAndQuestionId(quizResultId, questionId);
+        var answers = answerService.findAllByQuestionId(questionId);
+        var chosenAnswers = findAllByQuizResultIdAndQuestionId(quizResultId, questionId);
         Set<Integer> s = new HashSet<>();
         for (var chosenAnswer: chosenAnswers) {
             s.add(chosenAnswer.getAnswerId());
@@ -52,7 +52,7 @@ public class ChosenAnswerService {
     }
 
     public void deleteAllChosenAnswerWithQuizResultIdQuestionId(int quizResultId, int questionId) {
-        var answers = answerService.getAllByQuestionId(questionId);
+        var answers = answerService.findAllByQuestionId(questionId);
         for(var answer: answers) {
             chosenAnswerRepository.deleteAllByQuizResultIDAndAnswerId(quizResultId, answer.getID());
         }

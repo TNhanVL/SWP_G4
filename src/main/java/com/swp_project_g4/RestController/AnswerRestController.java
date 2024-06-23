@@ -30,7 +30,7 @@ public class AnswerRestController {
     @PostMapping("/findByQuestionId")
     public List<Answer> getByQuestionId(@RequestBody Map<String, Integer> data) {
         try {
-            return answerService.getAllByQuestionId(data.get("questionId"));
+            return answerService.findAllByQuestionId(data.get("questionId"));
         } catch (Exception e) {
 
         }
@@ -40,7 +40,7 @@ public class AnswerRestController {
     @PostMapping("/create")
     public Answer create(@RequestBody Map<String, Integer> data) {
         try {
-            int answerSize = answerService.getAllByQuestionId(data.get("questionId")).size();
+            int answerSize = answerService.findAllByQuestionId(data.get("questionId")).size();
             Answer answer = new Answer();
             answer.setQuestionId(data.get("questionId"));
             answer = answerService.save(answer);

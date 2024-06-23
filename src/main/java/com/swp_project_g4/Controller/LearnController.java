@@ -181,7 +181,7 @@ public class LearnController {
         //if lesson type == 2 (quiz)
         if (lesson.getType() == 2) {
             var quiz = lesson.getQuiz();
-            var quizResults = quizResultService.getAllByQuizIdAndLessonProgressID(quiz.getID(), lessonProgress.getID());
+            var quizResults = quizResultService.findAllByQuizIdAndLessonProgressID(quiz.getID(), lessonProgress.getID());
             if (!quizResults.isEmpty()) {
                 ArrayList<Boolean> questionCorrects = new ArrayList<Boolean>();
                 for (var question: quiz.getQuestions()) {

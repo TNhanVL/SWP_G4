@@ -21,7 +21,7 @@ public class QuizResultService {
         return quizResultRepository.findById(quizResultId);
     }
 
-    public List<QuizResult> getAllByQuizIdAndLessonProgressID(int quizId, int lessonProgressId) {
+    public List<QuizResult> findAllByQuizIdAndLessonProgressID(int quizId, int lessonProgressId) {
         return quizResultRepository.findAllByQuizIdAndLessonProgressID(quizId, lessonProgressId);
     }
 

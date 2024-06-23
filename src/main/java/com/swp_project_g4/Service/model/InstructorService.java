@@ -25,7 +25,7 @@ public class InstructorService {
         return instructor;
     }
 
-    public List<Instructor> getAllByOrganizationId(int organizationId) {
+    public List<Instructor> findAllByOrganizationId(int organizationId) {
         return instructorRepository.findAllByOrganizationId(organizationId);
     }
 

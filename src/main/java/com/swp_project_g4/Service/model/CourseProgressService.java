@@ -16,17 +16,17 @@ public class CourseProgressService {
     @Autowired
     private EmailService emailService;
 
-    public List<CourseProgress> getAllByLearnerId(int learnerId) {
+    public List<CourseProgress> findAllByLearnerId(int learnerId) {
         var courseProgress = courseProgressRepository.findAllByLearnerId(learnerId);
         return courseProgress;
     }
 
-    public List<CourseProgress> getAllByCourseId(int courseId) {
+    public List<CourseProgress> findAllByCourseId(int courseId) {
         var courseProgress = courseProgressRepository.findAllByCourseId(courseId);
         return courseProgress;
     }
 
-    public List<CourseProgress> getAllByLearnerIdAndCompleted(int learnerId, boolean completed) {
+    public List<CourseProgress> findAllByLearnerIdAndCompleted(int learnerId, boolean completed) {
         var courseProgress = courseProgressRepository.findAllByLearnerIdAndCompleted(learnerId, completed);
         return courseProgress;
     }
