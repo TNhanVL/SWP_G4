@@ -9,6 +9,8 @@ import com.swp_project_g4.Model.CourseProgress;
 import com.swp_project_g4.Model.Learner;
 import com.swp_project_g4.Repository.Repository;
 import com.swp_project_g4.Service.CookieServices;
+import com.swp_project_g4.Service.model.CourseProgressService;
+import com.swp_project_g4.Service.model.LearnerService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +24,10 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping("/checkOut")
 public class PaymentController {
-
     @Autowired
-    private Repository repository;
+    private LearnerService learnerService;
+    @Autowired
+    private CourseProgressService courseProgressService;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String checkOutPost(ModelMap model, HttpServletRequest request) {
@@ -35,7 +38,7 @@ public class PaymentController {
             return "redirect:/login";
         }
 
-        Learner learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        Learner learner = learnerService.getByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
 
         //get all courses ID
         String[] courseIdStrs = request.getParameterValues("course");
@@ -139,7 +142,7 @@ public class PaymentController {
                     }
 
                     CourseDAO.deleteCartProduct(learner.getID(), courseId);
-                    repository.getCourseProgressRepository().save(new CourseProgress(learner.getID(), courseId));
+                    courseProgressService.save(new CourseProgress(learner.getID(), courseId));
 
                 } catch (NumberFormatException e) {
                     System.out.println(e);

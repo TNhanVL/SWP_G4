@@ -51,4 +51,8 @@ public class CourseProgressService {
 
         emailService.sendEnrollEmail(courseProgress.getLearner(), courseProgress.getCourse());
     }
+
+    public CourseProgress save(CourseProgress courseProgress) {
+        return courseProgressRepository.save(courseProgress);
+    }
 }
