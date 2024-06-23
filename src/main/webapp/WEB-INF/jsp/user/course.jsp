@@ -6,6 +6,13 @@
 
 <%@ page import="com.swp_project_g4.Database.*" %>
 <%@ page import="com.swp_project_g4.Model.*" %>
+<%@ page import="org.springframework.context.ApplicationContext" %>
+<%@ page import="org.springframework.web.servlet.support.RequestContextUtils" %>
+<%@ page import="com.swp_project_g4.Service.model.CourseService" %>
+<%@ page import="org.apache.catalina.webresources.Cache" %>
+<%@ page import="com.swp_project_g4.Service.model.CartService" %>
+<%@ page import="com.swp_project_g4.Service.model.OrganizationService" %>
+<%@ page import="com.swp_project_g4.Service.model.LearnerService" %>
 <%-- 
     Document   : allCourse
     Created on : Oct 4, 2023, 9:20:17 PM
@@ -16,10 +23,15 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
+    ApplicationContext applicationContext = RequestContextUtils.findWebApplicationContext(request);
+    LearnerService learnerService = (LearnerService) applicationContext.getBean("LearnerService");
+    CourseService courseService = (CourseService) applicationContext.getBean("CourseService");
+    CartService cartService = (CartService) applicationContext.getBean("CartService");
+    OrganizationService organizationService = (OrganizationService) applicationContext.getBean("OrganizationService");
     //check course exist
     Course course;
     try {
-        course = CourseDAO.getCourse((int) request.getAttribute("courseId"));
+        course = courseService.findById((int) request.getAttribute("courseId")).get();
         if (course == null) {
             throw new Exception("Not exist course!");
         }
@@ -29,11 +41,11 @@
         return;
     }
 
-    Organization organization = OrganizationDAO.getOrganization(course.getOrganizationId());
+    Organization organization = organizationService.findById(course.getOrganizationId()).get();
 
     Learner learner = null;
     if (CookieServices.checkLearnerLoggedIn(request.getCookies())) {
-        learner = LearnerDAO.getUserByUsername(CookieServices.getUserNameOfLearner(request.getCookies()));
+        learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
     }
 
     CourseProgress courseProgress = (CourseProgress) request.getAttribute("courseProgress");
@@ -93,7 +105,7 @@
 
                             <c:otherwise>
                                 <%
-                                    if (CourseDAO.checkCartProduct(learner.getID(), course.getID())) {
+                                    if (cartService.findByCourseIdAndLearnerId(course.getID(), learner.getID()).isPresent()) {
                                         out.print("<a href=\"/course/deleteOrder/" + course.getID() + "\">Delete from cart</a>");
                                     } else {
                                         out.print("<a href=\"/cart/add/" + course.getID() + "\">Add to cart</a>");
@@ -142,7 +154,7 @@
             </div>
 
             <p class="time"><%
-                int sumTimeInMinute = CourseDAO.getSumTimeOfCourse(course.getID());
+                int sumTimeInMinute = courseService.getSumTimeOfCourseById(course.getID());
                 out.print(Math.round(sumTimeInMinute / 6.0) / 10.0);
             %> hours (approximately)</p>
 
