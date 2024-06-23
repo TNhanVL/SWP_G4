@@ -31,7 +31,7 @@ public class CourseProgressService {
         return courseProgress;
     }
 
-    public Optional<CourseProgress> getByCourseIdAndLearnerId(int courseId, int learnerId) {
+    public Optional<CourseProgress> findByCourseIdAndLearnerId(int courseId, int learnerId) {
         var courseProgress = courseProgressRepository.findByCourseIdAndLearnerId(courseId, learnerId);
         return courseProgress;
     }

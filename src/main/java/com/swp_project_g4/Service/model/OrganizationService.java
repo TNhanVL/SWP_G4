@@ -15,12 +15,12 @@ public class OrganizationService {
     @Autowired
     private OrganizationRepository organizationRepository;
 
-    public Optional<Organization> getById(int organizationId) {
+    public Optional<Organization> findById(int organizationId) {
         var organization = organizationRepository.findById(organizationId);
         return organization;
     }
 
-    public Optional<Organization> getByUsername(String username) {
+    public Optional<Organization> findByUsername(String username) {
         var organization = organizationRepository.findByUsername(username);
         return organization;
     }

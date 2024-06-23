@@ -14,7 +14,7 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
-    public Optional<Admin> getByUsername(String username) {
+    public Optional<Admin> findByUsername(String username) {
         var admin = adminRepository.findByUsername(username);
         return admin;
     }

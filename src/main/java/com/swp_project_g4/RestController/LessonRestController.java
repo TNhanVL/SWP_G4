@@ -20,20 +20,20 @@ public class LessonRestController {
     @Autowired
     private LessonService lessonService;
 
-    @PostMapping("/getByLessonId")
+    @PostMapping("/findByLessonId")
     public Lesson getByLessonId(@RequestBody Map<String, Integer> data) {
         try {
-            return lessonService.getById(data.get("lessonId")).get();
+            return lessonService.findById(data.get("lessonId")).get();
         } catch (Exception e) {
 
         }
         return null;
     }
 
-    @PostMapping("/getByChapterId")
+    @PostMapping("/findByChapterId")
     public List<Lesson> getByChapterId(@RequestBody Map<String, Integer> data) {
         try {
-            return chapterService.getById(data.get("chapterId")).get().getLessons();
+            return chapterService.findById(data.get("chapterId")).get().getLessons();
         } catch (Exception e) {
 
         }
@@ -43,7 +43,7 @@ public class LessonRestController {
     @PostMapping("/create")
     public Lesson create(@RequestBody Map<String, Integer> data) {
         try {
-            int lessonSize = chapterService.getById(data.get("chapterId")).get().getLessons().size();
+            int lessonSize = chapterService.findById(data.get("chapterId")).get().getLessons().size();
             Lesson lesson = new Lesson();
             lesson.setChapterId(data.get("chapterId"));
             lesson.setIndex(lessonSize + 1);
@@ -58,7 +58,7 @@ public class LessonRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            var lesson = lessonService.getById(data.get("lessonId")).get();
+            var lesson = lessonService.findById(data.get("lessonId")).get();
             lessonService.deleteById(lesson.getID());
             chapterService.reIndexAllLessonByChapterId(lesson.getChapterId());
             return true;
@@ -71,7 +71,7 @@ public class LessonRestController {
     @PostMapping("/update")
     public Lesson update(@RequestBody Lesson lesson1) {
         try {
-            Lesson lesson = lessonService.getById(lesson1.getID()).get();
+            Lesson lesson = lessonService.findById(lesson1.getID()).get();
             lesson.setName(lesson1.getName());
             lesson.setDescription(lesson1.getDescription());
             lesson.setIndex(lesson1.getIndex());
@@ -96,7 +96,7 @@ public class LessonRestController {
             for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);
-                var lesson = lessonService.getById(id).get();
+                var lesson = lessonService.findById(id).get();
                 lesson.setIndex(index);
                 lessonService.save(lesson);
             }

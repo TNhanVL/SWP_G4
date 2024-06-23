@@ -17,7 +17,7 @@ public class QuizResultService {
     @Autowired
     private QuestionService questionService;
 
-    public Optional<QuizResult> getById(int quizResultId) {
+    public Optional<QuizResult> findById(int quizResultId) {
         return quizResultRepository.findById(quizResultId);
     }
 
@@ -30,7 +30,7 @@ public class QuizResultService {
     }
 
     public int calcTotalMarkByQuizResultId(int quizResultId) {
-        var quizResult = getById(quizResultId).get();
+        var quizResult = findById(quizResultId).get();
         var questions = quizResult.getQuiz().getQuestions();
         int totalMark = 0;
 

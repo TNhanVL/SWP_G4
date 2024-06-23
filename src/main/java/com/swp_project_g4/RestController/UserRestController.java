@@ -27,28 +27,28 @@ public class UserRestController {
     @PostMapping("auth/learner")
     public Learner authLearner(HttpServletRequest request) {
         String username = CookieServices.getUserNameOfLearner(request.getCookies());
-        var learner = learnerService.getByUsername(username).orElse(null);
+        var learner = learnerService.findByUsername(username).orElse(null);
         return learner;
     }
 
     @PostMapping("auth/instructor")
     public Instructor authInstructor(HttpServletRequest request) {
         String username = CookieServices.getUserNameOfInstructor(request.getCookies());
-        var instructor = instructorService.getByUsername(username).orElse(null);
+        var instructor = instructorService.findByUsername(username).orElse(null);
         return instructor;
     }
 
     @PostMapping("auth/organization")
     public Organization authOrganization(HttpServletRequest request) {
         String username = CookieServices.getUserNameOfOrganization(request.getCookies());
-        var organization = organizationService.getByUsername(username).orElse(null);
+        var organization = organizationService.findByUsername(username).orElse(null);
         return organization;
     }
 
     @PostMapping("auth/admin")
     public Admin authAdmin(HttpServletRequest request) {
         String username = CookieServices.getUserNameOfAdmin(request.getCookies());
-        var admin = adminService.getByUsername(username).orElse(null);
+        var admin = adminService.findByUsername(username).orElse(null);
         return admin;
     }
 }

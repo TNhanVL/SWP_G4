@@ -22,22 +22,22 @@ public class LessonProgressService {
     @Autowired
     private LearnerService learnerService;
 
-    public Optional<LessonProgress> getById(int lessonId) {
+    public Optional<LessonProgress> findById(int lessonId) {
         return lessonProgressRepository.findById(lessonId);
     }
 
-    public Optional<LessonProgress> getByLessonIdAndChapterProgressId(int lessonId, int chapterProgressId) {
+    public Optional<LessonProgress> findByLessonIdAndChapterProgressId(int lessonId, int chapterProgressId) {
         return lessonProgressRepository.findByLessonIdAndChapterProgressID(lessonId, chapterProgressId);
     }
 
     public boolean markLessonCompleted(int learnerId, int lessonId) {
         try {
             //check learner exist
-            var learner = learnerService.getById(learnerId).orElseThrow();
-            var lesson = lessonService.getById(lessonId).orElseThrow();
+            var learner = learnerService.findById(learnerId).orElseThrow();
+            var lesson = lessonService.findById(lessonId).orElseThrow();
             var chapter = lesson.getChapter();
-            var courseProgress = courseProgressService.getByCourseIdAndLearnerId(chapter.getCourseId(), learnerId).orElseThrow();
-            var chapterProgress = chapterProgressService.getByChapterIdAndCourseProgressId(chapter.getID(), courseProgress.getID()).orElseThrow();
+            var courseProgress = courseProgressService.findByCourseIdAndLearnerId(chapter.getCourseId(), learnerId).orElseThrow();
+            var chapterProgress = chapterProgressService.findByChapterIdAndCourseProgressId(chapter.getID(), courseProgress.getID()).orElseThrow();
             var lessonProgress = lessonProgressRepository.findByLessonIdAndChapterProgressID(lessonId, chapterProgress.getID()).orElseThrow();
             //set completed
             if (!lessonProgress.isCompleted()) {

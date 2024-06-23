@@ -17,7 +17,7 @@ public class ChosenAnswerService {
     @Autowired
     private AnswerService answerService;
 
-    public Optional<ChosenAnswer> getByQuizResultIdAndAnswerId(int quizResultId, int answerId) {
+    public Optional<ChosenAnswer> findByQuizResultIdAndAnswerId(int quizResultId, int answerId) {
         return chosenAnswerRepository.findByQuizResultIDAndAnswerId(quizResultId, answerId);
     }
 
@@ -29,7 +29,7 @@ public class ChosenAnswerService {
         var answers = answerService.getAllByQuestionId(questionId);
         List<ChosenAnswer> chosenAnswers = new ArrayList<>();
         for (var answer: answers) {
-            var chosenAnswerOptional = getByQuizResultIdAndAnswerId(quizResultId, answer.getID());
+            var chosenAnswerOptional = findByQuizResultIdAndAnswerId(quizResultId, answer.getID());
             if (chosenAnswerOptional.isPresent()) chosenAnswers.add(chosenAnswerOptional.get());
         }
         return chosenAnswers;

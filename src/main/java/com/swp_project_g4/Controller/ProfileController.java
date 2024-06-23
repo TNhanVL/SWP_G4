@@ -40,8 +40,8 @@ public class ProfileController {
             return "redirect:/";
         }
 
-        Learner learner = learnerService.getByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
-//        Learner learner = learnerService.getByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+        Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+//        Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
         return "redirect:/profile/" + learner.getUsername();
     }
 
@@ -51,7 +51,7 @@ public class ProfileController {
         boolean guest = true;
 
         
-        var learnerOptional = learnerService.getByUsername(username);
+        var learnerOptional = learnerService.findByUsername(username);
         if (!learnerOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this username!");
             return "redirect:/";
@@ -121,7 +121,7 @@ public class ProfileController {
         var usernameInCookie = CookieServices.getUserNameOfInstructor(request.getCookies());
         boolean guest = true;
 
-        var instructorOptional = instructorService.getByUsername(username);
+        var instructorOptional = instructorService.findByUsername(username);
         if (!instructorOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this username!");
             return "redirect:/";
@@ -160,7 +160,7 @@ public class ProfileController {
     @RequestMapping(value = "/updateInstructor", method = RequestMethod.POST)
     public String updateInstructor(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int instructorId, @ModelAttribute("user") Learner learner) {
 
-        Instructor instructor1 = instructorService.getById(instructorId).get();
+        Instructor instructor1 = instructorService.findById(instructorId).get();
 
         if (instructor1 == null) {
             request.getSession().setAttribute("error", "User not exist!");

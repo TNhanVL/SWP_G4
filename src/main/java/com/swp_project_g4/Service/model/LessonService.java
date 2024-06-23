@@ -15,7 +15,7 @@ public class LessonService {
     @Autowired
     private LessonRepository lessonRepository;
 
-    public Optional<Lesson> getById(int lessonId) {
+    public Optional<Lesson> findById(int lessonId) {
         return lessonRepository.findById(lessonId);
     }
 

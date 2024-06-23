@@ -52,7 +52,7 @@ public class LearnController {
         String username = CookieServices.getUserNameOfLearner(request.getCookies());
 
         //check learner logged in
-        var learnerOptional = learnerService.getByUsername(username);
+        var learnerOptional = learnerService.findByUsername(username);
         if (!learnerOptional.isPresent()) {
             request.getSession().setAttribute("error", "You need to log in to continue!");
             return "redirect:/login";
@@ -60,7 +60,7 @@ public class LearnController {
         int learnerId = learnerOptional.get().getID();
 
         //check course exist
-        var courseOptional = courseService.getById(courseId);
+        var courseOptional = courseService.findById(courseId);
         if (!courseOptional.isPresent()) {
             if (!learnerOptional.isPresent()) {
                 request.getSession().setAttribute("error", "Not exist this course!");
@@ -70,7 +70,7 @@ public class LearnController {
         var course = courseOptional.get();
 
         //check courseProgress
-        var courseProgressOptional = courseProgressService.getByCourseIdAndLearnerId(courseId, learnerId);
+        var courseProgressOptional = courseProgressService.findByCourseIdAndLearnerId(courseId, learnerId);
         if (!courseProgressOptional.isPresent()) {
             request.getSession().setAttribute("error", "You need to purchased this course first!");
             return "redirect:/";
@@ -84,7 +84,7 @@ public class LearnController {
         int lessonId = 0;
         for (var chapter : course.getChapters()) {
             //check chapterProgress
-            var chapterProgressOptional = chapterProgressService.getByChapterIdAndCourseProgressId(chapter.getID(), courseProgress.getID());
+            var chapterProgressOptional = chapterProgressService.findByChapterIdAndCourseProgressId(chapter.getID(), courseProgress.getID());
             var chapterProgress = chapterProgressOptional.orElse(new ChapterProgress(chapter.getID(), courseProgress.getID()));
             if (!chapterProgressOptional.isPresent()) {
                 chapterProgress = chapterProgressService.save(chapterProgress);
@@ -92,7 +92,7 @@ public class LearnController {
             for (var lesson : chapter.getLessons()) {
                 lessonId = lesson.getID();
                 //check lessonProgress
-                var lessonProgressOptional = lessonProgressService.getByLessonIdAndChapterProgressId(lessonId, chapterProgress.getID());
+                var lessonProgressOptional = lessonProgressService.findByLessonIdAndChapterProgressId(lessonId, chapterProgress.getID());
                 var lessonProgress = lessonProgressOptional.orElse(new LessonProgress(lessonId, chapterProgress.getID()));
                 if (!lessonProgressOptional.isPresent() || !lessonProgress.isCompleted()) {
                     if (!lessonProgressOptional.isPresent()) {
@@ -111,7 +111,7 @@ public class LearnController {
         String username = CookieServices.getUserNameOfLearner(request.getCookies());
 
         //check learner logged in
-        var learnerOptional = learnerService.getByUsername(username);
+        var learnerOptional = learnerService.findByUsername(username);
         if (!learnerOptional.isPresent()) {
             request.getSession().setAttribute("error", "You must be logged in before enter this lesson!");
             return "redirect:/login";
@@ -120,7 +120,7 @@ public class LearnController {
         int learnerId = learner.getID();
 
         //check course exist
-        var courseOptional = courseService.getById(courseId);
+        var courseOptional = courseService.findById(courseId);
         if (!courseOptional.isPresent()) {
             if (!learnerOptional.isPresent()) {
                 request.getSession().setAttribute("error", "Not exist this course!");
@@ -129,7 +129,7 @@ public class LearnController {
         }
 
         //check courseProgress
-        var courseProgressOptional = courseProgressService.getByCourseIdAndLearnerId(courseId, learnerId);
+        var courseProgressOptional = courseProgressService.findByCourseIdAndLearnerId(courseId, learnerId);
         if (!courseProgressOptional.isPresent()) {
             request.getSession().setAttribute("error", "You need to purchased this course first!");
             return "redirect:/";
@@ -140,7 +140,7 @@ public class LearnController {
         }
 
         //check exist lesson
-        var lessonOptional = lessonService.getById(lessonId);
+        var lessonOptional = lessonService.findById(lessonId);
         if (!lessonOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this lesson!");
             return "redirect:/";
@@ -148,22 +148,22 @@ public class LearnController {
         var lesson = lessonOptional.get();
 
         //check course include lesson
-        var chapter = chapterService.getById(lesson.getChapterId()).get();
-        var course = courseService.getById(chapter.getCourseId()).get();
+        var chapter = chapterService.findById(lesson.getChapterId()).get();
+        var course = courseService.findById(chapter.getCourseId()).get();
         if (course.getID() != courseId) {
             request.getSession().setAttribute("error", "Not exist this lesson in the course!");
             return "redirect:/";
         }
 
         //check chapterProgress
-        var chapterProgressOptional = chapterProgressService.getByChapterIdAndCourseProgressId(chapter.getID(), courseProgress.getID());
+        var chapterProgressOptional = chapterProgressService.findByChapterIdAndCourseProgressId(chapter.getID(), courseProgress.getID());
         var chapterProgress = chapterProgressOptional.orElse(new ChapterProgress(chapter.getID(), courseProgress.getID()));
         if (!chapterProgressOptional.isPresent()) {
             chapterProgress = chapterProgressService.save(chapterProgress);
         }
 
         //check lessonProgress
-        var lessonProgressOptional = lessonProgressService.getByLessonIdAndChapterProgressId(lessonId, chapterProgress.getID());
+        var lessonProgressOptional = lessonProgressService.findByLessonIdAndChapterProgressId(lessonId, chapterProgress.getID());
         var lessonProgress = lessonProgressOptional.orElse(new LessonProgress(lessonId, chapterProgress.getID()));
         if (!lessonProgressOptional.isPresent()) {
             lessonProgress = lessonProgressService.save(lessonProgress);
@@ -247,7 +247,7 @@ public class LearnController {
         }
 
         //check exist lesson
-        var lessonOptional = lessonService.getById(lessonId);
+        var lessonOptional = lessonService.findById(lessonId);
         if (!lessonOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this lesson!");
             return "redirect:/";
@@ -255,7 +255,7 @@ public class LearnController {
         var lesson = lessonOptional.get();
 
         //check lessonProgress
-        var lessonProgressOptional = lessonProgressService.getById(lessonProgressID);
+        var lessonProgressOptional = lessonProgressService.findById(lessonProgressID);
         if (!lessonProgressOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this lesson progress!");
             return "redirect:/";
@@ -277,10 +277,10 @@ public class LearnController {
         }
 
 
-        Learner learner = learnerService.getByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+        Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
 
         //check owner
-        QuizResult quizResult = quizResultService.getById(quizResultID).get();
+        QuizResult quizResult = quizResultService.findById(quizResultID).get();
 //        if (quizResult.getUserID() != user.getID()) {
 //            return "not owned";
 //        }
@@ -314,16 +314,16 @@ public class LearnController {
             return "redirect:/login";
         }
 
-        Learner learner = learnerService.getByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+        Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
 
         //check quizResult exist
-        QuizResult quizResult = quizResultService.getById(quizResultID).get();
+        QuizResult quizResult = quizResultService.findById(quizResultID).get();
         if (quizResult == null) {
             return "redirect:/";
         }
 
-        Lesson lesson = lessonService.getById(quizResult.getQuiz().getLessonId()).get();
-        Chapter chapter = chapterService.getById(lesson.getChapterId()).get();
+        Lesson lesson = lessonService.findById(quizResult.getQuiz().getLessonId()).get();
+        Chapter chapter = chapterService.findById(lesson.getChapterId()).get();
 
         //if quiz end yet
         if (quizResult.getEndAt().before(new Date())) {
@@ -335,7 +335,7 @@ public class LearnController {
         quizResult.setFinished(true);
         quizResultService.save(quizResult);
 
-        var quiz = quizService.getByLessonId(lesson.getID()).get();
+        var quiz = quizService.findByLessonId(lesson.getID()).get();
         int numberOfCorrectQuestion = quizResultService.calcTotalMarkByQuizResultId(quizResultID);
 //        int numberOfCorrectQuestion = QuizResultDAO.getQuizResultPoint(quizResultID);
         int numberOfQuestion = questionService.findAllByQuizId(quiz.getID()).size();

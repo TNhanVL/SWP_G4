@@ -38,7 +38,7 @@ public class PaymentController {
             return "redirect:/login";
         }
 
-        Learner learner = learnerService.getByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+        Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
 
         //get all courses ID
         String[] courseIdStrs = request.getParameterValues("course");

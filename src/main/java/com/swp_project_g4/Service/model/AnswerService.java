@@ -12,7 +12,7 @@ import java.util.Optional;
 public class AnswerService {
     @Autowired AnswerRepository answerRepository;
 
-    public Optional<Answer> getById(int answerId) {
+    public Optional<Answer> findById(int answerId) {
         return answerRepository.findById(answerId);
     }
 

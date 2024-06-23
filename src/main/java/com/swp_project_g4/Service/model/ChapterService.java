@@ -18,11 +18,11 @@ public class ChapterService {
     @Autowired
     private LessonService lessonService;
 
-    public List<Chapter> getByCourseId(int courseId) {
+    public List<Chapter> findByCourseId(int courseId) {
         return chapterRepository.findAllByCourseId(courseId);
     }
 
-    public Optional<Chapter> getById(int chapterId) {
+    public Optional<Chapter> findById(int chapterId) {
         return chapterRepository.findById(chapterId);
     }
 

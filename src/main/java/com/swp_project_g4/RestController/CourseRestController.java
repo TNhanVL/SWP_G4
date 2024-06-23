@@ -17,9 +17,9 @@ public class CourseRestController {
     @Autowired
     private CourseService courseService;
 
-    @PostMapping("/getByCourseId")
+    @PostMapping("/findByCourseId")
     public Course getByCourseId(@RequestBody Map<String, Integer> data) {
-        return courseService.getById(data.get("courseId")).orElse(null);
+        return courseService.findById(data.get("courseId")).orElse(null);
     }
 
     @GetMapping("/getAll")
@@ -30,7 +30,7 @@ public class CourseRestController {
     @PostMapping("/update")
     public Course update(@RequestBody Course course1) {
         try {
-            Course course = courseService.getById(course1.getID()).get();
+            Course course = courseService.findById(course1.getID()).get();
             course.setName(course1.getName());
             course.setDescription(course1.getDescription());
             course.setPrice(course1.getPrice());
