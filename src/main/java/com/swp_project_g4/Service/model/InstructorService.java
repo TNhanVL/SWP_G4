@@ -15,8 +15,8 @@ public class InstructorService {
     @Autowired
     private InstructorRepository instructorRepository;
 
-    public Optional<Instructor> findById(int Id) {
-        var instructor = instructorRepository.findById(Id);
+    public Optional<Instructor> findById(int instructorId) {
+        var instructor = instructorRepository.findById(instructorId);
         return instructor;
     }
 

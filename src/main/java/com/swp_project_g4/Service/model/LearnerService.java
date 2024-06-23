@@ -16,8 +16,8 @@ public class LearnerService {
     @Autowired
     private LearnerRepository learnerRepository;
 
-    public Optional<Learner> findById(int Id) {
-        var learner = learnerRepository.findById(Id);
+    public Optional<Learner> findById(int learnerId) {
+        var learner = learnerRepository.findById(learnerId);
         return learner;
     }
 
