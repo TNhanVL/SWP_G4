@@ -67,27 +67,27 @@ public class LoginController {
         try {
             switch (account_type) {
                 case "admin" -> {
-                    var admin = adminService.getByUsername(username).orElseThrow();
+                    var admin = adminService.findByUsername(username).orElseThrow();
                     login_password = admin.getPassword();
                     login_username = admin.getUsername();
                     token_type = CookiesToken.ADMIN;
                 }
                 case "learner" -> {
-                    var learner = learnerService.getByUsername(username).orElseThrow();
+                    var learner = learnerService.findByUsername(username).orElseThrow();
                     login_password = learner.getPassword();
                     login_username = learner.getUsername();
                     token_type = CookiesToken.LEARNER;
 
                 }
                 case "instructor" -> {
-                    var instructor = instructorService.getByUsername(username).orElseThrow();
+                    var instructor = instructorService.findByUsername(username).orElseThrow();
                     login_password = instructor.getPassword();
                     login_username = instructor.getUsername();
                     token_type = CookiesToken.INSTRUCTOR;
 
                 }
                 case "organization" -> {
-                    var organization = organizationService.getByUsername(username).orElseThrow();
+                    var organization = organizationService.findByUsername(username).orElseThrow();
                     login_password = organization.getPassword();
                     login_username = organization.getUsername();
                     token_type = CookiesToken.ORGANIZATION;

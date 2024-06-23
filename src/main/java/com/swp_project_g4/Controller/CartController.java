@@ -33,7 +33,7 @@ public class CartController {
             return "redirect:/login";
         }
 
-        Learner learner = learnerService.getByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+        Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
 
         CourseDAO.insertCartProduct(learner.getID(), courseId);
 
@@ -49,7 +49,7 @@ public class CartController {
             return "redirect:/login";
         }
 
-        Learner learner = learnerService.getByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
+        Learner learner = learnerService.findByUsername(CookieServices.getUserNameOfLearner(request.getCookies())).get();
 
         CourseDAO.deleteCartProduct(learner.getID(), courseId);
 

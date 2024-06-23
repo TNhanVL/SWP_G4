@@ -12,7 +12,7 @@ public class ChapterProgressService {
     @Autowired
     private ChapterProgressRepository chapterProgressRepository;
 
-    public Optional<ChapterProgress> getByChapterIdAndCourseProgressId(int chapterId, int courseProgressId) {
+    public Optional<ChapterProgress> findByChapterIdAndCourseProgressId(int chapterId, int courseProgressId) {
         return chapterProgressRepository.findByChapterIdAndCourseProgressID(chapterId, courseProgressId);
     }
 

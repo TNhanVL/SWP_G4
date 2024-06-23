@@ -24,11 +24,11 @@ public class QuizService {
     @Autowired
     private QuizRepository quizRepository;
 
-    public Optional<Quiz> getById(int quizId) {
+    public Optional<Quiz> findById(int quizId) {
         return quizRepository.findByID(quizId);
     }
 
-    public Optional<Quiz> getByLessonId(int lessonId) {
+    public Optional<Quiz> findByLessonId(int lessonId) {
         return quizRepository.findByLessonId(lessonId);
     }
 
@@ -36,7 +36,7 @@ public class QuizService {
         if (quizResult.isFinished()) return;
 
         int learnerId = quizResult.getLessonProgress().getChapterProgress().getCourseProgress().getLearnerId();
-        Lesson lesson = lessonService.getById(quizResult.getQuiz().getLessonId()).get();
+        Lesson lesson = lessonService.findById(quizResult.getQuiz().getLessonId()).get();
 
         //set endAt to current
         if (quizResult.getEndAt().after(new Date())) quizResult.setEndAt(new Date());

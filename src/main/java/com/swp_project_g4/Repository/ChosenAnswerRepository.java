@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface ChosenAnswerRepository extends JpaRepository<ChosenAnswer, Integer> {
     Optional<ChosenAnswer> findByQuizResultIDAndAnswerId(int quizResultId, int answerId);
-    List<ChosenAnswer> getAllByQuizResultID(int quizResultId);
+    List<ChosenAnswer> findAllByQuizResultID(int quizResultId);
     void deleteAllByQuizResultIDAndAnswerId(int quizResultId, int answerId);
 }

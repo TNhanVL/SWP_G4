@@ -17,20 +17,20 @@ public class AnswerRestController {
     @Autowired
     private AnswerService answerService;
 
-    @PostMapping("/getByAnswerID")
+    @PostMapping("/findByAnswerID")
     public Answer getByAnswerID(@RequestBody Map<String, Integer> data) {
         try {
-            return answerService.getById(data.get("answerId")).get();
+            return answerService.findById(data.get("answerId")).get();
         } catch (Exception e) {
 
         }
         return null;
     }
 
-    @PostMapping("/getByQuestionId")
+    @PostMapping("/findByQuestionId")
     public List<Answer> getByQuestionId(@RequestBody Map<String, Integer> data) {
         try {
-            return answerService.getAllByQuestionId(data.get("questionId"));
+            return answerService.findAllByQuestionId(data.get("questionId"));
         } catch (Exception e) {
 
         }
@@ -40,7 +40,7 @@ public class AnswerRestController {
     @PostMapping("/create")
     public Answer create(@RequestBody Map<String, Integer> data) {
         try {
-            int answerSize = answerService.getAllByQuestionId(data.get("questionId")).size();
+            int answerSize = answerService.findAllByQuestionId(data.get("questionId")).size();
             Answer answer = new Answer();
             answer.setQuestionId(data.get("questionId"));
             answer = answerService.save(answer);
@@ -65,7 +65,7 @@ public class AnswerRestController {
     @PostMapping("/update")
     public Answer update(@RequestBody Answer answer1) {
         try {
-            Answer answer = answerService.getById(answer1.getID()).get();
+            Answer answer = answerService.findById(answer1.getID()).get();
             answer.setContent(answer1.getContent());
             answer.setCorrect(answer1.isCorrect());
             answer = answerService.save(answer);

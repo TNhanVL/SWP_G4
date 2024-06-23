@@ -18,7 +18,7 @@ public class CountryService {
     @Autowired
     private CountryRepository countryRepository;
 
-    public Optional<Country> getById(int countryId) {
+    public Optional<Country> findById(int countryId) {
         return countryRepository.findById(countryId);
     }
 

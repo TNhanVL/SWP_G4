@@ -33,7 +33,7 @@ public class PasswordController {
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
     public String forgetPasswordPost(HttpServletRequest request, HttpServletResponse response, @RequestParam String email) {
         try {
-            var account = learnerService.getByEmail(email).orElseThrow();
+            var account = learnerService.findByEmail(email).orElseThrow();
 
             var resetToken = JwtUtil.generateJwt(account.getUsername(), account.getID() + "", CookiesToken.RESET);
 
@@ -81,7 +81,7 @@ public class PasswordController {
         try {
             var resetCookie = CookieServices.searchCookie(request.getCookies(), CookiesToken.RESET);
             var id = Integer.parseInt(resetCookie.get("password").toString());
-            var account = learnerService.getById(id).orElseThrow();
+            var account = learnerService.findById(id).orElseThrow();
 
             account.setPassword(MD5.getMd5(password));
 
@@ -110,7 +110,7 @@ public class PasswordController {
 
     public void changePassword(HttpServletResponse response, HttpServletRequest request, @RequestParam String password, @RequestParam String oldPassword, @RequestParam String username) {
         try {
-            var user = learnerService.getByUsernameAndPassword(username, MD5.getMd5(oldPassword)).orElseThrow();
+            var user = learnerService.findByUsernameAndPassword(username, MD5.getMd5(oldPassword)).orElseThrow();
 
             CookieServices.logout(request, response, CookiesToken.LEARNER.toString());
 

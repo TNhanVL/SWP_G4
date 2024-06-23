@@ -21,20 +21,20 @@ public class ChapterRestController {
     @Autowired
     private ChapterService chapterService;
 
-    @PostMapping("/getByChapterId")
+    @PostMapping("/findByChapterId")
     public Chapter getByChapterId(@RequestBody Map<String, Integer> data) {
         try {
-            return chapterService.getById(data.get("chapterId")).get();
+            return chapterService.findById(data.get("chapterId")).get();
         } catch (Exception e) {
 
         }
         return null;
     }
 
-    @PostMapping("/getByCourseId")
+    @PostMapping("/findByCourseId")
     public List<Chapter> getByCourseId(@RequestBody Map<String, Integer> data) {
         try {
-            return courseService.getById(data.get("courseId")).get().getChapters();
+            return courseService.findById(data.get("courseId")).get().getChapters();
         } catch (Exception e) {
 
         }
@@ -44,7 +44,7 @@ public class ChapterRestController {
     @PostMapping("/create")
     public Chapter create(@RequestBody Map<String, Integer> data) {
         try {
-            int chapterSize = courseService.getById(data.get("courseId")).get().getChapters().size();
+            int chapterSize = courseService.findById(data.get("courseId")).get().getChapters().size();
             Chapter chapter = new Chapter();
             chapter.setCourseId(data.get("courseId"));
             chapter.setIndex(chapterSize + 1);
@@ -59,7 +59,7 @@ public class ChapterRestController {
     @PostMapping("/delete")
     public boolean delete(@RequestBody Map<String, Integer> data) {
         try {
-            var chapter = chapterService.getById(data.get("chapterId")).get();
+            var chapter = chapterService.findById(data.get("chapterId")).get();
             chapterService.deleteById(chapter.getID());
             courseService.reIndexAllChapterByCourseId(chapter.getCourseId());
             return true;
@@ -72,7 +72,7 @@ public class ChapterRestController {
     @PostMapping("/update")
     public Chapter update(@RequestBody Chapter chapter1) {
         try {
-            Chapter chapter = chapterService.getById(chapter1.getID()).get();
+            Chapter chapter = chapterService.findById(chapter1.getID()).get();
             chapter.setName(chapter1.getName());
             chapter.setDescription(chapter1.getDescription());
             chapter.setIndex(chapter1.getIndex());
@@ -92,7 +92,7 @@ public class ChapterRestController {
             for (int i = 0; i < size; i++) {
                 int id = data.get("id_" + i);
                 int index = data.get("index_" + i);
-                var chapter = chapterService.getById(id).get();
+                var chapter = chapterService.findById(id).get();
                 chapter.setIndex(index);
                 chapterService.save(chapter);
             }

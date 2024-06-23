@@ -15,7 +15,7 @@ public class InstructService {
     @Autowired
     private InstructRepository instructRepository;
 
-    public List<Instruct> getAllByInstructorId(int instructorId) {
+    public List<Instruct> findAllByInstructorId(int instructorId) {
         return instructRepository.findAllByInstructorId(instructorId);
     }
 

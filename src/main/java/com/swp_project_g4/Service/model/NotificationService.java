@@ -14,7 +14,7 @@ public class NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
 
-    public List<Notification> getAllByLearnerId(int learnerId) {
+    public List<Notification> findAllByLearnerId(int learnerId) {
         return notificationRepository.findAllByLearnerId(learnerId);
     }
 }

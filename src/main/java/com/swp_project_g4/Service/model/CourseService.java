@@ -22,7 +22,7 @@ public class CourseService {
     @Autowired
     private InstructorService instructorService;
 
-    public Optional<Course> getById(int courseId) {
+    public Optional<Course> findById(int courseId) {
         return courseRepository.findById(courseId);
     }
 
@@ -32,7 +32,7 @@ public class CourseService {
     }
 
     public List<Course> getAllCreatedCourses(int instructorId) {
-        var instructor = instructorService.getById(instructorId).get();
+        var instructor = instructorService.findById(instructorId).get();
         var instructs = instructor.getInstructs();
         var courses = new ArrayList<Course>();
         for (var instruct : instructs) {
@@ -41,7 +41,7 @@ public class CourseService {
         return courses;
     }
 
-    public List<Course> getAllByOrganizationId(int organizationId) {
+    public List<Course> findAllByOrganizationId(int organizationId) {
         return courseRepository.findAllByOrganizationId(organizationId);
     }
 
@@ -61,7 +61,7 @@ public class CourseService {
 
         int totalTime = 0;
 
-        for (var chapter: chapterService.getByCourseId(courseId) ) {
+        for (var chapter: chapterService.findByCourseId(courseId) ) {
             totalTime += chapterService.getSumTimeOfChapterById(chapter.getID());
         }
         return totalTime;
@@ -73,7 +73,7 @@ public class CourseService {
 
     public boolean reIndexAllChapterByCourseId(int courseId) {
         try {
-            var chapters = chapterService.getByCourseId(courseId);
+            var chapters = chapterService.findByCourseId(courseId);
             chapters.sort(Comparator.comparingInt(Chapter::getIndex));
             int tmp = 0;
             for (var chapter : chapters) {

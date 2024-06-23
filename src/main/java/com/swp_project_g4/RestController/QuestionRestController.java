@@ -19,7 +19,7 @@ public class QuestionRestController {
     @Autowired
     private QuestionService questionService;
 
-    @PostMapping("/getByQuestionId")
+    @PostMapping("/findByQuestionId")
     public Question getByQuestionId(@RequestBody Map<String, Integer> data) {
         try {
             return questionService.findById(data.get("questionId")).get();
@@ -29,7 +29,7 @@ public class QuestionRestController {
         return null;
     }
 
-    @PostMapping("/getByLessonId")
+    @PostMapping("/findByLessonId")
     public List<Question> getByLessonId(@RequestBody Map<String, Integer> data) {
         try {
             return questionService.findAllByQuizId(data.get("quizId"));
@@ -42,7 +42,7 @@ public class QuestionRestController {
     @PostMapping("/create")
     public Question create(@RequestBody Map<String, Integer> data) {
         try {
-            int questionSize = quizService.getById(data.get("quizId")).get().getQuestions().size();
+            int questionSize = quizService.findById(data.get("quizId")).get().getQuestions().size();
             Question question = new Question();
             question.setQuizId(data.get("quizId"));
             question.setIndex(questionSize + 1);

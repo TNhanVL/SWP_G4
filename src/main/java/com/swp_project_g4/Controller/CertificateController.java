@@ -40,9 +40,9 @@ public class CertificateController {
         if (file == null)
             return ResponseEntity.notFound().build();
 
-        Learner learner = learnerService.getById(learnerId).get();
+        Learner learner = learnerService.findById(learnerId).get();
 
-        String certificateFileName = courseService.getById(courseId).get().getName() + " " +
+        String certificateFileName = courseService.findById(courseId).get().getName() + " " +
                 learner.getFirstName() + " " + learner.getLastName() + " certificate";
         certificateFileName = certificateFileName.replace(' ', '_');
         certificateFileName += ".pdf";

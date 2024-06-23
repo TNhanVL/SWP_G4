@@ -76,8 +76,8 @@ public class AdminController {
     public String editUser(ModelMap model, HttpServletRequest request, @RequestParam String id) {
         try {
             var user_id = Integer.parseInt(id);
-            var user = learnerService.getById(user_id).orElseThrow();
-            var course_progress = courseProgressService.getAllByLearnerId(user_id);
+            var user = learnerService.findById(user_id).orElseThrow();
+            var course_progress = courseProgressService.findAllByLearnerId(user_id);
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", countryService.getAll());
             request.getSession().setAttribute("courseProgress", course_progress);
@@ -86,7 +86,7 @@ public class AdminController {
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : course_progress) {
-                courseList.add(courseService.getById(course.getCourseId()).orElseThrow());
+                courseList.add(courseService.findById(course.getCourseId()).orElseThrow());
             }
 
             request.getSession().setAttribute("courseList", courseList);
@@ -111,7 +111,7 @@ public class AdminController {
         }
 
         try {
-            var user = learnerService.getById(learner.getID()).orElseThrow();
+            var user = learnerService.findById(learner.getID()).orElseThrow();
 
             if (!user.getPassword().equals(learner.getPassword()))
                 user.setPassword(MD5.getMd5(learner.getPassword()));
@@ -161,12 +161,12 @@ public class AdminController {
     public String editOrganization(ModelMap model, HttpServletRequest request, @RequestParam String id) {
         try {
             var organization_id = Integer.parseInt(id);
-            var organization = organizationService.getById(organization_id).orElseThrow();
+            var organization = organizationService.findById(organization_id).orElseThrow();
             request.getSession().setAttribute("currentOrg", organization);
             request.getSession().setAttribute("countryList", countryService.getAll());
-            var courseList = courseService.getAllByOrganizationId(organization_id);
+            var courseList = courseService.findAllByOrganizationId(organization_id);
             request.getSession().setAttribute("courseList", courseList);
-            request.getSession().setAttribute("instructorsList", instructorService.getAllByOrganizationId(organization_id));
+            request.getSession().setAttribute("instructorsList", instructorService.findAllByOrganizationId(organization_id));
 
         } catch (Exception e) {
             request.getSession().setAttribute("error", "Failed to load organization");
@@ -185,7 +185,7 @@ public class AdminController {
 
         try {
 
-            var user = organizationService.getById(organization.getID()).orElseThrow();
+            var user = organizationService.findById(organization.getID()).orElseThrow();
 
 
             if (!user.getPassword().equals(organization.getPassword()))
@@ -209,14 +209,14 @@ public class AdminController {
     public String editInstructor(HttpServletRequest request, @RequestParam String id) {
         try {
             var user_id = Integer.parseInt(id);
-            var user = instructorService.getById(user_id).orElseThrow();
+            var user = instructorService.findById(user_id).orElseThrow();
             request.getSession().setAttribute("currentUser", user);
             request.getSession().setAttribute("countryList", countryService.getAll());
-            var instructed_course = instructService.getAllByInstructorId(user_id);
+            var instructed_course = instructService.findAllByInstructorId(user_id);
 
             ArrayList<Course> courseList = new ArrayList<>();
             for (var course : instructed_course) {
-                courseList.add(courseService.getById(course.getCourseId()).orElseThrow());
+                courseList.add(courseService.findById(course.getCourseId()).orElseThrow());
             }
 
             request.getSession().setAttribute("courseList", courseList);
@@ -237,7 +237,7 @@ public class AdminController {
         }
 
         try {
-            var user = instructorService.getById(instructor.getID()).orElseThrow();
+            var user = instructorService.findById(instructor.getID()).orElseThrow();
 
             if (!user.getPassword().equals(instructor.getPassword()))
                 user.setPassword(MD5.getMd5(instructor.getPassword()));
@@ -265,7 +265,7 @@ public class AdminController {
             @ModelAttribute("organization") Learner learner, HttpServletRequest request) {
         try {
             learner.setPassword(MD5.getMd5(learner.getPassword()));
-            learner.setCountry(countryService.getById(learner.getCountryId()).orElseThrow());
+            learner.setCountry(countryService.findById(learner.getCountryId()).orElseThrow());
             learnerService.save(learner);
         } catch (Exception e) {
             request.getSession().setAttribute("error", "There are some error when add new learner!");

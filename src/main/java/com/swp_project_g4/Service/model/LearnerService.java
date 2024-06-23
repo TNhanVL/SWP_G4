@@ -16,22 +16,22 @@ public class LearnerService {
     @Autowired
     private LearnerRepository learnerRepository;
 
-    public Optional<Learner> getById(int Id) {
+    public Optional<Learner> findById(int Id) {
         var learner = learnerRepository.findById(Id);
         return learner;
     }
 
-    public Optional<Learner> getByUsername(String username) {
+    public Optional<Learner> findByUsername(String username) {
         var learner = learnerRepository.findByUsername(username);
         return learner;
     }
 
-    public Optional<Learner> getByEmail(String email) {
+    public Optional<Learner> findByEmail(String email) {
         var learner = learnerRepository.findByEmail(email);
         return learner;
     }
 
-    public Optional<Learner> getByUsernameAndPassword(String username, String password) {
+    public Optional<Learner> findByUsernameAndPassword(String username, String password) {
         var learner = learnerRepository.findByUsernameAndPassword(username, password);
         return learner;
     }

@@ -33,7 +33,7 @@ public class LearnerRestController {
             HttpServletResponse res) {
         try {
             var hashed_old_password = MD5.getMd5(old_password);
-            var user = learnerService.getByUsername(username).orElseThrow();
+            var user = learnerService.findByUsername(username).orElseThrow();
 
             if (!user.getPassword().equals(hashed_old_password))
                 return 1;
@@ -54,7 +54,7 @@ public class LearnerRestController {
         List<Notification> returnList = null;
         try {
             var id = Integer.parseInt(id_string);
-            returnList = notificationService.getAllByLearnerId(id);
+            returnList = notificationService.findAllByLearnerId(id);
         } catch (Exception e) {
             System.err.println(e);
         }

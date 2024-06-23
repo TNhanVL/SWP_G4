@@ -53,7 +53,7 @@ public class CourseController {
     @RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
     public String course(ModelMap model, HttpServletRequest request, HttpServletResponse response, @PathVariable int courseId) {
         //check course
-        var courseOptional = courseService.getById(courseId);
+        var courseOptional = courseService.findById(courseId);
         if (!courseOptional.isPresent()) {
             request.getSession().setAttribute("error", "Not exist this course!");
             return "redirect:/course/all";
@@ -61,10 +61,10 @@ public class CourseController {
         var course = courseOptional.get();
 
         var username = CookieServices.getUserNameOfLearner(request.getCookies());
-        var learnerOptional = learnerService.getByUsername(username);
+        var learnerOptional = learnerService.findByUsername(username);
         var learner = learnerOptional.orElse(null);
         if (learnerOptional.isPresent()) {
-            var courseProgressOptional = courseProgressService.getByCourseIdAndLearnerId(courseId, learner.getID());
+            var courseProgressOptional = courseProgressService.findByCourseIdAndLearnerId(courseId, learner.getID());
             if (courseProgressOptional.isPresent()) {
                 model.addAttribute("coursePurchased", courseId);
                 model.addAttribute("courseProgress", courseProgressOptional.get());
@@ -72,7 +72,7 @@ public class CourseController {
             }
         }
 
-        var courseProgresses = courseProgressService.getAllByCourseId(courseId);
+        var courseProgresses = courseProgressService.findAllByCourseId(courseId);
         var instructors = courseService.getAllInstructors(courseId);
 
         model.addAttribute("instructors", instructors);
@@ -100,7 +100,7 @@ public class CourseController {
     public String createCourse(ModelMap model, HttpServletRequest request) {
         try {
             String username = CookieServices.getUserNameOfInstructor(request.getCookies());
-            var instructor = instructorService.getByUsername(username).get();
+            var instructor = instructorService.findByUsername(username).get();
             var course = new Course();
             course.setOrganizationId(instructor.getOrganizationId());
             course.setName("New course");

@@ -15,17 +15,17 @@ public class InstructorService {
     @Autowired
     private InstructorRepository instructorRepository;
 
-    public Optional<Instructor> getById(int Id) {
+    public Optional<Instructor> findById(int Id) {
         var instructor = instructorRepository.findById(Id);
         return instructor;
     }
 
-    public Optional<Instructor> getByUsername(String username) {
+    public Optional<Instructor> findByUsername(String username) {
         var instructor = instructorRepository.findByUsername(username);
         return instructor;
     }
 
-    public List<Instructor> getAllByOrganizationId(int organizationId) {
+    public List<Instructor> findAllByOrganizationId(int organizationId) {
         return instructorRepository.findAllByOrganizationId(organizationId);
     }
 

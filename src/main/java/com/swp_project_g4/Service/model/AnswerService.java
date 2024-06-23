@@ -12,11 +12,11 @@ import java.util.Optional;
 public class AnswerService {
     @Autowired AnswerRepository answerRepository;
 
-    public Optional<Answer> getById(int answerId) {
+    public Optional<Answer> findById(int answerId) {
         return answerRepository.findById(answerId);
     }
 
-    public List<Answer> getAllByQuestionId(int questionId) {
+    public List<Answer> findAllByQuestionId(int questionId) {
         return answerRepository.findAllByQuestionId(questionId);
     }
 

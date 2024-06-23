@@ -18,11 +18,11 @@ public class ChapterService {
     @Autowired
     private LessonService lessonService;
 
-    public List<Chapter> getByCourseId(int courseId) {
+    public List<Chapter> findByCourseId(int courseId) {
         return chapterRepository.findAllByCourseId(courseId);
     }
 
-    public Optional<Chapter> getById(int chapterId) {
+    public Optional<Chapter> findById(int chapterId) {
         return chapterRepository.findById(chapterId);
     }
 
@@ -31,7 +31,7 @@ public class ChapterService {
     }
 
     public int getSumTimeOfChapterById(int chapterId) {
-        var lessons = lessonService.getAllByChapterId(chapterId);
+        var lessons = lessonService.findAllByChapterId(chapterId);
         int totalTime = 0;
         for (var lesson: lessons) {
             totalTime += lesson.getTime();
@@ -41,7 +41,7 @@ public class ChapterService {
 
     public boolean reIndexAllLessonByChapterId(int chapterId) {
         try {
-            var lessons = lessonService.getAllByChapterId(chapterId);
+            var lessons = lessonService.findAllByChapterId(chapterId);
             lessons.sort(Comparator.comparingInt(Lesson::getIndex));
             int tmp = 0;
             for (var lesson : lessons) {

@@ -42,12 +42,12 @@ public class SignUpController {
         }
         learner.setPassword(MD5.getMd5(learner.getPassword()));
 
-        if (learnerService.getByUsername(learner.getUsername()).isPresent()) {
+        if (learnerService.findByUsername(learner.getUsername()).isPresent()) {
             request.getSession().setAttribute("error", "User already exist!");
             return "redirect:./signup";
         }
 
-        if (learnerService.getByEmail(learner.getEmail()).isPresent()) {
+        if (learnerService.findByEmail(learner.getEmail()).isPresent()) {
             request.getSession().setAttribute("error", "Email already exist!");
             return "redirect:./signup";
         }
