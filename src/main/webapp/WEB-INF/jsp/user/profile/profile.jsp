@@ -153,7 +153,7 @@
 
             <p>Let the Yojihan community of other learners and instructors know more about you!</p>
 
-            <form action="${learner != null ? "/updateUser?userId=": "/updateInstructor?instructorId="}${learner != null ? learner.ID: instructor.ID}"
+            <form action="/profile${learner != null ? "/updateUser?userId=": "/updateInstructor?instructorId="}${learner != null ? learner.ID: instructor.ID}"
                   method="post">
                 <div>
                     <label for="firstName">First name:</label>
@@ -205,7 +205,7 @@
                             out.print("/public/media/user/" + learnerHeader.getID() + "/" + learnerHeader.getPicture());
                         }
                     %>" alt="">
-                    <input id="uploadinput" type="file" id="profile-photo" accept=".jpg, .jpeg, .png" required>
+                    <input id="uploadinput" type="file" id="profile-photo" accept=".jpg, .jpeg, .png">
                     <label id="photo-note">Maximum size of 1MB. JPG, GIF, or PNG.</label>
                 </div>
 
