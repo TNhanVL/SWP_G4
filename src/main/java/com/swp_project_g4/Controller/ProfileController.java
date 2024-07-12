@@ -8,6 +8,7 @@ import com.swp_project_g4.Service.model.CourseProgressService;
 import com.swp_project_g4.Service.model.CourseService;
 import com.swp_project_g4.Service.model.InstructorService;
 import com.swp_project_g4.Service.model.LearnerService;
+import com.swp_project_g4.Service.storage.FileSystemStorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +33,8 @@ public class ProfileController {
     private InstructorService instructorService;
     @Autowired
     private CourseProgressService courseProgressService;
+    @Autowired
+    private FileSystemStorageService fileSystemStorageService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String selfProfile(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
@@ -95,7 +99,7 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public String updateUser(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int userId, @ModelAttribute("user") Learner learner) {
+    public String updateUser(ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam int userId, @ModelAttribute("user") Learner learner, @RequestParam("uploadinput") MultipartFile file) {
 
         Learner learner1 = learnerService.findById(userId).get();
 
@@ -109,6 +113,15 @@ public class ProfileController {
         learner1.setBirthday(learner.getBirthday());
         learner1.setCountryId(learner.getCountryId());
         learner1.setEmail(learner.getEmail());
+
+        if (!file.isEmpty()) {
+            try {
+                fileSystemStorageService.store(file, "media/user/" + learner1.getID());
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+            learner1.setPicture(file.getOriginalFilename());
+        }
 
         learnerService.save(learner1);
         request.getSession().setAttribute("success", "Update user success!");

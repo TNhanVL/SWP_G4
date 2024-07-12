@@ -70,7 +70,7 @@
                         <div class="paymentMethod">
                             <div>
                                 <div class="momo-radio"><label class="label" for="momoPay"><img
-                                            src="https://test-payment.momo.vn/v2/gateway/images/logo-momo-3b8deb874c6d3b77f976f35310d8e50a.png"
+                                            src="https://test-payment.momo.vn/v2/gateway/images/logo-momo.png"
                                             alt="captureWallet" class="image">
                                         <div style="overflow:hidden">
                                             <div class="label-title" style="white-space:nowrap">Ví MoMo</div>
@@ -79,7 +79,7 @@
                             </div>
                             <div>
                                 <div class="momo-radio "><label class="label" for="atmPay"><img
-                                            src="https://test-payment.momo.vn/v2/gateway/images/credit/atm-a2eaf925d65062641bdef898d3cc0fe8.svg"
+                                            src="https://test-payment.momo.vn/v2/gateway/images/credit/atm.svg"
                                             alt="payWithATM" class="image">
                                         <div style="overflow:hidden">
                                             <div class="label-title" style="white-space:nowrap">Thẻ ATM nội địa</div>

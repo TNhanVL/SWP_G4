@@ -56,6 +56,24 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
+    public void store(MultipartFile file, String prefix) {
+        try {
+            if (file.isEmpty()) {
+                throw new StorageException("Failed to store empty file.");
+            }
+            Path destinationFile = this.rootLocation.resolve(
+                            Paths.get(prefix + "/" + file.getOriginalFilename()))
+                    .normalize().toAbsolutePath();
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, destinationFile,
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+        catch (IOException e) {
+            throw new StorageException("Failed to store file.", e);
+        }
+    }
+
     @Override
     public Stream<Path> loadAll() {
         try {

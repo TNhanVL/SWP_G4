@@ -154,7 +154,7 @@
             <p>Let the Yojihan community of other learners and instructors know more about you!</p>
 
             <form action="/profile${learner != null ? "/updateUser?userId=": "/updateInstructor?instructorId="}${learner != null ? learner.ID: instructor.ID}"
-                  method="post">
+                  method="post" enctype="multipart/form-data">
                 <div>
                     <label for="firstName">First name:</label>
                     <input value="${user.firstName}" type="text" id="firstName" name="firstName"
@@ -199,13 +199,13 @@
                 <hr>
 
                 <div class="upload">
-                    <label for="profile-photo">Profile photo:</label><br>
-                    <img src="<%
+                    <label for="uploadinput">Profile photo:</label><br>
+                    <img id="displayPhoto" src="<%
                         if(learnerHeader != null){
                             out.print("/public/media/user/" + learnerHeader.getID() + "/" + learnerHeader.getPicture());
                         }
                     %>" alt="">
-                    <input id="uploadinput" type="file" id="profile-photo" accept=".jpg, .jpeg, .png">
+                    <input id="uploadinput" name="uploadinput" type="file" accept=".jpg, .jpeg, .png">
                     <label id="photo-note">Maximum size of 1MB. JPG, GIF, or PNG.</label>
                 </div>
 
@@ -290,6 +290,7 @@
 
     <script src="/public/assets/js/lesson.js"></script>
     <script src="/public/assets/js/option.js"></script>
+        <script src="/public/assets/js/profile.js"></script>
     <script src="/public/assets/js/change_password.js"></script>
 
     <%@include file="../popUpMessage.jsp" %>

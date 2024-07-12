@@ -77,7 +77,7 @@ function strangeMode(mode) {
 // strangeMode('on')
 
 
-var input = document.getElementById('profile-photo');
+var input = document.getElementById('uploadinput');
 
 if (input) {
     // Kiểm tra xem người dùng đã chọn tệp tin nào chưa
