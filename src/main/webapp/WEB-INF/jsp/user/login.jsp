@@ -64,7 +64,7 @@
             %>
             <a
                     href="https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/userinfo.email&redirect_uri=http://<%=host%>/loginWithGG&response_type=code
-                               &client_id=246255507082-vpebidclj199n0sgg035cos2ijabjrmg.apps.googleusercontent.com&approval_prompt=force">
+                               &client_id=21708320119-va9tii1peh8jf53000hqnh4h0b18mn8u.apps.googleusercontent.com&approval_prompt=force">
                 <i class="fa-brands fa-google"></i>
                 <p>Login with Google</p>
             </a>

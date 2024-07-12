@@ -161,7 +161,7 @@ a:hover {
     transition: display 0.5s;
 }
 
-.courseTaken img {
+.courseTaken  img {
     width: 25%;
     padding: 10px;
     height: 90px;
@@ -200,16 +200,15 @@ a:hover {
 .courseInfor progress::-webkit-progress-bar {
     background-color: #ffffff;
 }
-
 #main .personal {
-    padding: 10px 0;
+    padding:10px 0;
 }
 
 .personal .header {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #4caf50;
-    padding: 10px 0;
+    padding:10px 0 ;
 }
 
 .personal .header button {
@@ -231,11 +230,18 @@ a:hover {
     padding: 0 25%;
 }
 
-.personal form label {
+.personal form label{
     font-weight: 500;
 }
 
 .personal form input {
+    padding: 0 10px;
+    border: none;
+    border-radius: 8px;
+    width: 50%;
+}
+
+.personal form #country {
     padding: 0 10px;
     border: none;
     border-radius: 8px;
@@ -299,11 +305,14 @@ a:hover {
 
 .personal .upload {
     display: flex;
-    justify-content: space-between;
+}
+
+.personal .upload span {
+    text-align: right;
 }
 
 .saveInfor button {
-    padding: 5px 10px;
+    padding:5px 10px;
     border: none;
     background-color: #067351;
     color: #fff;
@@ -311,21 +320,26 @@ a:hover {
     border-radius: 8px;
 }
 
+.personal input#uploadinput{
+    width: 250px;
+}
+
+
 
 .tabStranger {
     z-index: 100;
     /* display: none; */
 }
 
-.tabStranger.hidden, .tab.hidden {
+.tabStranger.hidden ,.tab.hidden{
     display: none;
 }
 
-.tab {
+.tab{
     z-index: 10;
 }
 
-.tab, .tabStranger {
+.tab ,.tabStranger  {
     overflow: hidden;
     border-bottom: 1px solid #ccc;
     background-color: #fff;
@@ -385,16 +399,16 @@ a:hover {
     display: flex;
 }
 
-.courseTaken .completed a {
+.courseTaken .completed a{
     color: rgb(0, 64, 255);
 }
 
-.courseTaken .completed p, .courseTaken .notCompleted p {
+.courseTaken .completed p, .courseTaken .notCompleted p{
     margin: 0;
 }
 
 
-.ProgressviewMode.hidden, .rate.hidden {
+.ProgressviewMode.hidden ,.rate.hidden {
     display: none;
     transition: all 0.5s;
 }

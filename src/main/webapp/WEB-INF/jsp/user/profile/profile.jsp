@@ -198,6 +198,17 @@
 
                 <hr>
 
+                <div class="upload">
+                    <label for="profile-photo">Profile photo:</label><br>
+                    <img src="<%
+                        if(learnerHeader != null){
+                            out.print("/public/media/user/" + learnerHeader.getID() + "/" + learnerHeader.getPicture());
+                        }
+                    %>" alt="">
+                    <input id="uploadinput" type="file" id="profile-photo" accept=".jpg, .jpeg, .png" required>
+                    <label id="photo-note">Maximum size of 1MB. JPG, GIF, or PNG.</label>
+                </div>
+
                 <div class="saveInfor">
                     <button type="submit">Update</button>
                 </div>
