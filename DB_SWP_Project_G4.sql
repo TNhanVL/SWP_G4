@@ -147,11 +147,11 @@ GO
 
 CREATE TABLE Cart
 (
-    userId   INT NOT NULL,
+    learnerId   INT NOT NULL,
     courseId INT NOT NULL,
-    FOREIGN KEY (userId) REFERENCES [Learner] (learnerId),
+    FOREIGN KEY (learnerId) REFERENCES [Learner] (learnerId),
     FOREIGN KEY (courseId) REFERENCES Course (courseId),
-    UNIQUE (userId, courseId)
+    UNIQUE (learnerId, courseId)
 );
 GO
 
@@ -527,7 +527,7 @@ VALUES (1, 1),
        (12, 3)
 GO
 INSERT INTO Cart
-    (userId, courseId)
+    (learnerId, courseId)
 VALUES (1, 3)
 GO
 INSERT INTO CourseProgress(learnerId, courseId)
